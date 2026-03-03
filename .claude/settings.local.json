@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"dir \"\"C:\\\\Users\\\\omhhe\\\\.gemini\\\\antigravity\\\\workspace\\\\Garden Club\"\"\")",
+      "Bash(cmd /c \"dir \"\"C:\\\\Users\\\\omhhe\\\\.gemini\\\\antigravity\\\\workspace\\\\Garden Club\"\" /a\")",
+      "Bash(powershell -Command:*)"
+    ]
+  }
+}
