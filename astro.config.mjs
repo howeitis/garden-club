@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://your-garden-club.vercel.app',
+  site: 'https://examplegardenclub.org',
   integrations: [
     tailwind(),
     sitemap(),
