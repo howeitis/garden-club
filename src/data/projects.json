@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Memorial Park Pollinator Garden",
+    "yearsActive": "2018–present",
+    "description": "A quarter-acre pollinator meadow planted and maintained by club volunteers, featuring native milkweed, coneflowers, and black-eyed Susans to support monarch butterflies and native bees.",
+    "location": "Memorial Park, Maplewood, NJ",
+    "imageReference": "/images/projects/pollinator-garden.jpg"
+  },
+  {
+    "name": "Library Reading Garden",
+    "yearsActive": "2015–present",
+    "description": "A tranquil outdoor reading nook adjacent to the Maplewood Public Library, maintained by club members with seasonal plantings and a small herb spiral.",
+    "location": "Maplewood Public Library, 51 Baker St, Maplewood, NJ",
+    "imageReference": "/images/projects/library-garden.jpg"
+  },
+  {
+    "name": "Holiday Window Box Program",
+    "yearsActive": "2009–present",
+    "description": "Each December, club volunteers plant and install evergreen window boxes for participating downtown businesses, adding festive greenery to the main street corridor.",
+    "location": "Downtown Maplewood Business District",
+    "imageReference": "/images/projects/holiday-window-boxes.jpg"
+  },
+  {
+    "name": "Schoolyard Habitat Project",
+    "yearsActive": "2021–2023",
+    "description": "A partnership with Jefferson Elementary School to create a certified wildlife habitat on school grounds, including a rain garden, bird feeders, and educational signage.",
+    "location": "Jefferson Elementary School, Maplewood, NJ",
+    "imageReference": "/images/projects/schoolyard-habitat.jpg"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Beverly Ashworth",
+    "certificationLevel": "Master Judge",
+    "status": "active"
+  },
+  {
+    "name": "Thomas Grantham",
+    "certificationLevel": "Horticulture Judge",
+    "status": "active"
+  },
+  {
+    "name": "Constance Delacroix",
+    "certificationLevel": "Master Judge",
+    "status": "emeritus"
+  },
+  {
+    "name": "Harold Yuen",
+    "certificationLevel": "Standard Judge",
+    "status": "active"
+  },
+  {
+    "name": "Miriam Stafford",
+    "certificationLevel": "Horticulture Judge",
+    "status": "emeritus"
+  }
+]

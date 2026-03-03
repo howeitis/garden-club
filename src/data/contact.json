@@ -1,0 +1,13 @@
+{
+  "primaryEmail": "info@maplewoodgardenclub.org",
+  "mailingAddress": {
+    "street": "P.O. Box 412",
+    "city": "Maplewood",
+    "state": "NJ",
+    "zip": "07040"
+  },
+  "socialLinks": {
+    "facebook": "https://facebook.com/maplewoodgardenclub",
+    "instagram": "https://instagram.com/maplewoodgardenclub"
+  }
+}

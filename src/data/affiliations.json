@@ -1,0 +1,16 @@
+{
+  "ngc": {
+    "name": "National Garden Clubs, Inc.",
+    "theme": "Gardening for the Future",
+    "president": "Dr. Mary Ann Roby"
+  },
+  "region": {
+    "name": "Middle Atlantic Region",
+    "director": "Patricia O'Sullivan"
+  },
+  "state": {
+    "name": "Garden Club of New Jersey",
+    "president": "Sandra Whitfield",
+    "theme": "New Jersey: Naturally Beautiful"
+  }
+}

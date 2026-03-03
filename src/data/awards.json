@@ -1,0 +1,34 @@
+[
+  {
+    "awardName": "Founder's Cup",
+    "description": "Awarded annually to the member who best exemplifies the club's founding values of community service and horticultural excellence.",
+    "recentWinners": ["Patricia Moore (2023)", "James Whitaker (2022)", "Ruth Alcott (2021)"],
+    "judgingCriteria": [
+      "Years of active club membership",
+      "Volunteer hours contributed",
+      "Impact on community beautification",
+      "Mentorship of newer members"
+    ]
+  },
+  {
+    "awardName": "Blue Ribbon Garden Award",
+    "description": "Recognizes outstanding residential garden design as judged during the annual summer garden tour.",
+    "recentWinners": ["The Chen Garden (2023)", "Rosewood Cottage – M. Albright (2022)"],
+    "judgingCriteria": [
+      "Overall design and plant composition",
+      "Use of color and seasonal interest",
+      "Sustainability and native plant inclusion",
+      "Maintenance and plant health"
+    ]
+  },
+  {
+    "awardName": "Civic Beautification Award",
+    "description": "Given to a local business or municipality that has made exceptional contributions to public green space.",
+    "recentWinners": ["Maplewood Parks Department (2023)", "The Blossom Café (2022)"],
+    "judgingCriteria": [
+      "Scope and visibility of the beautification project",
+      "Community benefit",
+      "Environmental consideration"
+    ]
+  }
+]

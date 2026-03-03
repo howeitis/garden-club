@@ -1,0 +1,21 @@
+{
+  "timeBlocks": [
+    { "label": "Doors Open", "time": "9:30 AM" },
+    { "label": "Meeting Begins", "time": "10:00 AM" },
+    { "label": "Program / Speaker", "time": "11:00 AM" },
+    { "label": "Adjournment", "time": "12:00 PM" }
+  ],
+  "dues": "$35 per year, due at the January meeting",
+  "orderOfBusiness": [
+    "Call to order",
+    "Pledge of Allegiance",
+    "Reading of minutes",
+    "Treasurer's report",
+    "Correspondence",
+    "Committee reports",
+    "Old business",
+    "New business",
+    "Program",
+    "Adjournment"
+  ]
+}
