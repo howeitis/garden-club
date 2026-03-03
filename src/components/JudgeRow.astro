@@ -1,0 +1,33 @@
+---
+import type { Judge } from '../data/schema';
+
+interface Props {
+  judge: Judge;
+}
+
+const { judge } = Astro.props;
+
+const statusStyles = {
+  active:   'bg-primary/10 text-primary',
+  emeritus: 'bg-text/10 text-text/60',
+};
+const statusLabel = {
+  active:   'Active',
+  emeritus: 'Emeritus',
+};
+---
+
+<li class="flex flex-wrap items-center justify-between gap-3 py-4 border-b border-accent/15 last:border-b-0">
+  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+    <span class="font-medium text-text">{judge.name}</span>
+    <span class="text-sm text-text/60">{judge.certificationLevel}</span>
+  </div>
+  <span
+    class:list={[
+      'text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full',
+      statusStyles[judge.status],
+    ]}
+  >
+    {statusLabel[judge.status]}
+  </span>
+</li>

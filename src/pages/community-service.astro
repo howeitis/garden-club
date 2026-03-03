@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { clubInfo, projects } from '../data/index';
+---
+
+<BaseLayout
+  title={`Community Service | ${clubInfo.name}`}
+  description={`Explore the community service projects and civic beautification initiatives of ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="bg-primary text-background py-16 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Giving Back</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Community Service</h1>
+      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
+        Our hands in the soil, our hearts in the community.
+      </p>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="projects-heading">
+    <h2 id="projects-heading" class="font-heading text-3xl font-bold text-text mb-10">
+      Our Projects
+    </h2>
+
+    {projects.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-text/60 italic">No projects to display at this time. Check back soon!</p>
+    )}
+  </section>
+
+</BaseLayout>

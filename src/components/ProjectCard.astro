@@ -1,0 +1,57 @@
+---
+import type { Project } from '../data/schema';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+
+  <!-- Image or fallback -->
+  {project.imageReference ? (
+    <div class="relative h-52 bg-accent/10 overflow-hidden">
+      <img
+        src={project.imageReference}
+        alt={`Photo of ${project.name}`}
+        class="w-full h-full object-cover"
+        loading="lazy"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback shown via JS if image fails to load -->
+      <div
+        class="absolute inset-0 hidden items-center justify-center bg-accent/20"
+        aria-hidden="true"
+      >
+        <span class="text-4xl select-none">🌿</span>
+      </div>
+    </div>
+  ) : (
+    <!-- Fallback when no imageReference provided -->
+    <div class="h-52 flex items-center justify-center bg-accent/20" aria-hidden="true">
+      <span class="text-4xl select-none">🌿</span>
+    </div>
+  )}
+
+  <div class="p-6 flex flex-col gap-3">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h3 class="font-heading text-xl font-semibold text-text">{project.name}</h3>
+      <span class="text-xs font-medium bg-accent/15 text-primary px-3 py-1 rounded-full whitespace-nowrap">
+        {project.yearsActive}
+      </span>
+    </div>
+
+    <p class="text-xs text-text/50 flex items-center gap-1">
+      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      {project.location}
+    </p>
+
+    <p class="text-sm text-text/70 leading-relaxed">{project.description}</p>
+  </div>
+</article>

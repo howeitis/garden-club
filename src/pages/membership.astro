@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { clubInfo, meetings } from '../data/index';
+---
+
+<BaseLayout
+  title={`Membership | ${clubInfo.name}`}
+  description={`Meeting schedule, order of business, and membership dues for ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="bg-primary text-background py-16 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Join Us</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Membership</h1>
+      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
+        All are welcome. Come grow with us.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+
+    <!-- Meeting Schedule -->
+    <section aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading" class="font-heading text-3xl font-bold text-text mb-8">
+        Meeting Schedule
+      </h2>
+      <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
+        <table class="w-full text-sm" role="table">
+          <caption class="sr-only">Monthly meeting time blocks</caption>
+          <thead class="bg-primary/5 border-b border-accent/20">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-widest text-primary">
+                Segment
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-widest text-primary">
+                Time
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-accent/10">
+            {meetings.timeBlocks.map((block) => (
+              <tr class="hover:bg-accent/5 transition-colors duration-150">
+                <td class="px-6 py-4 font-medium text-text">{block.label}</td>
+                <td class="px-6 py-4 text-text/70">{block.time}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dues -->
+    <section aria-labelledby="dues-heading">
+      <h2 id="dues-heading" class="font-heading text-3xl font-bold text-text mb-6">
+        Annual Dues
+      </h2>
+      <div class="bg-accent/10 border border-accent/25 rounded-xl px-6 py-5 flex items-center gap-4">
+        <span class="text-3xl" aria-hidden="true">💰</span>
+        <p class="text-text/80 text-base leading-relaxed">
+          {meetings.dues}
+        </p>
+      </div>
+    </section>
+
+    <!-- Order of Business -->
+    <section aria-labelledby="agenda-heading">
+      <h2 id="agenda-heading" class="font-heading text-3xl font-bold text-text mb-8">
+        Order of Business
+      </h2>
+      <p class="text-text/65 mb-6 text-sm">
+        Our monthly meetings follow a consistent agenda to ensure every voice is heard and time is used well.
+      </p>
+      <ol class="bg-white rounded-xl border border-accent/20 shadow-sm divide-y divide-accent/10 overflow-hidden">
+        {meetings.orderOfBusiness.map((item, index) => (
+          <li class="flex items-center gap-4 px-6 py-4 hover:bg-accent/5 transition-colors duration-150">
+            <span
+              class="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-background text-xs font-bold flex items-center justify-center"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+            <span class="text-sm text-text/80">{item}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- CTA -->
+    <section class="text-center bg-primary/5 border border-accent/20 rounded-2xl px-6 py-12">
+      <h2 class="font-heading text-2xl font-bold text-text mb-3">Ready to Join?</h2>
+      <p class="text-text/65 mb-8 max-w-md mx-auto text-sm leading-relaxed">
+        We'd love to have you. Reach out with any questions or simply show up at our next meeting!
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-7 py-3 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        Contact Us
+      </a>
+    </section>
+
+  </div>
+</BaseLayout>

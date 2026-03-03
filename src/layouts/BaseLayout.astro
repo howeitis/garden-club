@@ -1,10 +1,16 @@
 ---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'A local garden club dedicated to the love of plants, community, and cultivating beauty.' } = Astro.props;
+const {
+  title,
+  description = 'A local garden club dedicated to the love of plants, community, and cultivating beauty.',
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -38,7 +44,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <title>{title}</title>
   </head>
-  <body class="bg-background text-text font-body">
-    <slot />
+  <body class="bg-background text-text font-body min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

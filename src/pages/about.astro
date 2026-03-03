@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OfficerCard from '../components/OfficerCard.astro';
+import { clubInfo, officers, affiliations } from '../data/index';
+
+const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
+---
+
+<BaseLayout
+  title={`About Us | ${clubInfo.name}`}
+  description={`Learn about the history, leadership, and affiliations of ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="bg-primary text-background py-16 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Our Story</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">About Us</h1>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+    <!-- Club History -->
+    <section aria-labelledby="history-heading">
+      <div class="max-w-3xl">
+        <h2 id="history-heading" class="font-heading text-3xl font-bold text-text mb-6">Our History</h2>
+        <div class="prose-like space-y-4 text-text/75 leading-relaxed">
+          <p>
+            <strong class="text-text">{clubInfo.name}</strong> was founded in
+            <strong class="text-text">{clubInfo.foundingDates.club}</strong> by a small group of
+            passionate gardeners who believed that community beauty begins at home. What started as
+            informal gatherings around shared knowledge grew into one of the area's most active garden clubs.
+          </p>
+          <p>
+            In <strong class="text-text">{clubInfo.foundingDates.federation}</strong>, the club formally
+            joined a regional garden federation, connecting our members with a wider network of
+            horticulturalists, conservationists, and civic volunteers.
+          </p>
+          <p class="italic border-l-4 border-accent pl-4 text-text/80">
+            &ldquo;{clubInfo.missionStatement}&rdquo;
+          </p>
+          <p class="text-sm text-text/60">
+            {clubInfo.nonprofitStatus}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Board of Officers -->
+    <section aria-labelledby="officers-heading">
+      <h2 id="officers-heading" class="font-heading text-3xl font-bold text-text mb-8">
+        Board of Officers
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedOfficers.map((officer) => (
+          <OfficerCard officer={officer} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Affiliations -->
+    <section aria-labelledby="affiliations-heading">
+      <h2 id="affiliations-heading" class="font-heading text-3xl font-bold text-text mb-8">
+        Our Affiliations
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- NGC -->
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
+          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.ngc.name}</h3>
+          <dl class="space-y-1 text-sm text-text/70">
+            <div class="flex flex-col">
+              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">President</dt>
+              <dd>{affiliations.ngc.president}</dd>
+            </div>
+            <div class="flex flex-col">
+              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Theme</dt>
+              <dd class="italic">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Region -->
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Region</span>
+          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.region.name}</h3>
+          <dl class="space-y-1 text-sm text-text/70">
+            <div class="flex flex-col">
+              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Director</dt>
+              <dd>{affiliations.region.director}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- State -->
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
+          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.state.name}</h3>
+          <dl class="space-y-1 text-sm text-text/70">
+            <div class="flex flex-col">
+              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">President</dt>
+              <dd>{affiliations.state.president}</dd>
+            </div>
+            <div class="flex flex-col">
+              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Theme</dt>
+              <dd class="italic">&ldquo;{affiliations.state.theme}&rdquo;</dd>
+            </div>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

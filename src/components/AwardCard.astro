@@ -1,0 +1,48 @@
+---
+import type { Award } from '../data/schema';
+
+interface Props {
+  award: Award;
+}
+
+const { award } = Astro.props;
+---
+
+<article class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200">
+
+  <div class="flex items-start gap-3">
+    <span class="text-2xl flex-shrink-0" aria-hidden="true">🏅</span>
+    <div>
+      <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
+      <p class="text-sm text-text/70 leading-relaxed mt-1">{award.description}</p>
+    </div>
+  </div>
+
+  <!-- Judging Criteria -->
+  <div>
+    <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Judging Criteria</h4>
+    <ul class="flex flex-col gap-1">
+      {award.judgingCriteria.map((criterion) => (
+        <li class="flex items-start gap-2 text-sm text-text/70">
+          <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
+          {criterion}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Recent Winners -->
+  {award.recentWinners.length > 0 && (
+    <div>
+      <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Recent Winners</h4>
+      <ul class="flex flex-col gap-1">
+        {award.recentWinners.map((winner) => (
+          <li class="text-sm text-text/80 flex items-center gap-2">
+            <span class="text-accent" aria-hidden="true">✦</span>
+            {winner}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</article>

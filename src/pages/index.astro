@@ -1,9 +1,105 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { clubInfo } from '../data/index';
 ---
 
-<BaseLayout title="Garden Club">
-  <main>
-    <h1 class="font-heading">Welcome</h1>
-  </main>
+<BaseLayout title={`Welcome | ${clubInfo.name}`} description={clubInfo.missionStatement}>
+
+  <!-- Hero -->
+  <section class="relative bg-primary text-background overflow-hidden">
+    <!-- Subtle radial glow -->
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_80%,_white,_transparent_60%)]" aria-hidden="true"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
+      <p class="text-accent text-sm font-semibold uppercase tracking-widest mb-4">Est. {clubInfo.foundingDates.club}</p>
+      <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+        {clubInfo.name}
+      </h1>
+      <p class="text-background/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+        {clubInfo.missionStatement}
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href="/about"
+          class="bg-background text-primary font-semibold px-7 py-3 rounded-lg hover:bg-background/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
+        >
+          Learn About Us
+        </a>
+        <a
+          href="/membership"
+          class="border-2 border-background/60 text-background font-semibold px-7 py-3 rounded-lg hover:border-background hover:bg-background/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
+        >
+          Join the Club
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Annual Theme Banner -->
+  <section class="bg-accent/15 border-y border-accent/25">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-3">This Year's Theme</p>
+      <blockquote class="font-heading italic text-2xl sm:text-3xl text-text leading-snug">
+        &ldquo;{clubInfo.theme}&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Community Service Teaser -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-3">In Our Community</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-text mb-5 leading-tight">
+          Cultivating Beauty<br />Where We Live
+        </h2>
+        <p class="text-text/70 leading-relaxed mb-8">
+          From pollinator gardens in local parks to festive window boxes on Main Street, our members
+          volunteer hundreds of hours each year to make our community greener, more welcoming, and
+          more alive. Explore our current and past projects.
+        </p>
+        <a
+          href="/community-service"
+          class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-7 py-3 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        >
+          View Our Projects
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Decorative emoji grid -->
+      <div class="grid grid-cols-2 gap-4" aria-hidden="true">
+        {['🌸', '🌿', '🦋', '🌻'].map((emoji) => (
+          <div class="aspect-square rounded-2xl bg-accent/15 flex items-center justify-center text-5xl shadow-sm">
+            {emoji}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick links bar -->
+  <section class="bg-primary/5 border-t border-accent/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        {[
+          { label: 'About Us',        href: '/about',            icon: '🌿' },
+          { label: 'Membership',      href: '/membership',        icon: '📋' },
+          { label: 'Awards & Judges', href: '/awards-and-judges', icon: '🏅' },
+          { label: 'Get in Touch',    href: '/contact',           icon: '✉️' },
+        ].map((item) => (
+          <a
+            href={item.href}
+            class="group flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-primary/8 transition-colors duration-200"
+          >
+            <span class="text-3xl">{item.icon}</span>
+            <span class="text-sm font-medium text-primary group-hover:underline">{item.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>

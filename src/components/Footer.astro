@@ -1,0 +1,60 @@
+---
+import { clubInfo } from '../data/index';
+
+const navLinks = [
+  { label: 'Home',              href: '/' },
+  { label: 'About',             href: '/about' },
+  { label: 'Membership',        href: '/membership' },
+  { label: 'Community Service', href: '/community-service' },
+  { label: 'Awards & Judges',   href: '/awards-and-judges' },
+  { label: 'Contact',           href: '/contact' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-primary text-background mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <!-- Club Identity -->
+      <div>
+        <h2 class="font-heading text-xl font-semibold mb-3">{clubInfo.name}</h2>
+        <p class="text-sm text-background/75 leading-relaxed max-w-xs">
+          {clubInfo.nonprofitStatus}
+        </p>
+      </div>
+
+      <!-- Navigation Links -->
+      <div>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-background/60 mb-4">Navigation</h3>
+        <ul class="flex flex-col gap-2">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-background/80 hover:text-background transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Theme / Tagline -->
+      <div>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-background/60 mb-4">This Year's Theme</h3>
+        <p class="font-heading italic text-background/90 leading-relaxed">
+          &ldquo;{clubInfo.theme}&rdquo;
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-6 border-t border-white/20 text-center text-xs text-background/50">
+      &copy; {year} {clubInfo.name}. All rights reserved.
+    </div>
+  </div>
+</footer>

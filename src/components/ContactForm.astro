@@ -1,0 +1,93 @@
+---
+// No server-side logic needed — this is a plain HTML form.
+---
+
+<form
+  action="https://formspree.io/f/YOUR_FORM_ID"
+  method="POST"
+  class="flex flex-col gap-5"
+  novalidate
+>
+  <!-- Formspree redirect after submission -->
+  <input type="hidden" name="_next" value="/thank-you" />
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <!-- Name -->
+    <div class="flex flex-col gap-1.5">
+      <label for="name" class="text-sm font-medium text-text">
+        Full Name <span class="text-red-500" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder="Jane Smith"
+        class="rounded-lg border border-accent/30 bg-white px-4 py-2.5 text-sm text-text placeholder:text-text/40
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="flex flex-col gap-1.5">
+      <label for="email" class="text-sm font-medium text-text">
+        Email Address <span class="text-red-500" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="jane@example.com"
+        class="rounded-lg border border-accent/30 bg-white px-4 py-2.5 text-sm text-text placeholder:text-text/40
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+      />
+    </div>
+  </div>
+
+  <!-- Subject -->
+  <div class="flex flex-col gap-1.5">
+    <label for="subject" class="text-sm font-medium text-text">Subject</label>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      placeholder="Membership inquiry, event question…"
+      class="rounded-lg border border-accent/30 bg-white px-4 py-2.5 text-sm text-text placeholder:text-text/40
+             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+    />
+  </div>
+
+  <!-- Message -->
+  <div class="flex flex-col gap-1.5">
+    <label for="message" class="text-sm font-medium text-text">
+      Message <span class="text-red-500" aria-hidden="true">*</span>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      rows="6"
+      placeholder="Tell us how we can help…"
+      class="rounded-lg border border-accent/30 bg-white px-4 py-2.5 text-sm text-text placeholder:text-text/40
+             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-y"
+    ></textarea>
+  </div>
+
+  <!-- Submit -->
+  <div>
+    <button
+      type="submit"
+      class="inline-flex items-center gap-2 bg-primary text-background font-semibold text-sm px-8 py-3 rounded-lg
+             hover:bg-primary/90 active:scale-95 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      Send Message
+    </button>
+  </div>
+</form>

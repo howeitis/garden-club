@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AwardCard from '../components/AwardCard.astro';
+import JudgeRow from '../components/JudgeRow.astro';
+import { clubInfo, awards, judges } from '../data/index';
+
+const activeJudges  = judges.filter((j) => j.status === 'active');
+const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
+---
+
+<BaseLayout
+  title={`Awards & Judges | ${clubInfo.name}`}
+  description={`Club awards, judging criteria, and certified judges of ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="bg-primary text-background py-16 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Recognition</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Awards &amp; Judges</h1>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+    <!-- Awards Section -->
+    <section aria-labelledby="awards-heading">
+      <h2 id="awards-heading" class="font-heading text-3xl font-bold text-text mb-10">
+        Club Awards
+      </h2>
+      {awards.length > 0 ? (
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {awards.map((award) => (
+            <AwardCard award={award} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-text/60 italic">No awards listed at this time.</p>
+      )}
+    </section>
+
+    <!-- Judges Section -->
+    <section aria-labelledby="judges-heading">
+      <h2 id="judges-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Certified Judges
+      </h2>
+      <p class="text-text/65 mb-8 text-sm leading-relaxed max-w-2xl">
+        Our accredited judges have completed training through the National Garden Clubs, Inc. and
+        bring expertise in horticulture, floral design, and landscape evaluation.
+      </p>
+
+      <!-- Active Judges -->
+      {activeJudges.length > 0 && (
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden mb-8">
+          <div class="px-6 py-4 bg-primary/5 border-b border-accent/20">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-primary">Active Judges</h3>
+          </div>
+          <ul class="px-6" role="list" aria-label="Active judges">
+            {activeJudges.map((judge) => (
+              <JudgeRow judge={judge} />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Emeritus Judges -->
+      {emeritusJudges.length > 0 && (
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
+          <div class="px-6 py-4 bg-primary/5 border-b border-accent/20">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-primary">Emeritus Judges</h3>
+          </div>
+          <ul class="px-6" role="list" aria-label="Emeritus judges">
+            {emeritusJudges.map((judge) => (
+              <JudgeRow judge={judge} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+
+  </div>
+</BaseLayout>
