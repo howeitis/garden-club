@@ -25,25 +25,43 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
     <section aria-labelledby="history-heading">
       <div class="max-w-3xl">
         <h2 id="history-heading" class="font-heading text-3xl font-bold text-text mb-6">Our History</h2>
-        <div class="prose-like space-y-4 text-text/75 leading-relaxed">
+        <div class="space-y-4 text-text/75 leading-relaxed">
           <p>
             <strong class="text-text">{clubInfo.name}</strong> was founded in
             <strong class="text-text">{clubInfo.foundingDates.club}</strong> by a small group of
-            passionate gardeners who believed that community beauty begins at home. What started as
-            informal gatherings around shared knowledge grew into one of the area's most active garden clubs.
+            passionate gardeners who believed that community beauty begins at home.
           </p>
           <p>
             In <strong class="text-text">{clubInfo.foundingDates.federation}</strong>, the club formally
             joined a regional garden federation, connecting our members with a wider network of
             horticulturalists, conservationists, and civic volunteers.
           </p>
-          <p class="italic border-l-4 border-accent pl-4 text-text/80">
+          <p>
+            In <strong class="text-text">{clubInfo.foundingDates.incorporated}</strong>, the club was
+            incorporated as a <strong class="text-text">{clubInfo.nonprofitStatus}</strong>.
+          </p>
+          <blockquote class="italic border-l-4 border-accent pl-4 text-text/80">
             &ldquo;{clubInfo.missionStatement}&rdquo;
-          </p>
-          <p class="text-sm text-text/60">
-            {clubInfo.nonprofitStatus}
-          </p>
+          </blockquote>
         </div>
+
+        <!-- Membership stats -->
+        <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            { label: 'Active Members',    value: clubInfo.membership.activeMembers },
+            { label: 'Associate Members', value: clubInfo.membership.associateMembers },
+            { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers },
+            { label: 'Membership Cap',    value: clubInfo.membership.maxActive },
+          ].map((stat) => (
+            <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-4 text-center">
+              <p class="font-heading text-3xl font-bold text-primary">{stat.value}</p>
+              <p class="text-xs text-text/55 mt-1 leading-snug">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-xs text-text/50 mt-3 leading-relaxed italic">
+          {clubInfo.membership.associateAndHonoraryNote}
+        </p>
       </div>
     </section>
 
@@ -64,53 +82,105 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
       <h2 id="affiliations-heading" class="font-heading text-3xl font-bold text-text mb-8">
         Our Affiliations
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- NGC -->
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
-          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.ngc.name}</h3>
-          <dl class="space-y-1 text-sm text-text/70">
-            <div class="flex flex-col">
-              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">President</dt>
-              <dd>{affiliations.ngc.president}</dd>
+      <!-- NGC — full detail card -->
+      <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 mb-6">
+        <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
+        <h3 class="font-heading text-xl font-semibold text-text mt-1 mb-4">{affiliations.ngc.name}</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-4">
+          <dl class="space-y-2">
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">President</dt>
+              <dd class="text-text/75">{affiliations.ngc.president}</dd>
             </div>
-            <div class="flex flex-col">
-              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Theme</dt>
-              <dd class="italic">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Email</dt>
+              <dd>
+                <a href={`mailto:${affiliations.ngc.presidentEmail}`}
+                  class="text-primary hover:underline">{affiliations.ngc.presidentEmail}</a>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Theme</dt>
+              <dd class="italic text-text/70">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
+            </div>
+          </dl>
+          <dl class="space-y-2">
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Address</dt>
+              <dd class="text-text/75">{affiliations.ngc.address}</dd>
+            </div>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Phone</dt>
+              <dd class="text-text/75">{affiliations.ngc.phone}</dd>
+            </div>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Website</dt>
+              <dd>
+                <a href={`https://${affiliations.ngc.website}`} target="_blank" rel="noopener noreferrer"
+                  class="text-primary hover:underline">{affiliations.ngc.website}</a>
+              </dd>
             </div>
           </dl>
         </div>
 
-        <!-- Region -->
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Region</span>
-          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.region.name}</h3>
-          <dl class="space-y-1 text-sm text-text/70">
-            <div class="flex flex-col">
-              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Director</dt>
-              <dd>{affiliations.region.director}</dd>
-            </div>
-          </dl>
+        <!-- Annual Convention -->
+        <div class="border-t border-accent/15 pt-4">
+          <p class="text-xs font-semibold uppercase tracking-wide text-text/45 mb-1">Annual Convention</p>
+          <p class="text-sm text-text/75">
+            <strong>{affiliations.ngc.annualConvention.dates}</strong> &mdash; {affiliations.ngc.annualConvention.location}
+          </p>
         </div>
-
-        <!-- State -->
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 space-y-2">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
-          <h3 class="font-heading text-lg font-semibold text-text">{affiliations.state.name}</h3>
-          <dl class="space-y-1 text-sm text-text/70">
-            <div class="flex flex-col">
-              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">President</dt>
-              <dd>{affiliations.state.president}</dd>
-            </div>
-            <div class="flex flex-col">
-              <dt class="font-medium text-text/50 uppercase text-xs tracking-wide">Theme</dt>
-              <dd class="italic">&ldquo;{affiliations.state.theme}&rdquo;</dd>
-            </div>
-          </dl>
-        </div>
-
       </div>
+
+      <!-- Region + State side by side -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Region</span>
+          <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.region.name}</h3>
+          <p class="text-sm text-text/55 mt-1">{affiliations.region.abbreviation}</p>
+        </div>
+
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
+          <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.state.name}</h3>
+          <p class="text-sm text-text/55 mt-1">{affiliations.state.abbreviation}</p>
+        </div>
+      </div>
+
+      <!-- Other affiliates -->
+      {affiliations.other.length > 0 && (
+        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 mb-6">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Additional Affiliates</span>
+          <ul class="mt-2 space-y-1">
+            {affiliations.other.map((org) => (
+              <li class="text-sm text-text/75 flex items-center gap-2">
+                <span class="text-accent" aria-hidden="true">✦</span>
+                {org.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- NGC Support narratives -->
+      {affiliations.ngcSupport.length > 0 && (
+        <div class="bg-accent/8 border border-accent/20 rounded-xl p-6">
+          <h3 class="text-sm font-semibold uppercase tracking-widest text-primary mb-4">
+            How We Support NGC
+          </h3>
+          <ul class="space-y-3">
+            {affiliations.ngcSupport.map((item) => (
+              <li class="flex items-start gap-3 text-sm text-text/75 leading-relaxed">
+                <span class="mt-1 text-accent flex-shrink-0" aria-hidden="true">🌿</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
     </section>
 
   </div>

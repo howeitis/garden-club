@@ -1,30 +1,66 @@
 [
   {
-    "name": "Memorial Park Pollinator Garden",
-    "yearsActive": "2018–present",
-    "description": "A quarter-acre pollinator meadow planted and maintained by club volunteers, featuring native milkweed, coneflowers, and black-eyed Susans to support monarch butterflies and native bees.",
-    "location": "Memorial Park, Maplewood, NJ",
-    "imageReference": "/images/projects/pollinator-garden.jpg"
+    "name": "Blue Star Memorial Marker, VA Medical Center Wreath Ceremonies",
+    "yearsActive": "2014-2026",
+    "chairperson": "Chris Metzler",
+    "description": "GGGC installed the Blue Star Memorial Marker at the Wilmington VA Medical Center in 2014. Dedication was on Veterans’ Day, Nov. 10, that year. The site continues to be maintained with plantings. Each Memorial Day and Veterans’ Day, GGGC members gather, along with hospital residents and staff, to celebrate in the hospital’s Community Room. This way more veterans, especially those in wheelchairs, can attend the ceremony. A marker is displayed and a wreath is presented.",
+    "location": "Wilmington VA Medical Center",
+    "imageReference": ""
   },
   {
-    "name": "Library Reading Garden",
-    "yearsActive": "2015–present",
-    "description": "A tranquil outdoor reading nook adjacent to the Maplewood Public Library, maintained by club members with seasonal plantings and a small herb spiral.",
-    "location": "Maplewood Public Library, 51 Baker St, Maplewood, NJ",
-    "imageReference": "/images/projects/library-garden.jpg"
+    "name": "Goodstay Gardens’ Peony Garden Renovation",
+    "yearsActive": "2025-2026",
+    "chairperson": "Jane Hollingsworth",
+    "description": "This project marks a new opportunity for Garden Gate to continue its support of Goodstay Gardens — one of Wilmington’s best-kept secrets. The focus for 2025-2026 will be on enhancing the peony garden. GGGC will assist with Goodstay’s plans to replace several of the aging tree peonies along the Main Walk and to create a new display featuring Itoh (intersectional) peonies. To support this effort, Garden Gate has allocated $1,000. In addition, the club will coordinate with Goodstay to schedule a visit for club members to enjoy the peony garden at its peak bloom.",
+    "location": "Goodstay Gardens, Wilmington",
+    "imageReference": ""
   },
   {
-    "name": "Holiday Window Box Program",
-    "yearsActive": "2009–present",
-    "description": "Each December, club volunteers plant and install evergreen window boxes for participating downtown businesses, adding festive greenery to the main street corridor.",
-    "location": "Downtown Maplewood Business District",
-    "imageReference": "/images/projects/holiday-window-boxes.jpg"
+    "name": "Renovation of the Blue Star Marker Garden at the Veterans’ Hospital",
+    "yearsActive": "2025-2026",
+    "chairperson": "Kelly Koontz",
+    "description": "This is the President’s Project to honor the memory of Barbara Noseworthy who chaired GGGC’s Blue Star Marker Project from its inception in 2014. GGGC has long been unable to routinely work in that garden area due to the red-tape involved with doing work on government property. However, there has been some indication that may change. We are hopeful that we can proceed with the necessary clean-up and new plantings.",
+    "location": "Veterans’ Hospital, Wilmington",
+    "imageReference": ""
   },
   {
-    "name": "Schoolyard Habitat Project",
-    "yearsActive": "2021–2023",
-    "description": "A partnership with Jefferson Elementary School to create a certified wildlife habitat on school grounds, including a rain garden, bird feeders, and educational signage.",
-    "location": "Jefferson Elementary School, Maplewood, NJ",
-    "imageReference": "/images/projects/schoolyard-habitat.jpg"
+    "name": "DE Museum of Nature and Science Bobbee Vernon Memorial Garden",
+    "yearsActive": "2012-2026",
+    "chairperson": "Eda Ross Montgomery",
+    "description": "In 2012, the club installed a small garden in front of the Delaware Museum of Nature & Science in memory of longtime museum member and two-time GGGC President, Bobbee Vernon. It is designed to be of interest to visitors and touchable to children; to enhance the space; to be low maintenance; and to support the purpose of the museum. Delaware stone and petrified wood are placed among the plantings. Four garden club members provide maintenance for this garden.",
+    "location": "Delaware Museum of Nature & Science",
+    "imageReference": ""
+  },
+  {
+    "name": "GGGC Recycles",
+    "yearsActive": "2018-2026",
+    "chairperson": "Anne Aleman",
+    "description": "This club activity promotes recycling as a civic duty and an environmental responsibility. The club collects Styrofoam, light bulbs, and batteries, which are delivered to the Delaware Solid Waste Authority. GGGC members take #2, 4, 5 plastic to Eco Plastics Products of DE. The goal is to collect enough plastic to earn an ECOP bench that can be donated to a public garden. Members are kept informed on dates and locations for recycling electronic goods and household hazardous waste. This is a DFGC award-winning activity.",
+    "location": "Various locations, Delaware",
+    "imageReference": ""
+  },
+  {
+    "name": "Ronald McDonald House",
+    "yearsActive": "1991-2026",
+    "chairperson": "Betsy Brown",
+    "description": "GGGC members gather at the Ronald McDonald House to prepare for the Christmas Season by decorating a tree with Noah’s Ark ornaments that members have made by hand. Occasionally some animals get injured or wander off, so they are repaired and replaced. Under the tree is a wooden ark with Noah, his family and the animals.",
+    "location": "Ronald McDonald House, Wilmington",
+    "imageReference": ""
+  },
+  {
+    "name": "Sojourners’ Place",
+    "yearsActive": "1994-2026",
+    "chairperson": "Eda Ross Montgomery",
+    "description": "Sojourners’ Place is a case-managed, residential program that assists homeless men and women on their journey to self-sufficiency. All GGGC members collect and provide non-perishable food and personal items throughout the year.",
+    "location": "Sojourners’ Place, Wilmington",
+    "imageReference": ""
+  },
+  {
+    "name": "REACH Riverside Produce Donations",
+    "yearsActive": "2023-2026",
+    "chairperson": "Laura Scanlan",
+    "description": "Part of NGC’s 2023-25 PLANT AMERICA — FEED AMERICA program designed to help fight food insecurity. GGGC continues to implement this program by donating food to the two community refrigerators operating in the Riverside neighborhood of downtown Wilmington. Fresh produce is collected at meetings and delivered to refrigerators in front of the Kingswood Community Senior Center and the REACH Riverside Warehouse for Teens.",
+    "location": "Riverside neighborhood, downtown Wilmington",
+    "imageReference": ""
   }
 ]

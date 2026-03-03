@@ -6,10 +6,19 @@ export const ClubInfoSchema = z.object({
   foundingDates: z.object({
     club: z.string(),
     federation: z.string(),
+    incorporated: z.string(),           // NEW: "October 2018"
   }),
   missionStatement: z.string(),
   nonprofitStatus: z.string(),
   theme: z.string(),
+  themePeriod: z.string(),              // NEW: "2025-27"
+  membership: z.object({               // NEW: membership stats
+    activeMembers: z.number(),
+    associateMembers: z.number(),
+    honoraryMembers: z.number(),
+    maxActive: z.number(),
+    associateAndHonoraryNote: z.string(),
+  }),
 });
 
 export type ClubInfo = z.infer<typeof ClubInfoSchema>;
@@ -35,8 +44,13 @@ export const TimeBlockSchema = z.object({
 });
 
 export const MeetingsSchema = z.object({
+  schedule: z.string(),                 // NEW: "Second Wednesday of each month…"
   timeBlocks: z.array(TimeBlockSchema),
-  dues: z.string(),
+  dues: z.object({                      // CHANGED: was z.string(), now an object
+    activeMember: z.string(),
+    associateMember: z.string(),
+    deadline: z.string(),
+  }),
   orderOfBusiness: z.array(z.string()),
 });
 
@@ -47,18 +61,29 @@ export type TimeBlock = z.infer<typeof TimeBlockSchema>;
 export const AffiliationsSchema = z.object({
   ngc: z.object({
     name: z.string(),
+    address: z.string(),               // NEW
+    phone: z.string(),                 // NEW
+    website: z.string(),               // NEW
     theme: z.string(),
     president: z.string(),
+    presidentEmail: z.string(),        // NEW
+    annualConvention: z.object({       // NEW
+      dates: z.string(),
+      location: z.string(),
+    }),
   }),
   region: z.object({
     name: z.string(),
-    director: z.string(),
+    abbreviation: z.string(),          // NEW (replaces director)
   }),
   state: z.object({
     name: z.string(),
-    president: z.string(),
-    theme: z.string(),
+    abbreviation: z.string(),          // NEW (replaces president/theme)
   }),
+  other: z.array(z.object({           // NEW: additional affiliates
+    name: z.string(),
+  })),
+  ngcSupport: z.array(z.string()),    // NEW: support narrative strings
 });
 
 export type Affiliations = z.infer<typeof AffiliationsSchema>;
@@ -78,6 +103,9 @@ export type Officer = z.infer<typeof OfficerSchema>;
 // ─── awards.json ───────────────────────────────────────────────────────────────
 export const AwardSchema = z.object({
   awardName: z.string(),
+  category: z.string(),               // NEW: "DFGC" | "GGGC"
+  placement: z.string().nullable(),   // NEW: string or null
+  year: z.string(),                   // NEW: "2024-25" | "Ongoing"
   description: z.string(),
   recentWinners: z.array(z.string()),
   judgingCriteria: z.array(z.string()),
@@ -102,6 +130,7 @@ export type Judge = z.infer<typeof JudgeSchema>;
 export const ProjectSchema = z.object({
   name: z.string(),
   yearsActive: z.string(),
+  chairperson: z.string(),            // NEW
   description: z.string(),
   location: z.string(),
   imageReference: z.string(),

@@ -1,21 +1,38 @@
 {
+  "schedule": "Second Wednesday of each month, September through June.",
   "timeBlocks": [
-    { "label": "Doors Open", "time": "9:30 AM" },
-    { "label": "Meeting Begins", "time": "10:00 AM" },
-    { "label": "Program / Speaker", "time": "11:00 AM" },
-    { "label": "Adjournment", "time": "12:00 PM" }
+    {
+      "label": "Coffee",
+      "time": "9:30 AM"
+    },
+    {
+      "label": "Business Meeting",
+      "time": "10:00 AM"
+    },
+    {
+      "label": "Program",
+      "time": "11:00 AM"
+    },
+    {
+      "label": "Lunch",
+      "time": "12:00 PM"
+    }
   ],
-  "dues": "$35 per year, due at the January meeting",
+  "dues": {
+    "activeMember": "$80.00",
+    "associateMember": "$80.00",
+    "deadline": "Due no later than May 31"
+  },
   "orderOfBusiness": [
-    "Call to order",
-    "Pledge of Allegiance",
-    "Reading of minutes",
-    "Treasurer's report",
-    "Correspondence",
-    "Committee reports",
-    "Old business",
-    "New business",
-    "Program",
+    "Call to Order",
+    "Introduction of Guests",
+    "Recording Secretary's Report",
+    "Treasurer's Report",
+    "Corresponding Secretary's Report",
+    "Committee Reports",
+    "Unfinished Business",
+    "New Business",
+    "Announcements",
     "Adjournment"
   ]
 }

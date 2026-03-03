@@ -23,9 +23,16 @@ import { clubInfo, meetings } from '../data/index';
 
     <!-- Meeting Schedule -->
     <section aria-labelledby="schedule-heading">
-      <h2 id="schedule-heading" class="font-heading text-3xl font-bold text-text mb-8">
+      <h2 id="schedule-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Meeting Schedule
       </h2>
+
+      <!-- Schedule sentence — new field -->
+      <p class="text-text/70 text-base mb-6 leading-relaxed">
+        <span class="text-accent mr-1" aria-hidden="true">📅</span>
+        {meetings.schedule}
+      </p>
+
       <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
         <table class="w-full text-sm" role="table">
           <caption class="sr-only">Monthly meeting time blocks</caption>
@@ -51,16 +58,41 @@ import { clubInfo, meetings } from '../data/index';
       </div>
     </section>
 
-    <!-- Dues -->
+    <!-- Dues — now an object with three fields -->
     <section aria-labelledby="dues-heading">
       <h2 id="dues-heading" class="font-heading text-3xl font-bold text-text mb-6">
         Annual Dues
       </h2>
-      <div class="bg-accent/10 border border-accent/25 rounded-xl px-6 py-5 flex items-center gap-4">
-        <span class="text-3xl" aria-hidden="true">💰</span>
-        <p class="text-text/80 text-base leading-relaxed">
-          {meetings.dues}
-        </p>
+      <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
+        <dl class="divide-y divide-accent/10">
+          <div class="flex items-center justify-between px-6 py-4">
+            <dt class="text-sm font-medium text-text/70">Active Member</dt>
+            <dd class="text-sm font-semibold text-primary">{meetings.dues.activeMember}</dd>
+          </div>
+          <div class="flex items-center justify-between px-6 py-4">
+            <dt class="text-sm font-medium text-text/70">Associate Member</dt>
+            <dd class="text-sm font-semibold text-primary">{meetings.dues.associateMember}</dd>
+          </div>
+          <div class="flex items-center justify-between px-6 py-4 bg-accent/5">
+            <dt class="text-sm font-medium text-text/70">Payment Deadline</dt>
+            <dd class="text-sm text-text/80 italic">{meetings.dues.deadline}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Associate & Honorary note -->
+    <section aria-labelledby="membership-note-heading">
+      <div class="bg-accent/10 border border-accent/25 rounded-xl px-6 py-5 flex items-start gap-4">
+        <span class="text-2xl flex-shrink-0 mt-0.5" aria-hidden="true">ℹ️</span>
+        <div>
+          <h2 id="membership-note-heading" class="font-semibold text-text text-sm mb-1">
+            Associate &amp; Honorary Membership
+          </h2>
+          <p class="text-text/70 text-sm leading-relaxed">
+            {clubInfo.membership.associateAndHonoraryNote}
+          </p>
+        </div>
       </div>
     </section>
 

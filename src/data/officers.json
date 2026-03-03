@@ -1,35 +1,8 @@
 [
   {
     "role": "President",
-    "name": "Eleanor Hartfield",
+    "name": "TBD",
     "sortOrder": 1,
-    "bio": "Eleanor has been a club member for over 20 years and specializes in native plant landscaping."
-  },
-  {
-    "role": "Vice President – Programs",
-    "name": "Diane Okafor",
-    "sortOrder": 2,
-    "bio": "Diane coordinates our monthly speakers and has a background in horticultural therapy."
-  },
-  {
-    "role": "Vice President – Membership",
-    "name": "Susan Trevino",
-    "sortOrder": 3
-  },
-  {
-    "role": "Recording Secretary",
-    "name": "Carol Hendricks",
-    "sortOrder": 4
-  },
-  {
-    "role": "Corresponding Secretary",
-    "name": "Frances Nguyen",
-    "sortOrder": 5
-  },
-  {
-    "role": "Treasurer",
-    "name": "Margaret Sullivan",
-    "sortOrder": 6,
-    "bio": "Margaret is a retired accountant and has served as treasurer for eight consecutive years."
+    "bio": ""
   }
 ]

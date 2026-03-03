@@ -1,27 +1,32 @@
 [
   {
-    "name": "Beverly Ashworth",
+    "name": "Joy Ericson",
     "certificationLevel": "Master Judge",
     "status": "active"
   },
   {
-    "name": "Thomas Grantham",
-    "certificationLevel": "Horticulture Judge",
-    "status": "active"
-  },
-  {
-    "name": "Constance Delacroix",
+    "name": "Marty Rushlow",
     "certificationLevel": "Master Judge",
-    "status": "emeritus"
-  },
-  {
-    "name": "Harold Yuen",
-    "certificationLevel": "Standard Judge",
     "status": "active"
   },
   {
-    "name": "Miriam Stafford",
-    "certificationLevel": "Horticulture Judge",
+    "name": "Anne Aleman",
+    "certificationLevel": "Accredited Judge",
+    "status": "active"
+  },
+  {
+    "name": "Bob Howatt",
+    "certificationLevel": "Accredited Judge",
+    "status": "active"
+  },
+  {
+    "name": "Meg Spurlin",
+    "certificationLevel": "Student Judge",
+    "status": "active"
+  },
+  {
+    "name": "Elaine Pataky",
+    "certificationLevel": "Emeritus Judge",
     "status": "emeritus"
   }
 ]

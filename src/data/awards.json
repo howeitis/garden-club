@@ -1,34 +1,71 @@
 [
   {
-    "awardName": "Founder's Cup",
-    "description": "Awarded annually to the member who best exemplifies the club's founding values of community service and horticultural excellence.",
-    "recentWinners": ["Patricia Moore (2023)", "James Whitaker (2022)", "Ruth Alcott (2021)"],
-    "judgingCriteria": [
-      "Years of active club membership",
-      "Volunteer hours contributed",
-      "Impact on community beautification",
-      "Mentorship of newer members"
-    ]
+    "awardName": "Civic Achievement",
+    "category": "DFGC",
+    "placement": "1st Place",
+    "year": "2024-25",
+    "description": "Recognition for outstanding civic achievement in the community.",
+    "recentWinners": [],
+    "judgingCriteria": []
   },
   {
-    "awardName": "Blue Ribbon Garden Award",
-    "description": "Recognizes outstanding residential garden design as judged during the annual summer garden tour.",
-    "recentWinners": ["The Chen Garden (2023)", "Rosewood Cottage – M. Albright (2022)"],
-    "judgingCriteria": [
-      "Overall design and plant composition",
-      "Use of color and seasonal interest",
-      "Sustainability and native plant inclusion",
-      "Maintenance and plant health"
-    ]
+    "awardName": "Conservation",
+    "category": "DFGC",
+    "placement": "1st Place",
+    "year": "2024-25",
+    "description": "Recognition for outstanding conservation efforts.",
+    "recentWinners": [],
+    "judgingCriteria": []
   },
   {
-    "awardName": "Civic Beautification Award",
-    "description": "Given to a local business or municipality that has made exceptional contributions to public green space.",
-    "recentWinners": ["Maplewood Parks Department (2023)", "The Blossom Café (2022)"],
+    "awardName": "Horticulture/Garden Therapy",
+    "category": "DFGC",
+    "placement": "1st Place",
+    "year": "2024-25",
+    "description": "Recognition for excellence in horticulture and garden therapy programs.",
+    "recentWinners": [],
+    "judgingCriteria": []
+  },
+  {
+    "awardName": "Yearbook",
+    "category": "DFGC",
+    "placement": "1st Place",
+    "year": "2024-25",
+    "description": "Recognition for the best club yearbook.",
+    "recentWinners": [],
+    "judgingCriteria": []
+  },
+  {
+    "awardName": "National Garden Week",
+    "category": "DFGC",
+    "placement": "2nd Place",
+    "year": "2024-25",
+    "description": "Recognition for National Garden Week participation and programming.",
+    "recentWinners": [],
+    "judgingCriteria": []
+  },
+  {
+    "awardName": "Increased Membership",
+    "category": "DFGC",
+    "placement": "Special Achievement",
+    "year": "2024-25",
+    "description": "Special achievement recognition for increasing club membership.",
+    "recentWinners": [],
+    "judgingCriteria": []
+  },
+  {
+    "awardName": "CEW Training Award",
+    "category": "GGGC",
+    "placement": null,
+    "year": "Ongoing",
+    "description": "The CEW Training Awards were initiated to recognize and honor extraordinary contributions to Garden Gate Garden Club by members. CEW represents the last names Curtis, Ericson, and Witterholt — esteemed members who were responsible for the development, education, and stewardship of the nationally recognized Memorial Garden for Families of the Fallen at Dover Air Force Base.",
+    "recentWinners": [],
     "judgingCriteria": [
-      "Scope and visibility of the beautification project",
-      "Community benefit",
-      "Environmental consideration"
+      "Purpose: To encourage active members to enhance and advance their knowledge of floral design, garden study, environmental study, and landscape design by attending accredited schools and learning experiences sponsored by National Garden Club and other accredited institutions.",
+      "Two study awards valued up to $500.00 for each application, awarded biannually with primary consideration for NGC courses.",
+      "Eligible members must have been active for two or more years, be in good standing, and have held a position on the Garden Gate Garden Club Board.",
+      "Funds of up to $500.00 for course and expenses disbursed upon receipt of documentation. Receipts for travel, course tuition, and accommodations should be included.",
+      "After course completion, recipients are expected to present a Club program on their experience and knowledge gained."
     ]
   }
 ]

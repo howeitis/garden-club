@@ -4,8 +4,12 @@ import AwardCard from '../components/AwardCard.astro';
 import JudgeRow from '../components/JudgeRow.astro';
 import { clubInfo, awards, judges } from '../data/index';
 
-const activeJudges  = judges.filter((j) => j.status === 'active');
+const activeJudges   = judges.filter((j) => j.status === 'active');
 const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
+
+// Split awards by category
+const dfgcAwards = awards.filter((a) => a.category === 'DFGC');
+const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 ---
 
 <BaseLayout
@@ -23,21 +27,43 @@ const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
-    <!-- Awards Section -->
-    <section aria-labelledby="awards-heading">
-      <h2 id="awards-heading" class="font-heading text-3xl font-bold text-text mb-10">
-        Club Awards
-      </h2>
-      {awards.length > 0 ? (
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {awards.map((award) => (
+    <!-- DFGC Awards -->
+    {dfgcAwards.length > 0 && (
+      <section aria-labelledby="dfgc-awards-heading">
+        <div class="flex items-center gap-3 mb-8">
+          <h2 id="dfgc-awards-heading" class="font-heading text-3xl font-bold text-text">
+            Delaware Federation Awards
+          </h2>
+          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded-full bg-primary/10 text-primary self-center">
+            DFGC
+          </span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {dfgcAwards.map((award) => (
             <AwardCard award={award} />
           ))}
         </div>
-      ) : (
-        <p class="text-text/60 italic">No awards listed at this time.</p>
-      )}
-    </section>
+      </section>
+    )}
+
+    <!-- GGGC Awards (CEW Training Award) -->
+    {gggcAwards.length > 0 && (
+      <section aria-labelledby="gggc-awards-heading">
+        <div class="flex items-center gap-3 mb-8">
+          <h2 id="gggc-awards-heading" class="font-heading text-3xl font-bold text-text">
+            Club Awards
+          </h2>
+          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded-full bg-accent/20 text-text/70 self-center">
+            GGGC
+          </span>
+        </div>
+        <div class="grid grid-cols-1 gap-6">
+          {gggcAwards.map((award) => (
+            <AwardCard award={award} />
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Judges Section -->
     <section aria-labelledby="judges-heading">

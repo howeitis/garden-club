@@ -10,26 +10,46 @@ const { award } = Astro.props;
 
 <article class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200">
 
+  <!-- Header row: icon, name, and meta badges -->
   <div class="flex items-start gap-3">
     <span class="text-2xl flex-shrink-0" aria-hidden="true">🏅</span>
-    <div>
-      <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
-      <p class="text-sm text-text/70 leading-relaxed mt-1">{award.description}</p>
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-wrap items-center gap-2 mb-1">
+        <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
+        <!-- Category badge -->
+        <span class="text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+          {award.category}
+        </span>
+      </div>
+      <!-- Placement + Year -->
+      <div class="flex flex-wrap gap-2 text-xs text-text/55 mb-2">
+        {award.placement && (
+          <span class="flex items-center gap-1">
+            <span aria-hidden="true">🥇</span> {award.placement}
+          </span>
+        )}
+        <span class="flex items-center gap-1">
+          <span aria-hidden="true">📅</span> {award.year}
+        </span>
+      </div>
+      <p class="text-sm text-text/70 leading-relaxed">{award.description}</p>
     </div>
   </div>
 
   <!-- Judging Criteria -->
-  <div>
-    <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Judging Criteria</h4>
-    <ul class="flex flex-col gap-1">
-      {award.judgingCriteria.map((criterion) => (
-        <li class="flex items-start gap-2 text-sm text-text/70">
-          <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
-          {criterion}
-        </li>
-      ))}
-    </ul>
-  </div>
+  {award.judgingCriteria.length > 0 && (
+    <div>
+      <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Judging Criteria</h4>
+      <ul class="flex flex-col gap-1">
+        {award.judgingCriteria.map((criterion) => (
+          <li class="flex items-start gap-2 text-sm text-text/70">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
+            {criterion}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
 
   <!-- Recent Winners -->
   {award.recentWinners.length > 0 && (

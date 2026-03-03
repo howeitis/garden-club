@@ -7,7 +7,6 @@ import { clubInfo } from '../data/index';
 
   <!-- Hero -->
   <section class="relative bg-primary text-background overflow-hidden">
-    <!-- Subtle radial glow -->
     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_80%,_white,_transparent_60%)]" aria-hidden="true"></div>
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
@@ -35,10 +34,11 @@ import { clubInfo } from '../data/index';
     </div>
   </section>
 
-  <!-- Annual Theme Banner -->
+  <!-- Annual Theme Banner — now includes themePeriod -->
   <section class="bg-accent/15 border-y border-accent/25">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-      <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-3">This Year's Theme</p>
+      <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-1">Club Theme</p>
+      <p class="text-xs text-text/50 mb-4">{clubInfo.themePeriod}</p>
       <blockquote class="font-heading italic text-2xl sm:text-3xl text-text leading-snug">
         &ldquo;{clubInfo.theme}&rdquo;
       </blockquote>

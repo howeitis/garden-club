@@ -1,13 +1,10 @@
 {
-  "primaryEmail": "info@maplewoodgardenclub.org",
+  "primaryEmail": "gardengatede@gmail.com",
   "mailingAddress": {
-    "street": "P.O. Box 412",
-    "city": "Maplewood",
-    "state": "NJ",
-    "zip": "07040"
+    "street": "P.O. Box 4754",
+    "city": "Wilmington",
+    "state": "Delaware",
+    "zip": "19807"
   },
-  "socialLinks": {
-    "facebook": "https://facebook.com/maplewoodgardenclub",
-    "instagram": "https://instagram.com/maplewoodgardenclub"
-  }
+  "socialLinks": {}
 }

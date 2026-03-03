@@ -1,16 +1,33 @@
 {
   "ngc": {
     "name": "National Garden Clubs, Inc.",
-    "theme": "Gardening for the Future",
-    "president": "Dr. Mary Ann Roby"
+    "address": "4401 Magnolia Ave., St. Louis, MO 63110",
+    "phone": "314-776-7574",
+    "website": "www.gardenclub.org",
+    "theme": "Go Green - Plant America",
+    "president": "Brenda Moore",
+    "presidentEmail": "bmoore@gardenclub.org",
+    "annualConvention": {
+      "dates": "May 4-6, 2026",
+      "location": "NGC Headquarters, St. Louis, Missouri"
+    }
   },
   "region": {
-    "name": "Middle Atlantic Region",
-    "director": "Patricia O'Sullivan"
+    "name": "Central Atlantic Region of State Garden Clubs, Inc.",
+    "abbreviation": "CAR-SGC"
   },
   "state": {
-    "name": "Garden Club of New Jersey",
-    "president": "Sandra Whitfield",
-    "theme": "New Jersey: Naturally Beautiful"
-  }
+    "name": "Delaware Federation of Garden Clubs",
+    "abbreviation": "DFGC"
+  },
+  "other": [
+    {
+      "name": "Delaware Center for Horticulture"
+    }
+  ],
+  "ngcSupport": [
+    "GGGC supports NGC's Plant America Theme through its community service projects and contributions to the Delaware Center for Horticulture and the Delaware Nature Society.",
+    "GGGC supports the President's \"Go Green - Plant America\" Project through its monthly community gardening projects.",
+    "GGGC established the CEW Training Award to provide financial assistance to members who would like to attend NGC Flower Show School classes or horticulture/design classes, at accredited institutions."
+  ]
 }
