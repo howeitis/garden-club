@@ -8,8 +8,8 @@ interface Props {
 const { judge } = Astro.props;
 
 const statusStyles = {
-  active:   'bg-holly/10 text-holly',
-  emeritus: 'bg-text/10 text-text/60',
+  active:   'bg-holly/12 text-holly border border-holly/25',
+  emeritus: 'bg-lavender/15 text-text/60 border border-lavender/25',
 };
 const statusLabel = {
   active:   'Active',
@@ -17,7 +17,7 @@ const statusLabel = {
 };
 ---
 
-<li class="flex flex-wrap items-center justify-between gap-3 py-4 border-b border-accent/15 last:border-b-0">
+<li class="flex flex-wrap items-center justify-between gap-3 py-4 border-b border-blossom/15 last:border-b-0 hover:bg-blossom/5 transition-colors duration-150 -mx-6 px-6">
   <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
     <span class="font-medium text-text">{judge.name}</span>
     <span class="text-base text-text/60">{judge.certificationLevel}</span>

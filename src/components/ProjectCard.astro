@@ -8,7 +8,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<article class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+<article class="bg-white rounded-xl border border-blossom/25 shadow-sm overflow-hidden hover:shadow-md hover:border-blossom/45 transition-all duration-200">
 
   <!-- Image or fallback -->
   {project.imageReference ? (
@@ -25,20 +25,20 @@ const { project } = Astro.props;
         class="absolute inset-0 hidden items-center justify-center bg-blossom/20"
         aria-hidden="true"
       >
-        <span class="text-4xl select-none">🌿</span>
+        <span class="text-4xl select-none">🌸</span>
       </div>
     </div>
   ) : (
     <!-- Fallback when no imageReference provided -->
-    <div class="h-52 flex items-center justify-center bg-blossom/20" aria-hidden="true">
-      <span class="text-4xl select-none">🌿</span>
+    <div class="h-52 flex items-center justify-center bg-gradient-to-br from-blossom/20 to-marigold/15" aria-hidden="true">
+      <span class="text-4xl select-none">🌸</span>
     </div>
   )}
 
   <div class="p-6 flex flex-col gap-3">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <h3 class="font-heading text-xl font-semibold text-text">{project.name}</h3>
-      <span class="text-xs font-medium bg-hen/25 text-text px-3 py-1 rounded-full whitespace-nowrap">
+      <span class="text-xs font-medium bg-blossom/20 text-holly px-3 py-1 rounded-full whitespace-nowrap border border-blossom/25">
         {project.yearsActive}
       </span>
     </div>

@@ -23,6 +23,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
       <img src="/awards-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
       <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
     </div>
+    <div class="absolute top-6 right-12 text-5xl opacity-15 rotate-6 select-none pointer-events-none" aria-hidden="true">🏅</div>
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Recognition</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Awards &amp; Judges</h1>
@@ -38,7 +39,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
           <h2 id="dfgc-awards-heading" class="font-heading text-3xl font-bold text-text">
             Delaware Federation Awards
           </h2>
-          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded-full bg-primary/10 text-primary self-center">
+          <span class="text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-holly/12 text-holly self-center border border-holly/20">
             DFGC
           </span>
         </div>
@@ -57,7 +58,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
           <h2 id="gggc-awards-heading" class="font-heading text-3xl font-bold text-text">
             Club Awards
           </h2>
-          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded-full bg-accent/20 text-text/70 self-center">
+          <span class="text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-blossom/25 text-blossom-deep self-center border border-blossom/30">
             GGGC
           </span>
         </div>
@@ -71,9 +72,12 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
     <!-- Judges Section -->
     <section aria-labelledby="judges-heading">
-      <h2 id="judges-heading" class="font-heading text-3xl font-bold text-text mb-4">
-        Certified Judges
-      </h2>
+      <div class="flex items-center gap-3 mb-4">
+        <h2 id="judges-heading" class="font-heading text-3xl font-bold text-text">
+          Certified Judges
+        </h2>
+        <span class="text-xl" aria-hidden="true">🌷</span>
+      </div>
       <p class="text-text/65 mb-8 text-sm leading-relaxed max-w-2xl">
         Our accredited judges have completed training through the National Garden Clubs, Inc. and
         bring expertise in horticulture, floral design, and landscape evaluation.
@@ -81,9 +85,9 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
       <!-- Active Judges -->
       {activeJudges.length > 0 && (
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden mb-8">
-          <div class="px-6 py-4 bg-primary/5 border-b border-accent/20">
-            <h3 class="text-sm font-semibold uppercase tracking-widest text-primary">Active Judges</h3>
+        <div class="bg-white rounded-xl border border-blossom/25 shadow-sm overflow-hidden mb-8">
+          <div class="px-6 py-4 bg-gradient-to-r from-blossom/15 to-blossom/5 border-b border-blossom/20">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-holly">Active Judges</h3>
           </div>
           <ul class="px-6" role="list" aria-label="Active judges">
             {activeJudges.map((judge) => (
@@ -95,8 +99,8 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
       <!-- Emeritus Judges -->
       {emeritusJudges.length > 0 && (
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 bg-primary/5 border-b border-accent/20">
+        <div class="bg-white rounded-xl border border-lavender/30 shadow-sm overflow-hidden">
+          <div class="px-6 py-4 bg-gradient-to-r from-lavender/15 to-lavender/5 border-b border-lavender/25">
             <h3 class="text-sm font-semibold uppercase tracking-widest text-primary">Emeritus Judges</h3>
           </div>
           <ul class="px-6" role="list" aria-label="Emeritus judges">

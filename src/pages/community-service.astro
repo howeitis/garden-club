@@ -15,6 +15,7 @@ import { clubInfo, projects } from '../data/index';
       <img src="/community-service-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
       <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
     </div>
+    <div class="absolute top-8 left-8 text-5xl opacity-15 rotate-12 select-none pointer-events-none" aria-hidden="true">🌺</div>
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Giving Back</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Community Service</h1>
@@ -23,6 +24,23 @@ import { clubInfo, projects } from '../data/index';
       </p>
     </div>
   </section>
+
+  <!-- Colorful intro strip -->
+  <div class="bg-gradient-to-r from-blossom/15 via-sunflower/10 to-marigold/10 border-b border-blossom/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-wrap items-center justify-center gap-8 text-center">
+      {[
+        { icon: '🌱', label: 'Planting & Growing' },
+        { icon: '🌸', label: 'Civic Beautification' },
+        { icon: '🦋', label: 'Pollinator Habitat' },
+        { icon: '🌳', label: 'Conservation' },
+      ].map((item) => (
+        <div class="flex items-center gap-2 text-sm font-medium text-text/70">
+          <span class="text-xl" aria-hidden="true">{item.icon}</span>
+          {item.label}
+        </div>
+      ))}
+    </div>
+  </div>
 
   <!-- Projects Grid -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="projects-heading">

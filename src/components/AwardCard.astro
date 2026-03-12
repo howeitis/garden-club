@@ -8,7 +8,7 @@ interface Props {
 const { award } = Astro.props;
 ---
 
-<article class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200">
+<article class="bg-white rounded-xl border border-sunflower/25 shadow-sm p-6 flex flex-col gap-4 hover:shadow-md hover:border-sunflower/45 transition-all duration-200">
 
   <!-- Header row: icon, name, and meta badges -->
   <div class="flex items-start gap-3">
@@ -18,10 +18,10 @@ const { award } = Astro.props;
         <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
         <!-- Category badge: DFGC in holly red, GGGC in blossom pink -->
         <span class:list={[
-          'text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full',
+          'text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full border',
           award.category === 'DFGC'
-            ? 'bg-holly/10 text-holly'
-            : 'bg-blossom/25 text-text',
+            ? 'bg-holly/12 text-holly border-holly/25'
+            : 'bg-blossom/25 text-blossom-deep border-blossom/30',
         ]}>
           {award.category}
         </span>

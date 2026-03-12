@@ -13,7 +13,7 @@ const navLinks = [
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-primary text-background mt-16">
+<footer class="bg-primary text-background mt-16 border-t-[4px] border-blossom/60">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
 
@@ -30,7 +30,7 @@ const year = new Date().getFullYear();
 
       <!-- Navigation Links -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-background/60 mb-4">Navigation</h3>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">Navigation</h3>
         <ul class="flex flex-col gap-2">
           {navLinks.map((link) => (
             <li>
@@ -47,16 +47,17 @@ const year = new Date().getFullYear();
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-background/60 mb-4">This Year's Theme</h3>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">This Year's Theme</h3>
         <p class="font-heading italic text-background/90 leading-relaxed">
           &ldquo;{clubInfo.theme}&rdquo;
         </p>
+        <p class="mt-4 text-2xl tracking-widest opacity-40" aria-hidden="true">🌸 🌷 🌺</p>
       </div>
 
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-10 pt-6 border-t border-white/20 text-center text-xs text-background/50">
+    <div class="mt-10 pt-6 border-t border-blossom/20 text-center text-xs text-background/50">
       &copy; {year} {clubInfo.name}. All rights reserved.
     </div>
   </div>
