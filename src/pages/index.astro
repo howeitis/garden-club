@@ -11,6 +11,9 @@ import { clubInfo } from '../data/index';
       <img src="/home-hero.png" alt="" class="w-full h-full object-cover opacity-30" loading="eager" />
       <div class="absolute inset-0 bg-primary/20 mix-blend-multiply" aria-hidden="true"></div>
     </div>
+    <!-- Decorative blossom petals overlay -->
+    <div class="absolute top-8 right-8 text-6xl opacity-15 rotate-12 select-none pointer-events-none" aria-hidden="true">🌸</div>
+    <div class="absolute bottom-12 left-6 text-5xl opacity-10 -rotate-6 select-none pointer-events-none" aria-hidden="true">🌺</div>
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
       <p class="text-blossom text-sm font-semibold uppercase tracking-widest mb-4">Est. {clubInfo.foundingDates.club}</p>
@@ -29,7 +32,7 @@ import { clubInfo } from '../data/index';
         </a>
         <a
           href="/membership"
-          class="border-2 border-background/60 text-background font-semibold px-8 py-4 rounded-lg hover:border-background hover:bg-background/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
+          class="bg-blossom/25 border-2 border-blossom/60 text-background font-semibold px-8 py-4 rounded-lg hover:bg-blossom/40 hover:border-blossom transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blossom focus:ring-offset-2 focus:ring-offset-primary"
         >
           Join the Club
         </a>
@@ -37,8 +40,8 @@ import { clubInfo } from '../data/index';
     </div>
   </section>
 
-  <!-- Annual Theme Banner — now includes themePeriod -->
-  <section class="bg-blossom/15 border-y border-blossom/25">
+  <!-- Annual Theme Banner -->
+  <section class="bg-gradient-to-r from-blossom/20 via-holly-light to-blossom/15 border-y border-blossom/30">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
       <p class="text-xs font-semibold uppercase tracking-widest text-holly mb-1">Club Theme</p>
       <p class="text-xs text-text/50 mb-4">{clubInfo.themePeriod}</p>
@@ -74,8 +77,11 @@ import { clubInfo } from '../data/index';
 
       <!-- Decorative image grid -->
       <div class="grid grid-cols-2 gap-4" aria-hidden="true">
-        {['/club-2.jpg', '/club.jpg', '/flower.jpg', '/longwood.jpg'].map((imgSrc) => (
-          <div class="aspect-square rounded-2xl bg-accent/15 overflow-hidden shadow-sm relative group">
+        {['/club-2.jpg', '/club.jpg', '/flower.jpg', '/longwood.jpg'].map((imgSrc, i) => (
+          <div class:list={[
+            'aspect-square rounded-2xl overflow-hidden shadow-sm relative group',
+            i === 0 ? 'bg-blossom/20' : i === 1 ? 'bg-holly-light' : i === 2 ? 'bg-sunflower/15' : 'bg-lavender/20',
+          ]}>
             <img src={imgSrc} alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
           </div>
         ))}
@@ -83,19 +89,19 @@ import { clubInfo } from '../data/index';
     </div>
   </section>
 
-  <!-- Quick links bar -->
-  <section class="bg-hen/15 border-t border-hen/30">
+  <!-- Colorful quick-links bar -->
+  <section class="border-t border-blossom/20 bg-gradient-to-b from-background to-blossom/8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         {[
-          { label: 'About Us',        href: '/about',            icon: '🌿' },
-          { label: 'Membership',      href: '/membership',        icon: '📋' },
-          { label: 'Awards & Judges', href: '/awards-and-judges', icon: '🏅' },
-          { label: 'Get in Touch',    href: '/contact',           icon: '✉️' },
+          { label: 'About Us',        href: '/about',            icon: '🌿', bg: 'hover:bg-accent/15',    border: 'border-accent/25'    },
+          { label: 'Membership',      href: '/membership',        icon: '🌸', bg: 'hover:bg-blossom/20',  border: 'border-blossom/25'   },
+          { label: 'Awards & Judges', href: '/awards-and-judges', icon: '🏅', bg: 'hover:bg-sunflower/15',border: 'border-sunflower/30'  },
+          { label: 'Get in Touch',    href: '/contact',           icon: '🌺', bg: 'hover:bg-holly-light', border: 'border-holly/20'     },
         ].map((item) => (
           <a
             href={item.href}
-            class="group flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-primary/8 transition-colors duration-200"
+            class={`group flex flex-col items-center gap-2 p-4 rounded-xl border ${item.border} ${item.bg} transition-colors duration-200`}
           >
             <span class="text-3xl">{item.icon}</span>
             <span class="text-sm font-medium text-primary group-hover:underline">{item.label}</span>

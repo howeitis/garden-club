@@ -8,8 +8,8 @@ interface Props {
 const { officer } = Astro.props;
 ---
 
-<article class="bg-white rounded-xl border border-blossom/30 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md transition-shadow duration-200">
-  <span class="text-xs font-semibold uppercase tracking-widest inline-block bg-blossom/20 text-text px-2 py-0.5 rounded-full self-start">
+<article class="bg-white rounded-xl border border-blossom/30 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md hover:border-blossom/50 transition-all duration-200">
+  <span class="text-xs font-semibold uppercase tracking-widest inline-block bg-gradient-to-r from-blossom/25 to-holly-light text-holly px-2 py-0.5 rounded-full self-start border border-blossom/20">
     {officer.role}
   </span>
   <h3 class="font-heading text-xl font-semibold text-text">{officer.name}</h3>

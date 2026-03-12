@@ -55,7 +55,7 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#2D5F3E" />
+    <meta name="theme-color" content="#F2AABF" />
 
     <!-- Standard SEO -->
     <meta name="description" content={description} />
@@ -63,22 +63,32 @@ const jsonLd = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content={clubInfo.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="2048" />
+    <meta property="og:image:height" content="2048" />
+    <meta property="og:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Icons & Manifest -->
+    <!-- SVG favicon: modern browsers (Chrome, Firefox, Edge, Safari 14+) -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/gggc-hero.png" />
+    <!-- PNG fallback: for platforms/browsers that don't support SVG favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <!-- Apple touch icon: iOS Safari home screen -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Google Fonts: Playfair Display (heading) + Inter (body) -->

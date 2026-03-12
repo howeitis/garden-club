@@ -13,7 +13,7 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-primary text-background shadow-md">
+<header class="bg-primary text-background shadow-md border-b-[3px] border-blossom/60">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
 
@@ -37,8 +37,8 @@ const currentPath = Astro.url.pathname;
               class:list={[
                 'text-base font-medium tracking-wide transition-colors duration-200 pb-0.5 border-b-2',
                 isActive
-                  ? 'border-accent text-background'
-                  : 'border-transparent text-background/80 hover:text-background hover:border-accent/60',
+                  ? 'border-blossom text-background'
+                  : 'border-transparent text-background/80 hover:text-background hover:border-blossom/50',
               ]}
               aria-current={isActive ? 'page' : undefined}
             >

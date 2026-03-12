@@ -9,8 +9,14 @@ export default {
         text:       '#3A3A3A',
         accent:     '#7B9E6B',
         blossom:    '#F2AABF', // peach blossom pink
+        'blossom-deep': '#E07899', // deeper peach blossom for accents
         holly:      '#C41E3A', // holly berry red
+        'holly-light': '#F7D7DD', // soft holly berry tint
         hen:        '#A8C8E0', // Delaware Blue Hen light blue
+        coral:      '#E8574F', // bright flower coral-red
+        sunflower:  '#F4C430', // sunflower yellow
+        lavender:   '#C5A8D4', // garden lavender purple
+        marigold:   '#F28C28', // marigold orange
       },
       fontFamily: {
         heading: ['"Playfair Display"', 'serif'],

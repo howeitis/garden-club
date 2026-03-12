@@ -17,6 +17,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
       <img src="/about-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
       <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
     </div>
+    <div class="absolute top-6 right-10 text-5xl opacity-15 rotate-6 select-none pointer-events-none" aria-hidden="true">🌷</div>
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Our Story</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">About Us</h1>
@@ -44,21 +45,21 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
             In <strong class="text-text">{clubInfo.foundingDates.incorporated}</strong>, the club was
             incorporated as a <strong class="text-text">{clubInfo.nonprofitStatus}</strong>.
           </p>
-          <blockquote class="italic border-l-4 border-accent pl-4 text-text/80">
+          <blockquote class="italic border-l-4 border-blossom pl-4 text-text/80 bg-blossom/8 py-2 rounded-r-lg">
             &ldquo;{clubInfo.missionStatement}&rdquo;
           </blockquote>
         </div>
 
-        <!-- Membership stats -->
+        <!-- Membership stats — colorful cards -->
         <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Active Members',    value: clubInfo.membership.activeMembers },
-            { label: 'Associate Members', value: clubInfo.membership.associateMembers },
-            { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers },
-            { label: 'Membership Cap',    value: clubInfo.membership.maxActive },
+            { label: 'Active Members',    value: clubInfo.membership.activeMembers,    bg: 'bg-blossom/15 border-blossom/30',   num: 'text-holly'    },
+            { label: 'Associate Members', value: clubInfo.membership.associateMembers, bg: 'bg-lavender/15 border-lavender/30', num: 'text-primary'  },
+            { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers,  bg: 'bg-sunflower/12 border-sunflower/30',num: 'text-primary' },
+            { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        bg: 'bg-accent/10 border-accent/25',     num: 'text-primary'  },
           ].map((stat) => (
-            <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-4 text-center">
-              <p class="font-heading text-3xl font-bold text-primary">{stat.value}</p>
+            <div class={`rounded-xl border shadow-sm p-4 text-center ${stat.bg}`}>
+              <p class={`font-heading text-3xl font-bold ${stat.num}`}>{stat.value}</p>
               <p class="text-xs text-text/55 mt-1 leading-snug">{stat.label}</p>
             </div>
           ))}
@@ -71,9 +72,12 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
     <!-- Board of Officers -->
     <section aria-labelledby="officers-heading">
-      <h2 id="officers-heading" class="font-heading text-3xl font-bold text-text mb-8">
-        Board of Officers
-      </h2>
+      <div class="flex items-center gap-3 mb-8">
+        <h2 id="officers-heading" class="font-heading text-3xl font-bold text-text">
+          Board of Officers
+        </h2>
+        <span class="text-xl" aria-hidden="true">🌸</span>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {sortedOfficers.map((officer) => (
           <OfficerCard officer={officer} />
@@ -135,8 +139,8 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
         </div>
 
         <!-- Annual Convention -->
-        <div class="border-t border-accent/15 pt-4">
-          <p class="text-xs font-semibold uppercase tracking-wide text-text/45 mb-1">Annual Convention</p>
+        <div class="border-t border-blossom/20 pt-4 bg-blossom/5 -mx-6 px-6 -mb-6 pb-6 rounded-b-xl">
+          <p class="text-xs font-semibold uppercase tracking-wide text-holly mb-1">Annual Convention</p>
           <p class="text-sm text-text/75">
             <strong>{affiliations.ngc.annualConvention.dates}</strong> &mdash; {affiliations.ngc.annualConvention.location}
           </p>
@@ -145,13 +149,13 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- Region + State side by side -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Region</span>
+        <div class="bg-white rounded-xl border border-blossom/30 shadow-sm p-6">
+          <span class="text-xs font-semibold uppercase tracking-widest text-holly">Region</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.region.name}</h3>
           <p class="text-sm text-text/55 mt-1">{affiliations.region.abbreviation}</p>
         </div>
 
-        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6">
+        <div class="bg-white rounded-xl border border-accent/30 shadow-sm p-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.state.name}</h3>
           <p class="text-sm text-text/55 mt-1">{affiliations.state.abbreviation}</p>
@@ -160,12 +164,12 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- Other affiliates -->
       {affiliations.other.length > 0 && (
-        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6 mb-6">
+        <div class="bg-white rounded-xl border border-lavender/30 shadow-sm p-6 mb-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">Additional Affiliates</span>
           <ul class="mt-2 space-y-1">
             {affiliations.other.map((org) => (
               <li class="text-sm text-text/75 flex items-center gap-2">
-                <span class="text-accent" aria-hidden="true">✦</span>
+                <span class="text-blossom-deep" aria-hidden="true">✦</span>
                 {org.name}
               </li>
             ))}
@@ -175,14 +179,14 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- NGC Support narratives -->
       {affiliations.ngcSupport.length > 0 && (
-        <div class="bg-hen/15 border border-hen/30 rounded-xl p-6">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-primary mb-4">
+        <div class="bg-gradient-to-br from-blossom/10 to-accent/10 border border-blossom/25 rounded-xl p-6">
+          <h3 class="text-sm font-semibold uppercase tracking-widest text-holly mb-4">
             How We Support NGC
           </h3>
           <ul class="space-y-3">
             {affiliations.ngcSupport.map((item) => (
               <li class="flex items-start gap-3 text-sm text-text/75 leading-relaxed">
-                <span class="mt-1 text-accent flex-shrink-0" aria-hidden="true">🌿</span>
+                <span class="mt-1 text-blossom-deep flex-shrink-0" aria-hidden="true">🌸</span>
                 {item}
               </li>
             ))}
