@@ -7,7 +7,10 @@ import { clubInfo } from '../data/index';
 
   <!-- Hero -->
   <section class="relative bg-primary text-background overflow-hidden">
-    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_80%,_white,_transparent_60%)]" aria-hidden="true"></div>
+    <div class="absolute inset-0">
+      <img src="/home-hero.png" alt="" class="w-full h-full object-cover opacity-30" />
+      <div class="absolute inset-0 bg-primary/20 mix-blend-multiply" aria-hidden="true"></div>
+    </div>
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
       <p class="text-accent text-sm font-semibold uppercase tracking-widest mb-4">Est. {clubInfo.foundingDates.club}</p>
@@ -69,11 +72,11 @@ import { clubInfo } from '../data/index';
         </a>
       </div>
 
-      <!-- Decorative emoji grid -->
+      <!-- Decorative image grid -->
       <div class="grid grid-cols-2 gap-4" aria-hidden="true">
-        {['🌸', '🌿', '🦋', '🌻'].map((emoji) => (
-          <div class="aspect-square rounded-2xl bg-accent/15 flex items-center justify-center text-5xl shadow-sm">
-            {emoji}
+        {['/club-2.jpg', '/club.jpg', '/flower.jpg', '/longwood.jpg'].map((imgSrc) => (
+          <div class="aspect-square rounded-2xl bg-accent/15 overflow-hidden shadow-sm relative group">
+            <img src={imgSrc} alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
         ))}
       </div>

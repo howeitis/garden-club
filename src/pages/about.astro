@@ -12,8 +12,12 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 >
 
   <!-- Page Header -->
-  <section class="bg-primary text-background py-16 sm:py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/about-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" />
+      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Our Story</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">About Us</h1>
     </div>
@@ -85,8 +89,13 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- NGC — full detail card -->
       <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 mb-6">
-        <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
-        <h3 class="font-heading text-xl font-semibold text-text mt-1 mb-4">{affiliations.ngc.name}</h3>
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
+            <h3 class="font-heading text-xl font-semibold text-text mt-1">{affiliations.ngc.name}</h3>
+          </div>
+          <img src="/ngc-logo.png" alt="NGC Logo" class="w-16 h-auto object-contain flex-shrink-0" />
+        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-4">
           <dl class="space-y-2">
