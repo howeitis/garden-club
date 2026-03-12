@@ -18,7 +18,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
       <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
     </div>
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Our Story</p>
+      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Our Story</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">About Us</h1>
     </div>
   </section>
@@ -57,7 +57,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
             { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers },
             { label: 'Membership Cap',    value: clubInfo.membership.maxActive },
           ].map((stat) => (
-            <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-4 text-center">
+            <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-4 text-center">
               <p class="font-heading text-3xl font-bold text-primary">{stat.value}</p>
               <p class="text-xs text-text/55 mt-1 leading-snug">{stat.label}</p>
             </div>
@@ -88,7 +88,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
       </h2>
 
       <!-- NGC — full detail card -->
-      <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 mb-6">
+      <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6 mb-6">
         <div class="flex items-start justify-between mb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
@@ -145,13 +145,13 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- Region + State side by side -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6">
+        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">Region</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.region.name}</h3>
           <p class="text-sm text-text/55 mt-1">{affiliations.region.abbreviation}</p>
         </div>
 
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6">
+        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.state.name}</h3>
           <p class="text-sm text-text/55 mt-1">{affiliations.state.abbreviation}</p>
@@ -160,7 +160,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- Other affiliates -->
       {affiliations.other.length > 0 && (
-        <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 mb-6">
+        <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6 mb-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">Additional Affiliates</span>
           <ul class="mt-2 space-y-1">
             {affiliations.other.map((org) => (
@@ -175,7 +175,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- NGC Support narratives -->
       {affiliations.ngcSupport.length > 0 && (
-        <div class="bg-accent/8 border border-accent/20 rounded-xl p-6">
+        <div class="bg-hen/15 border border-hen/30 rounded-xl p-6">
           <h3 class="text-sm font-semibold uppercase tracking-widest text-primary mb-4">
             How We Support NGC
           </h3>

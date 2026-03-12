@@ -15,7 +15,7 @@ import { clubInfo, meetings } from '../data/index';
       <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
     </div>
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-accent text-xs font-semibold uppercase tracking-widest mb-3">Join Us</p>
+      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Join Us</p>
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Membership</h1>
       <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
         All are welcome. Come grow with us.
@@ -40,7 +40,7 @@ import { clubInfo, meetings } from '../data/index';
       <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
         <table class="w-full text-sm" role="table">
           <caption class="sr-only">Monthly meeting time blocks</caption>
-          <thead class="bg-primary/5 border-b border-accent/20">
+          <thead class="bg-hen/15 border-b border-hen/30">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-widest text-primary">
                 Segment
@@ -53,8 +53,8 @@ import { clubInfo, meetings } from '../data/index';
           <tbody class="divide-y divide-accent/10">
             {meetings.timeBlocks.map((block) => (
               <tr class="hover:bg-accent/5 transition-colors duration-150">
-                <td class="px-6 py-4 font-medium text-text">{block.label}</td>
-                <td class="px-6 py-4 text-text/70">{block.time}</td>
+                <td class="px-6 py-4 font-medium text-base text-text">{block.label}</td>
+                <td class="px-6 py-4 text-base text-text/70">{block.time}</td>
               </tr>
             ))}
           </tbody>
@@ -70,16 +70,16 @@ import { clubInfo, meetings } from '../data/index';
       <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden">
         <dl class="divide-y divide-accent/10">
           <div class="flex items-center justify-between px-6 py-4">
-            <dt class="text-sm font-medium text-text/70">Active Member</dt>
-            <dd class="text-sm font-semibold text-primary">{meetings.dues.activeMember}</dd>
+            <dt class="text-base font-medium text-text/70">Active Member</dt>
+            <dd class="text-base font-semibold text-primary">{meetings.dues.activeMember}</dd>
           </div>
           <div class="flex items-center justify-between px-6 py-4">
-            <dt class="text-sm font-medium text-text/70">Associate Member</dt>
-            <dd class="text-sm font-semibold text-primary">{meetings.dues.associateMember}</dd>
+            <dt class="text-base font-medium text-text/70">Associate Member</dt>
+            <dd class="text-base font-semibold text-primary">{meetings.dues.associateMember}</dd>
           </div>
           <div class="flex items-center justify-between px-6 py-4 bg-accent/5">
-            <dt class="text-sm font-medium text-text/70">Payment Deadline</dt>
-            <dd class="text-sm text-text/80 italic">{meetings.dues.deadline}</dd>
+            <dt class="text-base font-medium text-text/70">Payment Deadline</dt>
+            <dd class="text-base text-text/80 italic">{meetings.dues.deadline}</dd>
           </div>
         </dl>
       </div>
@@ -87,7 +87,7 @@ import { clubInfo, meetings } from '../data/index';
 
     <!-- Associate & Honorary note -->
     <section aria-labelledby="membership-note-heading">
-      <div class="bg-accent/10 border border-accent/25 rounded-xl px-6 py-5 flex items-start gap-4">
+      <div class="bg-hen/15 border border-hen/30 rounded-xl px-6 py-5 flex items-start gap-4">
         <span class="text-2xl flex-shrink-0 mt-0.5" aria-hidden="true">ℹ️</span>
         <div>
           <h2 id="membership-note-heading" class="font-semibold text-text text-sm mb-1">
@@ -117,7 +117,7 @@ import { clubInfo, meetings } from '../data/index';
             >
               {index + 1}
             </span>
-            <span class="text-sm text-text/80">{item}</span>
+            <span class="text-base text-text/80">{item}</span>
           </li>
         ))}
       </ol>
@@ -131,7 +131,7 @@ import { clubInfo, meetings } from '../data/index';
       </p>
       <a
         href="/contact"
-        class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-7 py-3 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-8 py-4 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
         Contact Us
       </a>

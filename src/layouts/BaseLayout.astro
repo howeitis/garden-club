@@ -93,6 +93,10 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
 
     <title>{title}</title>
+
+    <style is:global>
+      html { font-size: 18px; }
+    </style>
   </head>
   <body class="bg-background text-text font-body min-h-screen flex flex-col">
     <Header />

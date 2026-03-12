@@ -16,13 +16,18 @@ const { award } = Astro.props;
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2 mb-1">
         <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
-        <!-- Category badge -->
-        <span class="text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+        <!-- Category badge: DFGC in holly red, GGGC in blossom pink -->
+        <span class:list={[
+          'text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full',
+          award.category === 'DFGC'
+            ? 'bg-holly/10 text-holly'
+            : 'bg-blossom/25 text-text',
+        ]}>
           {award.category}
         </span>
       </div>
       <!-- Placement + Year -->
-      <div class="flex flex-wrap gap-2 text-xs text-text/55 mb-2">
+      <div class="flex flex-wrap gap-2 text-sm text-text/55 mb-2">
         {award.placement && (
           <span class="flex items-center gap-1">
             <span aria-hidden="true">🥇</span> {award.placement}
@@ -32,7 +37,7 @@ const { award } = Astro.props;
           <span aria-hidden="true">📅</span> {award.year}
         </span>
       </div>
-      <p class="text-sm text-text/70 leading-relaxed">{award.description}</p>
+      <p class="text-base text-text/70 leading-relaxed">{award.description}</p>
     </div>
   </div>
 
@@ -42,8 +47,8 @@ const { award } = Astro.props;
       <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Judging Criteria</h4>
       <ul class="flex flex-col gap-1">
         {award.judgingCriteria.map((criterion) => (
-          <li class="flex items-start gap-2 text-sm text-text/70">
-            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
+          <li class="flex items-start gap-2 text-base text-text/70">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blossom flex-shrink-0" aria-hidden="true"></span>
             {criterion}
           </li>
         ))}
@@ -57,8 +62,8 @@ const { award } = Astro.props;
       <h4 class="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Recent Winners</h4>
       <ul class="flex flex-col gap-1">
         {award.recentWinners.map((winner) => (
-          <li class="text-sm text-text/80 flex items-center gap-2">
-            <span class="text-accent" aria-hidden="true">✦</span>
+          <li class="text-base text-text/80 flex items-center gap-2">
+            <span class="text-holly" aria-hidden="true">✦</span>
             {winner}
           </li>
         ))}

@@ -12,7 +12,7 @@ const { project } = Astro.props;
 
   <!-- Image or fallback -->
   {project.imageReference ? (
-    <div class="relative h-52 bg-accent/10 overflow-hidden">
+    <div class="relative h-52 bg-blossom/10 overflow-hidden">
       <img
         src={project.imageReference}
         alt={`Photo of ${project.name}`}
@@ -22,7 +22,7 @@ const { project } = Astro.props;
       />
       <!-- Fallback shown via JS if image fails to load -->
       <div
-        class="absolute inset-0 hidden items-center justify-center bg-accent/20"
+        class="absolute inset-0 hidden items-center justify-center bg-blossom/20"
         aria-hidden="true"
       >
         <span class="text-4xl select-none">🌿</span>
@@ -30,7 +30,7 @@ const { project } = Astro.props;
     </div>
   ) : (
     <!-- Fallback when no imageReference provided -->
-    <div class="h-52 flex items-center justify-center bg-accent/20" aria-hidden="true">
+    <div class="h-52 flex items-center justify-center bg-blossom/20" aria-hidden="true">
       <span class="text-4xl select-none">🌿</span>
     </div>
   )}
@@ -38,13 +38,13 @@ const { project } = Astro.props;
   <div class="p-6 flex flex-col gap-3">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <h3 class="font-heading text-xl font-semibold text-text">{project.name}</h3>
-      <span class="text-xs font-medium bg-accent/15 text-primary px-3 py-1 rounded-full whitespace-nowrap">
+      <span class="text-xs font-medium bg-hen/25 text-text px-3 py-1 rounded-full whitespace-nowrap">
         {project.yearsActive}
       </span>
     </div>
 
     <!-- Location -->
-    <p class="text-xs text-text/50 flex items-center gap-1">
+    <p class="text-sm text-text/50 flex items-center gap-1">
       <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -54,7 +54,7 @@ const { project } = Astro.props;
     </p>
 
     <!-- Chairperson -->
-    <p class="text-xs text-text/55 flex items-center gap-1.5">
+    <p class="text-sm text-text/55 flex items-center gap-1.5">
       <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -62,6 +62,6 @@ const { project } = Astro.props;
       <span>Chair: <span class="font-medium text-text/70">{project.chairperson}</span></span>
     </p>
 
-    <p class="text-sm text-text/70 leading-relaxed">{project.description}</p>
+    <p class="text-base text-text/70 leading-relaxed">{project.description}</p>
   </div>
 </article>
