@@ -1,0 +1,22 @@
+{
+  "name": "Garden Gate Garden Club",
+  "short_name": "GGGC",
+  "description": "To stimulate the knowledge and love of gardening, to aid in the protection of plants and wildlife, and to encourage civic beauty.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F1EB",
+  "theme_color": "#2D5F3E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/gggc-hero.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

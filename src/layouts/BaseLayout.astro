@@ -14,16 +14,28 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/gggc-hero.png', Astro.site).toString();
 
 // Build JSON-LD Organization schema dynamically from validated data
 const sameAs = contact.socialLinks ? Object.values(contact.socialLinks) : [];
 
+// Convert "September 1963" → "1963-09" for Schema.org compliance
+const foundingDateISO = (() => {
+  const months: Record<string, string> = {
+    January: '01', February: '02', March: '03', April: '04',
+    May: '05', June: '06', July: '07', August: '08',
+    September: '09', October: '10', November: '11', December: '12',
+  };
+  const [month, year] = clubInfo.foundingDates.club.split(' ');
+  return `${year}-${months[month] ?? '01'}`;
+})();
+
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness'],
   name: clubInfo.name,
   description: clubInfo.missionStatement,
-  foundingDate: clubInfo.foundingDates.club,
+  foundingDate: foundingDateISO,
   email: contact.primaryEmail,
   address: {
     '@type': 'PostalAddress',
@@ -31,6 +43,7 @@ const jsonLd = {
     addressLocality: contact.mailingAddress.city,
     addressRegion: contact.mailingAddress.state,
     postalCode: contact.mailingAddress.zip,
+    addressCountry: 'US',
   },
   sameAs,
 };
@@ -42,6 +55,7 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#2D5F3E" />
 
     <!-- Standard SEO -->
     <meta name="description" content={description} />
@@ -51,12 +65,21 @@ const jsonLd = {
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/gggc-hero.png" />
+    <!-- Icons & Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/gggc-hero.png" />
+    <link rel="manifest" href="/manifest.json" />
 
     <!-- Google Fonts: Playfair Display (heading) + Inter (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,7 +89,7 @@ const jsonLd = {
       rel="stylesheet"
     />
 
-    <!-- JSON-LD Structured Data: Organization -->
+    <!-- JSON-LD Structured Data: Organization + LocalBusiness -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
 
     <title>{title}</title>
