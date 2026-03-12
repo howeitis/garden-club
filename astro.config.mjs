@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 // falling back to the placeholder for local development.
 const site =
   process.env.SITE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://examplegardenclub.org');
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://garden-club-eight.vercel.app');
 
 export default defineConfig({
   output: 'static',
