@@ -14,7 +14,9 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/gggc-hero.png', Astro.site).toString();
+// og-share.png is a purpose-built 1200×630 card (≈88 KB) — well within WhatsApp's limit.
+// gggc-hero.png is 2048×2048 at ~6 MB and would be silently dropped by most scrapers.
+const ogImage = new URL('/og-share.png', Astro.site).toString();
 
 // Build JSON-LD Organization schema dynamically from validated data
 const sameAs = contact.socialLinks ? Object.values(contact.socialLinks) : [];
@@ -67,16 +69,21 @@ const jsonLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="2048" />
-    <meta property="og:image:height" content="2048" />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
 
-    <!-- Twitter Card -->
+    <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
+
+    <!-- WhatsApp / iMessage read og:image above; no extra tags needed.
+         Ensure SITE_URL env var matches your deployed domain so the absolute URL resolves. -->
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
