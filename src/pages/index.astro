@@ -17,7 +17,7 @@ import { clubInfo } from '../data/index';
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
       <p class="text-blossom text-sm font-semibold uppercase tracking-widest mb-4">Est. {clubInfo.foundingDates.club}</p>
-      <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight lg:tracking-tight mb-6">
+      <h1 class="font-script text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6">
         {clubInfo.name}
       </h1>
       <p class="text-background/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
@@ -41,7 +41,7 @@ import { clubInfo } from '../data/index';
   </section>
 
   <!-- Annual Theme Banner -->
-  <section class="bg-gradient-to-r from-blossom/20 via-holly-light to-blossom/15 border-y border-blossom/30">
+  <section class="bg-gradient-to-r from-blossom/20 via-holly-light to-blossom/15 border-y border-blossom/30 fade-in-section">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
       <p class="text-xs font-semibold uppercase tracking-widest text-holly mb-1">Club Theme</p>
       <p class="text-xs text-text/50 mb-4">{clubInfo.themePeriod}</p>
@@ -52,7 +52,7 @@ import { clubInfo } from '../data/index';
   </section>
 
   <!-- Community Service Teaser -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in-section">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div>
         <p class="text-xs font-semibold uppercase tracking-widest text-holly mb-3">In Our Community</p>
@@ -90,7 +90,7 @@ import { clubInfo } from '../data/index';
   </section>
 
   <!-- Colorful quick-links bar -->
-  <section class="border-t border-blossom/20 bg-gradient-to-b from-background to-blossom/8">
+  <section class="border-t border-blossom/20 bg-gradient-to-b from-background to-blossom/8 fade-in-section">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         {[

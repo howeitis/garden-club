@@ -7,13 +7,13 @@ const gardeningTips = [
     title: 'Start with Your Soil',
     description:
       'Healthy soil is the foundation of every great garden. Test your soil pH and amend with compost before planting. Most garden plants thrive in slightly acidic to neutral soil (pH 6.0–7.0).',
-    image: '/flower.jpg',
+    image: '/soil.jpg',
   },
   {
     title: 'Water Wisely',
     description:
       'Water deeply and less frequently to encourage deep root growth. Early morning is the best time to water — it reduces evaporation and helps prevent fungal diseases.',
-    image: '/bird.jpg',
+    image: '/water.jpg',
   },
   {
     title: 'Right Plant, Right Place',
@@ -25,19 +25,57 @@ const gardeningTips = [
     title: 'Mulch Matters',
     description:
       'Apply 2–3 inches of organic mulch around plants to conserve moisture, suppress weeds, and regulate soil temperature. Keep mulch a few inches away from stems and trunks.',
-    image: '/club.jpg',
+    image: '/mulch.jpg',
   },
   {
     title: 'Feed Your Garden',
     description:
       'Use a balanced fertilizer in spring and supplement with compost throughout the season. Native plants generally need less fertilizer than hybrid varieties.',
-    image: '/club-2.jpg',
+    image: '/feed.jpg',
   },
   {
     title: 'Plan for Pollinators',
     description:
       'Include a variety of flower shapes and bloom times to support bees, butterflies, and hummingbirds from early spring through fall. Native wildflowers are especially beneficial.',
     image: '/pollinators.jpg',
+  },
+];
+
+const nativePlants = [
+  {
+    name: 'Eastern Redbud',
+    scientific: 'Cercis canadensis',
+    description:
+      'A stunning small understory tree that bursts into bloom in early spring, covering bare branches with clusters of rosy pink flowers before heart-shaped leaves emerge. One of the earliest and showiest spring-flowering trees, it provides critical early-season nectar for native bees.',
+    bloom: 'March – April',
+  },
+  {
+    name: 'Virginia Bluebells',
+    scientific: 'Mertensia virginica',
+    description:
+      'A beloved spring ephemeral wildflower producing loose clusters of pendulous, trumpet-shaped flowers — pink in bud, opening to clear sky blue. Thriving in moist, rich woodland soils along streams throughout the Brandywine Valley, it naturalizes beautifully.',
+    bloom: 'March – May',
+  },
+  {
+    name: 'Black-eyed Susan',
+    scientific: 'Rudbeckia hirta',
+    description:
+      'A cheerful, drought-tolerant wildflower with bright golden-yellow petals surrounding a dark brown central cone. It thrives in full sun and well-drained Piedmont soils, self-sows readily, and provides long-lasting summer color while attracting pollinators.',
+    bloom: 'June – September',
+  },
+  {
+    name: 'Joe-Pye Weed',
+    scientific: 'Eutrochium purpureum',
+    description:
+      'A tall, stately native perennial producing large, vanilla-scented domes of dusty pink-purple flowers. A powerhouse pollinator plant that acts as a magnet for butterflies and bees along stream edges and woodland borders.',
+    bloom: 'July – September',
+  },
+  {
+    name: 'Butterfly Weed',
+    scientific: 'Asclepias tuberosa',
+    description:
+      'A compact milkweed with vivid orange flower clusters that add a striking splash of warm color to sunny gardens. Essential for monarch butterfly conservation as both a nectar source and larval host plant, and remarkably drought-tolerant once established.',
+    bloom: 'June – August',
   },
 ];
 
@@ -92,7 +130,12 @@ const localGardens = [
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
     <!-- Gardening Tips -->
-    <section aria-labelledby="tips-heading">
+    <section aria-labelledby="tips-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-blossom/30 to-transparent"></div>
+        <span class="text-blossom text-xs font-semibold uppercase tracking-widest">🌷 Grow Better</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-blossom/30 to-transparent"></div>
+      </div>
       <h2 id="tips-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Gardening Tips
       </h2>
@@ -101,17 +144,19 @@ const localGardens = [
         your garden thrive.
       </p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {gardeningTips.map((tip) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <img
-              src={tip.image}
-              alt={tip.title}
-              class="w-full h-40 object-cover"
-              loading="lazy"
-            />
-            <div class="p-5">
-              <h3 class="font-heading text-lg font-semibold text-text mb-2">{tip.title}</h3>
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
+            <div class="overflow-hidden">
+              <img
+                src={tip.image}
+                alt={tip.title}
+                class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading text-xl font-semibold text-text mb-3">{tip.title}</h3>
               <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
             </div>
           </div>
@@ -119,8 +164,70 @@ const localGardens = [
       </div>
     </section>
 
+    <!-- Native Plants of Delaware -->
+    <section aria-labelledby="native-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
+        <span class="text-accent text-xs font-semibold uppercase tracking-widest">🌿 Piedmont Flora</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
+      </div>
+      <h2 id="native-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Native Plants of Delaware
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        The Appalachian Piedmont region of northern Delaware supports a rich diversity of native
+        wildflowers, trees, and shrubs. These species are adapted to our soils and climate, require
+        less maintenance, and provide essential habitat for local pollinators and wildlife.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {nativePlants.map((plant, i) => {
+          const bgColors = [
+            'from-accent/10 to-accent/5',
+            'from-hen/15 to-hen/5',
+            'from-sunflower/15 to-sunflower/5',
+            'from-blossom/10 to-blossom/5',
+            'from-marigold/15 to-marigold/5',
+          ];
+          const borderColors = [
+            'border-accent/25',
+            'border-hen/30',
+            'border-sunflower/30',
+            'border-blossom/25',
+            'border-marigold/30',
+          ];
+          return (
+            <div class={`rounded-xl border ${borderColors[i % 5]} bg-gradient-to-br ${bgColors[i % 5]} overflow-hidden shadow-sm hover:shadow-md transition-all duration-300`}>
+              {/* Large photo placeholder — drop images into public/ and reference here */}
+              <div class="w-full h-72 sm:h-80 bg-primary/10 flex items-center justify-center relative overflow-hidden">
+                <div class="text-center text-primary/40 px-6">
+                  <svg class="w-16 h-16 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0023.25 18.75V5.25A2.25 2.25 0 0020.75 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                  </svg>
+                  <p class="text-xs font-medium">Photo: {plant.name}</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex items-baseline justify-between gap-3 mb-1">
+                  <h3 class="font-heading text-xl font-semibold text-text">{plant.name}</h3>
+                  <span class="text-xs font-medium text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">{plant.bloom}</span>
+                </div>
+                <p class="text-xs italic text-text/50 mb-3">{plant.scientific}</p>
+                <p class="text-sm text-text/70 leading-relaxed">{plant.description}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
     <!-- Local Gardens to Visit -->
-    <section aria-labelledby="gardens-heading">
+    <section aria-labelledby="gardens-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-sunflower/40 to-transparent"></div>
+        <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌻 Explore</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-sunflower/40 to-transparent"></div>
+      </div>
       <h2 id="gardens-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Local Gardens to Visit
       </h2>
