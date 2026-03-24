@@ -6,14 +6,22 @@ const navLinks = [
   { label: 'About',             href: '/about' },
   { label: 'Membership',        href: '/membership' },
   { label: 'Community Service', href: '/community-service' },
-  { label: 'Awards & Judges',   href: '/awards-and-judges' },
-  { label: 'Contact',           href: '/contact' },
+  {
+    label: 'Members',
+    href: '/members',
+    children: [
+      { label: 'Member Gardens',   href: '/members' },
+      { label: 'Awards & Judges',  href: '/members/awards-and-judges' },
+    ],
+  },
+  { label: 'Resources',          href: '/resources' },
+  { label: 'Contact',            href: '/contact' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-primary text-background shadow-md border-b-[3px] border-blossom/60">
+<header class="bg-primary text-background shadow-md border-b-[3px] border-blossom/60 relative z-50">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
 
@@ -31,6 +39,51 @@ const currentPath = Astro.url.pathname;
       <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
         {navLinks.map((link) => {
           const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+
+          if (link.children) {
+            return (
+              <div class="relative group">
+                <a
+                  href={link.href}
+                  class:list={[
+                    'text-base font-medium tracking-wide transition-colors duration-200 pb-0.5 border-b-2 inline-flex items-center gap-1',
+                    isActive
+                      ? 'border-blossom text-background'
+                      : 'border-transparent text-background/80 hover:text-background hover:border-blossom/50',
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                  <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+                <!-- Dropdown -->
+                <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div class="bg-white rounded-lg shadow-lg border border-accent/20 py-2 min-w-[13rem]">
+                    {link.children.map((child) => {
+                      const isChildActive = currentPath === child.href;
+                      return (
+                        <a
+                          href={child.href}
+                          class:list={[
+                            'block px-4 py-2 text-sm transition-colors duration-150',
+                            isChildActive
+                              ? 'bg-primary/10 text-primary font-medium'
+                              : 'text-text/80 hover:bg-primary/5 hover:text-primary',
+                          ]}
+                          aria-current={isChildActive ? 'page' : undefined}
+                        >
+                          {child.label}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           return (
             <a
               href={link.href}
@@ -74,6 +127,45 @@ const currentPath = Astro.url.pathname;
     <nav class="flex flex-col px-4 py-3 gap-1" aria-label="Mobile navigation">
       {navLinks.map((link) => {
         const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+
+        if (link.children) {
+          return (
+            <div>
+              <a
+                href={link.href}
+                class:list={[
+                  'px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 block',
+                  isActive
+                    ? 'bg-white/20 text-background'
+                    : 'text-background/80 hover:bg-white/10 hover:text-background',
+                ]}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+              <div class="pl-4">
+                {link.children.map((child) => {
+                  const isChildActive = currentPath === child.href;
+                  return (
+                    <a
+                      href={child.href}
+                      class:list={[
+                        'px-3 py-1.5 rounded-md text-sm transition-colors duration-200 block',
+                        isChildActive
+                          ? 'bg-white/15 text-background'
+                          : 'text-background/65 hover:bg-white/10 hover:text-background',
+                      ]}
+                      aria-current={isChildActive ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        }
+
         return (
           <a
             href={link.href}

@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import AwardCard from '../components/AwardCard.astro';
-import JudgeRow from '../components/JudgeRow.astro';
-import { clubInfo, awards, judges } from '../data/index';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AwardCard from '../../components/AwardCard.astro';
+import JudgeRow from '../../components/JudgeRow.astro';
+import { clubInfo, awards, judges } from '../../data/index';
 
 const activeJudges   = judges.filter((j) => j.status === 'active');
 const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
@@ -29,6 +29,15 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
       <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Awards &amp; Judges</h1>
     </div>
   </section>
+
+  <!-- Breadcrumb -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">
+    <ol class="flex items-center gap-2 text-sm text-text/50">
+      <li><a href="/members" class="hover:text-primary transition-colors">Members</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-text/80 font-medium" aria-current="page">Awards &amp; Judges</li>
+    </ol>
+  </nav>
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 

@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { clubInfo } from '../../data/index';
+
+const memberGardens = [
+  {
+    name: 'The Rose Walk',
+    member: 'Jane Doe',
+    description:
+      'A winding gravel path bordered by David Austin English roses and fragrant lavender. Visitors are welcomed by a classic white arbor draped in climbing New Dawn roses.',
+    highlight: 'Over 40 rose varieties',
+  },
+  {
+    name: 'Shade Sanctuary',
+    member: 'Mary Smith',
+    description:
+      'Nestled beneath mature oaks, this woodland garden showcases native ferns, hostas, and hellebores. A small water feature provides a tranquil backdrop for shade-loving perennials.',
+    highlight: 'Native woodland plants',
+  },
+  {
+    name: 'Pollinator Paradise',
+    member: 'Susan Johnson',
+    description:
+      'Designed with wildlife in mind, this sunny border garden is packed with coneflowers, bee balm, and milkweed to attract butterflies, bees, and hummingbirds throughout the season.',
+    highlight: 'Certified wildlife habitat',
+  },
+  {
+    name: 'Kitchen Garden',
+    member: 'Linda Williams',
+    description:
+      'A charming potager garden combining raised vegetable beds with cutting flowers and herbs. Espaliered fruit trees line the fence, and a small greenhouse extends the growing season.',
+    highlight: 'Year-round harvest',
+  },
+];
+---
+
+<BaseLayout
+  title={`Members | ${clubInfo.name}`}
+  description={`Meet the members of ${clubInfo.name} and explore their beautiful home gardens.`}
+>
+
+  <!-- Page Header -->
+  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/home-hero.png" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
+      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Our Members</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Members</h1>
+      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
+        Celebrating the gardeners who make our club bloom.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+    <!-- Featured Member Gardens -->
+    <section aria-labelledby="gardens-heading">
+      <h2 id="gardens-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Featured Member Gardens
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        Each season we spotlight gardens from our members. From cottage borders to productive kitchen
+        gardens, our club is home to a wonderful variety of gardening styles.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {memberGardens.map((garden) => (
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <!-- Image placeholder -->
+            <div class="h-48 bg-accent/10 flex items-center justify-center">
+              <div class="text-center">
+                <svg class="w-12 h-12 mx-auto text-accent/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+                <p class="text-xs text-accent/50 mt-2">Photo coming soon</p>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-2">
+                <h3 class="font-heading text-xl font-semibold text-text">{garden.name}</h3>
+              </div>
+              <p class="text-xs font-medium text-primary mb-3">Gardener: {garden.member}</p>
+              <p class="text-sm text-text/70 leading-relaxed mb-4">{garden.description}</p>
+              <span class="inline-block text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-accent/15 text-primary">
+                {garden.highlight}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Awards & Judges CTA -->
+    <section class="bg-hen/15 border border-hen/30 rounded-xl p-8 text-center">
+      <h2 class="font-heading text-2xl font-bold text-text mb-3">Awards &amp; Judges</h2>
+      <p class="text-text/65 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+        Learn about our club and Delaware Federation awards, judging criteria, and meet our
+        certified judges.
+      </p>
+      <a
+        href="/members/awards-and-judges"
+        class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        View Awards &amp; Judges
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </section>
+
+  </div>
+</BaseLayout>

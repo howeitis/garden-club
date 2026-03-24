@@ -11,6 +11,9 @@ const site =
 export default defineConfig({
   output: 'static',
   site,
+  redirects: {
+    '/awards-and-judges': '/members/awards-and-judges',
+  },
   integrations: [
     tailwind(),
     sitemap(),
