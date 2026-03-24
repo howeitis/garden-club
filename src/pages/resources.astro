@@ -7,37 +7,37 @@ const gardeningTips = [
     title: 'Start with Your Soil',
     description:
       'Healthy soil is the foundation of every great garden. Test your soil pH and amend with compost before planting. Most garden plants thrive in slightly acidic to neutral soil (pH 6.0–7.0).',
-    icon: '🌱',
+    image: '/flower.jpg',
   },
   {
     title: 'Water Wisely',
     description:
       'Water deeply and less frequently to encourage deep root growth. Early morning is the best time to water — it reduces evaporation and helps prevent fungal diseases.',
-    icon: '💧',
+    image: '/bird.jpg',
   },
   {
     title: 'Right Plant, Right Place',
     description:
       'Choose plants that match your site conditions — sun exposure, soil type, and hardiness zone. In Delaware (Zone 7a), you can grow a wide range of perennials, shrubs, and trees.',
-    icon: '☀️',
+    image: '/rightplace.jpg',
   },
   {
     title: 'Mulch Matters',
     description:
       'Apply 2–3 inches of organic mulch around plants to conserve moisture, suppress weeds, and regulate soil temperature. Keep mulch a few inches away from stems and trunks.',
-    icon: '🍂',
+    image: '/club.jpg',
   },
   {
     title: 'Feed Your Garden',
     description:
       'Use a balanced fertilizer in spring and supplement with compost throughout the season. Native plants generally need less fertilizer than hybrid varieties.',
-    icon: '🌿',
+    image: '/club-2.jpg',
   },
   {
     title: 'Plan for Pollinators',
     description:
       'Include a variety of flower shapes and bloom times to support bees, butterflies, and hummingbirds from early spring through fall. Native wildflowers are especially beneficial.',
-    icon: '🦋',
+    image: '/pollinators.jpg',
   },
 ];
 
@@ -48,6 +48,7 @@ const localGardens = [
     description:
       'One of the world\'s premier horticultural display gardens, Longwood spans over 1,000 acres and features spectacular fountains, a conservatory with 4,600 plant species, extensive outdoor gardens, and a renowned meadow garden. The gardens offer year-round programming, seasonal displays, and breathtaking illuminated fountain performances.',
     website: 'longwoodgardens.org',
+    image: '/longwoodvisit.webp',
   },
   {
     name: 'Winterthur Museum, Garden & Library',
@@ -55,6 +56,7 @@ const localGardens = [
     description:
       'Set on nearly 1,000 acres in the Brandywine Valley, Winterthur\'s naturalistic garden is one of the finest in North America. Designed by Henry Francis du Pont, the garden features sweeping vistas, a stunning March Bank of early spring bulbs, native azaleas, and a renowned collection of rare and unusual plants arranged to look as though nature placed them.',
     website: 'winterthur.org',
+    image: '/winterthur.jpg',
   },
   {
     name: 'Mt. Cuba Center',
@@ -62,6 +64,7 @@ const localGardens = [
     description:
       'Dedicated to the study and conservation of native plants of the Appalachian Piedmont, Mt. Cuba Center features beautifully curated gardens and natural lands spanning over 1,000 acres. The gardens showcase the beauty of native wildflowers, ferns, and trees, and the center conducts important plant trials to help gardeners choose the best native cultivars.',
     website: 'mtcubacenter.org',
+    image: '/mtcuba.webp',
   },
 ];
 ---
@@ -100,10 +103,17 @@ const localGardens = [
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {gardeningTips.map((tip) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
-            <span class="text-3xl mb-4 block" aria-hidden="true">{tip.icon}</span>
-            <h3 class="font-heading text-lg font-semibold text-text mb-2">{tip.title}</h3>
-            <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <img
+              src={tip.image}
+              alt={tip.title}
+              class="w-full h-40 object-cover"
+              loading="lazy"
+            />
+            <div class="p-5">
+              <h3 class="font-heading text-lg font-semibold text-text mb-2">{tip.title}</h3>
+              <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -123,14 +133,14 @@ const localGardens = [
         {localGardens.map((garden) => (
           <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
             <div class="flex flex-col md:flex-row">
-              <!-- Image placeholder -->
-              <div class="md:w-72 lg:w-80 flex-shrink-0 bg-accent/10 flex items-center justify-center min-h-[12rem]">
-                <div class="text-center p-6">
-                  <svg class="w-12 h-12 mx-auto text-accent/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                  </svg>
-                  <p class="text-xs text-accent/50 mt-2">Photo coming soon</p>
-                </div>
+              <!-- Garden photo -->
+              <div class="md:w-72 lg:w-80 flex-shrink-0">
+                <img
+                  src={garden.image}
+                  alt={garden.name}
+                  class="w-full h-56 md:h-full object-cover"
+                  loading="lazy"
+                />
               </div>
               <!-- Content -->
               <div class="p-6 flex-1">

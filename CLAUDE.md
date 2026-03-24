@@ -38,7 +38,7 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro      # Master layout (Header, Footer, SEO, JSON-LD)
 ├── components/
-│   ├── Header.astro          # Nav with dropdown for Members, mobile hamburger
+│   ├── Header.astro          # Sticky nav with scroll-reveal, dropdown for Members, mobile hamburger
 │   ├── Footer.astro          # 3-column footer with nav links
 │   ├── AwardCard.astro       # Award display card
 │   ├── JudgeRow.astro        # Judge list item
@@ -73,23 +73,30 @@ public/                       # Static assets (images, favicon, manifest)
 - Redirects configured in `astro.config.mjs` (e.g., `/awards-and-judges` → `/members/awards-and-judges`)
 
 ### Navigation
-- **Header** (`src/components/Header.astro`): Desktop nav with hover dropdown for "Members" (sub-items: Member Gardens, Awards & Judges). Mobile hamburger with collapsible sub-items.
-- **Footer** (`src/components/Footer.astro`): Flat list of all nav links
+- **Header** (`src/components/Header.astro`): Sticky header with scroll-direction reveal (hides on scroll down, shows on scroll up). Two-line stacked club name as home link. Desktop nav with hover dropdown for "Members" (sub-items: Member Gardens, Awards & Judges). Mobile hamburger with collapsible sub-items. No dedicated "Home" link — the logo/club name links home.
+- **Footer** (`src/components/Footer.astro`): Flat list of all nav links (no Home link)
+- Nav order: About, Resources, Community Service, Members (dropdown), Membership, Contact
 - Nav links are defined as arrays at the top of each component. **Update both** when adding/removing pages.
 
 ### Styling
 All styling is Tailwind utility classes. No CSS modules or separate stylesheets.
 
 **Theme colors** (defined in `tailwind.config.mjs`):
-| Token       | Hex       | Usage                          |
-|-------------|-----------|--------------------------------|
-| `primary`   | `#2D5F3E` | Headers, buttons, links        |
-| `background`| `#F5F1EB` | Page background (cream)        |
-| `text`      | `#3A3A3A` | Body text (charcoal)           |
-| `accent`    | `#7B9E6B` | Borders, badges (sage green)   |
-| `blossom`   | `#F2AABF` | Hero subtitle accents (pink)   |
-| `holly`     | `#C41E3A` | Status badges (red)            |
-| `hen`       | `#A8C8E0` | Card borders, highlights (blue)|
+| Token          | Hex       | Usage                          |
+|----------------|-----------|--------------------------------|
+| `primary`      | `#2D5F3E` | Headers, buttons, links        |
+| `background`   | `#F5F1EB` | Page background (cream)        |
+| `text`         | `#3A3A3A` | Body text (charcoal)           |
+| `accent`       | `#7B9E6B` | Borders, badges (sage green)   |
+| `blossom`      | `#F2AABF` | Active nav, hero accents (pink)|
+| `blossom-deep` | `#E07899` | Deeper pink for emphasis       |
+| `holly`        | `#C41E3A` | Status badges, DFGC badges     |
+| `holly-light`  | `#F7D7DD` | Soft holly tint                |
+| `hen`          | `#A8C8E0` | Card borders, highlights (blue)|
+| `coral`        | `#E8574F` | Bright accents                 |
+| `sunflower`    | `#F4C430` | Highlights (yellow)            |
+| `lavender`     | `#C5A8D4` | Emeritus judge sections        |
+| `marigold`     | `#F28C28` | Warm accents (orange)          |
 
 **Common patterns**:
 - Hero sections: `relative bg-primary text-background py-16 sm:py-24 overflow-hidden` with overlay image
