@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { clubInfo } from '../../data/index';
+
+const localGardens = [
+  {
+    name: 'Longwood Gardens',
+    location: 'Kennett Square, PA',
+    description:
+      'One of the world\'s premier horticultural display gardens, Longwood spans over 1,000 acres and features spectacular fountains, a conservatory with 4,600 plant species, extensive outdoor gardens, and a renowned meadow garden. The gardens offer year-round programming, seasonal displays, and breathtaking illuminated fountain performances.',
+    website: 'longwoodgardens.org',
+    image: '/longwoodvisit.webp',
+  },
+  {
+    name: 'Winterthur Museum, Garden & Library',
+    location: 'Winterthur, DE',
+    description:
+      'Set on nearly 1,000 acres in the Brandywine Valley, Winterthur\'s naturalistic garden is one of the finest in North America. Designed by Henry Francis du Pont, the garden features sweeping vistas, a stunning March Bank of early spring bulbs, native azaleas, and a renowned collection of rare and unusual plants arranged to look as though nature placed them.',
+    website: 'winterthur.org',
+    image: '/winterthur.webp',
+  },
+  {
+    name: 'Mt. Cuba Center',
+    location: 'Hockessin, DE',
+    description:
+      'Dedicated to the study and conservation of native plants of the Appalachian Piedmont, Mt. Cuba Center features beautifully curated gardens and natural lands spanning over 1,000 acres. The gardens showcase the beauty of native wildflowers, ferns, and trees, and the center conducts important plant trials to help gardeners choose the best native cultivars.',
+    website: 'mtcubacenter.org',
+    image: '/mtcuba.webp',
+  },
+  {
+    name: 'Delaware Center for Horticulture',
+    location: 'Wilmington, DE',
+    description:
+      'A nonprofit dedicated to inspiring appreciation and improvement of the environment through horticulture, education, and community stewardship. The Center cultivates urban green spaces, leads tree-planting and beautification programs across Wilmington, and offers classes, workshops, and signature events that bring gardeners of all ages together.',
+    website: 'thedch.org',
+    image: '/dch.webp',
+  },
+];
+
+const regionalGardens = [
+  {
+    name: 'Morris Arboretum & Gardens',
+    location: 'Philadelphia, PA',
+    description:
+      'The official arboretum of the Commonwealth of Pennsylvania and a beloved 92-acre living museum operated by the University of Pennsylvania. Morris Arboretum features more than 13,000 labeled plants, a Victorian-era log cabin, a swan pond, the famous Out on a Limb tree adventure canopy walk, and one of the finest collections of mature trees in the region.',
+    website: 'morrisarboretum.org',
+    image: '/morris.webp',
+  },
+  {
+    name: 'Chanticleer',
+    location: 'Wayne, PA',
+    description:
+      'A pleasure garden of unrivaled imagination, Chanticleer is a 48-acre estate garden often described as one of the most romantic and creative public gardens in America. Each area is designed and tended by a single horticulturist, resulting in a constantly evolving tapestry of bold plant combinations, hand-crafted furniture, and inventive seasonal displays.',
+    website: 'chanticleergarden.org',
+    image: '/chanticleer.webp',
+  },
+  {
+    name: "Bartram's Garden",
+    location: 'Philadelphia, PA',
+    description:
+      'The oldest surviving botanic garden in North America, established in 1728 by John Bartram on the banks of the Schuylkill River. The 50-acre National Historic Landmark preserves Bartram\'s 18th-century house, historic plant collections, riverfront meadows, and the legacy of America\'s pioneering botanist who introduced more than 200 native plants to the world.',
+    website: 'bartramsgarden.org',
+    image: '/bartams.webp',
+  },
+  {
+    name: 'The Barnes Arboretum',
+    location: 'Merion, PA',
+    description:
+      'A 12-acre living masterpiece established in 1922 by Laura L. Barnes, featuring more than 2,500 species of woody and herbaceous plants. The collection includes a renowned fern garden, peony garden, rose garden, and significant specimens of magnolias, lilacs, and stewartias, all arranged with the same artistic sensibility that shaped the famed Barnes Foundation art collection.',
+    website: 'barnesfoundation.org/visit/arboretum',
+    image: '/barnes.webp',
+  },
+];
+---
+
+<BaseLayout
+  title={`Gardens to Visit | ${clubInfo.name}`}
+  description={`Local and regional gardens to explore — recommended by ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/flower.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
+      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Explore</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Gardens to Visit</h1>
+      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
+        Local treasures and regional destinations across the Brandywine Valley and beyond.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+    <!-- Local Gardens -->
+    <section aria-labelledby="local-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-sunflower/40 to-transparent"></div>
+        <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌻 Close to Home</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-sunflower/40 to-transparent"></div>
+      </div>
+      <h2 id="local-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Local Gardens
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        The Delaware and Brandywine Valley region is home to some of the most beautiful public
+        gardens in the country. We encourage our members and visitors to explore these treasures.
+      </p>
+
+      <div class="space-y-8">
+        {localGardens.map((garden) => (
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div class="flex flex-col md:flex-row">
+              <!-- Garden photo -->
+              <div class="md:w-72 lg:w-80 flex-shrink-0">
+                <img
+                  src={garden.image}
+                  alt={garden.name}
+                  class="w-full h-56 md:h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <!-- Content -->
+              <div class="p-6 flex-1">
+                <div class="flex items-start justify-between gap-4 mb-2">
+                  <h3 class="font-heading text-xl font-semibold text-text">{garden.name}</h3>
+                </div>
+                <p class="text-xs font-medium text-primary mb-3 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  {garden.location}
+                </p>
+                <p class="text-sm text-text/70 leading-relaxed mb-4">{garden.description}</p>
+                <a
+                  href={`https://${garden.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                  {garden.website}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Regional Gardens -->
+    <section aria-labelledby="regional-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-blossom/40 to-transparent"></div>
+        <span class="text-blossom-deep text-xs font-semibold uppercase tracking-widest">🌷 Worth the Drive</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-blossom/40 to-transparent"></div>
+      </div>
+      <h2 id="regional-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Regional Gardens
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        Just beyond the Brandywine Valley, the greater Philadelphia region is home to historic
+        botanical landmarks and inventive contemporary gardens — all within an easy day trip.
+      </p>
+
+      <div class="space-y-8">
+        {regionalGardens.map((garden) => (
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div class="flex flex-col md:flex-row">
+              <!-- Garden photo -->
+              <div class="md:w-72 lg:w-80 flex-shrink-0">
+                <img
+                  src={garden.image}
+                  alt={garden.name}
+                  class="w-full h-56 md:h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <!-- Content -->
+              <div class="p-6 flex-1">
+                <div class="flex items-start justify-between gap-4 mb-2">
+                  <h3 class="font-heading text-xl font-semibold text-text">{garden.name}</h3>
+                </div>
+                <p class="text-xs font-medium text-primary mb-3 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  {garden.location}
+                </p>
+                <p class="text-sm text-text/70 leading-relaxed mb-4">{garden.description}</p>
+                <a
+                  href={`https://${garden.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                  {garden.website}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

@@ -41,32 +41,6 @@ const gardeningTips = [
   },
 ];
 
-const localGardens = [
-  {
-    name: 'Longwood Gardens',
-    location: 'Kennett Square, PA',
-    description:
-      'One of the world\'s premier horticultural display gardens, Longwood spans over 1,000 acres and features spectacular fountains, a conservatory with 4,600 plant species, extensive outdoor gardens, and a renowned meadow garden. The gardens offer year-round programming, seasonal displays, and breathtaking illuminated fountain performances.',
-    website: 'longwoodgardens.org',
-    image: '/longwoodvisit.webp',
-  },
-  {
-    name: 'Winterthur Museum, Garden & Library',
-    location: 'Winterthur, DE',
-    description:
-      'Set on nearly 1,000 acres in the Brandywine Valley, Winterthur\'s naturalistic garden is one of the finest in North America. Designed by Henry Francis du Pont, the garden features sweeping vistas, a stunning March Bank of early spring bulbs, native azaleas, and a renowned collection of rare and unusual plants arranged to look as though nature placed them.',
-    website: 'winterthur.org',
-    image: '/winterthur.jpg',
-  },
-  {
-    name: 'Mt. Cuba Center',
-    location: 'Hockessin, DE',
-    description:
-      'Dedicated to the study and conservation of native plants of the Appalachian Piedmont, Mt. Cuba Center features beautifully curated gardens and natural lands spanning over 1,000 acres. The gardens showcase the beauty of native wildflowers, ferns, and trees, and the center conducts important plant trials to help gardeners choose the best native cultivars.',
-    website: 'mtcubacenter.org',
-    image: '/mtcuba.webp',
-  },
-];
 ---
 
 <BaseLayout
@@ -163,63 +137,41 @@ const localGardens = [
       </a>
     </section>
 
-    <!-- Local Gardens to Visit -->
-    <section aria-labelledby="gardens-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-sunflower/40 to-transparent"></div>
-        <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌻 Explore</span>
-        <div class="h-px flex-1 bg-gradient-to-l from-sunflower/40 to-transparent"></div>
-      </div>
-      <h2 id="gardens-heading" class="font-heading text-3xl font-bold text-text mb-4">
-        Local Gardens to Visit
-      </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
-        The Delaware and Brandywine Valley region is home to some of the most beautiful public
-        gardens in the country. We encourage our members and visitors to explore these treasures.
-      </p>
-
-      <div class="space-y-8">
-        {localGardens.map((garden) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div class="flex flex-col md:flex-row">
-              <!-- Garden photo -->
-              <div class="md:w-72 lg:w-80 flex-shrink-0">
-                <img
-                  src={garden.image}
-                  alt={garden.name}
-                  class="w-full h-56 md:h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <!-- Content -->
-              <div class="p-6 flex-1">
-                <div class="flex items-start justify-between gap-4 mb-2">
-                  <h3 class="font-heading text-xl font-semibold text-text">{garden.name}</h3>
-                </div>
-                <p class="text-xs font-medium text-primary mb-3 flex items-center gap-1">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                  </svg>
-                  {garden.location}
-                </p>
-                <p class="text-sm text-text/70 leading-relaxed mb-4">{garden.description}</p>
-                <a
-                  href={`https://${garden.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                >
-                  {garden.website}
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                  </svg>
-                </a>
-              </div>
+    <!-- Gardens Subpage CTA -->
+    <section aria-labelledby="gardens-cta-heading" class="fade-in-section">
+      <a
+        href="/resources/gardens"
+        class="block group rounded-2xl overflow-hidden border border-marigold/30 bg-gradient-to-br from-marigold/10 via-white to-blossom/5 shadow-sm hover:shadow-md transition-all duration-300"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-8 sm:p-10 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-gradient-to-r from-sunflower/40 to-transparent"></div>
+              <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌻 Garden Guide</span>
+              <div class="h-px flex-1 bg-gradient-to-l from-sunflower/40 to-transparent"></div>
             </div>
+            <h2 id="gardens-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
+              Gardens to Visit
+            </h2>
+            <p class="text-text/70 leading-relaxed mb-5">
+              From local treasures in the Brandywine Valley to renowned regional destinations
+              just beyond, discover public gardens worth a visit any season of the year.
+            </p>
+            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+              Visit the Garden Guide
+              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
           </div>
-        ))}
-      </div>
+          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
+            <img src="/longwoodvisit.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/mtcuba.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/chanticleer.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/morris.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+          </div>
+        </div>
+      </a>
     </section>
 
   </div>
