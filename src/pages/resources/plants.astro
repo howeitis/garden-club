@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { clubInfo } from '../../data/index';
+
+const nativePlants = [
+  {
+    name: 'American Holly',
+    scientific: 'Ilex opaca',
+    description:
+      'Delaware\'s state tree, the American Holly is a slow-growing evergreen with glossy, spine-tipped leaves and bright red berries that persist through winter. It provides essential cover and food for songbirds and small mammals during the coldest months and is a striking specimen tree for native landscapes.',
+    bloom: 'May – June',
+    image: '/americanholly.webp',
+  },
+  {
+    name: 'Eastern Redbud',
+    scientific: 'Cercis canadensis',
+    description:
+      'A stunning small understory tree that bursts into bloom in early spring, covering bare branches with clusters of rosy pink flowers before heart-shaped leaves emerge. One of the earliest and showiest spring-flowering trees, it provides critical early-season nectar for native bees.',
+    bloom: 'March – April',
+    image: '/easternredbud.webp',
+  },
+  {
+    name: 'Virginia Bluebells',
+    scientific: 'Mertensia virginica',
+    description:
+      'A beloved spring ephemeral wildflower producing loose clusters of pendulous, trumpet-shaped flowers — pink in bud, opening to clear sky blue. Thriving in moist, rich woodland soils along streams throughout the Brandywine Valley, it naturalizes beautifully.',
+    bloom: 'March – May',
+    image: '/bluebells.webp',
+  },
+  {
+    name: 'Black-eyed Susan',
+    scientific: 'Rudbeckia hirta',
+    description:
+      'A cheerful, drought-tolerant wildflower with bright golden-yellow petals surrounding a dark brown central cone. It thrives in full sun and well-drained Piedmont soils, self-sows readily, and provides long-lasting summer color while attracting pollinators.',
+    bloom: 'June – September',
+    image: '/blackeyedsusan.webp',
+  },
+  {
+    name: 'Joe-Pye Weed',
+    scientific: 'Eutrochium purpureum',
+    description:
+      'A tall, stately native perennial producing large, vanilla-scented domes of dusty pink-purple flowers. A powerhouse pollinator plant that acts as a magnet for butterflies and bees along stream edges and woodland borders.',
+    bloom: 'July – September',
+    image: '/joepyeweed.webp',
+  },
+  {
+    name: 'Butterfly Weed',
+    scientific: 'Asclepias tuberosa',
+    description:
+      'A compact milkweed with vivid orange flower clusters that add a striking splash of warm color to sunny gardens. Essential for monarch butterfly conservation as both a nectar source and larval host plant, and remarkably drought-tolerant once established.',
+    bloom: 'June – August',
+    image: '/butterflyweed.webp',
+  },
+];
+
+const bannedPlants = [
+  {
+    name: 'English Ivy',
+    scientific: 'Hedera helix',
+    description:
+      'Introduced to the U.S. in the 1700s as an ornamental groundcover. It spreads rapidly, outcompetes native vegetation, and kills trees by creating dense, heavy, evergreen mats that choke out light and cause wind-shear damage.',
+    image: '/englishivy.webp',
+  },
+  {
+    name: 'Callery Pear',
+    scientific: 'Pyrus calleryana',
+    description:
+      'Including the "Bradford" pear, these trees were widely planted for their spring flowers but spread aggressively and form dense, thorny thickets.',
+    image: '/callerypear.webp',
+  },
+  {
+    name: 'Japanese Barberry',
+    scientific: 'Berberis thunbergii',
+    description:
+      'A popular ornamental shrub that dominates forest understories, creating dense thickets that alter soil chemistry and reduce native plant diversity.',
+    image: '/japanese-barberry.webp',
+  },
+  {
+    name: 'Multiflora Rose',
+    scientific: 'Rosa multiflora',
+    description:
+      'A thorny, sprawling shrub that takes over pastures and forest edges, replacing native vegetation.',
+    image: '/multiflorarose.webp',
+  },
+  {
+    name: 'Japanese Honeysuckle',
+    scientific: 'Lonicera japonica',
+    description:
+      'A fast-growing, woody vine that climbs over and smothers trees and shrubs.',
+    image: '/honeysuckle.webp',
+  },
+  {
+    name: 'Norway Maple',
+    scientific: 'Acer platanoides',
+    description:
+      'A non-native shade tree that outcompetes native trees, such as sugar maples, due to its dense shade and rapid growth.',
+    image: '/norwaymaple.webp',
+  },
+  {
+    name: 'Oriental Bittersweet',
+    scientific: 'Celastrus orbiculatus',
+    description:
+      'A highly invasive vine that kills trees by girdling them and adding excessive weight, leading to windthrow.',
+    image: '/oriental-bittersweet.webp',
+  },
+];
+---
+
+<BaseLayout
+  title={`Plants | ${clubInfo.name}`}
+  description={`Native and invasive plants of Delaware — a guide from ${clubInfo.name}.`}
+>
+
+  <!-- Page Header -->
+  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/flower.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
+      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Delaware Flora</p>
+      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Plants</h1>
+      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
+        Natives to celebrate and invasives to avoid in the Delaware Piedmont.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+    <!-- Native Plants of Delaware -->
+    <section aria-labelledby="native-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
+        <span class="text-accent text-xs font-semibold uppercase tracking-widest">🌿 Piedmont Flora</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
+      </div>
+      <h2 id="native-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Native Plants of Delaware
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        The Appalachian Piedmont region of northern Delaware supports a rich diversity of native
+        wildflowers, trees, and shrubs. These species are adapted to our soils and climate, require
+        less maintenance, and provide essential habitat for local pollinators and wildlife.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {nativePlants.map((plant) => (
+          <div class="rounded-xl border border-accent/40 bg-white overflow-hidden shadow-[0_0_20px_rgba(123,158,107,0.35)] hover:shadow-[0_0_28px_rgba(123,158,107,0.55)] transition-all duration-300">
+            <div class="overflow-hidden">
+              <img
+                src={plant.image}
+                alt={plant.name}
+                class="w-full h-72 sm:h-80 object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex items-baseline justify-between gap-3 mb-1">
+                <h3 class="font-heading text-xl font-semibold text-text">{plant.name}</h3>
+                <span class="text-xs font-medium text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">{plant.bloom}</span>
+              </div>
+              <p class="text-xs italic text-text/50 mb-3">{plant.scientific}</p>
+              <p class="text-sm text-text/70 leading-relaxed">{plant.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Banned / Invasive Plants of Delaware -->
+    <section aria-labelledby="banned-heading" class="fade-in-section">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-holly/40 to-transparent"></div>
+        <span class="text-holly text-xs font-semibold uppercase tracking-widest">⚠️ Avoid Planting</span>
+        <div class="h-px flex-1 bg-gradient-to-l from-holly/40 to-transparent"></div>
+      </div>
+      <h2 id="banned-heading" class="font-heading text-3xl font-bold text-text mb-4">
+        Delaware Banned &amp; Invasive Plants
+      </h2>
+      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+        These non-native species are restricted or discouraged in Delaware because they aggressively
+        displace native vegetation, damage forests, and disrupt habitat for wildlife. Please remove
+        them where possible and choose native alternatives instead.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {bannedPlants.map((plant) => (
+          <div class="rounded-xl border border-holly/40 bg-white overflow-hidden shadow-[0_0_20px_rgba(196,30,58,0.35)] hover:shadow-[0_0_28px_rgba(196,30,58,0.55)] transition-all duration-300">
+            <div class="overflow-hidden">
+              <img
+                src={plant.image}
+                alt={plant.name}
+                class="w-full h-72 sm:h-80 object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex items-baseline justify-between gap-3 mb-1">
+                <h3 class="font-heading text-xl font-semibold text-text">{plant.name}</h3>
+                <span class="text-xs font-semibold text-holly bg-holly-light px-2 py-0.5 rounded-full whitespace-nowrap">Invasive</span>
+              </div>
+              <p class="text-xs italic text-text/50 mb-3">{plant.scientific}</p>
+              <p class="text-sm text-text/70 leading-relaxed">{plant.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

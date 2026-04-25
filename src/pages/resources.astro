@@ -41,44 +41,6 @@ const gardeningTips = [
   },
 ];
 
-const nativePlants = [
-  {
-    name: 'Eastern Redbud',
-    scientific: 'Cercis canadensis',
-    description:
-      'A stunning small understory tree that bursts into bloom in early spring, covering bare branches with clusters of rosy pink flowers before heart-shaped leaves emerge. One of the earliest and showiest spring-flowering trees, it provides critical early-season nectar for native bees.',
-    bloom: 'March – April',
-  },
-  {
-    name: 'Virginia Bluebells',
-    scientific: 'Mertensia virginica',
-    description:
-      'A beloved spring ephemeral wildflower producing loose clusters of pendulous, trumpet-shaped flowers — pink in bud, opening to clear sky blue. Thriving in moist, rich woodland soils along streams throughout the Brandywine Valley, it naturalizes beautifully.',
-    bloom: 'March – May',
-  },
-  {
-    name: 'Black-eyed Susan',
-    scientific: 'Rudbeckia hirta',
-    description:
-      'A cheerful, drought-tolerant wildflower with bright golden-yellow petals surrounding a dark brown central cone. It thrives in full sun and well-drained Piedmont soils, self-sows readily, and provides long-lasting summer color while attracting pollinators.',
-    bloom: 'June – September',
-  },
-  {
-    name: 'Joe-Pye Weed',
-    scientific: 'Eutrochium purpureum',
-    description:
-      'A tall, stately native perennial producing large, vanilla-scented domes of dusty pink-purple flowers. A powerhouse pollinator plant that acts as a magnet for butterflies and bees along stream edges and woodland borders.',
-    bloom: 'July – September',
-  },
-  {
-    name: 'Butterfly Weed',
-    scientific: 'Asclepias tuberosa',
-    description:
-      'A compact milkweed with vivid orange flower clusters that add a striking splash of warm color to sunny gardens. Essential for monarch butterfly conservation as both a nectar source and larval host plant, and remarkably drought-tolerant once established.',
-    bloom: 'June – August',
-  },
-];
-
 const localGardens = [
   {
     name: 'Longwood Gardens',
@@ -164,61 +126,41 @@ const localGardens = [
       </div>
     </section>
 
-    <!-- Native Plants of Delaware -->
-    <section aria-labelledby="native-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
-        <span class="text-accent text-xs font-semibold uppercase tracking-widest">🌿 Piedmont Flora</span>
-        <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
-      </div>
-      <h2 id="native-heading" class="font-heading text-3xl font-bold text-text mb-4">
-        Native Plants of Delaware
-      </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
-        The Appalachian Piedmont region of northern Delaware supports a rich diversity of native
-        wildflowers, trees, and shrubs. These species are adapted to our soils and climate, require
-        less maintenance, and provide essential habitat for local pollinators and wildlife.
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {nativePlants.map((plant, i) => {
-          const bgColors = [
-            'from-accent/10 to-accent/5',
-            'from-hen/15 to-hen/5',
-            'from-sunflower/15 to-sunflower/5',
-            'from-blossom/10 to-blossom/5',
-            'from-marigold/15 to-marigold/5',
-          ];
-          const borderColors = [
-            'border-accent/25',
-            'border-hen/30',
-            'border-sunflower/30',
-            'border-blossom/25',
-            'border-marigold/30',
-          ];
-          return (
-            <div class={`rounded-xl border ${borderColors[i % 5]} bg-gradient-to-br ${bgColors[i % 5]} overflow-hidden shadow-sm hover:shadow-md transition-all duration-300`}>
-              {/* Large photo placeholder — drop images into public/ and reference here */}
-              <div class="w-full h-72 sm:h-80 bg-primary/10 flex items-center justify-center relative overflow-hidden">
-                <div class="text-center text-primary/40 px-6">
-                  <svg class="w-16 h-16 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0023.25 18.75V5.25A2.25 2.25 0 0020.75 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                  </svg>
-                  <p class="text-xs font-medium">Photo: {plant.name}</p>
-                </div>
-              </div>
-              <div class="p-6">
-                <div class="flex items-baseline justify-between gap-3 mb-1">
-                  <h3 class="font-heading text-xl font-semibold text-text">{plant.name}</h3>
-                  <span class="text-xs font-medium text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">{plant.bloom}</span>
-                </div>
-                <p class="text-xs italic text-text/50 mb-3">{plant.scientific}</p>
-                <p class="text-sm text-text/70 leading-relaxed">{plant.description}</p>
-              </div>
+    <!-- Plants Subpage CTA -->
+    <section aria-labelledby="plants-cta-heading" class="fade-in-section">
+      <a
+        href="/resources/plants"
+        class="block group rounded-2xl overflow-hidden border border-accent/30 bg-gradient-to-br from-accent/10 via-white to-holly/5 shadow-sm hover:shadow-md transition-all duration-300"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-8 sm:p-10 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
+              <span class="text-accent text-xs font-semibold uppercase tracking-widest">🌿 Plant Guide</span>
+              <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
             </div>
-          );
-        })}
-      </div>
+            <h2 id="plants-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
+              Native &amp; Banned Plants of Delaware
+            </h2>
+            <p class="text-text/70 leading-relaxed mb-5">
+              Explore the natives that thrive in our Piedmont region — and the invasive species
+              that should be avoided to protect our local ecosystems.
+            </p>
+            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+              Visit the Plant Guide
+              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
+            <img src="/americanholly.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(123,158,107,0.4)]" loading="lazy" />
+            <img src="/butterflyweed.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(123,158,107,0.4)]" loading="lazy" />
+            <img src="/englishivy.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(196,30,58,0.4)]" loading="lazy" />
+            <img src="/oriental-bittersweet.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(196,30,58,0.4)]" loading="lazy" />
+          </div>
+        </div>
+      </a>
     </section>
 
     <!-- Local Gardens to Visit -->

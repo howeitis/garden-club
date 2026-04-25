@@ -4,5 +4,23 @@
     "name": "TBD",
     "sortOrder": 1,
     "bio": ""
+  },
+  {
+    "role": "Treasurer",
+    "name": "TBD",
+    "sortOrder": 2,
+    "bio": ""
+  },
+  {
+    "role": "Reporting Secretary",
+    "name": "TBD",
+    "sortOrder": 3,
+    "bio": ""
+  },
+  {
+    "role": "Corresponding Secretary",
+    "name": "TBD",
+    "sortOrder": 4,
+    "bio": ""
   }
 ]

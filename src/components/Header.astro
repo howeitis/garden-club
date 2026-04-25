@@ -3,8 +3,15 @@ import { clubInfo } from '../data/index';
 
 const navLinks = [
   { label: 'About',             href: '/about' },
-  { label: 'Resources',         href: '/resources' },
   { label: 'Community Service', href: '/community-service' },
+  {
+    label: 'Resources',
+    href: '/resources',
+    children: [
+      { label: 'Tips & Gardens',  href: '/resources' },
+      { label: 'Plants',          href: '/resources/plants' },
+    ],
+  },
   {
     label: 'Members',
     href: '/members',
