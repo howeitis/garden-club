@@ -91,13 +91,14 @@ import { clubInfo } from '../data/index';
 
   <!-- Colorful quick-links bar -->
   <section class="border-t border-blossom/20 bg-gradient-to-b from-background to-blossom/8 fade-in-section">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <!-- Quick links grid -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         {[
-          { label: 'About Us',        href: '/about',            icon: '🌿', bg: 'hover:bg-accent/15',    border: 'border-accent/25'    },
-          { label: 'Membership',      href: '/membership',        icon: '🌸', bg: 'hover:bg-blossom/20',  border: 'border-blossom/25'   },
-          { label: 'Awards & Judges', href: '/awards-and-judges', icon: '🏅', bg: 'hover:bg-sunflower/15',border: 'border-sunflower/30'  },
-          { label: 'Get in Touch',    href: '/contact',           icon: '🌺', bg: 'hover:bg-holly-light', border: 'border-holly/20'     },
+          { label: 'About Us',   href: '/about',      icon: '🌿', bg: 'hover:bg-accent/15',     border: 'border-accent/25'    },
+          { label: 'Resources',  href: '/resources',  icon: '🌼', bg: 'hover:bg-sunflower/15',  border: 'border-sunflower/30' },
+          { label: 'Members',    href: '/members',    icon: '🌷', bg: 'hover:bg-blossom/20',    border: 'border-blossom/25'   },
+          { label: 'Membership', href: '/membership', icon: '🌸', bg: 'hover:bg-holly-light',   border: 'border-holly/20'     },
         ].map((item) => (
           <a
             href={item.href}
@@ -107,6 +108,39 @@ import { clubInfo } from '../data/index';
             <span class="text-sm font-medium text-primary group-hover:underline">{item.label}</span>
           </a>
         ))}
+      </div>
+
+      <!-- Big "Get in Touch" box with DEMuseum image alongside -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <a
+          href="/contact"
+          class="group rounded-2xl border border-holly/25 bg-gradient-to-br from-holly-light via-blossom/15 to-blossom/10 p-8 sm:p-10 flex flex-col justify-center hover:shadow-md transition-all duration-300"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl" aria-hidden="true">🌺</span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-holly">Say Hello</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-text mb-3">Get in Touch</h2>
+          <p class="text-text/70 leading-relaxed mb-6 max-w-md">
+            Questions about membership, our programs, or how to get involved? We'd love to hear
+            from you — reach out and a club member will be in touch.
+          </p>
+          <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+            Contact the Club
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+
+        <div class="rounded-2xl overflow-hidden border border-accent/25 shadow-sm min-h-[18rem]">
+          <img
+            src="/demuseum.webp"
+            alt="Bobbee Vernon Memorial Garden at the Delaware Museum of Nature & Science"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   </section>

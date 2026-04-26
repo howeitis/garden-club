@@ -1,51 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { clubInfo } from '../data/index';
-
-const gardeningTips = [
-  {
-    title: 'Start with Your Soil',
-    description:
-      'Healthy soil is the foundation of every great garden. Test your soil pH and amend with compost before planting. Most garden plants thrive in slightly acidic to neutral soil (pH 6.0–7.0).',
-    image: '/soil.jpg',
-  },
-  {
-    title: 'Water Wisely',
-    description:
-      'Water deeply and less frequently to encourage deep root growth. Early morning is the best time to water — it reduces evaporation and helps prevent fungal diseases.',
-    image: '/water.jpg',
-  },
-  {
-    title: 'Right Plant, Right Place',
-    description:
-      'Choose plants that match your site conditions — sun exposure, soil type, and hardiness zone. In Delaware (Zone 7a), you can grow a wide range of perennials, shrubs, and trees.',
-    image: '/rightplace.jpg',
-  },
-  {
-    title: 'Mulch Matters',
-    description:
-      'Apply 2–3 inches of organic mulch around plants to conserve moisture, suppress weeds, and regulate soil temperature. Keep mulch a few inches away from stems and trunks.',
-    image: '/mulch.jpg',
-  },
-  {
-    title: 'Feed Your Garden',
-    description:
-      'Use a balanced fertilizer in spring and supplement with compost throughout the season. Native plants generally need less fertilizer than hybrid varieties.',
-    image: '/feed.jpg',
-  },
-  {
-    title: 'Plan for Pollinators',
-    description:
-      'Include a variety of flower shapes and bloom times to support bees, butterflies, and hummingbirds from early spring through fall. Native wildflowers are especially beneficial.',
-    image: '/pollinators.jpg',
-  },
-];
-
 ---
 
 <BaseLayout
   title={`Resources | ${clubInfo.name}`}
-  description={`Gardening tips, resources, and local gardens to visit — curated by ${clubInfo.name}.`}
+  description={`Gardening tips, plant guides, and gardens to visit — curated by ${clubInfo.name}.`}
 >
 
   <!-- Page Header -->
@@ -65,39 +25,41 @@ const gardeningTips = [
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
-    <!-- Gardening Tips -->
-    <section aria-labelledby="tips-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-blossom/30 to-transparent"></div>
-        <span class="text-blossom text-xs font-semibold uppercase tracking-widest">🌷 Grow Better</span>
-        <div class="h-px flex-1 bg-gradient-to-l from-blossom/30 to-transparent"></div>
-      </div>
-      <h2 id="tips-heading" class="font-heading text-3xl font-bold text-text mb-4">
-        Gardening Tips
-      </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
-        Whether you're a seasoned gardener or just getting started, these fundamentals will help
-        your garden thrive.
-      </p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {gardeningTips.map((tip) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
-            <div class="overflow-hidden">
-              <img
-                src={tip.image}
-                alt={tip.title}
-                class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
+    <!-- Gardening Tips Subpage CTA -->
+    <section aria-labelledby="tips-cta-heading" class="fade-in-section">
+      <a
+        href="/resources/gardening-tips"
+        class="block group rounded-2xl overflow-hidden border border-blossom/30 bg-gradient-to-br from-blossom/10 via-white to-sunflower/5 shadow-sm hover:shadow-md transition-all duration-300"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-8 sm:p-10 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-gradient-to-r from-blossom/30 to-transparent"></div>
+              <span class="text-blossom text-xs font-semibold uppercase tracking-widest">🌷 Grow Better</span>
+              <div class="h-px flex-1 bg-gradient-to-l from-blossom/30 to-transparent"></div>
             </div>
-            <div class="p-6">
-              <h3 class="font-heading text-xl font-semibold text-text mb-3">{tip.title}</h3>
-              <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
-            </div>
+            <h2 id="tips-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
+              Gardening Tips
+            </h2>
+            <p class="text-text/70 leading-relaxed mb-5">
+              Evergreen fundamentals plus our Garden Rhythms — the recurring weekly and monthly
+              tasks that keep a healthy garden humming all season long.
+            </p>
+            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+              Visit the Tips Guide
+              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
           </div>
-        ))}
-      </div>
+          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
+            <img src="/soil.jpg" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/water.jpg" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/pests.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+            <img src="/compost.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
+          </div>
+        </div>
+      </a>
     </section>
 
     <!-- Plants Subpage CTA -->
