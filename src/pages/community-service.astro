@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { clubInfo, projects } from '../data/index';
 ---
@@ -8,22 +9,13 @@ import { clubInfo, projects } from '../data/index';
   title={`Community Service | ${clubInfo.name}`}
   description={`Explore the community service projects and civic beautification initiatives of ${clubInfo.name}.`}
 >
-
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/community-service-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="absolute top-8 left-8 text-5xl opacity-15 rotate-12 select-none pointer-events-none" aria-hidden="true">🌺</div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Giving Back</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Community Service</h1>
-      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
-        Our hands in the soil, our hearts in the community.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Giving Back"
+    title="Community Service"
+    subtitle="Our hands in the soil, our hearts in the community."
+    image="/community-service-hero.jpg"
+    decoration={{ emoji: '🌺', position: 'top-left', rotate: 'rotate-12' }}
+  />
 
   <!-- Colorful intro strip -->
   <div class="bg-gradient-to-r from-blossom/15 via-sunflower/10 to-marigold/10 border-b border-blossom/20">

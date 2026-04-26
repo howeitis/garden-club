@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { clubInfo } from '../../data/index';
 
 const memberGardens = [
@@ -38,21 +39,12 @@ const memberGardens = [
   title={`Members | ${clubInfo.name}`}
   description={`Meet the members of ${clubInfo.name} and explore their beautiful home gardens.`}
 >
-
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/home-hero.png" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Our Members</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Members</h1>
-      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
-        Celebrating the gardeners who make our club bloom.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Our Members"
+    title="Members"
+    subtitle="Celebrating the gardeners who make our club bloom."
+    image="/home-hero.png"
+  />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 

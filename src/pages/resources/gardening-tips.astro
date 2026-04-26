@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import { clubInfo } from '../../data/index';
 
 const evergreenTips = [
@@ -92,30 +94,17 @@ const gardenRhythms = [
   description={`Evergreen fundamentals and seasonal Garden Rhythms — tips from ${clubInfo.name}.`}
 >
 
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/flower.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Grow Better</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Gardening Tips</h1>
-      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
-        Timeless fundamentals plus seasonal routines to keep your garden thriving.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Grow Better"
+    title="Gardening Tips"
+    subtitle="Timeless fundamentals plus seasonal routines to keep your garden thriving."
+  />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
     <!-- Evergreen Tips -->
     <section aria-labelledby="evergreen-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-blossom/30 to-transparent"></div>
-        <span class="text-blossom text-xs font-semibold uppercase tracking-widest">🌷 Always True</span>
-        <div class="h-px flex-1 bg-gradient-to-l from-blossom/30 to-transparent"></div>
-      </div>
+      <SectionHeader label="🌷 Always True" tone="blossom" />
       <h2 id="evergreen-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Evergreen Tips
       </h2>
@@ -146,11 +135,7 @@ const gardenRhythms = [
 
     <!-- Garden Rhythms -->
     <section aria-labelledby="rhythms-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-marigold/40 to-transparent"></div>
-        <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌼 In Season</span>
-        <div class="h-px flex-1 bg-gradient-to-l from-marigold/40 to-transparent"></div>
-      </div>
+      <SectionHeader label="🌼 In Season" tone="marigold" />
       <h2 id="rhythms-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Garden Rhythms
       </h2>

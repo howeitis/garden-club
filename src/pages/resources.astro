@@ -1,140 +1,69 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import LandingCard from '../components/LandingCard.astro';
 import { clubInfo } from '../data/index';
+
+const greenGlow = 'shadow-[0_0_14px_rgba(123,158,107,0.4)]';
+const redGlow = 'shadow-[0_0_14px_rgba(196,30,58,0.4)]';
 ---
 
 <BaseLayout
   title={`Resources | ${clubInfo.name}`}
   description={`Gardening tips, plant guides, and gardens to visit — curated by ${clubInfo.name}.`}
 >
-
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/flower.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">For Gardeners</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Resources</h1>
-      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
-        Tips, inspiration, and places to explore for gardeners of every level.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="For Gardeners"
+    title="Resources"
+    subtitle="Tips, inspiration, and places to explore for gardeners of every level."
+  />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
-    <!-- Gardening Tips Subpage CTA -->
-    <section aria-labelledby="tips-cta-heading" class="fade-in-section">
-      <a
-        href="/resources/gardening-tips"
-        class="block group rounded-2xl overflow-hidden border border-blossom/30 bg-gradient-to-br from-blossom/10 via-white to-sunflower/5 shadow-sm hover:shadow-md transition-all duration-300"
-      >
-        <div class="grid grid-cols-1 md:grid-cols-2">
-          <div class="p-8 sm:p-10 flex flex-col justify-center">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-blossom/30 to-transparent"></div>
-              <span class="text-blossom text-xs font-semibold uppercase tracking-widest">🌷 Grow Better</span>
-              <div class="h-px flex-1 bg-gradient-to-l from-blossom/30 to-transparent"></div>
-            </div>
-            <h2 id="tips-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
-              Gardening Tips
-            </h2>
-            <p class="text-text/70 leading-relaxed mb-5">
-              Evergreen fundamentals plus our Garden Rhythms — the recurring weekly and monthly
-              tasks that keep a healthy garden humming all season long.
-            </p>
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
-              Visit the Tips Guide
-              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
-            <img src="/soil.jpg" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/water.jpg" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/pests.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/compost.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-          </div>
-        </div>
-      </a>
-    </section>
+    <LandingCard
+      href="/resources/gardening-tips"
+      tone="blossom"
+      eyebrow="🌷 Grow Better"
+      title="Gardening Tips"
+      description="Evergreen fundamentals plus our Garden Rhythms — the recurring weekly and monthly tasks that keep a healthy garden humming all season long."
+      cta="Visit the Tips Guide"
+      images={[
+        { src: '/soil.jpg' },
+        { src: '/water.jpg' },
+        { src: '/pests.webp' },
+        { src: '/compost.webp' },
+      ]}
+    />
 
-    <!-- Plants Subpage CTA -->
-    <section aria-labelledby="plants-cta-heading" class="fade-in-section">
-      <a
-        href="/resources/plants"
-        class="block group rounded-2xl overflow-hidden border border-accent/30 bg-gradient-to-br from-accent/10 via-white to-holly/5 shadow-sm hover:shadow-md transition-all duration-300"
-      >
-        <div class="grid grid-cols-1 md:grid-cols-2">
-          <div class="p-8 sm:p-10 flex flex-col justify-center">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
-              <span class="text-accent text-xs font-semibold uppercase tracking-widest">🌿 Plant Guide</span>
-              <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
-            </div>
-            <h2 id="plants-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
-              Native &amp; Banned Plants of Delaware
-            </h2>
-            <p class="text-text/70 leading-relaxed mb-5">
-              Explore the natives that thrive in our Piedmont region — and the invasive species
-              that should be avoided to protect our local ecosystems.
-            </p>
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
-              Visit the Plant Guide
-              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
-            <img src="/americanholly.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(123,158,107,0.4)]" loading="lazy" />
-            <img src="/butterflyweed.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(123,158,107,0.4)]" loading="lazy" />
-            <img src="/englishivy.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(196,30,58,0.4)]" loading="lazy" />
-            <img src="/oriental-bittersweet.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-[0_0_14px_rgba(196,30,58,0.4)]" loading="lazy" />
-          </div>
-        </div>
-      </a>
-    </section>
+    <LandingCard
+      href="/resources/plants"
+      tone="accent"
+      eyebrow="🌿 Plant Guide"
+      title="Native &amp; Banned Plants of Delaware"
+      description="Explore the natives that thrive in our Piedmont region — and the invasive species that should be avoided to protect our local ecosystems."
+      cta="Visit the Plant Guide"
+      images={[
+        { src: '/americanholly.webp', glow: greenGlow },
+        { src: '/butterflyweed.webp', glow: greenGlow },
+        { src: '/englishivy.webp',    glow: redGlow   },
+        { src: '/oriental-bittersweet.webp', glow: redGlow },
+      ]}
+    />
 
-    <!-- Gardens Subpage CTA -->
-    <section aria-labelledby="gardens-cta-heading" class="fade-in-section">
-      <a
-        href="/resources/gardens"
-        class="block group rounded-2xl overflow-hidden border border-marigold/30 bg-gradient-to-br from-marigold/10 via-white to-blossom/5 shadow-sm hover:shadow-md transition-all duration-300"
-      >
-        <div class="grid grid-cols-1 md:grid-cols-2">
-          <div class="p-8 sm:p-10 flex flex-col justify-center">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="h-px flex-1 bg-gradient-to-r from-sunflower/40 to-transparent"></div>
-              <span class="text-marigold text-xs font-semibold uppercase tracking-widest">🌻 Garden Guide</span>
-              <div class="h-px flex-1 bg-gradient-to-l from-sunflower/40 to-transparent"></div>
-            </div>
-            <h2 id="gardens-cta-heading" class="font-heading text-3xl font-bold text-text mb-3">
-              Gardens to Visit
-            </h2>
-            <p class="text-text/70 leading-relaxed mb-5">
-              From local treasures in the Brandywine Valley to renowned regional destinations
-              just beyond, discover public gardens worth a visit any season of the year.
-            </p>
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
-              Visit the Garden Guide
-              <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
-            <img src="/longwoodvisit.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/mtcuba.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/chanticleer.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-            <img src="/morris.webp" alt="" class="w-full h-32 sm:h-40 object-cover rounded-lg shadow-sm" loading="lazy" />
-          </div>
-        </div>
-      </a>
-    </section>
+    <LandingCard
+      href="/resources/gardens"
+      tone="marigold"
+      eyebrow="🌻 Garden Guide"
+      title="Gardens to Visit"
+      description="From local treasures in the Brandywine Valley to renowned regional destinations just beyond, discover public gardens worth a visit any season of the year."
+      cta="Visit the Garden Guide"
+      images={[
+        { src: '/longwoodvisit.webp' },
+        { src: '/mtcuba.webp' },
+        { src: '/chanticleer.webp' },
+        { src: '/morris.webp' },
+      ]}
+    />
 
   </div>
 </BaseLayout>

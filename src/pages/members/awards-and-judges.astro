@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import AwardCard from '../../components/AwardCard.astro';
 import JudgeRow from '../../components/JudgeRow.astro';
 import { clubInfo, awards, judges } from '../../data/index';
@@ -16,19 +17,12 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
   title={`Awards & Judges | ${clubInfo.name}`}
   description={`Club awards, judging criteria, and certified judges of ${clubInfo.name}.`}
 >
-
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/awards-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="absolute top-6 right-12 text-5xl opacity-15 rotate-6 select-none pointer-events-none" aria-hidden="true">🏅</div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Recognition</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Awards &amp; Judges</h1>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Recognition"
+    title="Awards &amp; Judges"
+    image="/awards-hero.jpg"
+    decoration={{ emoji: '🏅', position: 'top-right', rotate: 'rotate-6' }}
+  />
 
   <!-- Breadcrumb -->
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">

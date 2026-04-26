@@ -152,24 +152,49 @@ const jsonLd = {
     <Footer />
 
     <script>
-      // Scroll-triggered section fade-in
+      // ───────────────────────────────────────────────────────────────────────
+      // Per-page setup: scroll to top on navigation + scroll-triggered fade-in.
+      //
+      // Astro <ViewTransitions /> swaps the DOM but does not always restore
+      // scroll position to the top of the new page. We force it here, and
+      // re-initialize the IntersectionObserver against the freshly rendered
+      // sections. The previous observer is GC'd along with the swapped-out DOM.
+      // ───────────────────────────────────────────────────────────────────────
+
+      let fadeInObserver: IntersectionObserver | null = null;
+
       function initFadeIn() {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
+        // Disconnect any previous observer to release references.
+        fadeInObserver?.disconnect();
+        fadeInObserver = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
               if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
+                obs.unobserve(entry.target);
               }
-            });
+            }
           },
           { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        document.querySelectorAll('.fade-in-section').forEach((el) => observer.observe(el));
+        document
+          .querySelectorAll('.fade-in-section')
+          .forEach((el) => fadeInObserver!.observe(el));
       }
-      // Run on initial load and after view transitions
+
+      function scrollToTop() {
+        // Honor in-page hash links; otherwise reset to the top of the new page.
+        if (window.location.hash) return;
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      }
+
+      // Initial load
       initFadeIn();
-      document.addEventListener('astro:after-swap', initFadeIn);
+      // Every navigation (initial + view-transition swaps)
+      document.addEventListener('astro:page-load', () => {
+        scrollToTop();
+        initFadeIn();
+      });
     </script>
   </body>
 </html>

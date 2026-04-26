@@ -1,0 +1,36 @@
+---
+// Decorative section eyebrow with gradient dividers on either side.
+// Used above section <h2> headings throughout the site.
+//
+// `tone` selects the color of the divider gradient and label text.
+// Add a new tone here when introducing a new section color.
+type Tone = 'blossom' | 'accent' | 'marigold' | 'holly';
+
+interface Props {
+  /** Short uppercase label, including any leading emoji */
+  label: string;
+  /** Color tone — picks the matching gradient + text color */
+  tone?: Tone;
+}
+
+const { label, tone = 'blossom' } = Astro.props;
+
+const TONES: Record<Tone, { gradient: string; text: string }> = {
+  blossom:  { gradient: 'from-blossom/30',  text: 'text-blossom' },
+  accent:   { gradient: 'from-accent/30',   text: 'text-accent' },
+  marigold: { gradient: 'from-sunflower/40', text: 'text-marigold' },
+  holly:    { gradient: 'from-holly/40',     text: 'text-holly' },
+};
+
+const { gradient, text } = TONES[tone];
+// Tailwind needs the inverted gradient class for the right-hand divider.
+const gradientReversed = gradient.replace('from-', 'from-').replace('/30', '/30').replace('/40', '/40');
+const leftDivider = `h-px flex-1 bg-gradient-to-r ${gradient} to-transparent`;
+const rightDivider = `h-px flex-1 bg-gradient-to-l ${gradientReversed} to-transparent`;
+---
+
+<div class="flex items-center gap-3 mb-4">
+  <div class={leftDivider}></div>
+  <span class={`${text} text-xs font-semibold uppercase tracking-widest`}>{label}</span>
+  <div class={rightDivider}></div>
+</div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { clubInfo, meetings } from '../data/index';
 ---
 
@@ -7,22 +8,13 @@ import { clubInfo, meetings } from '../data/index';
   title={`Membership | ${clubInfo.name}`}
   description={`Learn about monthly meeting times, dues, and how to join ${clubInfo.name}. New members are always welcome.`}
 >
-
-  <!-- Page Header -->
-  <section class="relative bg-primary text-background py-16 sm:py-24 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="/membership-hero.jpg" alt="" class="w-full h-full object-cover opacity-40 mix-blend-overlay" loading="eager" />
-      <div class="absolute inset-0 bg-primary/40" aria-hidden="true"></div>
-    </div>
-    <div class="absolute bottom-8 right-10 text-5xl opacity-15 -rotate-12 select-none pointer-events-none" aria-hidden="true">🌸</div>
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">Join Us</p>
-      <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">Membership</h1>
-      <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">
-        All are welcome. Come grow with us.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Join Us"
+    title="Membership"
+    subtitle="All are welcome. Come grow with us."
+    image="/membership-hero.jpg"
+    decoration={{ emoji: '🌸', position: 'bottom-right', rotate: '-rotate-12' }}
+  />
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
 

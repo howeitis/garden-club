@@ -1,0 +1,94 @@
+---
+// Wide CTA card used on the main /resources page to link to each subpage.
+// Renders a 2-column layout: text + outbound arrow on the left, a 2x2
+// thumbnail grid on the right.
+type Tone = 'blossom' | 'accent' | 'marigold';
+
+interface Image {
+  /** Public path to the image */
+  src: string;
+  /**
+   * Optional inline shadow (used by the Plants card to add green/red glow
+   * to the thumbnails). Leave undefined for a plain shadow-sm.
+   */
+  glow?: string;
+}
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  /** Eyebrow label including any leading emoji (e.g. "🌿 Plant Guide") */
+  eyebrow: string;
+  /** CTA link text (e.g. "Visit the Plant Guide") */
+  cta: string;
+  /** Color tone — picks the gradient, border, and divider colors */
+  tone: Tone;
+  /** Exactly four thumbnail images for the right column */
+  images: [Image, Image, Image, Image];
+}
+
+const { href, title, description, eyebrow, cta, tone, images } = Astro.props;
+
+const TONES: Record<Tone, { card: string; eyebrow: string; divider: string }> = {
+  blossom: {
+    card: 'border-blossom/30 bg-gradient-to-br from-blossom/10 via-white to-sunflower/5',
+    eyebrow: 'text-blossom',
+    divider: 'from-blossom/30',
+  },
+  accent: {
+    card: 'border-accent/30 bg-gradient-to-br from-accent/10 via-white to-holly/5',
+    eyebrow: 'text-accent',
+    divider: 'from-accent/30',
+  },
+  marigold: {
+    card: 'border-marigold/30 bg-gradient-to-br from-marigold/10 via-white to-blossom/5',
+    eyebrow: 'text-marigold',
+    divider: 'from-sunflower/40',
+  },
+};
+
+const t = TONES[tone];
+const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
+---
+
+<section aria-labelledby={headingId} class="fade-in-section">
+  <a
+    href={href}
+    class:list={[
+      'block group rounded-2xl overflow-hidden border shadow-sm hover:shadow-md transition-all duration-300',
+      t.card,
+    ]}
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <div class="p-8 sm:p-10 flex flex-col justify-center">
+        <div class="flex items-center gap-3 mb-4">
+          <div class={`h-px flex-1 bg-gradient-to-r ${t.divider} to-transparent`}></div>
+          <span class={`${t.eyebrow} text-xs font-semibold uppercase tracking-widest`}>{eyebrow}</span>
+          <div class={`h-px flex-1 bg-gradient-to-l ${t.divider} to-transparent`}></div>
+        </div>
+        <h2 id={headingId} class="font-heading text-3xl font-bold text-text mb-3" set:html={title} />
+        <p class="text-text/70 leading-relaxed mb-5">{description}</p>
+        <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+          {cta}
+          <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
+        {images.map((img) => (
+          <img
+            src={img.src}
+            alt=""
+            class:list={[
+              'w-full h-32 sm:h-40 object-cover rounded-lg',
+              img.glow ?? 'shadow-sm',
+            ]}
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+  </a>
+</section>

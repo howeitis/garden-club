@@ -1,0 +1,57 @@
+---
+// Plant card used on /resources/plants for both native and banned species.
+//
+// `variant` switches the card's tinted glow:
+//   • "native" — green glow + bloom-period badge
+//   • "banned" — red glow + "Invasive" badge
+type Variant = 'native' | 'banned';
+
+interface Props {
+  name: string;
+  scientific: string;
+  description: string;
+  image: string;
+  /** Bloom period (e.g. "May – June"). Required for native plants only. */
+  bloom?: string;
+  variant: Variant;
+}
+
+const { name, scientific, description, image, bloom, variant } = Astro.props;
+
+const STYLES: Record<Variant, { card: string; badge: string }> = {
+  native: {
+    card: 'border border-accent/40 shadow-[0_0_20px_rgba(123,158,107,0.35)] hover:shadow-[0_0_28px_rgba(123,158,107,0.55)]',
+    badge: 'text-primary/80 bg-primary/10',
+  },
+  banned: {
+    card: 'border border-holly/40 shadow-[0_0_20px_rgba(196,30,58,0.35)] hover:shadow-[0_0_28px_rgba(196,30,58,0.55)]',
+    badge: 'text-holly bg-holly-light',
+  },
+};
+
+const s = STYLES[variant];
+const badgeText = variant === 'native' ? bloom : 'Invasive';
+---
+
+<div class={`rounded-xl bg-white overflow-hidden transition-all duration-300 ${s.card}`}>
+  <div class="overflow-hidden">
+    <img
+      src={image}
+      alt={name}
+      class="w-full h-72 sm:h-80 object-cover"
+      loading="lazy"
+    />
+  </div>
+  <div class="p-6">
+    <div class="flex items-baseline justify-between gap-3 mb-1">
+      <h3 class="font-heading text-xl font-semibold text-text">{name}</h3>
+      {badgeText && (
+        <span class={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${s.badge} ${variant === 'banned' ? 'font-semibold' : ''}`}>
+          {badgeText}
+        </span>
+      )}
+    </div>
+    <p class="text-xs italic text-text/50 mb-3">{scientific}</p>
+    <p class="text-sm text-text/70 leading-relaxed">{description}</p>
+  </div>
+</div>

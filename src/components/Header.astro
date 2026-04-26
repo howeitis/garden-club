@@ -199,46 +199,69 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
-  // Mobile menu toggle
-  const btn = document.getElementById('mobile-menu-button');
-  const menu = document.getElementById('mobile-menu');
-  const iconOpen = document.getElementById('icon-open');
-  const iconClose = document.getElementById('icon-close');
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Header behavior: mobile menu toggle + scroll-direction reveal.
+  //
+  // IMPORTANT: Astro <ViewTransitions /> swaps the entire DOM on each navigation
+  // but inline <script> bodies only execute once. To survive swaps without
+  // rebinding on every page, we use:
+  //   • Event delegation on `document` for the menu button click
+  //   • A single window scroll listener that re-queries the header each frame
+  //   • An astro:page-load listener to reset per-page state (scroll position,
+  //     header transform, hamburger open/close)
+  // ─────────────────────────────────────────────────────────────────────────────
 
-  btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('hidden') === false;
-    btn.setAttribute('aria-expanded', String(isOpen));
-    iconOpen?.classList.toggle('hidden', isOpen);
-    iconClose?.classList.toggle('hidden', !isOpen);
+  function setMenuOpen(open: boolean) {
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    if (!btn || !menu) return;
+    menu.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+  }
+
+  // Mobile menu — delegated click survives view transition DOM swaps
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    if (!target?.closest('#mobile-menu-button')) return;
+    const menu = document.getElementById('mobile-menu');
+    setMenuOpen(menu?.classList.contains('hidden') ?? false);
   });
 
-  // Scroll-direction reveal: hide on scroll down, show on scroll up
-  const header = document.getElementById('site-header');
+  // Scroll-direction reveal: hide on scroll down, show on scroll up.
+  // The header element is re-queried inside the rAF callback because the
+  // reference would otherwise become stale after a view transition swap.
   let lastScrollY = window.scrollY;
   let ticking = false;
 
   function onScroll() {
-    const currentY = window.scrollY;
+    const header = document.getElementById('site-header');
+    const y = window.scrollY;
     if (header) {
-      if (currentY <= 0) {
-        // At top — always show
+      if (y <= 0 || y < lastScrollY) {
         header.classList.remove('-translate-y-full');
-      } else if (currentY > lastScrollY) {
-        // Scrolling down — hide
+      } else if (y > lastScrollY) {
         header.classList.add('-translate-y-full');
-      } else {
-        // Scrolling up — show
-        header.classList.remove('-translate-y-full');
       }
     }
-    lastScrollY = currentY;
+    lastScrollY = y;
     ticking = false;
   }
 
   window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(onScroll);
-      ticking = true;
-    }
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(onScroll);
   }, { passive: true });
+
+  // Reset header state on every page navigation so a fresh page always starts
+  // with the menu closed, the header visible, and the scroll tracker zeroed.
+  document.addEventListener('astro:page-load', () => {
+    setMenuOpen(false);
+    document.getElementById('site-header')?.classList.remove('-translate-y-full');
+    lastScrollY = window.scrollY;
+  });
 </script>
