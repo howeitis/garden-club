@@ -11,6 +11,9 @@ const memberGardens = [
       'Designed with wildlife in mind, this sunny border garden is packed with Purple Coneflower, Black-eyed Susans, Anise Hyssop, Common Yarrow, and Mexican Sunflower to attract butterflies, bees, and hummingbirds throughout the season.',
     highlight: 'Certified wildlife habitat',
     image: '/pollinatorparadise.webp',
+    // Portrait photo — bias the crop upward so the monarch butterfly stays
+    // in frame when the wide card crops the top and bottom of the image.
+    imagePosition: 'center 35%',
   },
   {
     name: 'The Rose Walk',
@@ -70,6 +73,7 @@ const memberGardens = [
                 src={garden.image}
                 alt={garden.name}
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                style={garden.imagePosition ? `object-position: ${garden.imagePosition}` : undefined}
                 loading="lazy"
               />
             </div>
