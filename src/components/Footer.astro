@@ -1,15 +1,13 @@
 ---
 import { clubInfo } from '../data/index';
 
+// Footer nav lists only the top-level pages, not every subpage. Subpages are
+// reachable via the header's Resources / Members dropdowns.
 const navLinks = [
   { label: 'About',             href: '/about' },
   { label: 'Community Service', href: '/community-service' },
   { label: 'Resources',         href: '/resources' },
-  { label: 'Gardening Tips',    href: '/resources/gardening-tips' },
-  { label: 'Plants',            href: '/resources/plants' },
-  { label: 'Gardens to Visit',  href: '/resources/gardens' },
   { label: 'Members',           href: '/members' },
-  { label: 'Awards & Judges',   href: '/members/awards-and-judges' },
   { label: 'Membership',        href: '/membership' },
   { label: 'Contact',           href: '/contact' },
 ];
@@ -21,12 +19,22 @@ const year = new Date().getFullYear();
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
 
-      <!-- Club Identity -->
+      <!-- Club Identity — logo and name link to home -->
       <div>
-        <div class="mb-4">
-          <img src="/gggc-hero.png" alt="" class="h-16 w-auto object-contain opacity-90" aria-hidden="true" loading="lazy" />
-        </div>
-        <h2 class="font-script text-2xl font-bold mb-3">{clubInfo.name}</h2>
+        <a
+          href="/"
+          class="inline-block group hover:opacity-90 transition-opacity duration-200"
+          aria-label="Go to home page"
+        >
+          <img
+            src="/gggc-hero.png"
+            alt=""
+            class="h-16 w-auto object-contain opacity-90 mb-4"
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <h2 class="font-script text-2xl font-bold mb-3 group-hover:underline">{clubInfo.name}</h2>
+        </a>
         <p class="text-sm text-background/75 leading-relaxed max-w-xs">
           {clubInfo.nonprofitStatus}
         </p>

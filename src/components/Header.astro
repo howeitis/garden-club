@@ -214,6 +214,7 @@ const currentPath = Astro.url.pathname;
   function setMenuOpen(open: boolean) {
     const btn = document.getElementById('mobile-menu-button');
     const menu = document.getElementById('mobile-menu');
+    const header = document.getElementById('site-header');
     const iconOpen = document.getElementById('icon-open');
     const iconClose = document.getElementById('icon-close');
     if (!btn || !menu) return;
@@ -221,6 +222,9 @@ const currentPath = Astro.url.pathname;
     btn.setAttribute('aria-expanded', String(open));
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
+    // Always pin the header on screen while the menu is open so the menu
+    // never gets hidden by the scroll-direction reveal logic.
+    if (open) header?.classList.remove('-translate-y-full');
   }
 
   // Mobile menu — delegated click survives view transition DOM swaps
@@ -239,9 +243,13 @@ const currentPath = Astro.url.pathname;
 
   function onScroll() {
     const header = document.getElementById('site-header');
+    const menu = document.getElementById('mobile-menu');
     const y = window.scrollY;
     if (header) {
-      if (y <= 0 || y < lastScrollY) {
+      // While the mobile menu is open, freeze the header in place so the
+      // menu doesn't disappear off-screen when a stray scroll fires.
+      const menuOpen = menu && !menu.classList.contains('hidden');
+      if (menuOpen || y <= 0 || y < lastScrollY) {
         header.classList.remove('-translate-y-full');
       } else if (y > lastScrollY) {
         header.classList.add('-translate-y-full');

@@ -175,11 +175,21 @@ const jsonLd = {
               }
             }
           },
-          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+          { rootMargin: '0px 0px -10% 0px' }
         );
-        document
-          .querySelectorAll('.fade-in-section')
-          .forEach((el) => fadeInObserver!.observe(el));
+
+        // Reveal anything already in the initial viewport immediately so the
+        // page never appears blank below the hero. Only observe sections still
+        // below the fold for the on-scroll fade-in animation.
+        const viewportBottom = window.innerHeight;
+        document.querySelectorAll('.fade-in-section').forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < viewportBottom) {
+            el.classList.add('is-visible');
+          } else {
+            fadeInObserver!.observe(el);
+          }
+        });
       }
 
       function scrollToTop() {
