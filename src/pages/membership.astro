@@ -18,6 +18,30 @@ import { clubInfo, meetings } from '../data/index';
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
 
+    <!-- Apply CTA -->
+    <section aria-labelledby="apply-cta-heading" class="fade-in-section">
+      <div class="rounded-2xl border border-marigold/35 bg-gradient-to-br from-marigold/15 via-sunflower/10 to-blossom/10 px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <span class="text-3xl flex-shrink-0" aria-hidden="true">🌻</span>
+        <div class="flex-1">
+          <h2 id="apply-cta-heading" class="font-heading text-xl font-bold text-text mb-1">
+            Ready to apply for membership?
+          </h2>
+          <p class="text-text/70 text-sm leading-relaxed">
+            We'd love to welcome you. Reach out and a club member will follow up with next steps.
+          </p>
+        </div>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 bg-marigold text-background font-semibold px-6 py-3 rounded-lg hover:bg-marigold/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-marigold focus:ring-offset-2 flex-shrink-0"
+        >
+          Apply to Join
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
     <!-- Meeting Schedule -->
     <section aria-labelledby="schedule-heading" class="fade-in-section">
       <h2 id="schedule-heading" class="font-heading text-3xl font-bold text-text mb-4">
@@ -52,6 +76,32 @@ import { clubInfo, meetings } from '../data/index';
           </tbody>
         </table>
       </div>
+    </section>
+
+    <!-- Order of Business -->
+    <section aria-labelledby="agenda-heading" class="fade-in-section">
+      <h2 id="agenda-heading" class="font-heading text-3xl font-bold text-text mb-8">
+        Order of Business
+      </h2>
+      <p class="text-text/65 mb-6 text-sm">
+        Our monthly meetings follow a consistent agenda to ensure every voice is heard and time is used well.
+      </p>
+      <ol class="bg-white rounded-xl border border-accent/20 shadow-sm divide-y divide-accent/10 overflow-hidden">
+        {meetings.orderOfBusiness.map((item, index) => (
+          <li class="flex items-center gap-4 px-6 py-4 hover:bg-blossom/5 transition-colors duration-150">
+            <span
+              class:list={[
+                'flex-shrink-0 w-7 h-7 rounded-full text-background text-xs font-bold flex items-center justify-center',
+                index % 4 === 0 ? 'bg-primary' : index % 4 === 1 ? 'bg-holly' : index % 4 === 2 ? 'bg-marigold' : 'bg-blossom-deep',
+              ]}
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+            <span class="text-base text-text/80">{item}</span>
+          </li>
+        ))}
+      </ol>
     </section>
 
     <!-- Dues -->
@@ -90,32 +140,6 @@ import { clubInfo, meetings } from '../data/index';
           </p>
         </div>
       </div>
-    </section>
-
-    <!-- Order of Business -->
-    <section aria-labelledby="agenda-heading" class="fade-in-section">
-      <h2 id="agenda-heading" class="font-heading text-3xl font-bold text-text mb-8">
-        Order of Business
-      </h2>
-      <p class="text-text/65 mb-6 text-sm">
-        Our monthly meetings follow a consistent agenda to ensure every voice is heard and time is used well.
-      </p>
-      <ol class="bg-white rounded-xl border border-accent/20 shadow-sm divide-y divide-accent/10 overflow-hidden">
-        {meetings.orderOfBusiness.map((item, index) => (
-          <li class="flex items-center gap-4 px-6 py-4 hover:bg-blossom/5 transition-colors duration-150">
-            <span
-              class:list={[
-                'flex-shrink-0 w-7 h-7 rounded-full text-background text-xs font-bold flex items-center justify-center',
-                index % 3 === 0 ? 'bg-primary' : index % 3 === 1 ? 'bg-holly' : 'bg-blossom-deep',
-              ]}
-              aria-hidden="true"
-            >
-              {index + 1}
-            </span>
-            <span class="text-base text-text/80">{item}</span>
-          </li>
-        ))}
-      </ol>
     </section>
 
     <!-- CTA -->

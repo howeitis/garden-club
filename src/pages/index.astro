@@ -6,10 +6,10 @@ import { clubInfo } from '../data/index';
 <BaseLayout title={`${clubInfo.name} — Delaware Garden Club`} description={clubInfo.missionStatement}>
 
   <!-- Hero -->
-  <section class="relative bg-primary text-background overflow-hidden">
+  <section class="relative text-background overflow-hidden">
     <div class="absolute inset-0">
-      <img src="/home-hero.png" alt="" class="w-full h-full object-cover opacity-30" loading="eager" />
-      <div class="absolute inset-0 bg-primary/20 mix-blend-multiply" aria-hidden="true"></div>
+      <img src="/newhomehero.webp" alt="" class="w-full h-full object-cover" loading="eager" />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/45" aria-hidden="true"></div>
     </div>
     <!-- Decorative blossom petals overlay -->
     <div class="absolute top-8 right-8 text-6xl opacity-15 rotate-12 select-none pointer-events-none" aria-hidden="true">🌸</div>
@@ -96,7 +96,7 @@ import { clubInfo } from '../data/index';
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         {[
           { label: 'About Us',   href: '/about',      icon: '🌿', bg: 'hover:bg-accent/15',     border: 'border-accent/25'    },
-          { label: 'Resources',  href: '/resources',  icon: '🌼', bg: 'hover:bg-sunflower/15',  border: 'border-sunflower/30' },
+          { label: 'Resources',  href: '/resources',  icon: '🌼', bg: 'hover:bg-marigold/15',   border: 'border-marigold/30'  },
           { label: 'Members',    href: '/members',    icon: '🌷', bg: 'hover:bg-blossom/20',    border: 'border-blossom/25'   },
           { label: 'Membership', href: '/membership', icon: '🌸', bg: 'hover:bg-holly-light',   border: 'border-holly/20'     },
         ].map((item) => (
