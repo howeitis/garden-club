@@ -5,11 +5,20 @@ import { clubInfo } from '../../data/index';
 
 const memberGardens = [
   {
+    name: 'Pollinator Paradise',
+    member: 'Rita Thompson',
+    description:
+      'Designed with wildlife in mind, this sunny border garden is packed with Purple Coneflower, Black-eyed Susans, Anise Hyssop, Common Yarrow, and Mexican Sunflower to attract butterflies, bees, and hummingbirds throughout the season.',
+    highlight: 'Certified wildlife habitat',
+    image: '/pollinatorparadise.webp',
+  },
+  {
     name: 'The Rose Walk',
     member: 'Jane Doe',
     description:
       'A winding gravel path bordered by David Austin English roses and fragrant lavender. Visitors are welcomed by a classic white arbor draped in climbing New Dawn roses.',
     highlight: 'Over 40 rose varieties',
+    image: '/rosegarden.webp',
   },
   {
     name: 'Shade Sanctuary',
@@ -17,13 +26,7 @@ const memberGardens = [
     description:
       'Nestled beneath mature oaks, this woodland garden showcases native ferns, hostas, and hellebores. A small water feature provides a tranquil backdrop for shade-loving perennials.',
     highlight: 'Native woodland plants',
-  },
-  {
-    name: 'Pollinator Paradise',
-    member: 'Susan Johnson',
-    description:
-      'Designed with wildlife in mind, this sunny border garden is packed with coneflowers, bee balm, and milkweed to attract butterflies, bees, and hummingbirds throughout the season.',
-    highlight: 'Certified wildlife habitat',
+    image: '/shadegarden.webp',
   },
   {
     name: 'Kitchen Garden',
@@ -31,6 +34,7 @@ const memberGardens = [
     description:
       'A charming potager garden combining raised vegetable beds with cutting flowers and herbs. Espaliered fruit trees line the fence, and a small greenhouse extends the growing season.',
     highlight: 'Year-round harvest',
+    image: '/kitchengarden.webp',
   },
 ];
 ---
@@ -60,15 +64,14 @@ const memberGardens = [
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {memberGardens.map((garden) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <!-- Image placeholder -->
-            <div class="h-48 bg-accent/10 flex items-center justify-center">
-              <div class="text-center">
-                <svg class="w-12 h-12 mx-auto text-accent/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                </svg>
-                <p class="text-xs text-accent/50 mt-2">Photo coming soon</p>
-              </div>
+          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 group">
+            <div class="h-64 sm:h-72 overflow-hidden">
+              <img
+                src={garden.image}
+                alt={garden.name}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
             </div>
             <div class="p-6">
               <div class="flex items-center gap-2 mb-2">
