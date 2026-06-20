@@ -1,45 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import { clubInfo } from '../../data/index';
-
-const memberGardens = [
-  {
-    name: 'Pollinator Paradise',
-    member: 'Rita Thompson',
-    description:
-      'Designed with wildlife in mind, this sunny border garden is packed with Purple Coneflower, Black-eyed Susans, Anise Hyssop, Common Yarrow, and Mexican Sunflower to attract butterflies, bees, and hummingbirds throughout the season.',
-    highlight: 'Certified wildlife habitat',
-    image: '/pollinatorparadise.webp',
-    // Portrait photo — bias the crop upward so the monarch butterfly stays
-    // in frame when the wide card crops the top and bottom of the image.
-    imagePosition: 'center 35%',
-  },
-  {
-    name: 'Birdbath Bloomery',
-    member: 'Chris Metzler',
-    description:
-      'A sunny cottage-style border anchored by a classic white birdbath and overflowing with Black-eyed Susans, Marigolds, Surprise Lilies, and Shrub Roses for layered color from midsummer into fall.',
-    highlight: 'Cottage-style borders',
-    image: '/metzlers.webp',
-  },
-  {
-    name: 'The Rose Walk',
-    member: 'Jane Doe',
-    description:
-      'A winding gravel path bordered by David Austin English roses and fragrant lavender. Visitors are welcomed by a classic white arbor draped in climbing New Dawn roses.',
-    highlight: 'Over 40 rose varieties',
-    image: '/rosegarden.webp',
-  },
-  {
-    name: 'Shade Sanctuary',
-    member: 'Mary Smith',
-    description:
-      'Nestled beneath mature oaks, this woodland garden showcases native ferns, hostas, and hellebores. A small water feature provides a tranquil backdrop for shade-loving perennials.',
-    highlight: 'Native woodland plants',
-    image: '/shadegarden.webp',
-  },
-];
+import OptImage from '../../components/OptImage.astro';
+import { clubInfo, memberGardens } from '../../data/index';
 ---
 
 <BaseLayout
@@ -69,12 +32,13 @@ const memberGardens = [
         {memberGardens.map((garden) => (
           <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 group">
             <div class="h-64 sm:h-72 overflow-hidden">
-              <img
-                src={garden.image}
+              <OptImage
+                path={garden.image}
                 alt={garden.name}
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 style={garden.imagePosition ? `object-position: ${garden.imagePosition}` : undefined}
-                loading="lazy"
+                widths={[400, 800]}
+                sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>
             <div class="p-6">

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import AwardCard from '../../components/AwardCard.astro';
 import JudgeRow from '../../components/JudgeRow.astro';
+import Icon from '../../components/Icon.astro';
 import { clubInfo, awards, judges } from '../../data/index';
 
 const activeJudges   = judges.filter((j) => j.status === 'active');
@@ -21,12 +22,12 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
     eyebrow="Recognition"
     title="Awards &amp; Judges"
     image="/awards-hero.jpg"
-    decoration={{ emoji: '🏅', position: 'top-right', rotate: 'rotate-6' }}
+    decoration={{ icon: 'medal', position: 'top-right', rotate: 'rotate-6' }}
   />
 
   <!-- Breadcrumb -->
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2 text-sm text-text/50">
+    <ol class="flex items-center gap-2 text-sm text-text/65">
       <li><a href="/members" class="hover:text-primary transition-colors">Members</a></li>
       <li aria-hidden="true">/</li>
       <li class="text-text/80 font-medium" aria-current="page">Awards &amp; Judges</li>
@@ -61,7 +62,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
           <h2 id="gggc-awards-heading" class="font-heading text-3xl font-bold text-text">
             Club Awards
           </h2>
-          <span class="text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-blossom/25 text-blossom-deep self-center border border-blossom/30">
+          <span class="text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-blossom/25 text-rose self-center border border-blossom/30">
             GGGC
           </span>
         </div>
@@ -79,7 +80,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
         <h2 id="judges-heading" class="font-heading text-3xl font-bold text-text">
           Certified Judges
         </h2>
-        <span class="text-xl" aria-hidden="true">🌷</span>
+        <Icon name="blossom" class="w-6 h-6 text-blossom-deep" />
       </div>
       <p class="text-text/65 mb-8 text-sm leading-relaxed max-w-2xl">
         Our accredited judges have completed training through the National Garden Clubs, Inc. and

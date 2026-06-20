@@ -1,5 +1,7 @@
 ---
 import type { Project } from '../data/schema';
+import OptImage from './OptImage.astro';
+import Icon from './Icon.astro';
 
 interface Props {
   project: Project;
@@ -13,25 +15,18 @@ const { project } = Astro.props;
   <!-- Image or fallback -->
   {project.imageReference ? (
     <div class="relative h-52 bg-blossom/10 overflow-hidden">
-      <img
-        src={project.imageReference}
+      <OptImage
+        path={project.imageReference}
         alt={`Photo of ${project.name}`}
         class="w-full h-full object-cover"
-        loading="lazy"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        widths={[400, 800]}
+        sizes="(min-width: 768px) 50vw, 100vw"
       />
-      <!-- Fallback shown via JS if image fails to load -->
-      <div
-        class="absolute inset-0 hidden items-center justify-center bg-blossom/20"
-        aria-hidden="true"
-      >
-        <span class="text-4xl select-none">🌸</span>
-      </div>
     </div>
   ) : (
     <!-- Fallback when no imageReference provided -->
     <div class="h-52 flex items-center justify-center bg-gradient-to-br from-blossom/20 to-marigold/15" aria-hidden="true">
-      <span class="text-4xl select-none">🌸</span>
+      <Icon name="blossom" class="w-12 h-12 text-blossom-deep/60" />
     </div>
   )}
 
@@ -44,7 +39,7 @@ const { project } = Astro.props;
     </div>
 
     <!-- Location -->
-    <p class="text-sm text-text/50 flex items-center gap-1">
+    <p class="text-sm text-text/65 flex items-center gap-1">
       <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -54,7 +49,7 @@ const { project } = Astro.props;
     </p>
 
     <!-- Chairperson -->
-    <p class="text-sm text-text/55 flex items-center gap-1.5">
+    <p class="text-sm text-text/65 flex items-center gap-1.5">
       <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

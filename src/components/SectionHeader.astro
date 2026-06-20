@@ -4,21 +4,26 @@
 //
 // `tone` selects the color of the divider gradient and label text.
 // Add a new tone here when introducing a new section color.
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
 type Tone = 'blossom' | 'accent' | 'marigold' | 'holly';
 
 interface Props {
-  /** Short uppercase label, including any leading emoji */
+  /** Short uppercase label */
   label: string;
   /** Color tone — picks the matching gradient + text color */
   tone?: Tone;
+  /** Optional leading botanical icon */
+  icon?: IconName;
 }
 
-const { label, tone = 'blossom' } = Astro.props;
+const { label, tone = 'blossom', icon } = Astro.props;
 
 const TONES: Record<Tone, { gradient: string; text: string }> = {
-  blossom:  { gradient: 'from-blossom/30',  text: 'text-blossom' },
-  accent:   { gradient: 'from-accent/30',   text: 'text-accent' },
-  marigold: { gradient: 'from-sunflower/40', text: 'text-marigold' },
+  blossom:  { gradient: 'from-blossom/30',  text: 'text-rose' },
+  accent:   { gradient: 'from-accent/30',   text: 'text-accent-deep' },
+  marigold: { gradient: 'from-sunflower/40', text: 'text-marigold-deep' },
   holly:    { gradient: 'from-holly/40',     text: 'text-holly' },
 };
 
@@ -31,6 +36,9 @@ const rightDivider = `h-px flex-1 bg-gradient-to-l ${gradientReversed} to-transp
 
 <div class="flex items-center gap-3 mb-4">
   <div class={leftDivider}></div>
-  <span class={`${text} text-xs font-semibold uppercase tracking-widest`}>{label}</span>
+  <span class={`${text} text-xs font-semibold uppercase tracking-widest inline-flex items-center gap-1.5`}>
+    {icon && <Icon name={icon} class="w-4 h-4" />}
+    {label}
+  </span>
   <div class={rightDivider}></div>
 </div>

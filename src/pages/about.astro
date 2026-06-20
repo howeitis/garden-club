@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import OfficerCard from '../components/OfficerCard.astro';
+import OptImage from '../components/OptImage.astro';
+import Icon from '../components/Icon.astro';
 import { clubInfo, officers, affiliations } from '../data/index';
 
 const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
@@ -15,7 +17,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
     eyebrow="Our Story"
     title="About Us"
     image="/about-hero.jpg"
-    decoration={{ emoji: '🌷', position: 'top-right', rotate: 'rotate-6' }}
+    decoration={{ icon: 'blossom', position: 'top-right', rotate: 'rotate-6' }}
   />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
@@ -50,15 +52,15 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
             { label: 'Active Members',    value: clubInfo.membership.activeMembers,    bg: 'bg-blossom/15 border-blossom/30',   num: 'text-holly'    },
             { label: 'Associate Members', value: clubInfo.membership.associateMembers, bg: 'bg-lavender/15 border-lavender/30', num: 'text-primary'  },
             { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers,  bg: 'bg-sunflower/12 border-sunflower/30',num: 'text-primary' },
-            { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        bg: 'bg-marigold/12 border-marigold/30', num: 'text-marigold' },
+            { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        bg: 'bg-marigold/12 border-marigold/30', num: 'text-marigold-deep' },
           ].map((stat) => (
             <div class={`rounded-xl border shadow-sm p-4 text-center ${stat.bg}`}>
               <p class={`font-heading text-3xl font-bold ${stat.num}`}>{stat.value}</p>
-              <p class="text-xs text-text/55 mt-1 leading-snug">{stat.label}</p>
+              <p class="text-xs text-text/65 mt-1 leading-snug">{stat.label}</p>
             </div>
           ))}
         </div>
-        <p class="text-xs text-text/50 mt-3 leading-relaxed italic">
+        <p class="text-xs text-text/65 mt-3 leading-relaxed italic">
           {clubInfo.membership.associateAndHonoraryNote}
         </p>
       </div>
@@ -70,7 +72,7 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
         <h2 id="officers-heading" class="font-heading text-3xl font-bold text-text">
           Board of Officers
         </h2>
-        <span class="text-xl" aria-hidden="true">🌸</span>
+        <Icon name="blossom" class="w-6 h-6 text-blossom-deep" />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {sortedOfficers.map((officer) => (
@@ -92,38 +94,38 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
             <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
             <h3 class="font-heading text-xl font-semibold text-text mt-1">{affiliations.ngc.name}</h3>
           </div>
-          <img src="/ngc-logo.png" alt="NGC Logo" class="w-16 h-auto object-contain flex-shrink-0" loading="lazy" />
+          <OptImage path="/ngc-logo.png" alt="National Garden Clubs, Inc. logo" class="w-16 h-auto object-contain flex-shrink-0" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-4">
           <dl class="space-y-2">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">President</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">President</dt>
               <dd class="text-text/75">{affiliations.ngc.president}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Email</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">Email</dt>
               <dd>
                 <a href={`mailto:${affiliations.ngc.presidentEmail}`}
                   class="text-primary hover:underline">{affiliations.ngc.presidentEmail}</a>
               </dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Theme</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">Theme</dt>
               <dd class="italic text-text/70">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
             </div>
           </dl>
           <dl class="space-y-2">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Address</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">Address</dt>
               <dd class="text-text/75">{affiliations.ngc.address}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Phone</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">Phone</dt>
               <dd class="text-text/75">{affiliations.ngc.phone}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Website</dt>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-text/65">Website</dt>
               <dd>
                 <a href={`https://${affiliations.ngc.website}`} target="_blank" rel="noopener noreferrer"
                   class="text-primary hover:underline">{affiliations.ngc.website}</a>
@@ -146,13 +148,13 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
         <div class="bg-white rounded-xl border border-blossom/30 shadow-sm p-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-holly">Region</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.region.name}</h3>
-          <p class="text-sm text-text/55 mt-1">{affiliations.region.abbreviation}</p>
+          <p class="text-sm text-text/65 mt-1">{affiliations.region.abbreviation}</p>
         </div>
 
         <div class="bg-white rounded-xl border border-accent/30 shadow-sm p-6">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
           <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.state.name}</h3>
-          <p class="text-sm text-text/55 mt-1">{affiliations.state.abbreviation}</p>
+          <p class="text-sm text-text/65 mt-1">{affiliations.state.abbreviation}</p>
         </div>
       </div>
 
@@ -174,13 +176,13 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
       <!-- NGC Support narratives -->
       {affiliations.ngcSupport.length > 0 && (
         <div class="bg-gradient-to-br from-marigold/10 via-sunflower/8 to-blossom/10 border border-marigold/25 rounded-xl p-6">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-marigold mb-4">
+          <h3 class="text-sm font-semibold uppercase tracking-widest text-marigold-deep mb-4">
             How We Support NGC
           </h3>
           <ul class="space-y-3">
             {affiliations.ngcSupport.map((item) => (
               <li class="flex items-start gap-3 text-sm text-text/75 leading-relaxed">
-                <span class="mt-1 text-blossom-deep flex-shrink-0" aria-hidden="true">🌸</span>
+                <Icon name="blossom" class="mt-0.5 w-4 h-4 text-blossom-deep flex-shrink-0" />
                 {item}
               </li>
             ))}

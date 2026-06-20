@@ -1,0 +1,90 @@
+{
+  "native": [
+    {
+      "name": "American Holly",
+      "scientific": "Ilex opaca",
+      "description": "Delaware's state tree, the American Holly is a slow-growing evergreen with glossy, spine-tipped leaves and bright red berries that persist through winter. It provides essential cover and food for songbirds and small mammals during the coldest months and is a striking specimen tree for native landscapes.",
+      "bloom": "May – June",
+      "image": "/americanholly.webp"
+    },
+    {
+      "name": "Eastern Redbud",
+      "scientific": "Cercis canadensis",
+      "description": "A stunning small understory tree that bursts into bloom in early spring, covering bare branches with clusters of rosy pink flowers before heart-shaped leaves emerge. One of the earliest and showiest spring-flowering trees, it provides critical early-season nectar for native bees.",
+      "bloom": "March – April",
+      "image": "/easternredbud.webp"
+    },
+    {
+      "name": "Virginia Bluebells",
+      "scientific": "Mertensia virginica",
+      "description": "A beloved spring ephemeral wildflower producing loose clusters of pendulous, trumpet-shaped flowers — pink in bud, opening to clear sky blue. Thriving in moist, rich woodland soils along streams throughout the Brandywine Valley, it naturalizes beautifully.",
+      "bloom": "March – May",
+      "image": "/bluebells.webp"
+    },
+    {
+      "name": "Black-eyed Susan",
+      "scientific": "Rudbeckia hirta",
+      "description": "A cheerful, drought-tolerant wildflower with bright golden-yellow petals surrounding a dark brown central cone. It thrives in full sun and well-drained Piedmont soils, self-sows readily, and provides long-lasting summer color while attracting pollinators.",
+      "bloom": "June – September",
+      "image": "/blackeyedsusan.webp"
+    },
+    {
+      "name": "Joe-Pye Weed",
+      "scientific": "Eutrochium purpureum",
+      "description": "A tall, stately native perennial producing large, vanilla-scented domes of dusty pink-purple flowers. A powerhouse pollinator plant that acts as a magnet for butterflies and bees along stream edges and woodland borders.",
+      "bloom": "July – September",
+      "image": "/joepyeweed.webp"
+    },
+    {
+      "name": "Butterfly Weed",
+      "scientific": "Asclepias tuberosa",
+      "description": "A compact milkweed with vivid orange flower clusters that add a striking splash of warm color to sunny gardens. Essential for monarch butterfly conservation as both a nectar source and larval host plant, and remarkably drought-tolerant once established.",
+      "bloom": "June – August",
+      "image": "/butterflyweed.webp"
+    }
+  ],
+  "banned": [
+    {
+      "name": "English Ivy",
+      "scientific": "Hedera helix",
+      "description": "Introduced to the U.S. in the 1700s as an ornamental groundcover. It spreads rapidly, outcompetes native vegetation, and kills trees by creating dense, heavy, evergreen mats that choke out light and cause wind-shear damage.",
+      "image": "/englishivy.webp"
+    },
+    {
+      "name": "Callery Pear",
+      "scientific": "Pyrus calleryana",
+      "description": "Including the \"Bradford\" pear, these trees were widely planted for their spring flowers but spread aggressively and form dense, thorny thickets.",
+      "image": "/callerypear.webp"
+    },
+    {
+      "name": "Japanese Barberry",
+      "scientific": "Berberis thunbergii",
+      "description": "A popular ornamental shrub that dominates forest understories, creating dense thickets that alter soil chemistry and reduce native plant diversity.",
+      "image": "/japanese-barberry.webp"
+    },
+    {
+      "name": "Multiflora Rose",
+      "scientific": "Rosa multiflora",
+      "description": "A thorny, sprawling shrub that takes over pastures and forest edges, replacing native vegetation.",
+      "image": "/multiflorarose.webp"
+    },
+    {
+      "name": "Japanese Honeysuckle",
+      "scientific": "Lonicera japonica",
+      "description": "A fast-growing, woody vine that climbs over and smothers trees and shrubs.",
+      "image": "/honeysuckle.webp"
+    },
+    {
+      "name": "Norway Maple",
+      "scientific": "Acer platanoides",
+      "description": "A non-native shade tree that outcompetes native trees, such as sugar maples, due to its dense shade and rapid growth.",
+      "image": "/norwaymaple.webp"
+    },
+    {
+      "name": "Oriental Bittersweet",
+      "scientific": "Celastrus orbiculatus",
+      "description": "A highly invasive vine that kills trees by girdling them and adding excessive weight, leading to windthrow.",
+      "image": "/oriental-bittersweet.webp"
+    }
+  ]
+}

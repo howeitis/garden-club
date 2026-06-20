@@ -4,6 +4,8 @@
 // `variant` switches the card's tinted glow:
 //   • "native" — green glow + bloom-period badge
 //   • "banned" — red glow + "Invasive" badge
+import OptImage from './OptImage.astro';
+
 type Variant = 'native' | 'banned';
 
 interface Props {
@@ -35,11 +37,12 @@ const badgeText = variant === 'native' ? bloom : 'Invasive';
 
 <div class={`rounded-xl bg-white overflow-hidden transition-all duration-300 ${s.card}`}>
   <div class="overflow-hidden">
-    <img
-      src={image}
+    <OptImage
+      path={image}
       alt={name}
       class="w-full h-72 sm:h-80 object-cover"
-      loading="lazy"
+      widths={[400, 800]}
+      sizes="(min-width: 768px) 50vw, 100vw"
     />
   </div>
   <div class="p-6">
@@ -51,7 +54,7 @@ const badgeText = variant === 'native' ? bloom : 'Invasive';
         </span>
       )}
     </div>
-    <p class="text-xs italic text-text/50 mb-3">{scientific}</p>
+    <p class="text-xs italic text-text/65 mb-3">{scientific}</p>
     <p class="text-sm text-text/70 leading-relaxed">{description}</p>
   </div>
 </div>

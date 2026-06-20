@@ -1,5 +1,7 @@
 ---
 import { clubInfo } from '../data/index';
+import OptImage from './OptImage.astro';
+import Icon from './Icon.astro';
 
 // Footer nav lists only the top-level pages, not every subpage. Subpages are
 // reachable via the header's Resources / Members dropdowns.
@@ -26,11 +28,10 @@ const year = new Date().getFullYear();
           class="block group hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
           aria-label="Go to home page"
         >
-          <img
-            src="/gggcwhitelogo.png"
+          <OptImage
+            path="/gggcwhitelogo.png"
             alt=""
             class="h-28 md:h-[10.5rem] w-auto object-contain md:mb-4"
-            aria-hidden="true"
             loading="lazy"
           />
           <h2 class="hidden md:block font-script text-2xl font-bold mb-3 group-hover:underline">{clubInfo.name}</h2>
@@ -45,7 +46,7 @@ const year = new Date().getFullYear();
 
       <!-- Navigation Links -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">Navigation</h3>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom-light mb-4">Navigation</h3>
         <ul class="flex flex-col gap-2">
           {navLinks.map((link) => (
             <li>
@@ -62,11 +63,15 @@ const year = new Date().getFullYear();
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">This Year's Theme</h3>
+        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom-light mb-4">This Year's Theme</h3>
         <p class="font-heading italic text-background/90 leading-relaxed">
           &ldquo;{clubInfo.theme}&rdquo;
         </p>
-        <p class="mt-4 text-2xl tracking-widest opacity-40" aria-hidden="true">🌸 🌷 🌺</p>
+        <div class="mt-4 flex items-center gap-3 text-blossom-light/60" aria-hidden="true">
+          <Icon name="blossom" class="w-6 h-6" />
+          <Icon name="leaf" class="w-6 h-6" />
+          <Icon name="butterfly" class="w-6 h-6" />
+        </div>
       </div>
 
     </div>

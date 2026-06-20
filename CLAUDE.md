@@ -55,7 +55,13 @@ src/
 │   ├── JudgeRow.astro             # Judge list item
 │   ├── OfficerCard.astro          # Board officer card
 │   ├── ProjectCard.astro          # Community service project card
-│   └── ContactForm.astro          # Formspree contact form
+│   ├── ContactForm.astro          # Formspree contact form
+│   ├── Icon.astro                 # Custom inline SVG botanical icon set (replaces emoji)
+│   └── OptImage.astro             # Wrapper over astro:assets <Image>; resolves "/path" strings
+├── lib/
+│   ├── images.ts                  # Image registry: maps "/file.webp" → optimized asset
+│   ├── og.ts                      # OG page registry (slug ↔ route ↔ headline)
+│   └── renderOg.ts                # Build-time SVG→PNG share-card renderer (resvg)
 └── data/
     ├── schema.ts                  # Zod schemas (types + validation)
     ├── index.ts                   # Single import point for all data
@@ -66,8 +72,16 @@ src/
     ├── officers.json              # Board members with roles and bios
     ├── awards.json                # DFGC & GGGC awards with criteria
     ├── judges.json                # Certified judges (active & emeritus)
-    └── projects.json              # Community service projects
-public/                            # Static assets (images, favicon, manifest)
+    ├── projects.json              # Community service projects
+    ├── memberGardens.json         # Featured member gardens (/members)
+    ├── gardeningTips.json         # Evergreen tips + seasonal Garden Rhythms
+    ├── plants.json                # Native + banned/invasive plants
+    └── visitGardens.json          # Local + regional gardens to visit
+src/assets/
+    ├── images/                    # Source images — optimized at build via astro:assets
+    └── fonts/                     # Brand TTFs vendored for OG card rendering
+src/pages/og/[slug].png.ts         # Generates one /og/<slug>.png share card per page
+public/                            # Static assets only (favicons, manifest, robots, logo)
 ```
 
 ---
@@ -161,6 +175,7 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 4. Add `class="fade-in-section"` to content sections for scroll animation.
 5. Add the route to nav arrays in **both** `Header.astro` and `Footer.astro`.
 6. If the page uses data, import from `src/data/index` only.
+7. Add an entry to `ogPages` in `src/lib/og.ts` so the page gets its own share card.
 
 ## How to Add a New Data Type
 
@@ -171,18 +186,42 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 
 ## How to Add Images
 
-1. Drop image files into `public/` (any format: jpg, png, webp, avif).
-2. Reference in templates as `src="/filename.jpg"` (no `public/` prefix).
-3. Use `loading="eager"` for hero/above-fold images, `loading="lazy"` for everything else.
-4. For hover-zoom effect: wrap in `overflow-hidden` div, add `transition-transform duration-500 group-hover:scale-105` to `<img>`.
+Content images go through Astro's build-time optimizer (WebP/AVIF, compression,
+responsive `srcset`). Do **not** put content images in `public/` — that bypasses
+optimization. `public/` is reserved for favicons, manifest, robots, and the
+schema logo.
 
-## Resources Page Structure
+1. Drop the file in `src/assets/images/` (any format: jpg, png, webp, avif).
+2. Render it with the `OptImage` component, referencing the original-style path:
+   `<OptImage path="/filename.webp" alt="…" widths={[400, 800]} sizes="(min-width: 768px) 50vw, 100vw" />`
+   (data-driven `image`/`imageReference` strings resolve through the same registry).
+3. Use `loading="eager"` + `fetchpriority="high"` for the LCP/hero image; everything else defaults to lazy.
+4. For hover-zoom: wrap in an `overflow-hidden` div and add `transition-transform duration-500 group-hover:scale-105` to the `OptImage`.
+5. A missing file throws a clear error at build time (see `src/lib/images.ts`).
 
-The Resources page (`src/pages/resources.astro`) has three sections, each with its own data array defined in the frontmatter:
+## Icons (botanicals)
 
-1. **Gardening Tips** (`gardeningTips[]`) — 6 cards in a 3-column grid with large photos (h-64 sm:h-72).
-2. **Native Plants of Delaware** (`nativePlants[]`) — 5 cards in a 2-column grid with large photo placeholders (h-72 sm:h-80). Each card has a colored gradient background. **To add real photos**: replace the placeholder `<div>` with an `<img>` tag.
-3. **Local Gardens to Visit** (`localGardens[]`) — 3 horizontal cards with side-by-side photo + text layout.
+Use `Icon.astro` instead of emoji for any decorative or labeling glyph. Icons
+inherit `currentColor` and scale cleanly:
+`<Icon name="blossom" class="w-6 h-6 text-blossom-deep" />`. Available names:
+`blossom, leaf, sprout, tree, butterfly, sun, heart, medal, calendar, trowel`.
+
+## Color accessibility (WCAG AA)
+
+Bright palette tokens (`blossom`, `accent`, `marigold`, `sunflower`, …) are for
+**fills/borders/badges**, not body text. For colored **text** on light
+backgrounds use the AA-safe variants: `rose`, `accent-deep`, `marigold-deep`,
+`holly`, or `primary`. On the dark green hero/footer, use `blossom-light`. Body
+copy uses `text-text/65` or darker (the `text` base is `#262626`).
+
+## Resources Structure
+
+`/resources` is a landing page (`src/pages/resources.astro`) of `LandingCard`s
+linking to three subpages, each backed by a validated JSON data file:
+
+1. **Gardening Tips** (`/resources/gardening-tips`) ← `src/data/gardeningTips.json` (`evergreen[]` + `rhythms[]`).
+2. **Plants** (`/resources/plants`) ← `src/data/plants.json` (`native[]` + `banned[]`).
+3. **Gardens to Visit** (`/resources/gardens`) ← `src/data/visitGardens.json` (`local[]` + `regional[]`).
 
 ## Key Files to Edit for Common Tasks
 
@@ -195,8 +234,12 @@ The Resources page (`src/pages/resources.astro`) has three sections, each with i
 | Update nav links            | `Header.astro` AND `Footer.astro`            |
 | Change theme colors         | `tailwind.config.mjs`                        |
 | Change fonts                | `tailwind.config.mjs` + Google Fonts link in `BaseLayout.astro` |
-| Add/edit gardening tips     | `src/pages/resources.astro` (frontmatter)    |
-| Add/edit native plants      | `src/pages/resources.astro` (frontmatter)    |
-| Add/edit local gardens      | `src/pages/resources.astro` (frontmatter)    |
+| Add/edit gardening tips     | `src/data/gardeningTips.json`                |
+| Add/edit native/banned plants| `src/data/plants.json`                      |
+| Add/edit gardens to visit   | `src/data/visitGardens.json`                 |
+| Add/edit member gardens     | `src/data/memberGardens.json`                |
 | SEO / meta tags             | `src/layouts/BaseLayout.astro`               |
+| Share-card (OG) text/design | `src/lib/og.ts` (text), `src/lib/renderOg.ts` (design) |
+| Add/replace an image        | `src/assets/images/` + `OptImage` (see "How to Add Images") |
+| Botanical icons             | `src/components/Icon.astro`                  |
 | Contact form                | `src/components/ContactForm.astro`           |

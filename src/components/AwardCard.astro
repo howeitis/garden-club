@@ -1,5 +1,6 @@
 ---
 import type { Award } from '../data/schema';
+import Icon from './Icon.astro';
 
 interface Props {
   award: Award;
@@ -12,7 +13,7 @@ const { award } = Astro.props;
 
   <!-- Header row: icon, name, and meta badges -->
   <div class="flex items-start gap-3">
-    <span class="text-2xl flex-shrink-0" aria-hidden="true">🏅</span>
+    <Icon name="medal" class="w-7 h-7 flex-shrink-0 text-marigold-deep" />
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2 mb-1">
         <h3 class="font-heading text-xl font-semibold text-text">{award.awardName}</h3>
@@ -21,20 +22,20 @@ const { award } = Astro.props;
           'text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full border',
           award.category === 'DFGC'
             ? 'bg-holly/12 text-holly border-holly/25'
-            : 'bg-blossom/25 text-blossom-deep border-blossom/30',
+            : 'bg-blossom/25 text-rose border-blossom/30',
         ]}>
           {award.category}
         </span>
       </div>
       <!-- Placement + Year -->
-      <div class="flex flex-wrap gap-2 text-sm text-text/55 mb-2">
+      <div class="flex flex-wrap gap-2 text-sm text-text/65 mb-2">
         {award.placement && (
-          <span class="flex items-center gap-1">
-            <span aria-hidden="true">🥇</span> {award.placement}
+          <span class="flex items-center gap-1.5">
+            <Icon name="medal" class="w-4 h-4 text-marigold-deep" /> {award.placement}
           </span>
         )}
-        <span class="flex items-center gap-1">
-          <span aria-hidden="true">📅</span> {award.year}
+        <span class="flex items-center gap-1.5">
+          <Icon name="calendar" class="w-4 h-4 text-primary" /> {award.year}
         </span>
       </div>
       <p class="text-base text-text/70 leading-relaxed">{award.description}</p>

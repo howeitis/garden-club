@@ -2,7 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../components/Icon.astro';
 import { clubInfo, projects } from '../data/index';
+
+const focusAreas: { icon: IconName; label: string; color: string }[] = [
+  { icon: 'sprout',    label: 'Planting & Growing',  color: 'text-accent-deep'   },
+  { icon: 'blossom',   label: 'Civic Beautification', color: 'text-rose'          },
+  { icon: 'butterfly', label: 'Pollinator Habitat',  color: 'text-marigold-deep' },
+  { icon: 'tree',      label: 'Conservation',         color: 'text-primary'       },
+];
 ---
 
 <BaseLayout
@@ -14,20 +23,15 @@ import { clubInfo, projects } from '../data/index';
     title="Community Service"
     subtitle="Our hands in the soil, our hearts in the community."
     image="/community-service-hero.jpg"
-    decoration={{ emoji: '🌺', position: 'top-left', rotate: 'rotate-12' }}
+    decoration={{ icon: 'sprout', position: 'top-left', rotate: 'rotate-12' }}
   />
 
   <!-- Colorful intro strip -->
   <div class="bg-gradient-to-r from-blossom/15 via-sunflower/10 to-marigold/10 border-b border-blossom/20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-wrap items-center justify-center gap-8 text-center">
-      {[
-        { icon: '🌱', label: 'Planting & Growing' },
-        { icon: '🌸', label: 'Civic Beautification' },
-        { icon: '🦋', label: 'Pollinator Habitat' },
-        { icon: '🌳', label: 'Conservation' },
-      ].map((item) => (
+      {focusAreas.map((item) => (
         <div class="flex items-center gap-2 text-sm font-medium text-text/70">
-          <span class="text-xl" aria-hidden="true">{item.icon}</span>
+          <Icon name={item.icon} class={`w-6 h-6 ${item.color}`} />
           {item.label}
         </div>
       ))}
@@ -47,7 +51,7 @@ import { clubInfo, projects } from '../data/index';
         ))}
       </div>
     ) : (
-      <p class="text-text/60 italic">No projects to display at this time. Check back soon!</p>
+      <p class="text-text/70 italic">No projects to display at this time. Check back soon!</p>
     )}
   </section>
 

@@ -2,91 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
-import { clubInfo } from '../../data/index';
+import OptImage from '../../components/OptImage.astro';
+import { clubInfo, gardeningTips } from '../../data/index';
 
-const evergreenTips = [
-  {
-    title: 'Start with Your Soil',
-    description:
-      'Healthy soil is the foundation of every great garden. Test your soil pH and amend with compost before planting. Most garden plants thrive in slightly acidic to neutral soil (pH 6.0–7.0).',
-    image: '/soil.jpg',
-  },
-  {
-    title: 'Water Wisely',
-    description:
-      'Water deeply and less frequently to encourage deep root growth. Early morning is the best time to water — it reduces evaporation and helps prevent fungal diseases.',
-    image: '/water.jpg',
-  },
-  {
-    title: 'Right Plant, Right Place',
-    description:
-      'Choose plants that match your site conditions — sun exposure, soil type, and hardiness zone. In Delaware (Zone 7a), you can grow a wide range of perennials, shrubs, and trees.',
-    image: '/rightplace.jpg',
-  },
-  {
-    title: 'Mulch Matters',
-    description:
-      'Apply 2–3 inches of organic mulch around plants to conserve moisture, suppress weeds, and regulate soil temperature. Keep mulch a few inches away from stems and trunks.',
-    image: '/mulch.jpg',
-  },
-  {
-    title: 'Feed Your Garden',
-    description:
-      'Use a balanced fertilizer in spring and supplement with compost throughout the season. Native plants generally need less fertilizer than hybrid varieties.',
-    image: '/feed.jpg',
-  },
-  {
-    title: 'Plan for Pollinators',
-    description:
-      'Include a variety of flower shapes and bloom times to support bees, butterflies, and hummingbirds from early spring through fall. Native wildflowers are especially beneficial.',
-    image: '/pollinators.jpg',
-  },
-];
-
-const gardenRhythms = [
-  {
-    title: 'Scout for Pests and Disease',
-    frequency: 'Weekly',
-    description:
-      'Integrated Pest Management (IPM) relies heavily on early detection. Regularly inspecting the undersides of leaves, stems, and soil helps catch outbreaks—like aphids or fungal spores—before they spread. Early intervention allows for mechanical controls (like hand-picking or a blast of water) rather than chemical interventions.',
-    image: '/pests.webp',
-  },
-  {
-    title: 'Stay Ahead of the Weeds',
-    frequency: 'Weekly',
-    description:
-      'Weeds aggressively compete with desired plants for water, soil nutrients, and sunlight. Removing them when they are small prevents them from establishing deep taproots or setting seed, which exponentially reduces future weed pressure in the garden bed.',
-    image: '/weeds.webp',
-  },
-  {
-    title: 'Deadhead for Continuous Blooms',
-    frequency: 'Weekly to Bi-weekly (during the growing season)',
-    description:
-      "When flowers fade and begin to set seed, hormonal signals direct the plant's energy into reproduction. Removing spent blooms (deadheading) interrupts this process, redirecting energy back into vegetative growth and the production of new flower buds.",
-    image: '/deadhead.webp',
-  },
-  {
-    title: 'Harvest Often to Encourage Yields',
-    frequency: 'Every 2–3 Days (during peak harvest season)',
-    description:
-      'For fruiting plants like beans, cucumbers, and tomatoes, leaving mature fruit on the vine signals to the plant that its reproductive cycle is complete, slowing further flowering. Frequent harvesting keeps the plant in active production and ensures produce is picked at peak flavor.',
-    image: '/harvest.webp',
-  },
-  {
-    title: 'Tend Your Compost Pile',
-    frequency: 'Bi-weekly to Monthly',
-    description:
-      'An active, hot compost pile requires oxygen to support the aerobic bacteria responsible for rapid decomposition. Turning the pile regularly and maintaining an even moisture level speeds up the breakdown of organic matter and prevents the anaerobic conditions that cause foul odors.',
-    image: '/compost.webp',
-  },
-  {
-    title: 'Clean and Maintain Your Tools',
-    frequency: 'Monthly (and immediately after pruning diseased plants)',
-    description:
-      "Dull blades crush plant stems rather than making clean cuts, leaving jagged wounds that are highly vulnerable to pathogens. Additionally, sap and dirt on tools can harbor and transmit soil-borne bacterial and fungal diseases between plants. Regular cleaning, oiling, and sharpening protect the garden's overall health.",
-    image: '/gardentools.webp',
-  },
-];
+const { evergreen: evergreenTips, rhythms: gardenRhythms } = gardeningTips;
 ---
 
 <BaseLayout
@@ -98,13 +17,14 @@ const gardenRhythms = [
     eyebrow="Grow Better"
     title="Gardening Tips"
     subtitle="Timeless fundamentals plus seasonal routines to keep your garden thriving."
+    image="/gardentools.webp"
   />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
     <!-- Evergreen Tips -->
     <section aria-labelledby="evergreen-heading" class="fade-in-section">
-      <SectionHeader label="🌷 Always True" tone="blossom" />
+      <SectionHeader label="Always True" tone="blossom" icon="blossom" />
       <h2 id="evergreen-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Evergreen Tips
       </h2>
@@ -117,11 +37,12 @@ const gardenRhythms = [
         {evergreenTips.map((tip) => (
           <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
             <div class="overflow-hidden">
-              <img
-                src={tip.image}
+              <OptImage
+                path={tip.image}
                 alt={tip.title}
                 class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
+                widths={[400, 800]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               />
             </div>
             <div class="p-6">
@@ -135,7 +56,7 @@ const gardenRhythms = [
 
     <!-- Garden Rhythms -->
     <section aria-labelledby="rhythms-heading" class="fade-in-section">
-      <SectionHeader label="🌼 In Season" tone="marigold" />
+      <SectionHeader label="In Season" tone="marigold" icon="leaf" />
       <h2 id="rhythms-heading" class="font-heading text-3xl font-bold text-text mb-4">
         Garden Rhythms
       </h2>
@@ -148,18 +69,19 @@ const gardenRhythms = [
         {gardenRhythms.map((tip) => (
           <div class="bg-white rounded-xl border border-marigold/25 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
             <div class="overflow-hidden">
-              <img
-                src={tip.image}
+              <OptImage
+                path={tip.image}
                 alt={tip.title}
                 class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
+                widths={[400, 800]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               />
             </div>
             <div class="p-6">
               <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                 <h3 class="font-heading text-xl font-semibold text-text">{tip.title}</h3>
               </div>
-              <p class="text-xs font-semibold text-marigold uppercase tracking-wide mb-3">
+              <p class="text-xs font-semibold text-marigold-deep uppercase tracking-wide mb-3">
                 {tip.frequency}
               </p>
               <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>

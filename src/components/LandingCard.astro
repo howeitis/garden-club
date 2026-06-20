@@ -2,6 +2,8 @@
 // Wide CTA card used on the main /resources page to link to each subpage.
 // Renders a 2-column layout: text + outbound arrow on the left, a 2x2
 // thumbnail grid on the right.
+import OptImage from './OptImage.astro';
+
 type Tone = 'blossom' | 'accent' | 'marigold';
 
 interface Image {
@@ -33,17 +35,17 @@ const { href, title, description, eyebrow, cta, tone, images } = Astro.props;
 const TONES: Record<Tone, { card: string; eyebrow: string; divider: string }> = {
   blossom: {
     card: 'border-blossom/30 bg-gradient-to-br from-blossom/10 via-white to-sunflower/5',
-    eyebrow: 'text-blossom',
+    eyebrow: 'text-rose',
     divider: 'from-blossom/30',
   },
   accent: {
     card: 'border-accent/30 bg-gradient-to-br from-accent/10 via-white to-holly/5',
-    eyebrow: 'text-accent',
+    eyebrow: 'text-accent-deep',
     divider: 'from-accent/30',
   },
   marigold: {
     card: 'border-marigold/30 bg-gradient-to-br from-marigold/10 via-white to-blossom/5',
-    eyebrow: 'text-marigold',
+    eyebrow: 'text-marigold-deep',
     divider: 'from-sunflower/40',
   },
 };
@@ -78,14 +80,15 @@ const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace
       </div>
       <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
         {images.map((img) => (
-          <img
-            src={img.src}
+          <OptImage
+            path={img.src}
             alt=""
             class:list={[
               'w-full h-32 sm:h-40 object-cover rounded-lg',
               img.glow ?? 'shadow-sm',
             ]}
-            loading="lazy"
+            widths={[200, 400]}
+            sizes="(min-width: 768px) 25vw, 50vw"
           />
         ))}
       </div>

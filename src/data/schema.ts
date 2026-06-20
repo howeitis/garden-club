@@ -139,3 +139,74 @@ export const ProjectSchema = z.object({
 export const ProjectsSchema = z.array(ProjectSchema);
 
 export type Project = z.infer<typeof ProjectSchema>;
+
+// ─── memberGardens.json ──────────────────────────────────────────────────────
+export const MemberGardenSchema = z.object({
+  name: z.string(),
+  member: z.string(),
+  description: z.string(),
+  highlight: z.string(),
+  image: z.string(),
+  /** Optional object-position override, e.g. "center 35%". */
+  imagePosition: z.string().optional(),
+});
+
+export const MemberGardensSchema = z.array(MemberGardenSchema);
+
+export type MemberGarden = z.infer<typeof MemberGardenSchema>;
+
+// ─── gardeningTips.json ──────────────────────────────────────────────────────
+export const GardeningTipSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  image: z.string(),
+});
+
+export const GardenRhythmSchema = GardeningTipSchema.extend({
+  frequency: z.string(),
+});
+
+export const GardeningTipsSchema = z.object({
+  evergreen: z.array(GardeningTipSchema),
+  rhythms: z.array(GardenRhythmSchema),
+});
+
+export type GardeningTip = z.infer<typeof GardeningTipSchema>;
+export type GardenRhythm = z.infer<typeof GardenRhythmSchema>;
+export type GardeningTips = z.infer<typeof GardeningTipsSchema>;
+
+// ─── plants.json ─────────────────────────────────────────────────────────────
+export const PlantSchema = z.object({
+  name: z.string(),
+  scientific: z.string(),
+  description: z.string(),
+  image: z.string(),
+  /** Bloom period (native plants only), e.g. "May – June". */
+  bloom: z.string().optional(),
+});
+
+export const PlantsSchema = z.object({
+  native: z.array(PlantSchema),
+  banned: z.array(PlantSchema),
+});
+
+export type Plant = z.infer<typeof PlantSchema>;
+export type Plants = z.infer<typeof PlantsSchema>;
+
+// ─── visitGardens.json ───────────────────────────────────────────────────────
+export const VisitGardenSchema = z.object({
+  name: z.string(),
+  location: z.string(),
+  description: z.string(),
+  /** Domain only, no protocol (e.g. "longwoodgardens.org"). */
+  website: z.string(),
+  image: z.string(),
+});
+
+export const VisitGardensSchema = z.object({
+  local: z.array(VisitGardenSchema),
+  regional: z.array(VisitGardenSchema),
+});
+
+export type VisitGarden = z.infer<typeof VisitGardenSchema>;
+export type VisitGardens = z.infer<typeof VisitGardensSchema>;

@@ -1,14 +1,20 @@
 ---
 // Reusable page hero used at the top of every interior page.
-// Renders the green hero band with overlay image, eyebrow, title, and subtitle.
+// Renders the green hero band with an optimized overlay image, eyebrow, title,
+// and subtitle.
 //
-// Optionally accepts a single decorative emoji (positioned in a corner of the
-// hero) — a small flourish used by About, Community Service, Membership,
+// Optionally accepts a single decorative botanical icon (positioned in a corner
+// of the hero) — a small flourish used by About, Community Service, Membership,
 // Contact, and Awards & Judges.
+import OptImage from './OptImage.astro';
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
 type DecorPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 interface Decoration {
-  emoji: string;
+  /** Botanical icon name from the Icon set */
+  icon: IconName;
   position?: DecorPosition;
   /** Optional rotation, e.g. "rotate-6" or "-rotate-12" */
   rotate?: string;
@@ -21,13 +27,13 @@ interface Props {
   title: string;
   /** Optional one-line description below the title */
   subtitle?: string;
-  /** Public path to the overlay image (defaults to /flower.jpg) */
-  image?: string;
-  /** Optional decorative emoji in a corner of the hero */
+  /** Registry path to the overlay image, e.g. "/about-hero.jpg" */
+  image: string;
+  /** Optional decorative botanical icon in a corner of the hero */
   decoration?: Decoration;
 }
 
-const { eyebrow, title, subtitle, image = '/flower.jpg', decoration } = Astro.props;
+const { eyebrow, title, subtitle, image, decoration } = Astro.props;
 
 const POSITIONS: Record<DecorPosition, string> = {
   'top-left':     'top-6 left-8',
@@ -39,30 +45,31 @@ const POSITIONS: Record<DecorPosition, string> = {
 
 <section class="relative text-background pt-36 sm:pt-44 pb-20 sm:pb-28 overflow-hidden">
   <div class="absolute inset-0">
-    <img
-      src={image}
+    <OptImage
+      path={image}
       alt=""
       class="w-full h-full object-cover"
       loading="eager"
+      fetchpriority="high"
+      widths={[640, 1024, 1600, 2000]}
+      sizes="100vw"
     />
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/45" aria-hidden="true"></div>
   </div>
 
   {decoration && (
-    <div
+    <Icon
+      name={decoration.icon}
       class:list={[
-        'absolute text-5xl opacity-15 select-none pointer-events-none',
+        'absolute w-16 h-16 text-blossom-light opacity-25 select-none pointer-events-none',
         POSITIONS[decoration.position ?? 'top-right'],
         decoration.rotate ?? 'rotate-6',
       ]}
-      aria-hidden="true"
-    >
-      {decoration.emoji}
-    </div>
+    />
   )}
 
   <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <p class="text-blossom text-xs font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
+    <p class="text-blossom-light text-xs font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
     <h1 class="font-heading text-4xl sm:text-5xl font-bold leading-tight" set:html={title} />
     {subtitle && (
       <p class="mt-4 text-background/75 text-lg max-w-xl mx-auto">{subtitle}</p>

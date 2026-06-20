@@ -1,0 +1,62 @@
+{
+  "local": [
+    {
+      "name": "Longwood Gardens",
+      "location": "Kennett Square, PA",
+      "description": "One of the world's premier horticultural display gardens, Longwood spans over 1,000 acres and features spectacular fountains, a conservatory with 4,600 plant species, extensive outdoor gardens, and a renowned meadow garden. The gardens offer year-round programming, seasonal displays, and breathtaking illuminated fountain performances.",
+      "website": "longwoodgardens.org",
+      "image": "/longwoodvisit.webp"
+    },
+    {
+      "name": "Winterthur Museum, Garden & Library",
+      "location": "Winterthur, DE",
+      "description": "Set on nearly 1,000 acres in the Brandywine Valley, Winterthur's naturalistic garden is one of the finest in North America. Designed by Henry Francis du Pont, the garden features sweeping vistas, a stunning March Bank of early spring bulbs, native azaleas, and a renowned collection of rare and unusual plants arranged to look as though nature placed them.",
+      "website": "winterthur.org",
+      "image": "/winterthur.webp"
+    },
+    {
+      "name": "Mt. Cuba Center",
+      "location": "Hockessin, DE",
+      "description": "Dedicated to the study and conservation of native plants of the Appalachian Piedmont, Mt. Cuba Center features beautifully curated gardens and natural lands spanning over 1,000 acres. The gardens showcase the beauty of native wildflowers, ferns, and trees, and the center conducts important plant trials to help gardeners choose the best native cultivars.",
+      "website": "mtcubacenter.org",
+      "image": "/mtcuba.webp"
+    },
+    {
+      "name": "Delaware Center for Horticulture",
+      "location": "Wilmington, DE",
+      "description": "A nonprofit dedicated to inspiring appreciation and improvement of the environment through horticulture, education, and community stewardship. The Center cultivates urban green spaces, leads tree-planting and beautification programs across Wilmington, and offers classes, workshops, and signature events that bring gardeners of all ages together.",
+      "website": "thedch.org",
+      "image": "/dch.webp"
+    }
+  ],
+  "regional": [
+    {
+      "name": "Morris Arboretum & Gardens",
+      "location": "Philadelphia, PA",
+      "description": "The official arboretum of the Commonwealth of Pennsylvania and a beloved 92-acre living museum operated by the University of Pennsylvania. Morris Arboretum features more than 13,000 labeled plants, a Victorian-era log cabin, a swan pond, the famous Out on a Limb tree adventure canopy walk, and one of the finest collections of mature trees in the region.",
+      "website": "morrisarboretum.org",
+      "image": "/morris.webp"
+    },
+    {
+      "name": "Chanticleer",
+      "location": "Wayne, PA",
+      "description": "A pleasure garden of unrivaled imagination, Chanticleer is a 48-acre estate garden often described as one of the most romantic and creative public gardens in America. Each area is designed and tended by a single horticulturist, resulting in a constantly evolving tapestry of bold plant combinations, hand-crafted furniture, and inventive seasonal displays.",
+      "website": "chanticleergarden.org",
+      "image": "/chanticleer.webp"
+    },
+    {
+      "name": "Bartram's Garden",
+      "location": "Philadelphia, PA",
+      "description": "The oldest surviving botanic garden in North America, established in 1728 by John Bartram on the banks of the Schuylkill River. The 50-acre National Historic Landmark preserves Bartram's 18th-century house, historic plant collections, riverfront meadows, and the legacy of America's pioneering botanist who introduced more than 200 native plants to the world.",
+      "website": "bartramsgarden.org",
+      "image": "/bartams.webp"
+    },
+    {
+      "name": "The Barnes Arboretum",
+      "location": "Merion, PA",
+      "description": "A 12-acre living masterpiece established in 1922 by Laura L. Barnes, featuring more than 2,500 species of woody and herbaceous plants. The collection includes a renowned fern garden, peony garden, rose garden, and significant specimens of magnolias, lilacs, and stewartias, all arranged with the same artistic sensibility that shaped the famed Barnes Foundation art collection.",
+      "website": "barnesfoundation.org/visit/arboretum",
+      "image": "/barnes.webp"
+    }
+  ]
+}

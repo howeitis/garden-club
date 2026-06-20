@@ -1,0 +1,57 @@
+---
+// Thin wrapper over Astro's <Image> that accepts a "/filename" path string
+// (resolved through the image registry) instead of a static import. This lets
+// data-driven images — project photos, plant cards, member gardens — flow
+// through the build-time optimizer (WebP/AVIF, compression, responsive widths)
+// while components keep passing simple string paths.
+import { Image } from 'astro:assets';
+import { resolveImage } from '../lib/images';
+
+interface Props {
+  /** Registry path, e.g. "/rosegarden.webp" */
+  path: string;
+  alt: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  /** Responsive sizes attribute. Required if you want multiple widths emitted. */
+  sizes?: string;
+  /** Candidate widths for srcset (clamped to the source width). */
+  widths?: number[];
+  /** Passthrough inline style (e.g. object-position). */
+  style?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  path,
+  alt,
+  class: className,
+  loading = 'lazy',
+  sizes,
+  widths,
+  style,
+  fetchpriority,
+} = Astro.props;
+
+const img = resolveImage(path);
+
+// Only emit a srcset when both widths and sizes are supplied; otherwise render a
+// single optimized image at the source resolution. Clamp candidate widths so we
+// never upscale beyond the original.
+const clampedWidths =
+  widths && sizes ? [...new Set(widths.filter((w) => w <= img.width))].sort((a, b) => a - b) : undefined;
+const effectiveWidths =
+  clampedWidths && clampedWidths.length ? clampedWidths : undefined;
+---
+
+<Image
+  src={img}
+  alt={alt}
+  class={className}
+  loading={loading}
+  decoding={loading === 'eager' ? 'auto' : 'async'}
+  widths={effectiveWidths}
+  sizes={effectiveWidths ? sizes : undefined}
+  style={style}
+  fetchpriority={fetchpriority}
+/>

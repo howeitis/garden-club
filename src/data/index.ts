@@ -17,6 +17,10 @@ import {
   AwardsSchema,
   JudgesSchema,
   ProjectsSchema,
+  MemberGardensSchema,
+  GardeningTipsSchema,
+  PlantsSchema,
+  VisitGardensSchema,
   type ClubInfo,
   type Contact,
   type Meetings,
@@ -25,6 +29,10 @@ import {
   type Award,
   type Judge,
   type Project,
+  type MemberGarden,
+  type GardeningTips,
+  type Plants,
+  type VisitGardens,
 } from './schema';
 
 import clubInfoRaw from './clubInfo.json';
@@ -35,6 +43,10 @@ import officersRaw from './officers.json';
 import awardsRaw from './awards.json';
 import judgesRaw from './judges.json';
 import projectsRaw from './projects.json';
+import memberGardensRaw from './memberGardens.json';
+import gardeningTipsRaw from './gardeningTips.json';
+import plantsRaw from './plants.json';
+import visitGardensRaw from './visitGardens.json';
 
 // Parse and validate each data file. If any file fails validation,
 // the build will throw a ZodError with details about what is wrong.
@@ -46,6 +58,23 @@ export const officers: Officer[] = OfficersSchema.parse(officersRaw);
 export const awards: Award[] = AwardsSchema.parse(awardsRaw);
 export const judges: Judge[] = JudgesSchema.parse(judgesRaw);
 export const projects: Project[] = ProjectsSchema.parse(projectsRaw);
+export const memberGardens: MemberGarden[] = MemberGardensSchema.parse(memberGardensRaw);
+export const gardeningTips: GardeningTips = GardeningTipsSchema.parse(gardeningTipsRaw);
+export const plants: Plants = PlantsSchema.parse(plantsRaw);
+export const visitGardens: VisitGardens = VisitGardensSchema.parse(visitGardensRaw);
 
 // Re-export types for convenience so components only need one import path.
-export type { ClubInfo, Contact, Meetings, Affiliations, Officer, Award, Judge, Project };
+export type {
+  ClubInfo,
+  Contact,
+  Meetings,
+  Affiliations,
+  Officer,
+  Award,
+  Judge,
+  Project,
+  MemberGarden,
+  GardeningTips,
+  Plants,
+  VisitGardens,
+};

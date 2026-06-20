@@ -3,6 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { clubInfo, contact } from '../data/index';
+import { ogSlugForPath } from '../lib/og';
 
 export interface Props {
   title: string;
@@ -15,9 +16,10 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-// og-share.png is a purpose-built 1200×630 card (≈88 KB) — well within WhatsApp's limit.
-// gggc-hero.png is 2048×2048 at ~6 MB and would be silently dropped by most scrapers.
-const ogImage = new URL('/og-share-v2.png', Astro.site).toString();
+// Per-page Open Graph card: a 1200×630 PNG generated at build time from the
+// shared template, with this page's headline. Falls back to the home card.
+const ogSlug = ogSlugForPath(Astro.url.pathname);
+const ogImage = new URL(`/og/${ogSlug}.png`, Astro.site).toString();
 
 // Build JSON-LD Organization schema dynamically from validated data
 const sameAs = contact.socialLinks ? Object.values(contact.socialLinks) : [];
@@ -40,6 +42,7 @@ const jsonLd = {
   description: clubInfo.missionStatement,
   foundingDate: foundingDateISO,
   email: contact.primaryEmail,
+  logo: new URL('/gggc-clean.png', Astro.site).toString(),
   address: {
     '@type': 'PostalAddress',
     streetAddress: contact.mailingAddress.street,
@@ -47,6 +50,16 @@ const jsonLd = {
     addressRegion: contact.mailingAddress.state,
     postalCode: contact.mailingAddress.zip,
     addressCountry: 'US',
+  },
+  areaServed: {
+    '@type': 'City',
+    name: 'Greenville',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Greenville',
+      addressRegion: 'DE',
+      addressCountry: 'US',
+    },
   },
   sameAs,
 };

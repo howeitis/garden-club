@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import { clubInfo } from '../data/index';
 ---
 
@@ -14,11 +15,11 @@ import { clubInfo } from '../data/index';
       class="h-24 w-auto object-contain mb-8 opacity-80"
       loading="eager"
     />
-    <p class="text-4xl mb-4" aria-hidden="true">🌸</p>
+    <Icon name="blossom" class="w-10 h-10 text-blossom-deep mb-4" />
     <h1 class="font-heading text-5xl sm:text-6xl font-bold text-holly mb-4">
       Still digging.
     </h1>
-    <p class="text-text/60 text-lg mb-10 max-w-md leading-relaxed">
+    <p class="text-text/70 text-lg mb-10 max-w-md leading-relaxed">
       We couldn't find that page. It may have moved, or perhaps it was never planted here to begin with.
     </p>
     <a
