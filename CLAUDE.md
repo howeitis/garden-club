@@ -141,7 +141,7 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 ```
 
 ### Page Transitions & Scroll Animations
-- **Astro View Transitions** are enabled in `BaseLayout.astro` via `<ViewTransitions />`.
+- **Astro View Transitions** are enabled in `BaseLayout.astro` via `<ClientRouter />`.
 - Page transitions use custom `fadeSlideIn` / `fadeSlideOut` keyframe animations on `::view-transition-old(root)` and `::view-transition-new(root)`.
 - **Scroll fade-in**: Add `class="fade-in-section"` to any `<section>` to make it fade + slide up when scrolled into view. The `IntersectionObserver` is initialized on load and re-initialized after every view transition via `astro:after-swap`.
 
@@ -175,6 +175,13 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 2. Reference in templates as `src="/filename.jpg"` (no `public/` prefix).
 3. Use `loading="eager"` for hero/above-fold images, `loading="lazy"` for everything else.
 4. For hover-zoom effect: wrap in `overflow-hidden` div, add `transition-transform duration-500 group-hover:scale-105` to `<img>`.
+
+**Photos are optimized through `astro:assets`** — only logos, favicons, and the OG image stay in `public/`.
+- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, everything else in `src/assets/content/`).
+- **Content images** (cards, galleries, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass the same public-style string, e.g. `<SmartImage src="/rosegarden.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
+- **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — it uses the same resolver.
+- The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
+- Data files (`projects.json`, plant/garden arrays, etc.) keep referencing images by the same `/filename.ext` string — no changes needed there. Just drop the source in `src/assets/content/`.
 
 ## Resources Page Structure
 

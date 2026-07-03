@@ -202,7 +202,7 @@ const currentPath = Astro.url.pathname;
   // ─────────────────────────────────────────────────────────────────────────────
   // Header behavior: mobile menu toggle + scroll-direction reveal.
   //
-  // IMPORTANT: Astro <ViewTransitions /> swaps the entire DOM on each navigation
+  // IMPORTANT: Astro <ClientRouter /> swaps the entire DOM on each navigation
   // but inline <script> bodies only execute once. To survive swaps without
   // rebinding on every page, we use:
   //   • Event delegation on `document` for the menu button click

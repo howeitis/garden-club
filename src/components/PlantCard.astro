@@ -4,6 +4,8 @@
 // `variant` switches the card's tinted glow:
 //   • "native" — green glow + bloom-period badge
 //   • "banned" — red glow + "Invasive" badge
+import SmartImage from './SmartImage.astro';
+
 type Variant = 'native' | 'banned';
 
 interface Props {
@@ -35,9 +37,11 @@ const badgeText = variant === 'native' ? bloom : 'Invasive';
 
 <div class={`rounded-xl bg-white overflow-hidden transition-all duration-300 ${s.card}`}>
   <div class="overflow-hidden">
-    <img
+    <SmartImage
       src={image}
       alt={name}
+      widths={[400, 800, 1200]}
+      sizes="(min-width: 640px) 50vw, 100vw"
       class="w-full h-72 sm:h-80 object-cover"
       loading="lazy"
     />

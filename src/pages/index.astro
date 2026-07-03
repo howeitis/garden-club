@@ -1,6 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SmartImage from '../components/SmartImage.astro';
+import { getImage } from 'astro:assets';
+import heroDesktopSrc from '../assets/heroes/home-hero.png';
+import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
 import { clubInfo } from '../data/index';
+
+// Art-directed home hero: a portrait-ish crop on phones, the wide shot on
+// larger screens. Both are optimized to WebP with responsive srcsets.
+const heroDesktop = await getImage({
+  src: heroDesktopSrc,
+  format: 'webp',
+  widths: [1280, 1920, 2560],
+  sizes: '100vw',
+});
+const heroMobile = await getImage({
+  src: heroMobileSrc,
+  format: 'webp',
+  widths: [480, 768, 1080],
+  sizes: '100vw',
+});
 ---
 
 <BaseLayout title={`${clubInfo.name} — Delaware Garden Club`} description={clubInfo.missionStatement}>
@@ -9,8 +28,17 @@ import { clubInfo } from '../data/index';
   <section class="relative text-background overflow-hidden">
     <div class="absolute inset-0">
       <picture class="block w-full h-full">
-        <source media="(max-width: 639px)" srcset="/home-hero-mobile.webp" />
-        <img src="/home-hero.png" alt="" class="w-full h-full object-cover" loading="eager" />
+        <source media="(max-width: 639px)" srcset={heroMobile.srcSet.attribute} sizes="100vw" />
+        <source srcset={heroDesktop.srcSet.attribute} sizes="100vw" />
+        <img
+          src={heroDesktop.src}
+          width={heroDesktopSrc.width}
+          height={heroDesktopSrc.height}
+          alt=""
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
       </picture>
       <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/45" aria-hidden="true"></div>
     </div>
@@ -86,7 +114,7 @@ import { clubInfo } from '../data/index';
             'aspect-square rounded-2xl overflow-hidden shadow-sm relative group',
             i === 0 ? 'bg-blossom/20' : i === 1 ? 'bg-holly-light' : i === 2 ? 'bg-sunflower/15' : 'bg-lavender/20',
           ]}>
-            <img src={imgSrc} alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            <SmartImage src={imgSrc} alt="" widths={[300, 600]} sizes="(min-width: 1024px) 25vw, 50vw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
           </div>
         ))}
       </div>
@@ -138,9 +166,11 @@ import { clubInfo } from '../data/index';
         </a>
 
         <div class="rounded-2xl overflow-hidden border border-accent/25 shadow-sm min-h-[18rem]">
-          <img
+          <SmartImage
             src="/demuseum.webp"
             alt="Bobbee Vernon Memorial Garden at the Delaware Museum of Nature & Science"
+            widths={[400, 800, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
             class="w-full h-full object-cover"
             loading="lazy"
           />

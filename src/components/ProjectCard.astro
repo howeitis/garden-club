@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/schema';
+import SmartImage from './SmartImage.astro';
 
 interface Props {
   project: Project;
@@ -13,9 +14,11 @@ const { project } = Astro.props;
   <!-- Image or fallback -->
   {project.imageReference ? (
     <div class="relative h-52 bg-blossom/10 overflow-hidden">
-      <img
+      <SmartImage
         src={project.imageReference}
         alt={`Photo of ${project.name}`}
+        widths={[400, 800]}
+        sizes="(min-width: 640px) 50vw, 100vw"
         class="w-full h-full object-cover"
         loading="lazy"
         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"

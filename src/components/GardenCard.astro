@@ -1,6 +1,8 @@
 ---
 // Wide horizontal garden card used on /resources/gardens for both Local and
 // Regional sections. Image on the left, description + outbound link on the right.
+import SmartImage from './SmartImage.astro';
+
 interface Props {
   name: string;
   location: string;
@@ -16,9 +18,11 @@ const { name, location, description, website, image } = Astro.props;
 <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
   <div class="flex flex-col md:flex-row">
     <div class="md:w-72 lg:w-80 flex-shrink-0">
-      <img
+      <SmartImage
         src={image}
         alt={name}
+        widths={[320, 640, 960]}
+        sizes="(min-width: 768px) 320px, 100vw"
         class="w-full h-56 md:h-full object-cover"
         loading="lazy"
       />
