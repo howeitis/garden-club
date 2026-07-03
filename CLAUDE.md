@@ -141,7 +141,7 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 ```
 
 ### Page Transitions & Scroll Animations
-- **Astro View Transitions** are enabled in `BaseLayout.astro` via `<ViewTransitions />`.
+- **Astro View Transitions** are enabled in `BaseLayout.astro` via `<ClientRouter />`.
 - Page transitions use custom `fadeSlideIn` / `fadeSlideOut` keyframe animations on `::view-transition-old(root)` and `::view-transition-new(root)`.
 - **Scroll fade-in**: Add `class="fade-in-section"` to any `<section>` to make it fade + slide up when scrolled into view. The `IntersectionObserver` is initialized on load and re-initialized after every view transition via `astro:after-swap`.
 
@@ -175,6 +175,12 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 2. Reference in templates as `src="/filename.jpg"` (no `public/` prefix).
 3. Use `loading="eager"` for hero/above-fold images, `loading="lazy"` for everything else.
 4. For hover-zoom effect: wrap in `overflow-hidden` div, add `transition-transform duration-500 group-hover:scale-105` to `<img>`.
+
+**Page hero images are optimized** and handled differently from content images:
+- Put the hero source file in `src/assets/heroes/` (not `public/`).
+- Pass it to `PageHero` with the same public-style string, e.g. `image="/my-hero.jpg"` — `PageHero` resolves the filename to the imported asset and emits an optimized, responsive WebP `<Image>`. A filename with no match in `src/assets/heroes/` falls back to a plain `<img>` from `public/`.
+- The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
+- Content images (cards, galleries) still use plain `<img>` from `public/` — migrating those to `astro:assets` is tracked as a backlog item.
 
 ## Resources Page Structure
 

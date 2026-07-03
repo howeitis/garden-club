@@ -198,8 +198,7 @@ Known gaps for whoever picks this up next. The first two need info only the club
 
 - ⚠️ **Contact form is inactive.** `src/components/ContactForm.astro` still posts to `https://formspree.io/f/YOUR_FORM_ID`. Submissions will fail until this is replaced with the club's real [Formspree](https://formspree.io) endpoint.
 - ⚠️ **Production domain not confirmed.** `SITE_URL` (Vercel) and the `Sitemap:` host in `public/robots.txt` currently use the `garden-club-eight.vercel.app` placeholder. Update both once the final domain is live (see [Production Domain](#production-domain)).
-- 🔧 **`<ViewTransitions />` is deprecated** in Astro 5 (`src/layouts/BaseLayout.astro`) and is renamed to `<ClientRouter />`. Non-breaking today, but should be swapped before an Astro 6 upgrade. Surfaced by `npm run check`.
-- 🖼️ **Images are unoptimized.** All image tags are plain `<img>` serving full-size assets. Migrating to Astro's `<Image />` component (`astro:assets`) is the biggest remaining performance/SEO win — see the Engineering backlog below.
+- 🖼️ **Image optimization is partially done.** The page heroes (home + the shared `PageHero`) now serve optimized, responsive WebP via `astro:assets` — hero source files live in `src/assets/heroes/` and the 6 MB PNG/JPG originals no longer ship (e.g. `home-hero` 5.9 MB → ~143 KB). **Still to do:** the in-content images (garden/plant/project/tip cards) are plain `<img>` from `public/`. See issue [#9](https://github.com/howeitis/garden-club/issues/9).
 
 ### Repo hygiene done in this handoff pass
 - `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.

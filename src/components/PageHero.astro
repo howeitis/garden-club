@@ -5,6 +5,22 @@
 // Optionally accepts a single decorative emoji (positioned in a corner of the
 // hero) — a small flourish used by About, Community Service, Membership,
 // Contact, and Awards & Judges.
+import { Image } from 'astro:assets';
+
+// Hero source images live in src/assets/heroes/ so Astro can optimize them
+// (WebP + responsive srcset). The `image` prop is still a public-style path
+// string (e.g. "/about-hero.jpg") for a stable, simple API; we resolve it to
+// the imported asset by filename. Anything not found here (e.g. the default
+// /flower.jpg, still in public/) falls back to a plain <img>.
+const heroModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/heroes/*.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+const heroes: Record<string, ImageMetadata> = {};
+for (const [path, mod] of Object.entries(heroModules)) {
+  heroes[path.split('/').pop()!] = mod.default;
+}
+
 type DecorPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 interface Decoration {
@@ -28,6 +44,7 @@ interface Props {
 }
 
 const { eyebrow, title, subtitle, image = '/flower.jpg', decoration } = Astro.props;
+const heroImage = heroes[image.replace(/^\//, '')];
 
 const POSITIONS: Record<DecorPosition, string> = {
   'top-left':     'top-6 left-8',
@@ -39,12 +56,25 @@ const POSITIONS: Record<DecorPosition, string> = {
 
 <section class="relative text-background pt-36 sm:pt-44 pb-20 sm:pb-28 overflow-hidden">
   <div class="absolute inset-0">
-    <img
-      src={image}
-      alt=""
-      class="w-full h-full object-cover"
-      loading="eager"
-    />
+    {heroImage ? (
+      <Image
+        src={heroImage}
+        alt=""
+        widths={[640, 1024, 1600, 2000]}
+        sizes="100vw"
+        format="webp"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    ) : (
+      <img
+        src={image}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+    )}
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/45" aria-hidden="true"></div>
   </div>
 

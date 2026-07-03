@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { clubInfo, contact } from '../data/index';
@@ -111,7 +111,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
 
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
 
     <style is:global>
       html { font-size: 18px; }
@@ -155,7 +155,7 @@ const jsonLd = {
       // ───────────────────────────────────────────────────────────────────────
       // Per-page setup: scroll to top on navigation + scroll-triggered fade-in.
       //
-      // Astro <ViewTransitions /> swaps the DOM but does not always restore
+      // Astro <ClientRouter /> swaps the DOM but does not always restore
       // scroll position to the top of the new page. We force it here, and
       // re-initialize the IntersectionObserver against the freshly rendered
       // sections. The previous observer is GC'd along with the swapped-out DOM.
