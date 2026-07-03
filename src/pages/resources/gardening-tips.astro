@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
+import SmartImage from '../../components/SmartImage.astro';
 import { clubInfo } from '../../data/index';
 
 const evergreenTips = [
@@ -117,9 +118,11 @@ const gardenRhythms = [
         {evergreenTips.map((tip) => (
           <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
             <div class="overflow-hidden">
-              <img
+              <SmartImage
                 src={tip.image}
                 alt={tip.title}
+                widths={[400, 800, 1200]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
@@ -148,9 +151,11 @@ const gardenRhythms = [
         {gardenRhythms.map((tip) => (
           <div class="bg-white rounded-xl border border-marigold/25 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
             <div class="overflow-hidden">
-              <img
+              <SmartImage
                 src={tip.image}
                 alt={tip.title}
+                widths={[400, 800, 1200]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />

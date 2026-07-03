@@ -176,11 +176,12 @@ Decorative dividers: <div class="flex items-center gap-3 mb-4">
 3. Use `loading="eager"` for hero/above-fold images, `loading="lazy"` for everything else.
 4. For hover-zoom effect: wrap in `overflow-hidden` div, add `transition-transform duration-500 group-hover:scale-105` to `<img>`.
 
-**Page hero images are optimized** and handled differently from content images:
-- Put the hero source file in `src/assets/heroes/` (not `public/`).
-- Pass it to `PageHero` with the same public-style string, e.g. `image="/my-hero.jpg"` — `PageHero` resolves the filename to the imported asset and emits an optimized, responsive WebP `<Image>`. A filename with no match in `src/assets/heroes/` falls back to a plain `<img>` from `public/`.
+**Photos are optimized through `astro:assets`** — only logos, favicons, and the OG image stay in `public/`.
+- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, everything else in `src/assets/content/`).
+- **Content images** (cards, galleries, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass the same public-style string, e.g. `<SmartImage src="/rosegarden.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
+- **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — it uses the same resolver.
 - The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
-- Content images (cards, galleries) still use plain `<img>` from `public/` — migrating those to `astro:assets` is tracked as a backlog item.
+- Data files (`projects.json`, plant/garden arrays, etc.) keep referencing images by the same `/filename.ext` string — no changes needed there. Just drop the source in `src/assets/content/`.
 
 ## Resources Page Structure
 

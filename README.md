@@ -157,14 +157,14 @@ All site content lives in `src/data/*.json`. Most updates require **no code chan
 
 ### Adding images
 
-Place image files in `public/` using hyphenated filenames (no spaces):
+Place **photos** in `src/assets/content/` (heroes in `src/assets/heroes/`) so they're optimized to responsive WebP at build time. Use hyphenated filenames (no spaces):
 
 ```
-public/project-pollinator-garden.jpg   ✓
-public/project pollinator garden.jpg   ✗  (spaces break URLs)
+src/assets/content/project-pollinator-garden.jpg   ✓
+src/assets/content/project pollinator garden.jpg   ✗  (spaces break URLs)
 ```
 
-Reference them in JSON as `/project-pollinator-garden.jpg`.
+Reference them in JSON / props by the same public-style string, e.g. `/project-pollinator-garden.jpg` — `SmartImage` and `PageHero` resolve it to the optimized asset (see the image-handling notes in `CLAUDE.md`). Only logos, favicons, and the OG image live in `public/`.
 
 ---
 
@@ -198,7 +198,7 @@ Known gaps for whoever picks this up next. The first two need info only the club
 
 - ⚠️ **Contact form is inactive.** `src/components/ContactForm.astro` still posts to `https://formspree.io/f/YOUR_FORM_ID`. Submissions will fail until this is replaced with the club's real [Formspree](https://formspree.io) endpoint.
 - ⚠️ **Production domain not confirmed.** `SITE_URL` (Vercel) and the `Sitemap:` host in `public/robots.txt` currently use the `garden-club-eight.vercel.app` placeholder. Update both once the final domain is live (see [Production Domain](#production-domain)).
-- 🖼️ **Image optimization is partially done.** The page heroes (home + the shared `PageHero`) now serve optimized, responsive WebP via `astro:assets` — hero source files live in `src/assets/heroes/` and the 6 MB PNG/JPG originals no longer ship (e.g. `home-hero` 5.9 MB → ~143 KB). **Still to do:** the in-content images (garden/plant/project/tip cards) are plain `<img>` from `public/`. See issue [#9](https://github.com/howeitis/garden-club/issues/9).
+- 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
 ### Repo hygiene done in this handoff pass
 - `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.

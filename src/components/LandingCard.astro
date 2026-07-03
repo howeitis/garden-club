@@ -2,6 +2,8 @@
 // Wide CTA card used on the main /resources page to link to each subpage.
 // Renders a 2-column layout: text + outbound arrow on the left, a 2x2
 // thumbnail grid on the right.
+import SmartImage from './SmartImage.astro';
+
 type Tone = 'blossom' | 'accent' | 'marigold';
 
 interface Image {
@@ -78,9 +80,11 @@ const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace
       </div>
       <div class="grid grid-cols-2 gap-1 p-4 md:p-6">
         {images.map((img) => (
-          <img
+          <SmartImage
             src={img.src}
             alt=""
+            widths={[200, 400, 600]}
+            sizes="(min-width: 768px) 25vw, 50vw"
             class:list={[
               'w-full h-32 sm:h-40 object-cover rounded-lg',
               img.glow ?? 'shadow-sm',

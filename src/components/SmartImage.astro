@@ -1,0 +1,41 @@
+---
+// Drop-in replacement for a content <img> that serves an optimized, responsive
+// WebP when the source lives in src/assets/, and falls back to a plain <img>
+// (e.g. for images still in public/). Keeps the familiar `src="/foo.webp"`
+// string API so data files and callers don't change.
+import { Image } from 'astro:assets';
+import { resolveAsset, cappedWidths } from '../lib/assetImages';
+
+interface Props {
+  src: string;
+  alt: string;
+  /** Candidate render widths; clamped to the source's intrinsic width. */
+  widths?: number[];
+  /** `sizes` attribute — describes the displayed width across breakpoints. */
+  sizes?: string;
+  [key: string]: unknown;
+}
+
+const {
+  src,
+  alt,
+  widths = [400, 800, 1200],
+  sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+  ...rest
+} = Astro.props;
+
+const asset = resolveAsset(src);
+---
+
+{asset ? (
+  <Image
+    src={asset}
+    alt={alt}
+    widths={cappedWidths(asset.width, widths)}
+    sizes={sizes}
+    format="webp"
+    {...rest}
+  />
+) : (
+  <img src={src} alt={alt} {...rest} />
+)}
