@@ -14,7 +14,7 @@ The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) non
 | Validation | [Zod](https://zod.dev) — all JSON data schema-validated at build time |
 | Deployment | [Vercel](https://vercel.com) (static) |
 | Forms | [Formspree](https://formspree.io) (contact form) |
-| Fonts | Google Fonts — Playfair Display (headings) + Inter (body) |
+| Fonts | Google Fonts — Dancing Script (club name / script), Playfair Display (headings), Inter (body) |
 
 ---
 
@@ -73,7 +73,7 @@ export default defineConfig({
 ```
 
 ### Production Domain
-Once the final domain is confirmed, update `site` in `astro.config.mjs`. This value flows into canonical URLs, the sitemap, JSON-LD structured data, and Open Graph image URLs.
+The `site` value in `astro.config.mjs` is resolved from the `SITE_URL` environment variable (set it in the Vercel dashboard), falling back to `VERCEL_URL`, then to a placeholder for local dev. This value flows into canonical URLs, the sitemap, JSON-LD structured data, and Open Graph image URLs. Once the final domain is confirmed, set `SITE_URL` in Vercel **and** update the `Sitemap:` host in `public/robots.txt` to match.
 
 ---
 
@@ -81,22 +81,34 @@ Once the final domain is confirmed, update `site` in `astro.config.mjs`. This va
 
 ```
 src/
-├── pages/              # 7 pages + 404
-│   ├── index.astro
-│   ├── about.astro
-│   ├── membership.astro
-│   ├── community-service.astro
-│   ├── awards-and-judges.astro
-│   ├── contact.astro
-│   ├── thank-you.astro
-│   └── 404.astro
+├── pages/                          # File-based routes → URLs
+│   ├── index.astro                 # /
+│   ├── about.astro                 # /about
+│   ├── membership.astro            # /membership
+│   ├── community-service.astro     # /community-service
+│   ├── contact.astro               # /contact
+│   ├── thank-you.astro             # /thank-you (form redirect)
+│   ├── 404.astro                   # Custom 404
+│   ├── resources.astro             # /resources (landing)
+│   ├── resources/
+│   │   ├── gardening-tips.astro    # /resources/gardening-tips
+│   │   ├── plants.astro            # /resources/plants (native plants)
+│   │   └── gardens.astro           # /resources/gardens (local gardens)
+│   └── members/
+│       ├── index.astro             # /members (member gardens)
+│       └── awards-and-judges.astro # /members/awards-and-judges
 ├── layouts/
-│   └── BaseLayout.astro    # Master layout: SEO, JSON-LD, fonts, meta tags
+│   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, fonts, View Transitions
 ├── components/
-│   ├── Header.astro         # Responsive nav with mobile hamburger
-│   ├── Footer.astro         # 3-column footer with theme display
+│   ├── Header.astro         # Sticky nav, scroll-reveal, Members dropdown, mobile hamburger
+│   ├── Footer.astro         # 3-column footer with nav links
+│   ├── PageHero.astro       # Shared hero band for interior pages
+│   ├── SectionHeader.astro  # Section heading + decorative divider
+│   ├── LandingCard.astro    # Card linking to a sub-section (e.g. resources landing)
 │   ├── OfficerCard.astro    # Board member card
 │   ├── ProjectCard.astro    # Community service project card
+│   ├── GardenCard.astro     # Member / local garden card
+│   ├── PlantCard.astro      # Native plant card
 │   ├── AwardCard.astro      # Award with collapsible criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
 │   └── ContactForm.astro    # Formspree-backed contact form
@@ -180,9 +192,24 @@ Every page includes:
 
 ---
 
+## Handoff Notes
+
+Known gaps for whoever picks this up next. The first two need info only the club can provide:
+
+- ⚠️ **Contact form is inactive.** `src/components/ContactForm.astro` still posts to `https://formspree.io/f/YOUR_FORM_ID`. Submissions will fail until this is replaced with the club's real [Formspree](https://formspree.io) endpoint.
+- ⚠️ **Production domain not confirmed.** `SITE_URL` (Vercel) and the `Sitemap:` host in `public/robots.txt` currently use the `garden-club-eight.vercel.app` placeholder. Update both once the final domain is live (see [Production Domain](#production-domain)).
+- 🔧 **`<ViewTransitions />` is deprecated** in Astro 5 (`src/layouts/BaseLayout.astro`) and is renamed to `<ClientRouter />`. Non-breaking today, but should be swapped before an Astro 6 upgrade. Surfaced by `npm run check`.
+- 🖼️ **Images are unoptimized.** All image tags are plain `<img>` serving full-size assets. Migrating to Astro's `<Image />` component (`astro:assets`) is the biggest remaining performance/SEO win — see the Engineering backlog below.
+
+### Repo hygiene done in this handoff pass
+- `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.
+- `.nvmrc` pins Node 20; CI reads the version from it.
+- Pruned ~61 MB of unreferenced original/duplicate image assets from `public/`.
+- Added an MIT `LICENSE`.
+
 ## Backlog
 
-Items on hold pending additional club details or future sprints.
+Items on hold pending additional club details or future sprints. **These are now tracked as GitHub issues [#7–#20](https://github.com/howeitis/garden-club/issues)** — the list below is a summary; use the issues for status.
 
 ### Product
 - [ ] **Fix contact form** — Replace `YOUR_FORM_ID` in `ContactForm.astro` with the real Formspree endpoint
