@@ -105,18 +105,18 @@ const gardenRhythms = [
 
     <!-- Evergreen Tips -->
     <section aria-labelledby="evergreen-heading" class="fade-in-section">
-      <SectionHeader label="🌷 Always True" tone="blossom" />
-      <h2 id="evergreen-heading" class="font-heading text-3xl font-bold text-text mb-4">
+      <SectionHeader label="Always True" />
+      <h2 id="evergreen-heading" class="font-heading text-4xl font-semibold text-text mb-5">
         Evergreen Tips
       </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+      <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
         Whether you're a seasoned gardener or just getting started, these fundamentals will help
         your garden thrive year after year.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {evergreenTips.map((tip) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
+          <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-300 group">
             <div class="overflow-hidden">
               <SmartImage
                 src={tip.image}
@@ -127,9 +127,9 @@ const gardenRhythms = [
                 loading="lazy"
               />
             </div>
-            <div class="p-6">
-              <h3 class="font-heading text-xl font-semibold text-text mb-3">{tip.title}</h3>
-              <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
+            <div class="p-6 sm:p-7">
+              <h3 class="font-heading text-2xl font-semibold text-text mb-3">{tip.title}</h3>
+              <p class="text-base text-text/75 leading-relaxed">{tip.description}</p>
             </div>
           </div>
         ))}
@@ -138,18 +138,18 @@ const gardenRhythms = [
 
     <!-- Garden Rhythms -->
     <section aria-labelledby="rhythms-heading" class="fade-in-section">
-      <SectionHeader label="🌼 In Season" tone="marigold" />
-      <h2 id="rhythms-heading" class="font-heading text-3xl font-bold text-text mb-4">
+      <SectionHeader label="In Season" />
+      <h2 id="rhythms-heading" class="font-heading text-4xl font-semibold text-text mb-5">
         Garden Rhythms
       </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+      <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
         The recurring tasks that keep a garden humming through the growing season — each with the
         science behind <em>why</em> it works.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {gardenRhythms.map((tip) => (
-          <div class="bg-white rounded-xl border border-marigold/25 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
+          <div class="bg-white rounded-sm border border-primary/10 border-t-2 border-t-accent/60 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-300 group">
             <div class="overflow-hidden">
               <SmartImage
                 src={tip.image}
@@ -160,14 +160,12 @@ const gardenRhythms = [
                 loading="lazy"
               />
             </div>
-            <div class="p-6">
-              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-                <h3 class="font-heading text-xl font-semibold text-text">{tip.title}</h3>
-              </div>
-              <p class="text-xs font-semibold text-marigold uppercase tracking-wide mb-3">
+            <div class="p-6 sm:p-7">
+              <h3 class="font-heading text-2xl font-semibold text-text mb-1.5">{tip.title}</h3>
+              <p class="text-[0.68rem] font-semibold text-gold uppercase tracking-[0.18em] mb-3.5">
                 {tip.frequency}
               </p>
-              <p class="text-sm text-text/70 leading-relaxed">{tip.description}</p>
+              <p class="text-base text-text/75 leading-relaxed">{tip.description}</p>
             </div>
           </div>
         ))}

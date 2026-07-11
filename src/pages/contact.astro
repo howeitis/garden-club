@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import ContactForm from '../components/ContactForm.astro';
+import Flourish from '../components/Flourish.astro';
 import { clubInfo, contact } from '../data/index';
 ---
 
@@ -14,30 +15,29 @@ import { clubInfo, contact } from '../data/index';
     title="Contact Us"
     subtitle="Questions about membership, events, or projects? We'd love to hear from you."
     image="/contact-hero.jpg"
-    decoration={{ emoji: '🌺', position: 'bottom-right', rotate: 'rotate-12' }}
   />
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 fade-in-section">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in-section">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
 
       <!-- Contact Details (sidebar) -->
-      <aside class="lg:col-span-2 space-y-8">
+      <aside class="lg:col-span-2 space-y-10">
         <div>
-          <h2 class="font-heading text-2xl font-bold text-text mb-6">Get in Touch</h2>
+          <h2 class="font-heading text-3xl font-semibold text-text mb-8">Get in Touch</h2>
 
           <!-- Email -->
-          <div class="flex items-start gap-3 mb-6">
-            <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-blossom/20 border border-blossom/30 flex items-center justify-center">
-              <svg class="w-4 h-4 text-blossom-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          <div class="flex items-start gap-4 mb-7">
+            <div class="flex-shrink-0 w-10 h-10 rounded-sm border border-gold/30 flex items-center justify-center">
+              <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-text/50 mb-1">Email</p>
+              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-1.5">Email</p>
               <a
                 href={`mailto:${contact.primaryEmail}`}
-                class="text-primary font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded"
+                class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
               >
                 {contact.primaryEmail}
               </a>
@@ -45,17 +45,17 @@ import { clubInfo, contact } from '../data/index';
           </div>
 
           <!-- Mailing Address -->
-          <div class="flex items-start gap-3">
-            <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-marigold/15 border border-marigold/30 flex items-center justify-center">
-              <svg class="w-4 h-4 text-marigold" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-sm border border-gold/30 flex items-center justify-center">
+              <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-text/50 mb-1">Mailing Address</p>
-              <address class="not-italic text-sm text-text/75 leading-relaxed">
+              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-1.5">Mailing Address</p>
+              <address class="not-italic text-text/80 leading-relaxed">
                 {contact.mailingAddress.street}<br />
                 {contact.mailingAddress.city}, {contact.mailingAddress.state} {contact.mailingAddress.zip}
               </address>
@@ -66,18 +66,20 @@ import { clubInfo, contact } from '../data/index';
         <!-- Social Links -->
         {contact.socialLinks && Object.keys(contact.socialLinks).length > 0 && (
           <div>
-            <h3 class="text-xs font-semibold uppercase tracking-widest text-text/50 mb-4">Follow Us</h3>
-            <ul class="flex flex-col gap-2">
+            <h3 class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-4">Follow Us</h3>
+            <ul class="flex flex-col gap-2.5">
               {Object.entries(contact.socialLinks).map(([platform, url]) => (
                 <li>
                   <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 text-sm text-primary font-medium hover:underline capitalize focus:outline-none focus:ring-2 focus:ring-primary rounded"
+                    class="inline-flex items-center gap-2 text-primary font-medium capitalize underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
                   >
-                    <span aria-hidden="true">↗</span>
                     {platform}
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
                   </a>
                 </li>
               ))}
@@ -85,16 +87,16 @@ import { clubInfo, contact } from '../data/index';
           </div>
         )}
 
-        <!-- Decorative floral accent -->
-        <div class="bg-gradient-to-br from-blossom/10 to-lavender/10 rounded-xl p-5 border border-blossom/15 text-center">
-          <p class="text-3xl mb-2" aria-hidden="true">🌸</p>
-          <p class="text-sm text-text/60 italic font-heading">&ldquo;{clubInfo.theme}&rdquo;</p>
+        <!-- Club theme flourish -->
+        <div class="border-t border-gold/25 pt-8 text-center">
+          <Flourish class="mb-5" />
+          <p class="font-heading italic text-xl text-text/70 leading-snug">&ldquo;{clubInfo.theme}&rdquo;</p>
         </div>
       </aside>
 
       <!-- Contact Form -->
-      <div class="lg:col-span-3 bg-white rounded-2xl border border-blossom/25 shadow-sm p-8">
-        <h2 class="font-heading text-2xl font-bold text-text mb-6">Send a Message</h2>
+      <div class="lg:col-span-3 bg-white rounded-sm border border-primary/10 border-t-2 border-t-gold/50 shadow-[0_1px_3px_rgba(51,50,44,0.06)] p-8 sm:p-10">
+        <h2 class="font-heading text-3xl font-semibold text-text mb-8">Send a Message</h2>
         <ContactForm />
       </div>
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import SmartImage from '../../components/SmartImage.astro';
 import { clubInfo } from '../../data/index';
 
@@ -54,21 +55,22 @@ const memberGardens = [
     image="/home-hero.png"
   />
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
 
     <!-- Featured Member Gardens -->
     <section aria-labelledby="gardens-heading" class="fade-in-section">
-      <h2 id="gardens-heading" class="font-heading text-3xl font-bold text-text mb-4">
+      <SectionHeader label="From Our Backyards" />
+      <h2 id="gardens-heading" class="font-heading text-4xl font-semibold text-text mb-5">
         Featured Member Gardens
       </h2>
-      <p class="text-text/65 mb-10 text-sm leading-relaxed max-w-2xl">
+      <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
         Each season we spotlight gardens from our members. From cottage borders to productive kitchen
         gardens, our club is home to a wonderful variety of gardening styles.
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {memberGardens.map((garden) => (
-          <div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 group">
+          <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-300 group">
             <div class="h-64 sm:h-72 overflow-hidden">
               <SmartImage
                 src={garden.image}
@@ -80,13 +82,11 @@ const memberGardens = [
                 loading="lazy"
               />
             </div>
-            <div class="p-6">
-              <div class="flex items-center gap-2 mb-2">
-                <h3 class="font-heading text-xl font-semibold text-text">{garden.name}</h3>
-              </div>
-              <p class="text-xs font-medium text-primary mb-3">Gardener: {garden.member}</p>
-              <p class="text-sm text-text/70 leading-relaxed mb-4">{garden.description}</p>
-              <span class="inline-block text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-full bg-accent/15 text-primary">
+            <div class="p-6 sm:p-7">
+              <h3 class="font-heading text-2xl font-semibold text-text mb-1">{garden.name}</h3>
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-gold mb-3.5">Gardener: {garden.member}</p>
+              <p class="text-base text-text/75 leading-relaxed mb-5">{garden.description}</p>
+              <span class="inline-block text-[0.65rem] font-semibold uppercase tracking-[0.16em] px-2.5 py-1 rounded-sm border border-accent/50 text-primary">
                 {garden.highlight}
               </span>
             </div>
@@ -96,19 +96,19 @@ const memberGardens = [
     </section>
 
     <!-- Awards & Judges CTA -->
-    <section class="bg-gradient-to-br from-marigold/15 via-sunflower/10 to-hen/10 border border-marigold/30 rounded-xl p-8 text-center fade-in-section">
-      <h2 class="font-heading text-2xl font-bold text-text mb-3">Awards &amp; Judges</h2>
-      <p class="text-text/65 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+    <section class="border-y border-gold/25 px-6 py-14 text-center fade-in-section">
+      <h2 class="font-heading text-3xl sm:text-4xl font-semibold text-text mb-4">Awards &amp; Judges</h2>
+      <p class="text-text/70 text-lg leading-relaxed max-w-xl mx-auto mb-8">
         Learn about our club and Delaware Federation awards, judging criteria, and meet our
         certified judges.
       </p>
       <a
         href="/members/awards-and-judges"
-        class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
       >
         View Awards &amp; Judges
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5l7 7-7 7" />
         </svg>
       </a>
     </section>

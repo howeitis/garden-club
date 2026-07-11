@@ -1,5 +1,5 @@
 ---
-import { clubInfo } from '../data/index';
+import { clubInfo, affiliations } from '../data/index';
 
 // Footer nav lists only the top-level pages, not every subpage. Subpages are
 // reachable via the header's Resources / Members dropdowns.
@@ -13,11 +13,12 @@ const navLinks = [
 ];
 
 const year = new Date().getFullYear();
+const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 ---
 
-<footer class="bg-primary text-background mt-16 border-t-[4px] border-blossom/60">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<footer class="bg-primary text-background mt-20 border-t-2 border-gold-soft/50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
 
       <!-- Club Identity — logo and name link to home -->
       <div class="flex md:block items-center gap-4 md:gap-0">
@@ -29,15 +30,19 @@ const year = new Date().getFullYear();
           <img
             src="/gggcwhitelogo.png"
             alt=""
-            class="h-28 md:h-[10.5rem] w-auto object-contain md:mb-4"
+            class="h-28 md:h-36 w-auto object-contain md:mb-5"
             aria-hidden="true"
             loading="lazy"
           />
-          <h2 class="hidden md:block font-script text-2xl font-bold mb-3 group-hover:underline">{clubInfo.name}</h2>
+          <span class="hidden md:block">
+            <span class="block font-heading font-semibold text-[1.6rem] leading-tight group-hover:underline decoration-gold-soft/60 underline-offset-4">{clubInfo.name}</span>
+            <span class="mt-2 block text-gold-soft/90 text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Hockessin, Delaware &middot; Est. {foundingYear}</span>
+          </span>
         </a>
-        <div class="flex-1 min-w-0 md:flex-none md:max-w-xs">
-          <h2 class="md:hidden font-script text-xl font-bold leading-tight mb-1">{clubInfo.name}</h2>
-          <p class="text-xs md:text-sm text-background/75 leading-snug md:leading-relaxed">
+        <div class="flex-1 min-w-0 md:flex-none md:max-w-xs md:mt-4">
+          <span class="md:hidden block font-heading font-semibold text-xl leading-tight mb-1">{clubInfo.name}</span>
+          <span class="md:hidden block text-gold-soft/90 text-[0.6rem] font-semibold uppercase tracking-[0.28em] mb-2">Est. {foundingYear}</span>
+          <p class="text-sm text-background/70 leading-relaxed">
             {clubInfo.nonprofitStatus}
           </p>
         </div>
@@ -45,13 +50,13 @@ const year = new Date().getFullYear();
 
       <!-- Navigation Links -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">Navigation</h3>
-        <ul class="flex flex-col gap-2">
+        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">Explore</h3>
+        <ul class="flex flex-col gap-2.5">
           {navLinks.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="text-sm text-background/80 hover:text-background transition-colors duration-200"
+                class="text-[0.95rem] text-background/80 hover:text-background hover:underline decoration-gold-soft/50 underline-offset-4 transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -62,17 +67,20 @@ const year = new Date().getFullYear();
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-xs uppercase tracking-widest font-semibold text-blossom/70 mb-4">This Year's Theme</h3>
-        <p class="font-heading italic text-background/90 leading-relaxed">
+        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">This Year's Theme</h3>
+        <p class="font-heading italic text-xl text-background/90 leading-relaxed">
           &ldquo;{clubInfo.theme}&rdquo;
         </p>
-        <p class="mt-4 text-2xl tracking-widest opacity-40" aria-hidden="true">🌸 🌷 🌺</p>
+        <div class="mt-6 h-px w-16 bg-gold-soft/40" aria-hidden="true"></div>
+        <p class="mt-4 text-sm text-background/60 leading-relaxed max-w-xs">
+          Member of {affiliations.ngc.name} and the {affiliations.state.name}.
+        </p>
       </div>
 
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-10 pt-6 border-t border-blossom/20 text-center text-xs text-background/50">
+    <div class="mt-12 pt-6 border-t border-background/15 text-center text-xs tracking-wide text-background/50">
       &copy; {year} {clubInfo.name}. All rights reserved.
     </div>
   </div>

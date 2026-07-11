@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Flourish from '../components/Flourish.astro';
 import { clubInfo } from '../data/index';
 ---
 
@@ -7,23 +8,23 @@ import { clubInfo } from '../data/index';
   title={`Page Not Found | ${clubInfo.name}`}
   description="The page you're looking for doesn't exist."
 >
-  <div class="flex flex-col items-center justify-center min-h-[60vh] px-4 pt-36 pb-20 text-center">
+  <div class="flex flex-col items-center justify-center min-h-[60vh] px-4 pt-40 pb-24 text-center">
     <img
       src="/gggc-clean.png"
       alt={clubInfo.name}
-      class="h-24 w-auto object-contain mb-8 opacity-80"
+      class="h-28 w-auto object-contain mb-8"
       loading="eager"
     />
-    <p class="text-4xl mb-4" aria-hidden="true">🌸</p>
-    <h1 class="font-heading text-5xl sm:text-6xl font-bold text-holly mb-4">
+    <h1 class="font-heading text-5xl sm:text-6xl font-semibold text-primary mb-5">
       Still digging.
     </h1>
-    <p class="text-text/60 text-lg mb-10 max-w-md leading-relaxed">
+    <Flourish class="mb-6" />
+    <p class="text-text/70 text-lg mb-10 max-w-md leading-relaxed">
       We couldn't find that page. It may have moved, or perhaps it was never planted here to begin with.
     </p>
     <a
       href="/"
-      class="bg-holly text-background font-semibold px-8 py-4 rounded-lg hover:bg-holly/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-holly focus:ring-offset-2"
+      class="bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
     >
       Back to Home
     </a>

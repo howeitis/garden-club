@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SmartImage from '../components/SmartImage.astro';
+import Flourish from '../components/Flourish.astro';
 import { getImage } from 'astro:assets';
 import heroDesktopSrc from '../assets/heroes/home-hero.png';
 import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
@@ -20,6 +21,34 @@ const heroMobile = await getImage({
   widths: [480, 768, 1080],
   sizes: '100vw',
 });
+
+// Editorial index of the site's main sections, shown below the community story.
+const siteIndex = [
+  {
+    number: '01',
+    label: 'About Us',
+    href: '/about',
+    line: 'Six decades of history, our board, and our national affiliations.',
+  },
+  {
+    number: '02',
+    label: 'Resources',
+    href: '/resources',
+    line: 'Gardening wisdom, Delaware natives, and gardens worth the drive.',
+  },
+  {
+    number: '03',
+    label: 'Member Gardens',
+    href: '/members',
+    line: 'A look inside the gardens our members tend at home.',
+  },
+  {
+    number: '04',
+    label: 'Membership',
+    href: '/membership',
+    line: 'Meetings, dues, and how to join — all are welcome.',
+  },
+];
 ---
 
 <BaseLayout title={`${clubInfo.name} — Delaware Garden Club`} description={clubInfo.missionStatement}>
@@ -40,79 +69,80 @@ const heroMobile = await getImage({
           fetchpriority="high"
         />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/45" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/65 to-[#16281a]/85" aria-hidden="true"></div>
     </div>
-    <!-- Decorative blossom petals overlay -->
-    <div class="absolute top-8 right-8 text-6xl opacity-15 rotate-12 select-none pointer-events-none" aria-hidden="true">🌸</div>
-    <div class="absolute bottom-12 left-6 text-5xl opacity-10 -rotate-6 select-none pointer-events-none" aria-hidden="true">🌺</div>
 
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 sm:pt-44 pb-24 sm:pb-32 text-center">
-      <p class="text-blossom text-sm font-semibold uppercase tracking-widest mb-4">Est. {clubInfo.foundingDates.club}</p>
-      <h1 class="font-script text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-        <span class="block sm:inline">Garden Gate</span>
-        <span class="block sm:inline sm:ml-3">Garden Club</span>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 sm:pt-52 pb-28 sm:pb-36 text-center">
+      <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.32em] mb-6">
+        Est. {clubInfo.foundingDates.club} &middot; Hockessin, Delaware
+      </p>
+      <h1 class="mb-5">
+        <span class="block font-heading text-5xl sm:text-7xl lg:text-8xl font-semibold leading-[1.02]">Garden Gate</span>
+        <span class="mt-4 block text-background/90 text-sm sm:text-base font-semibold uppercase tracking-[0.5em] sm:tracking-[0.6em] pl-[0.5em]">Garden Club</span>
       </h1>
-      <p class="text-background/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+      <Flourish tone="dark" class="mb-7" />
+      <p class="text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-11">
         {clubInfo.missionStatement}
       </p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a
-          href="/about"
-          class="bg-background text-primary font-semibold px-8 py-4 rounded-lg hover:bg-background/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
+          href="/membership"
+          class="bg-background text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
         >
-          Learn About Us
+          Become a Member
         </a>
         <a
-          href="/membership"
-          class="bg-blossom/25 border-2 border-blossom/60 text-background font-semibold px-8 py-4 rounded-lg hover:bg-blossom/40 hover:border-blossom transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blossom focus:ring-offset-2 focus:ring-offset-primary"
+          href="/about"
+          class="border border-background/60 text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-background/10 hover:border-background transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
         >
-          Join the Club
+          Our Story
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Annual Theme Banner -->
-  <section class="bg-gradient-to-r from-blossom/20 via-holly-light to-blossom/15 border-y border-blossom/30 fade-in-section">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-      <p class="text-xs font-semibold uppercase tracking-widest text-holly mb-1">Club Theme</p>
-      <p class="text-xs text-text/50 mb-4">{clubInfo.themePeriod}</p>
-      <blockquote class="font-heading italic text-2xl sm:text-3xl text-text leading-snug">
+  <!-- Annual theme — editorial pull-quote -->
+  <section class="border-b border-gold/20 fade-in-section">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-2">Our Theme</p>
+      <p class="text-text/50 text-sm mb-8">{clubInfo.themePeriod}</p>
+      <blockquote class="font-heading italic text-3xl sm:text-4xl text-text leading-snug">
         &ldquo;{clubInfo.theme}&rdquo;
       </blockquote>
+      <Flourish class="mt-9" />
     </div>
   </section>
 
-  <!-- Community Service Teaser -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in-section">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+  <!-- Community Service story -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 fade-in-section">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-widest text-holly mb-3">In Our Community</p>
-        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-text mb-5 leading-tight">
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">In Our Community</p>
+        <h2 class="font-heading text-4xl sm:text-5xl font-semibold text-text mb-6 leading-[1.1]">
           Cultivating Beauty<br />Where We Live
         </h2>
-        <p class="text-text/70 leading-relaxed mb-8">
+        <p class="text-text/75 text-lg leading-relaxed mb-9">
           From pollinator gardens in local parks to festive window boxes on Main Street, our members
           volunteer hundreds of hours each year to make our community greener, more welcoming, and
-          more alive. Explore our current and past projects.
+          more alive.
         </p>
         <a
           href="/community-service"
-          class="inline-flex items-center gap-2 bg-primary text-background font-semibold px-8 py-4 rounded-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
         >
           View Our Projects
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
       </div>
 
-      <!-- Decorative image grid -->
-      <div class="grid grid-cols-2 gap-4" aria-hidden="true">
+      <!-- Photo grid -->
+      <div class="grid grid-cols-2 gap-3" aria-hidden="true">
         {['/club-2.jpg', '/club.jpg', '/flower.jpg', '/longwood.jpg'].map((imgSrc, i) => (
           <div class:list={[
-            'aspect-square rounded-2xl overflow-hidden shadow-sm relative group',
-            i === 0 ? 'bg-blossom/20' : i === 1 ? 'bg-holly-light' : i === 2 ? 'bg-sunflower/15' : 'bg-lavender/20',
+            'aspect-square overflow-hidden relative group bg-primary/5 rounded-sm',
+            i === 1 ? 'mt-6' : i === 2 ? '-mt-6' : '',
           ]}>
             <SmartImage src={imgSrc} alt="" widths={[300, 600]} sizes="(min-width: 1024px) 25vw, 50vw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
           </div>
@@ -121,60 +151,66 @@ const heroMobile = await getImage({
     </div>
   </section>
 
-  <!-- Colorful quick-links bar -->
-  <section class="border-t border-blossom/20 bg-gradient-to-b from-background to-blossom/8 fade-in-section">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <!-- Quick links grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-        {[
-          { label: 'About Us',   href: '/about',      icon: '🌿', bg: 'hover:bg-accent/15',     border: 'border-accent/25'    },
-          { label: 'Resources',  href: '/resources',  icon: '🌼', bg: 'hover:bg-marigold/15',   border: 'border-marigold/30'  },
-          { label: 'Members',    href: '/members',    icon: '🌷', bg: 'hover:bg-blossom/20',    border: 'border-blossom/25'   },
-          { label: 'Membership', href: '/membership', icon: '🌸', bg: 'hover:bg-holly-light',   border: 'border-holly/20'     },
-        ].map((item) => (
+  <!-- Editorial site index -->
+  <section class="border-t border-gold/20 fade-in-section">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="flex items-center justify-center gap-4 mb-12">
+        <div class="h-px w-10 sm:w-14 bg-gold/30" aria-hidden="true"></div>
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em]">Explore the Club</p>
+        <div class="h-px w-10 sm:w-14 bg-gold/30" aria-hidden="true"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 divide-gold/15 lg:divide-x border-y border-gold/15 sm:border sm:border-gold/15 bg-white/40">
+        {siteIndex.map((item) => (
           <a
             href={item.href}
-            class={`group flex flex-col items-center gap-2 p-4 rounded-xl border ${item.border} ${item.bg} transition-colors duration-200`}
+            class="group flex flex-col gap-3 p-8 hover:bg-white transition-colors duration-200"
           >
-            <span class="text-3xl">{item.icon}</span>
-            <span class="text-sm font-medium text-primary group-hover:underline">{item.label}</span>
+            <span class="font-heading italic text-gold/70 text-lg">{item.number}</span>
+            <span class="font-heading text-2xl font-semibold text-text group-hover:text-primary transition-colors duration-200">{item.label}</span>
+            <span class="text-[0.95rem] text-text/65 leading-relaxed">{item.line}</span>
+            <span class="mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 group-hover:text-gold transition-colors duration-200">
+              Visit
+              <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
           </a>
         ))}
       </div>
+    </div>
+  </section>
 
-      <!-- Big "Get in Touch" box with DEMuseum image alongside -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+  <!-- Get in touch -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 fade-in-section">
+    <div class="grid grid-cols-1 md:grid-cols-2 items-stretch bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden">
+      <div class="p-10 sm:p-14 flex flex-col justify-center border-t-2 border-t-gold/50">
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">Say Hello</p>
+        <h2 class="font-heading text-4xl sm:text-[2.75rem] font-semibold text-text mb-4 leading-tight">Get in Touch</h2>
+        <p class="text-text/75 text-lg leading-relaxed mb-8 max-w-md">
+          Questions about membership, our programs, or how to get involved? We'd love to hear
+          from you — reach out and a club member will be in touch.
+        </p>
         <a
           href="/contact"
-          class="group rounded-2xl border border-holly/25 bg-gradient-to-br from-holly-light via-blossom/15 to-blossom/10 p-8 sm:p-10 flex flex-col justify-center hover:shadow-md transition-all duration-300"
+          class="self-start inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
         >
-          <div class="flex items-center gap-3 mb-4">
-            <span class="text-4xl" aria-hidden="true">🌺</span>
-            <span class="text-xs font-semibold uppercase tracking-widest text-holly">Say Hello</span>
-          </div>
-          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-text mb-3">Get in Touch</h2>
-          <p class="text-text/70 leading-relaxed mb-6 max-w-md">
-            Questions about membership, our programs, or how to get involved? We'd love to hear
-            from you — reach out and a club member will be in touch.
-          </p>
-          <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
-            Contact the Club
-            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </span>
+          Contact the Club
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
         </a>
+      </div>
 
-        <div class="rounded-2xl overflow-hidden border border-accent/25 shadow-sm min-h-[18rem]">
-          <SmartImage
-            src="/demuseum.webp"
-            alt="Bobbee Vernon Memorial Garden at the Delaware Museum of Nature & Science"
-            widths={[400, 800, 1200]}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            class="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
+      <div class="min-h-[20rem]">
+        <SmartImage
+          src="/demuseum.webp"
+          alt="Bobbee Vernon Memorial Garden at the Delaware Museum of Nature & Science"
+          widths={[400, 800, 1200]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
       </div>
     </div>
   </section>
