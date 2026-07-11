@@ -34,14 +34,14 @@ const focusAreas = ['Planting & Growing', 'Civic Beautification', 'Pollinator Ha
   <!-- Projects Grid -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in-section" aria-labelledby="projects-heading">
     <SectionHeader label="In the Field" />
-    <h2 id="projects-heading" class="font-heading text-4xl font-semibold text-text mb-12">
+    <h2 id="projects-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-12">
       Our Projects
     </h2>
 
     {projects.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {projects.map((project) => (
-          <ProjectCard project={project} />
+      <div class="divide-y divide-gold/20">
+        {projects.map((project, i) => (
+          <ProjectCard project={project} flip={i % 2 === 1} />
         ))}
       </div>
     ) : (

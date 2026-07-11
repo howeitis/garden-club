@@ -38,11 +38,11 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
     <!-- DFGC Awards -->
     {dfgcAwards.length > 0 && (
       <section aria-labelledby="dfgc-awards-heading">
-        <SectionHeader label="State Federation" />
-        <h2 id="dfgc-awards-heading" class="font-heading text-4xl font-semibold text-text mb-10">
+        <SectionHeader label="State Federation" number="01" />
+        <h2 id="dfgc-awards-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
           Delaware Federation Awards
         </h2>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-12">
           {dfgcAwards.map((award) => (
             <AwardCard award={award} />
           ))}
@@ -53,11 +53,11 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
     <!-- GGGC Awards (CEW Training Award) -->
     {gggcAwards.length > 0 && (
       <section aria-labelledby="gggc-awards-heading">
-        <SectionHeader label="Garden Gate" />
-        <h2 id="gggc-awards-heading" class="font-heading text-4xl font-semibold text-text mb-10">
+        <SectionHeader label="Garden Gate" number="02" />
+        <h2 id="gggc-awards-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
           Club Awards
         </h2>
-        <div class="grid grid-cols-1 gap-6">
+        <div class="grid grid-cols-1 gap-y-12">
           {gggcAwards.map((award) => (
             <AwardCard award={award} />
           ))}
@@ -67,8 +67,8 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
     <!-- Judges Section -->
     <section aria-labelledby="judges-heading">
-      <SectionHeader label="Accredited Expertise" />
-      <h2 id="judges-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="Accredited Expertise" number="03" />
+      <h2 id="judges-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Certified Judges
       </h2>
       <p class="text-text/75 mb-10 leading-relaxed max-w-2xl">
@@ -78,11 +78,9 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
       <!-- Active Judges -->
       {activeJudges.length > 0 && (
-        <div class="bg-white rounded-sm border border-primary/10 border-t-2 border-t-gold/50 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden mb-8">
-          <div class="px-6 py-4 border-b border-gold/20">
-            <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">Active Judges</h3>
-          </div>
-          <ul class="px-6" role="list" aria-label="Active judges">
+        <div class="mb-12 max-w-3xl">
+          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold pb-3 border-b border-gold/40">Active Judges</h3>
+          <ul class="divide-y divide-primary/10" role="list" aria-label="Active judges">
             {activeJudges.map((judge) => (
               <JudgeRow judge={judge} />
             ))}
@@ -92,11 +90,9 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
       <!-- Emeritus Judges -->
       {emeritusJudges.length > 0 && (
-        <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden">
-          <div class="px-6 py-4 border-b border-primary/10">
-            <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50">Emeritus Judges</h3>
-          </div>
-          <ul class="px-6" role="list" aria-label="Emeritus judges">
+        <div class="max-w-3xl">
+          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 pb-3 border-b border-gold/40">Emeritus Judges</h3>
+          <ul class="divide-y divide-primary/10" role="list" aria-label="Emeritus judges">
             {emeritusJudges.map((judge) => (
               <JudgeRow judge={judge} />
             ))}

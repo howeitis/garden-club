@@ -1,9 +1,11 @@
 ---
-// Plant card used on /resources/plants for both native and banned species.
+// Open gallery-style plant entry used on /resources/plants for both native
+// and banned species — a photograph with text set directly on the page,
+// no card chrome.
 //
-// `variant` switches the accent:
-//   • "native" — sage top rule + bloom-period badge
-//   • "banned" — holly top rule + "Invasive" badge
+// `variant` switches the badge:
+//   • "native" — bloom-period badge in sage
+//   • "banned" — "Invasive" badge in holly
 import SmartImage from './SmartImage.astro';
 
 type Variant = 'native' | 'banned';
@@ -20,23 +22,16 @@ interface Props {
 
 const { name, scientific, description, image, bloom, variant } = Astro.props;
 
-const STYLES: Record<Variant, { rule: string; badge: string }> = {
-  native: {
-    rule: 'border-t-accent/70',
-    badge: 'text-primary border-accent/50',
-  },
-  banned: {
-    rule: 'border-t-holly/70',
-    badge: 'text-holly border-holly/40',
-  },
+const BADGES: Record<Variant, string> = {
+  native: 'text-primary border-accent/50',
+  banned: 'text-holly border-holly/40',
 };
 
-const s = STYLES[variant];
 const badgeText = variant === 'native' ? bloom : 'Invasive';
 ---
 
-<div class={`rounded-sm bg-white border border-primary/10 border-t-2 ${s.rule} shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-300`}>
-  <div class="overflow-hidden">
+<div>
+  <div class="overflow-hidden rounded-sm mb-6">
     <SmartImage
       src={image}
       alt={name}
@@ -46,16 +41,14 @@ const badgeText = variant === 'native' ? bloom : 'Invasive';
       loading="lazy"
     />
   </div>
-  <div class="p-6 sm:p-7">
-    <div class="flex items-baseline justify-between gap-3 mb-1">
-      <h3 class="font-heading text-2xl font-semibold text-text">{name}</h3>
-      {badgeText && (
-        <span class={`text-[0.62rem] font-semibold uppercase tracking-[0.14em] px-2.5 py-1 rounded-sm border whitespace-nowrap ${s.badge}`}>
-          {badgeText}
-        </span>
-      )}
-    </div>
-    <p class="text-[0.95rem] italic font-heading text-text/55 mb-3">{scientific}</p>
-    <p class="text-base text-text/75 leading-relaxed">{description}</p>
+  <div class="flex items-baseline justify-between gap-3 mb-1">
+    <h3 class="font-heading text-2xl font-semibold text-text">{name}</h3>
+    {badgeText && (
+      <span class={`text-[0.62rem] font-semibold uppercase tracking-[0.14em] px-2.5 py-1 rounded-sm border whitespace-nowrap ${BADGES[variant]}`}>
+        {badgeText}
+      </span>
+    )}
   </div>
+  <p class="text-[0.95rem] italic font-heading text-text/55 mb-3">{scientific}</p>
+  <p class="text-base text-text/75 leading-relaxed">{description}</p>
 </div>

@@ -89,8 +89,8 @@ const regionalGardens = [
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
     <section aria-labelledby="local-heading" class="fade-in-section">
-      <SectionHeader label="Close to Home" />
-      <h2 id="local-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="Close to Home" number="01" />
+      <h2 id="local-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Local Gardens
       </h2>
       <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
@@ -98,14 +98,14 @@ const regionalGardens = [
         gardens in the country. We encourage our members and visitors to explore these treasures.
       </p>
 
-      <div class="space-y-8">
-        {localGardens.map((g) => <GardenCard {...g} />)}
+      <div class="divide-y divide-gold/20">
+        {localGardens.map((g, i) => <GardenCard {...g} flip={i % 2 === 1} />)}
       </div>
     </section>
 
     <section aria-labelledby="regional-heading" class="fade-in-section">
-      <SectionHeader label="Worth the Drive" />
-      <h2 id="regional-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="Worth the Drive" number="02" />
+      <h2 id="regional-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Regional Gardens
       </h2>
       <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
@@ -113,8 +113,8 @@ const regionalGardens = [
         botanical landmarks and inventive contemporary gardens — all within an easy day trip.
       </p>
 
-      <div class="space-y-8">
-        {regionalGardens.map((g) => <GardenCard {...g} />)}
+      <div class="divide-y divide-gold/20">
+        {regionalGardens.map((g, i) => <GardenCard {...g} flip={i % 2 === 1} />)}
       </div>
     </section>
 

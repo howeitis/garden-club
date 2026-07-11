@@ -122,8 +122,8 @@ const bannedPlants = [
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
     <section aria-labelledby="native-heading" class="fade-in-section">
-      <SectionHeader label="Piedmont Flora" />
-      <h2 id="native-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="Piedmont Flora" number="01" />
+      <h2 id="native-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Native Plants of Delaware
       </h2>
       <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
@@ -132,7 +132,7 @@ const bannedPlants = [
         less maintenance, and provide essential habitat for local pollinators and wildlife.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
         {nativePlants.map((plant) => (
           <PlantCard {...plant} variant="native" />
         ))}
@@ -140,8 +140,8 @@ const bannedPlants = [
     </section>
 
     <section aria-labelledby="banned-heading" class="fade-in-section">
-      <SectionHeader label="Avoid Planting" />
-      <h2 id="banned-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="Avoid Planting" number="02" />
+      <h2 id="banned-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Delaware Banned &amp; Invasive Plants
       </h2>
       <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
@@ -150,7 +150,7 @@ const bannedPlants = [
         them where possible and choose native alternatives instead.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
         {bannedPlants.map((plant) => (
           <PlantCard {...plant} variant="banned" />
         ))}

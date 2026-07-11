@@ -1,9 +1,10 @@
 ---
 // Reusable page hero used at the top of every interior page.
-// A full-bleed photograph under a deep-green wash, with a letterspaced gold
-// eyebrow, large serif title, optional subtitle, and the botanical flourish.
+// A full-bleed photograph under a deep-green wash, with the title anchored
+// bottom-left at display scale — an editorial composition rather than a
+// centered caption. Content rises in on arrival (disabled for users who
+// prefer reduced motion).
 import { Image } from 'astro:assets';
-import Flourish from './Flourish.astro';
 import { resolveAsset, cappedWidths } from '../lib/assetImages';
 
 // Hero source images live under src/assets/ so Astro can optimize them
@@ -27,7 +28,7 @@ const { eyebrow, title, subtitle, image = '/flower.jpg' } = Astro.props;
 const heroImage = resolveAsset(image);
 ---
 
-<section class="relative text-background pt-40 sm:pt-48 pb-20 sm:pb-28 overflow-hidden">
+<section class="relative text-background overflow-hidden">
   <div class="absolute inset-0">
     {heroImage ? (
       <Image
@@ -48,16 +49,24 @@ const heroImage = resolveAsset(image);
         loading="eager"
       />
     )}
-    <!-- Deep green wash keeps every hero on-brand and the text legible -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/75 via-[#16281a]/50 to-[#16281a]/80" aria-hidden="true"></div>
+    <!-- Deep green wash, weighted toward the bottom where the title sits -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/45 via-[#16281a]/40 to-[#16281a]/90" aria-hidden="true"></div>
   </div>
 
-  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.3em] mb-5">{eyebrow}</p>
-    <h1 class="font-heading text-5xl sm:text-6xl font-semibold leading-[1.08]" set:html={title} />
+  <!-- Gold hairline signature along the hero's bottom edge -->
+  <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-gold-soft/60 to-transparent" aria-hidden="true"></div>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-48 sm:pt-60 pb-14 sm:pb-16 md:pb-20">
+    <p class="hero-rise flex items-center gap-4 text-gold-soft text-xs font-semibold uppercase tracking-[0.3em] mb-6">
+      <span class="h-px w-10 bg-gold-soft/60" aria-hidden="true"></span>
+      {eyebrow}
+    </p>
+    <h1
+      class="hero-rise hero-rise-2 font-heading text-6xl sm:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-[-0.01em] max-w-4xl"
+      set:html={title}
+    />
     {subtitle && (
-      <p class="mt-5 text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">{subtitle}</p>
+      <p class="hero-rise hero-rise-3 mt-7 text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl">{subtitle}</p>
     )}
-    <Flourish tone="dark" class="mt-8" />
   </div>
 </section>

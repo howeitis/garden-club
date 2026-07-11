@@ -115,6 +115,18 @@ const jsonLd = {
 
     <style is:global>
       html { font-size: 18px; }
+      body { text-rendering: optimizeLegibility; }
+      h1, h2, h3 { text-wrap: balance; }
+
+      /* Hero entrance: content rises in as the page arrives. */
+      @keyframes heroRise {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hero-rise   { animation: heroRise 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      .hero-rise-2 { animation-delay: 0.12s; }
+      .hero-rise-3 { animation-delay: 0.24s; }
+      .hero-rise-4 { animation-delay: 0.36s; }
 
       /* Page transition animations */
       @keyframes fadeSlideIn {
@@ -150,6 +162,9 @@ const jsonLd = {
           opacity: 1;
           transform: none;
           transition: none;
+        }
+        .hero-rise, .hero-rise-2, .hero-rise-3, .hero-rise-4 {
+          animation: none;
         }
         ::view-transition-old(root),
         ::view-transition-new(root) {

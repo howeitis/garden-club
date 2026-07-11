@@ -1,28 +1,31 @@
 ---
-// Letterspaced gold eyebrow with hairlines on either side — the single
-// section-label style used above <h2> headings throughout the site.
-//
-// The old multi-tone API (`tone`) is retired: every label now renders in
-// antique gold so sections read as one system.
+// Letterspaced gold eyebrow used above <h2> headings throughout the site,
+// optionally preceded by an oversized italic folio numeral ("01", "02", …)
+// — the editorial signature that threads multi-section pages together.
 interface Props {
   /** Short uppercase label (no emoji) */
   label: string;
-  /** Center the label between full-width hairlines (default) or align left */
+  /** Optional folio numeral rendered at display scale beside the label */
+  number?: string;
+  /** Center the label between hairlines, or align left (default) */
   align?: 'center' | 'left';
 }
 
-const { label, align = 'left' } = Astro.props;
+const { label, number, align = 'left' } = Astro.props;
 ---
 
 {align === 'center' ? (
-  <div class="flex items-center justify-center gap-4 mb-4" aria-hidden="false">
-    <div class="h-px w-10 sm:w-14 bg-gold/30"></div>
+  <div class="flex items-center justify-center gap-4 mb-4">
+    <div class="h-px w-10 sm:w-14 bg-gold/30" aria-hidden="true"></div>
     <span class="text-gold text-xs font-semibold uppercase tracking-[0.28em]">{label}</span>
-    <div class="h-px w-10 sm:w-14 bg-gold/30"></div>
+    <div class="h-px w-10 sm:w-14 bg-gold/30" aria-hidden="true"></div>
   </div>
 ) : (
-  <div class="flex items-center gap-4 mb-4">
+  <div class="flex items-baseline gap-4 mb-4">
+    {number && (
+      <span class="font-heading italic text-4xl text-gold/45 leading-none -mb-1" aria-hidden="true">{number}</span>
+    )}
     <span class="text-gold text-xs font-semibold uppercase tracking-[0.28em]">{label}</span>
-    <div class="h-px flex-1 max-w-[8rem] bg-gold/30" aria-hidden="true"></div>
+    <div class="h-px flex-1 max-w-[8rem] bg-gold/30 self-center" aria-hidden="true"></div>
   </div>
 )}

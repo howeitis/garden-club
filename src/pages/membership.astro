@@ -19,78 +19,72 @@ import { clubInfo, meetings } from '../data/index';
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-20">
 
-    <!-- Apply CTA -->
-    <section aria-labelledby="apply-cta-heading" class="fade-in-section">
-      <div class="bg-white rounded-sm border border-primary/10 border-l-2 border-l-gold/60 shadow-[0_1px_3px_rgba(51,50,44,0.06)] px-7 sm:px-9 py-7 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-        <div class="flex-1">
-          <h2 id="apply-cta-heading" class="font-heading text-2xl font-semibold text-text mb-1.5">
-            Ready to apply for membership?
-          </h2>
-          <p class="text-text/70 leading-relaxed">
-            We'd love to welcome you. Reach out and a club member will follow up with next steps.
-          </p>
-        </div>
-        <a
-          href="/contact"
-          class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 flex-shrink-0"
-        >
-          Apply to Join
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-      </div>
+    <!-- Apply invitation -->
+    <section aria-labelledby="apply-cta-heading" class="fade-in-section text-center border-b border-gold/20 pb-16">
+      <h2 id="apply-cta-heading" class="font-heading text-3xl sm:text-4xl font-semibold text-text mb-4">
+        Ready to apply for membership?
+      </h2>
+      <p class="text-text/70 text-lg leading-relaxed max-w-xl mx-auto mb-8">
+        We'd love to welcome you. Reach out and a club member will follow up with next steps.
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+      >
+        Apply to Join
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
     </section>
 
     <!-- Meeting Schedule -->
     <section aria-labelledby="schedule-heading" class="fade-in-section">
-      <SectionHeader label="When We Meet" />
-      <h2 id="schedule-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="When We Meet" number="01" />
+      <h2 id="schedule-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Meeting Schedule
       </h2>
 
-      <p class="text-text/75 text-lg mb-8 leading-relaxed max-w-2xl">
+      <p class="text-text/75 text-lg mb-10 leading-relaxed max-w-2xl">
         {meetings.schedule}
       </p>
 
-      <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden">
-        <table class="w-full" role="table">
-          <caption class="sr-only">Monthly meeting time blocks</caption>
-          <thead class="border-b border-gold/25">
+      <table class="w-full max-w-2xl" role="table">
+        <caption class="sr-only">Monthly meeting time blocks</caption>
+        <thead>
+          <tr class="border-b border-gold/40">
+            <th scope="col" class="py-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold">
+              Segment
+            </th>
+            <th scope="col" class="py-3 text-right sm:text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold">
+              Time
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-primary/10">
+          {meetings.timeBlocks.map((block) => (
             <tr>
-              <th scope="col" class="px-7 py-4 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold">
-                Segment
-              </th>
-              <th scope="col" class="px-7 py-4 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold">
-                Time
-              </th>
+              <td class="py-4 font-medium text-text pr-6">{block.label}</td>
+              <td class="py-4 text-text/70 text-right sm:text-left">{block.time}</td>
             </tr>
-          </thead>
-          <tbody class="divide-y divide-primary/5">
-            {meetings.timeBlocks.map((block) => (
-              <tr class="hover:bg-primary/[0.03] transition-colors duration-150">
-                <td class="px-7 py-4 font-medium text-text">{block.label}</td>
-                <td class="px-7 py-4 text-text/70">{block.time}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </section>
 
     <!-- Order of Business -->
     <section aria-labelledby="agenda-heading" class="fade-in-section">
-      <SectionHeader label="How We Run" />
-      <h2 id="agenda-heading" class="font-heading text-4xl font-semibold text-text mb-5">
+      <SectionHeader label="How We Run" number="02" />
+      <h2 id="agenda-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Order of Business
       </h2>
-      <p class="text-text/70 mb-8 leading-relaxed max-w-2xl">
+      <p class="text-text/70 mb-10 leading-relaxed max-w-2xl">
         Our monthly meetings follow a consistent agenda to ensure every voice is heard and time is used well.
       </p>
-      <ol class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] divide-y divide-primary/5 overflow-hidden">
+      <ol class="grid grid-cols-1 sm:grid-cols-2 gap-x-16 border-t border-gold/25">
         {meetings.orderOfBusiness.map((item, index) => (
-          <li class="flex items-center gap-5 px-7 py-4 hover:bg-primary/[0.03] transition-colors duration-150">
-            <span class="flex-shrink-0 font-heading italic text-xl text-gold w-8 text-right" aria-hidden="true">
+          <li class="flex items-baseline gap-5 py-4 border-b border-primary/10">
+            <span class="flex-shrink-0 font-heading italic text-2xl text-gold w-8 text-right" aria-hidden="true">
               {index + 1}
             </span>
             <span class="text-text/85">{item}</span>
@@ -101,43 +95,41 @@ import { clubInfo, meetings } from '../data/index';
 
     <!-- Dues -->
     <section aria-labelledby="dues-heading" class="fade-in-section">
-      <SectionHeader label="What It Costs" />
-      <h2 id="dues-heading" class="font-heading text-4xl font-semibold text-text mb-8">
+      <SectionHeader label="What It Costs" number="03" />
+      <h2 id="dues-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
         Annual Dues
       </h2>
-      <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden">
-        <dl class="divide-y divide-primary/5">
-          <div class="flex items-center justify-between px-7 py-5">
-            <dt class="font-medium text-text/75">Active Member</dt>
-            <dd class="font-heading text-2xl font-semibold text-primary">{meetings.dues.activeMember}</dd>
-          </div>
-          <div class="flex items-center justify-between px-7 py-5">
-            <dt class="font-medium text-text/75">Associate Member</dt>
-            <dd class="font-heading text-2xl font-semibold text-primary">{meetings.dues.associateMember}</dd>
-          </div>
-          <div class="flex items-center justify-between px-7 py-5 border-t border-gold/20 bg-background/60">
-            <dt class="font-medium text-text/75">Payment Deadline</dt>
-            <dd class="text-text/80 italic">{meetings.dues.deadline}</dd>
-          </div>
-        </dl>
-      </div>
+      <dl class="max-w-2xl border-t border-gold/25">
+        <div class="flex items-baseline justify-between gap-6 py-5 border-b border-primary/10">
+          <dt class="font-medium text-text/75">Active Member</dt>
+          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.activeMember}</dd>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-5 border-b border-primary/10">
+          <dt class="font-medium text-text/75">Associate Member</dt>
+          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.associateMember}</dd>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-5 border-b border-gold/25">
+          <dt class="font-medium text-text/75">Payment Deadline</dt>
+          <dd class="text-text/80 italic">{meetings.dues.deadline}</dd>
+        </div>
+      </dl>
     </section>
 
     <!-- Associate & Honorary note -->
     <section aria-labelledby="membership-note-heading">
-      <div class="border border-gold/25 rounded-sm bg-white/50 px-7 py-6">
+      <div class="border-l-2 border-gold/50 pl-7 max-w-2xl">
         <h2 id="membership-note-heading" class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold mb-2.5">
           Associate &amp; Honorary Membership
         </h2>
-        <p class="text-text/75 leading-relaxed">
+        <p class="text-text/75 leading-relaxed italic">
           {clubInfo.membership.associateAndHonoraryNote}
         </p>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="text-center border-y border-gold/25 px-6 py-16 fade-in-section">
-      <h2 class="font-heading text-4xl font-semibold text-text mb-4">Ready to Join?</h2>
+    <section class="text-center border-t border-gold/25 px-6 pt-16 fade-in-section">
+      <h2 class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-4">Ready to Join?</h2>
       <p class="text-text/70 text-lg mb-6 max-w-md mx-auto leading-relaxed">
         We'd love to have you. Reach out with any questions, or simply come along to our next meeting.
       </p>
