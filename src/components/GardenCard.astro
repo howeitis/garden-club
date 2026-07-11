@@ -1,6 +1,7 @@
 ---
-// Wide horizontal garden card used on /resources/gardens for both Local and
-// Regional sections. Image on the left, description + outbound link on the right.
+// Editorial garden row used on /resources/gardens for both Local and Regional
+// sections. A large photograph on one side, text on the other; `flip`
+// alternates the composition down the page.
 import SmartImage from './SmartImage.astro';
 
 interface Props {
@@ -10,38 +11,38 @@ interface Props {
   /** Domain only, no protocol (e.g. "longwoodgardens.org") */
   website: string;
   image: string;
+  /** Mirror the layout (image on the right) */
+  flip?: boolean;
 }
 
-const { name, location, description, website, image } = Astro.props;
+const { name, location, description, website, image, flip = false } = Astro.props;
 ---
 
-<div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-200">
-  <div class="flex flex-col md:flex-row">
-    <div class="md:w-80 lg:w-96 flex-shrink-0">
-      <SmartImage
-        src={image}
-        alt={name}
-        widths={[320, 640, 960]}
-        sizes="(min-width: 768px) 384px, 100vw"
-        class="w-full h-60 md:h-full object-cover"
-        loading="lazy"
-      />
-    </div>
-    <div class="p-6 sm:p-8 flex-1">
-      <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold mb-2">{location}</p>
-      <h3 class="font-heading text-2xl sm:text-[1.75rem] font-semibold text-text mb-3 leading-snug">{name}</h3>
-      <p class="text-base text-text/75 leading-relaxed mb-5">{description}</p>
-      <a
-        href={`https://${website}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 text-[0.95rem] font-medium text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold"
-      >
-        {website}
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-        </svg>
-      </a>
-    </div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
+  <div class:list={['md:col-span-5 overflow-hidden rounded-sm', flip && 'md:order-2']}>
+    <SmartImage
+      src={image}
+      alt={name}
+      widths={[400, 800, 1200]}
+      sizes="(min-width: 768px) 42vw, 100vw"
+      class="w-full h-64 sm:h-80 object-cover"
+      loading="lazy"
+    />
+  </div>
+  <div class:list={['md:col-span-7', flip && 'md:order-1']}>
+    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-3">{location}</p>
+    <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{name}</h3>
+    <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-5">{description}</p>
+    <a
+      href={`https://${website}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 text-[0.95rem] font-medium text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold"
+    >
+      {website}
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+      </svg>
+    </a>
   </div>
 </div>

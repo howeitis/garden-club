@@ -1,8 +1,7 @@
 ---
-// Wide CTA card used on the main /resources page to link to each subpage.
-// Renders a 2-column layout: eyebrow + serif title + description on the left,
-// a 2x2 thumbnail grid on the right. All three cards share one refined style;
-// the old per-card color tones are retired.
+// Editorial section link used on the main /resources page. Text on one side,
+// a 2x2 photo cluster on the other; `flip` alternates the composition down
+// the page. Set directly on the page ground — no card chrome.
 import SmartImage from './SmartImage.astro';
 
 interface Image {
@@ -18,44 +17,43 @@ interface Props {
   eyebrow: string;
   /** CTA link text (e.g. "Visit the Plant Guide") */
   cta: string;
-  /** Exactly four thumbnail images for the right column */
+  /** Exactly four thumbnail images */
   images: [Image, Image, Image, Image];
+  /** Mirror the layout (photos on the left) */
+  flip?: boolean;
 }
 
-const { href, title, description, eyebrow, cta, images } = Astro.props;
+const { href, title, description, eyebrow, cta, images, flip = false } = Astro.props;
 
 const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
 ---
 
-<section aria-labelledby={headingId} class="fade-in-section">
-  <a
-    href={href}
-    class="block group bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_8px_28px_rgba(51,50,44,0.12)] transition-shadow duration-300"
-  >
-    <div class="grid grid-cols-1 md:grid-cols-2">
-      <div class="p-8 sm:p-12 flex flex-col justify-center">
-        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">{eyebrow}</p>
-        <h2 id={headingId} class="font-heading text-3xl sm:text-4xl font-semibold text-text mb-4 leading-tight" set:html={title} />
-        <p class="text-base text-text/75 leading-relaxed mb-6">{description}</p>
-        <span class="inline-flex items-center gap-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-primary group-hover:text-gold transition-colors duration-200">
-          {cta}
-          <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </span>
-      </div>
-      <div class="grid grid-cols-2 gap-1.5 p-1.5 md:p-2">
-        {images.map((img) => (
+<section aria-labelledby={headingId} class="fade-in-section py-16 first:pt-0 last:pb-0">
+  <a href={href} class="group grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+    <div class:list={[flip && 'md:order-2']}>
+      <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">{eyebrow}</p>
+      <h2 id={headingId} class="font-heading text-4xl sm:text-[2.75rem] font-semibold text-text mb-5 leading-tight" set:html={title} />
+      <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-7">{description}</p>
+      <span class="inline-flex items-center gap-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-primary group-hover:text-gold transition-colors duration-200">
+        {cta}
+        <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </span>
+    </div>
+    <div class:list={['grid grid-cols-2 gap-3', flip && 'md:order-1']}>
+      {images.map((img, i) => (
+        <div class:list={['overflow-hidden rounded-sm', i % 2 === 1 && 'translate-y-4']}>
           <SmartImage
             src={img.src}
             alt=""
             widths={[200, 400, 600]}
             sizes="(min-width: 768px) 25vw, 50vw"
-            class="w-full h-36 sm:h-44 object-cover"
+            class="w-full h-40 sm:h-52 object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   </a>
 </section>

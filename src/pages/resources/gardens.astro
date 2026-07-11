@@ -98,8 +98,8 @@ const regionalGardens = [
         gardens in the country. We encourage our members and visitors to explore these treasures.
       </p>
 
-      <div class="space-y-8">
-        {localGardens.map((g) => <GardenCard {...g} />)}
+      <div class="divide-y divide-gold/20">
+        {localGardens.map((g, i) => <GardenCard {...g} flip={i % 2 === 1} />)}
       </div>
     </section>
 
@@ -113,8 +113,8 @@ const regionalGardens = [
         botanical landmarks and inventive contemporary gardens — all within an easy day trip.
       </p>
 
-      <div class="space-y-8">
-        {regionalGardens.map((g) => <GardenCard {...g} />)}
+      <div class="divide-y divide-gold/20">
+        {regionalGardens.map((g, i) => <GardenCard {...g} flip={i % 2 === 1} />)}
       </div>
     </section>
 

@@ -39,9 +39,9 @@ const focusAreas = ['Planting & Growing', 'Civic Beautification', 'Pollinator Ha
     </h2>
 
     {projects.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {projects.map((project) => (
-          <ProjectCard project={project} />
+      <div class="divide-y divide-gold/20">
+        {projects.map((project, i) => (
+          <ProjectCard project={project} flip={i % 2 === 1} />
         ))}
       </div>
     ) : (

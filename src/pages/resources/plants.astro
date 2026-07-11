@@ -132,7 +132,7 @@ const bannedPlants = [
         less maintenance, and provide essential habitat for local pollinators and wildlife.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
         {nativePlants.map((plant) => (
           <PlantCard {...plant} variant="native" />
         ))}
@@ -150,7 +150,7 @@ const bannedPlants = [
         them where possible and choose native alternatives instead.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
         {bannedPlants.map((plant) => (
           <PlantCard {...plant} variant="banned" />
         ))}
