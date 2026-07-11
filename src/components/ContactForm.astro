@@ -1,20 +1,22 @@
 ---
 // No server-side logic needed — this is a plain HTML form.
+const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 text-base text-text placeholder:text-text/35
+  focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-shadow`;
 ---
 
 <form
   action="https://formspree.io/f/YOUR_FORM_ID"
   method="POST"
-  class="flex flex-col gap-5"
+  class="flex flex-col gap-6"
   novalidate
 >
   <!-- Formspree redirect after submission -->
   <input type="hidden" name="_next" value="/thank-you" />
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <!-- Name -->
-    <div class="flex flex-col gap-1.5">
-      <label for="name" class="text-base font-medium text-text">
+    <div class="flex flex-col gap-2">
+      <label for="name" class="text-[0.95rem] font-medium text-text">
         Full Name <span class="text-holly" aria-hidden="true">*</span>
       </label>
       <input
@@ -24,14 +26,13 @@
         required
         autocomplete="name"
         placeholder="Jane Smith"
-        class="rounded-lg border border-blossom/40 bg-white px-4 py-3 text-base text-text placeholder:text-text/40
-               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+        class={inputClasses}
       />
     </div>
 
     <!-- Email -->
-    <div class="flex flex-col gap-1.5">
-      <label for="email" class="text-base font-medium text-text">
+    <div class="flex flex-col gap-2">
+      <label for="email" class="text-[0.95rem] font-medium text-text">
         Email Address <span class="text-holly" aria-hidden="true">*</span>
       </label>
       <input
@@ -41,28 +42,26 @@
         required
         autocomplete="email"
         placeholder="jane@example.com"
-        class="rounded-lg border border-blossom/40 bg-white px-4 py-3 text-base text-text placeholder:text-text/40
-               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+        class={inputClasses}
       />
     </div>
   </div>
 
   <!-- Subject -->
-  <div class="flex flex-col gap-1.5">
-    <label for="subject" class="text-base font-medium text-text">Subject</label>
+  <div class="flex flex-col gap-2">
+    <label for="subject" class="text-[0.95rem] font-medium text-text">Subject</label>
     <input
       type="text"
       id="subject"
       name="subject"
       placeholder="Membership inquiry, event question…"
-      class="rounded-lg border border-blossom/40 bg-white px-4 py-3 text-base text-text placeholder:text-text/40
-             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+      class={inputClasses}
     />
   </div>
 
   <!-- Message -->
-  <div class="flex flex-col gap-1.5">
-    <label for="message" class="text-base font-medium text-text">
+  <div class="flex flex-col gap-2">
+    <label for="message" class="text-[0.95rem] font-medium text-text">
       Message <span class="text-holly" aria-hidden="true">*</span>
     </label>
     <textarea
@@ -71,8 +70,7 @@
       required
       rows="6"
       placeholder="Tell us how we can help…"
-      class="rounded-lg border border-blossom/40 bg-white px-4 py-3 text-base text-text placeholder:text-text/40
-             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-y"
+      class={`${inputClasses} resize-y`}
     ></textarea>
   </div>
 
@@ -80,14 +78,13 @@
   <div>
     <button
       type="submit"
-      class="inline-flex items-center gap-2 bg-holly text-background font-semibold px-8 py-4 rounded-lg
-             hover:bg-holly/90 active:scale-95 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-holly focus:ring-offset-2"
+      class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm
+             hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
     >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
       Send Message
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
     </button>
   </div>
 </form>

@@ -3,9 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import LandingCard from '../components/LandingCard.astro';
 import { clubInfo } from '../data/index';
-
-const greenGlow = 'shadow-[0_0_14px_rgba(123,158,107,0.4)]';
-const redGlow = 'shadow-[0_0_14px_rgba(196,30,58,0.4)]';
 ---
 
 <BaseLayout
@@ -18,12 +15,11 @@ const redGlow = 'shadow-[0_0_14px_rgba(196,30,58,0.4)]';
     subtitle="Tips, inspiration, and places to explore for gardeners of every level."
   />
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-14">
 
     <LandingCard
       href="/resources/gardening-tips"
-      tone="blossom"
-      eyebrow="🌷 Grow Better"
+      eyebrow="Grow Better"
       title="Gardening Tips"
       description="Evergreen fundamentals plus our Garden Rhythms — the recurring weekly and monthly tasks that keep a healthy garden humming all season long."
       cta="Visit the Tips Guide"
@@ -37,23 +33,21 @@ const redGlow = 'shadow-[0_0_14px_rgba(196,30,58,0.4)]';
 
     <LandingCard
       href="/resources/plants"
-      tone="accent"
-      eyebrow="🌿 Plant Guide"
+      eyebrow="Plant Guide"
       title="Native &amp; Banned Plants of Delaware"
       description="Explore the natives that thrive in our Piedmont region — and the invasive species that should be avoided to protect our local ecosystems."
       cta="Visit the Plant Guide"
       images={[
-        { src: '/americanholly.webp', glow: greenGlow },
-        { src: '/butterflyweed.webp', glow: greenGlow },
-        { src: '/englishivy.webp',    glow: redGlow   },
-        { src: '/oriental-bittersweet.webp', glow: redGlow },
+        { src: '/americanholly.webp' },
+        { src: '/butterflyweed.webp' },
+        { src: '/englishivy.webp' },
+        { src: '/oriental-bittersweet.webp' },
       ]}
     />
 
     <LandingCard
       href="/resources/gardens"
-      tone="marigold"
-      eyebrow="🌻 Garden Guide"
+      eyebrow="Garden Guide"
       title="Gardens to Visit"
       description="From local treasures in the Brandywine Valley to renowned regional destinations just beyond, discover public gardens worth a visit any season of the year."
       cta="Visit the Garden Guide"

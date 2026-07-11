@@ -1,10 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 import OfficerCard from '../components/OfficerCard.astro';
 import { clubInfo, officers, affiliations } from '../data/index';
 
 const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
+
+const membershipStats = [
+  { label: 'Active Members',    value: clubInfo.membership.activeMembers },
+  { label: 'Associate Members', value: clubInfo.membership.associateMembers },
+  { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers },
+  { label: 'Membership Cap',    value: clubInfo.membership.maxActive },
+];
 ---
 
 <BaseLayout
@@ -15,50 +23,45 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
     eyebrow="Our Story"
     title="About Us"
     image="/about-hero.jpg"
-    decoration={{ emoji: '🌷', position: 'top-right', rotate: 'rotate-6' }}
   />
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
 
     <!-- Club History -->
     <section aria-labelledby="history-heading" class="fade-in-section">
       <div class="max-w-3xl">
-        <h2 id="history-heading" class="font-heading text-3xl font-bold text-text mb-6">Our History</h2>
-        <div class="space-y-4 text-text/75 leading-relaxed">
+        <SectionHeader label="Since 1963" />
+        <h2 id="history-heading" class="font-heading text-4xl font-semibold text-text mb-7">Our History</h2>
+        <div class="space-y-5 text-text/80 text-lg leading-relaxed">
           <p>
-            <strong class="text-text">{clubInfo.name}</strong> was founded in
-            <strong class="text-text">{clubInfo.foundingDates.club}</strong> by a small group of
+            <strong class="text-text font-semibold">{clubInfo.name}</strong> was founded in
+            <strong class="text-text font-semibold">{clubInfo.foundingDates.club}</strong> by a small group of
             passionate gardeners who believed that community beauty begins at home.
           </p>
           <p>
-            In <strong class="text-text">{clubInfo.foundingDates.federation}</strong>, the club formally
+            In <strong class="text-text font-semibold">{clubInfo.foundingDates.federation}</strong>, the club formally
             joined a regional garden federation, connecting our members with a wider network of
             horticulturalists, conservationists, and civic volunteers.
           </p>
           <p>
-            In <strong class="text-text">{clubInfo.foundingDates.incorporated}</strong>, the club was
-            incorporated as a <strong class="text-text">{clubInfo.nonprofitStatus}</strong>.
+            In <strong class="text-text font-semibold">{clubInfo.foundingDates.incorporated}</strong>, the club was
+            incorporated as a <strong class="text-text font-semibold">{clubInfo.nonprofitStatus}</strong>.
           </p>
-          <blockquote class="italic border-l-4 border-blossom pl-4 text-text/80 bg-blossom/8 py-2 rounded-r-lg">
+          <blockquote class="font-heading italic text-2xl text-text/85 border-l-2 border-gold/60 pl-6 py-1 leading-snug">
             &ldquo;{clubInfo.missionStatement}&rdquo;
           </blockquote>
         </div>
 
-        <!-- Membership stats — colorful cards -->
-        <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { label: 'Active Members',    value: clubInfo.membership.activeMembers,    bg: 'bg-blossom/15 border-blossom/30',   num: 'text-holly'    },
-            { label: 'Associate Members', value: clubInfo.membership.associateMembers, bg: 'bg-lavender/15 border-lavender/30', num: 'text-primary'  },
-            { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers,  bg: 'bg-sunflower/12 border-sunflower/30',num: 'text-primary' },
-            { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        bg: 'bg-marigold/12 border-marigold/30', num: 'text-marigold' },
-          ].map((stat) => (
-            <div class={`rounded-xl border shadow-sm p-4 text-center ${stat.bg}`}>
-              <p class={`font-heading text-3xl font-bold ${stat.num}`}>{stat.value}</p>
-              <p class="text-xs text-text/55 mt-1 leading-snug">{stat.label}</p>
+        <!-- Membership at a glance -->
+        <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 border-y border-gold/25 divide-x divide-gold/15">
+          {membershipStats.map((stat) => (
+            <div class="py-6 px-3 text-center">
+              <p class="font-heading text-4xl font-semibold text-primary">{stat.value}</p>
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-text/55 mt-2 leading-snug">{stat.label}</p>
             </div>
           ))}
         </div>
-        <p class="text-xs text-text/50 mt-3 leading-relaxed italic">
+        <p class="text-sm text-text/55 mt-4 leading-relaxed italic">
           {clubInfo.membership.associateAndHonoraryNote}
         </p>
       </div>
@@ -66,12 +69,10 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
     <!-- Board of Officers -->
     <section aria-labelledby="officers-heading" class="fade-in-section">
-      <div class="flex items-center gap-3 mb-8">
-        <h2 id="officers-heading" class="font-heading text-3xl font-bold text-text">
-          Board of Officers
-        </h2>
-        <span class="text-xl" aria-hidden="true">🌸</span>
-      </div>
+      <SectionHeader label="Leadership" />
+      <h2 id="officers-heading" class="font-heading text-4xl font-semibold text-text mb-10">
+        Board of Officers
+      </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {sortedOfficers.map((officer) => (
           <OfficerCard officer={officer} />
@@ -81,89 +82,90 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
     <!-- Affiliations -->
     <section aria-labelledby="affiliations-heading" class="fade-in-section">
-      <h2 id="affiliations-heading" class="font-heading text-3xl font-bold text-text mb-8">
+      <SectionHeader label="Our Network" />
+      <h2 id="affiliations-heading" class="font-heading text-4xl font-semibold text-text mb-10">
         Our Affiliations
       </h2>
 
       <!-- NGC — full detail card -->
-      <div class="bg-white rounded-xl border border-hen/40 shadow-sm p-6 mb-6">
-        <div class="flex items-start justify-between mb-4">
+      <div class="bg-white rounded-sm border border-primary/10 border-t-2 border-t-gold/50 shadow-[0_1px_3px_rgba(51,50,44,0.06)] p-7 sm:p-8 mb-6">
+        <div class="flex items-start justify-between gap-4 mb-6">
           <div>
-            <span class="text-xs font-semibold uppercase tracking-widest text-primary">National</span>
-            <h3 class="font-heading text-xl font-semibold text-text mt-1">{affiliations.ngc.name}</h3>
+            <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">National</span>
+            <h3 class="font-heading text-2xl font-semibold text-text mt-1.5">{affiliations.ngc.name}</h3>
           </div>
           <img src="/ngc-logo.png" alt="NGC Logo" class="w-16 h-auto object-contain flex-shrink-0" loading="lazy" />
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-4">
-          <dl class="space-y-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 mb-6">
+          <dl class="space-y-3">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">President</dt>
-              <dd class="text-text/75">{affiliations.ngc.president}</dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">President</dt>
+              <dd class="text-text/80 mt-0.5">{affiliations.ngc.president}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Email</dt>
-              <dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Email</dt>
+              <dd class="mt-0.5">
                 <a href={`mailto:${affiliations.ngc.presidentEmail}`}
-                  class="text-primary hover:underline">{affiliations.ngc.presidentEmail}</a>
+                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.presidentEmail}</a>
               </dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Theme</dt>
-              <dd class="italic text-text/70">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Theme</dt>
+              <dd class="font-heading italic text-lg text-text/75 mt-0.5">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
             </div>
           </dl>
-          <dl class="space-y-2">
+          <dl class="space-y-3">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Address</dt>
-              <dd class="text-text/75">{affiliations.ngc.address}</dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Address</dt>
+              <dd class="text-text/80 mt-0.5">{affiliations.ngc.address}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Phone</dt>
-              <dd class="text-text/75">{affiliations.ngc.phone}</dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Phone</dt>
+              <dd class="text-text/80 mt-0.5">{affiliations.ngc.phone}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-text/45">Website</dt>
-              <dd>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Website</dt>
+              <dd class="mt-0.5">
                 <a href={`https://${affiliations.ngc.website}`} target="_blank" rel="noopener noreferrer"
-                  class="text-primary hover:underline">{affiliations.ngc.website}</a>
+                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.website}</a>
               </dd>
             </div>
           </dl>
         </div>
 
         <!-- Annual Convention -->
-        <div class="border-t border-blossom/20 pt-4 bg-blossom/5 -mx-6 px-6 -mb-6 pb-6 rounded-b-xl">
-          <p class="text-xs font-semibold uppercase tracking-wide text-holly mb-1">Annual Convention</p>
-          <p class="text-sm text-text/75">
-            <strong>{affiliations.ngc.annualConvention.dates}</strong> &mdash; {affiliations.ngc.annualConvention.location}
+        <div class="border-t border-gold/20 pt-5">
+          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">Annual Convention</p>
+          <p class="text-text/80">
+            <strong class="font-semibold">{affiliations.ngc.annualConvention.dates}</strong> &mdash; {affiliations.ngc.annualConvention.location}
           </p>
         </div>
       </div>
 
       <!-- Region + State side by side -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white rounded-xl border border-blossom/30 shadow-sm p-6">
-          <span class="text-xs font-semibold uppercase tracking-widest text-holly">Region</span>
-          <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.region.name}</h3>
-          <p class="text-sm text-text/55 mt-1">{affiliations.region.abbreviation}</p>
+        <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] p-7">
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">Region</span>
+          <h3 class="font-heading text-xl font-semibold text-text mt-1.5">{affiliations.region.name}</h3>
+          <p class="text-[0.95rem] text-text/55 mt-1">{affiliations.region.abbreviation}</p>
         </div>
 
-        <div class="bg-white rounded-xl border border-accent/30 shadow-sm p-6">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">State</span>
-          <h3 class="font-heading text-lg font-semibold text-text mt-1">{affiliations.state.name}</h3>
-          <p class="text-sm text-text/55 mt-1">{affiliations.state.abbreviation}</p>
+        <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] p-7">
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">State</span>
+          <h3 class="font-heading text-xl font-semibold text-text mt-1.5">{affiliations.state.name}</h3>
+          <p class="text-[0.95rem] text-text/55 mt-1">{affiliations.state.abbreviation}</p>
         </div>
       </div>
 
       <!-- Other affiliates -->
       {affiliations.other.length > 0 && (
-        <div class="bg-white rounded-xl border border-lavender/30 shadow-sm p-6 mb-6">
-          <span class="text-xs font-semibold uppercase tracking-widest text-primary">Additional Affiliates</span>
-          <ul class="mt-2 space-y-1">
+        <div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] p-7 mb-6">
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">Additional Affiliates</span>
+          <ul class="mt-3 space-y-2">
             {affiliations.other.map((org) => (
-              <li class="text-sm text-text/75 flex items-center gap-2">
-                <span class="text-blossom-deep" aria-hidden="true">✦</span>
+              <li class="text-text/80 flex items-start gap-2.5">
+                <span class="mt-[0.65rem] w-1 h-1 rounded-full bg-gold flex-shrink-0" aria-hidden="true"></span>
                 {org.name}
               </li>
             ))}
@@ -173,14 +175,14 @@ const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
       <!-- NGC Support narratives -->
       {affiliations.ngcSupport.length > 0 && (
-        <div class="bg-gradient-to-br from-marigold/10 via-sunflower/8 to-blossom/10 border border-marigold/25 rounded-xl p-6">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-marigold mb-4">
+        <div class="border border-gold/25 rounded-sm p-7 sm:p-8 bg-white/50">
+          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold mb-5">
             How We Support NGC
           </h3>
-          <ul class="space-y-3">
+          <ul class="space-y-3.5">
             {affiliations.ngcSupport.map((item) => (
-              <li class="flex items-start gap-3 text-sm text-text/75 leading-relaxed">
-                <span class="mt-1 text-blossom-deep flex-shrink-0" aria-hidden="true">🌸</span>
+              <li class="flex items-start gap-3 text-text/80 leading-relaxed">
+                <span class="mt-[0.65rem] w-1 h-1 rounded-full bg-gold flex-shrink-0" aria-hidden="true"></span>
                 {item}
               </li>
             ))}

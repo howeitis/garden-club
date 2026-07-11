@@ -15,37 +15,31 @@ interface Props {
 const { name, location, description, website, image } = Astro.props;
 ---
 
-<div class="bg-white rounded-xl border border-accent/20 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+<div class="bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden hover:shadow-[0_6px_20px_rgba(51,50,44,0.1)] transition-shadow duration-200">
   <div class="flex flex-col md:flex-row">
-    <div class="md:w-72 lg:w-80 flex-shrink-0">
+    <div class="md:w-80 lg:w-96 flex-shrink-0">
       <SmartImage
         src={image}
         alt={name}
         widths={[320, 640, 960]}
-        sizes="(min-width: 768px) 320px, 100vw"
-        class="w-full h-56 md:h-full object-cover"
+        sizes="(min-width: 768px) 384px, 100vw"
+        class="w-full h-60 md:h-full object-cover"
         loading="lazy"
       />
     </div>
-    <div class="p-6 flex-1">
-      <h3 class="font-heading text-xl font-semibold text-text mb-2">{name}</h3>
-      <p class="text-xs font-medium text-primary mb-3 flex items-center gap-1">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-        </svg>
-        {location}
-      </p>
-      <p class="text-sm text-text/70 leading-relaxed mb-4">{description}</p>
+    <div class="p-6 sm:p-8 flex-1">
+      <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold mb-2">{location}</p>
+      <h3 class="font-heading text-2xl sm:text-[1.75rem] font-semibold text-text mb-3 leading-snug">{name}</h3>
+      <p class="text-base text-text/75 leading-relaxed mb-5">{description}</p>
       <a
         href={`https://${website}`}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+        class="inline-flex items-center gap-2 text-[0.95rem] font-medium text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold"
       >
         {website}
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
         </svg>
       </a>
     </div>
