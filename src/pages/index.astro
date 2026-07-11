@@ -69,22 +69,25 @@ const siteIndex = [
           fetchpriority="high"
         />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/65 to-[#16281a]/85" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/75 to-[#16281a]/85" aria-hidden="true"></div>
     </div>
 
+    <!-- Gold hairline signature along the hero's bottom edge -->
+    <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-gold-soft/60 to-transparent" aria-hidden="true"></div>
+
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 sm:pt-52 pb-28 sm:pb-36 text-center">
-      <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.32em] mb-6">
+      <p class="hero-rise text-gold-soft text-xs font-semibold uppercase tracking-[0.32em] mb-6">
         Est. {clubInfo.foundingDates.club} &middot; Hockessin, Delaware
       </p>
-      <h1 class="mb-5">
-        <span class="block font-heading text-5xl sm:text-7xl lg:text-8xl font-semibold leading-[1.02]">Garden Gate</span>
-        <span class="mt-4 block text-background/90 text-sm sm:text-base font-semibold uppercase tracking-[0.5em] sm:tracking-[0.6em] pl-[0.5em]">Garden Club</span>
+      <h1 class="hero-rise hero-rise-2 mb-5">
+        <span class="block font-heading text-5xl sm:text-7xl lg:text-[7.5rem] font-semibold leading-[0.98] tracking-[-0.01em]">Garden Gate</span>
+        <span class="mt-5 block text-background/90 text-sm sm:text-base font-semibold uppercase tracking-[0.5em] sm:tracking-[0.6em] pl-[0.5em]">Garden Club</span>
       </h1>
-      <Flourish tone="dark" class="mb-7" />
-      <p class="text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-11">
+      <Flourish tone="dark" class="hero-rise hero-rise-3 mb-7" />
+      <p class="hero-rise hero-rise-3 text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-11">
         {clubInfo.missionStatement}
       </p>
-      <div class="flex flex-wrap gap-4 justify-center">
+      <div class="hero-rise hero-rise-4 flex flex-wrap gap-4 justify-center">
         <a
           href="/membership"
           class="bg-background text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
@@ -102,14 +105,18 @@ const siteIndex = [
   </section>
 
   <!-- Annual theme — editorial pull-quote -->
-  <section class="border-b border-gold/20 fade-in-section">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-      <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-2">Our Theme</p>
-      <p class="text-text/50 text-sm mb-8">{clubInfo.themePeriod}</p>
-      <blockquote class="font-heading italic text-3xl sm:text-4xl text-text leading-snug">
-        &ldquo;{clubInfo.theme}&rdquo;
+  <section class="border-b border-gold/20 fade-in-section overflow-hidden">
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 sm:pt-28 sm:pb-24 text-center">
+      <!-- Hanging quotation mark, set enormous behind the quote -->
+      <span
+        class="absolute top-2 sm:top-0 left-1/2 -translate-x-1/2 font-heading text-[11rem] sm:text-[15rem] leading-none text-gold/[0.13] select-none pointer-events-none"
+        aria-hidden="true"
+      >&ldquo;</span>
+      <p class="relative text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-8">Our Theme &middot; {clubInfo.themePeriod}</p>
+      <blockquote class="relative font-heading italic text-4xl sm:text-5xl lg:text-[3.4rem] text-text leading-[1.15]">
+        {clubInfo.theme}
       </blockquote>
-      <Flourish class="mt-9" />
+      <Flourish class="relative mt-10" />
     </div>
   </section>
 
@@ -118,8 +125,8 @@ const siteIndex = [
     <div class="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
       <div>
         <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">In Our Community</p>
-        <h2 class="font-heading text-4xl sm:text-5xl font-semibold text-text mb-6 leading-[1.1]">
-          Cultivating Beauty<br />Where We Live
+        <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold text-text mb-6 leading-[1.05] tracking-[-0.01em]">
+          Cultivating <em class="italic text-primary">Beauty</em><br />Where We Live
         </h2>
         <p class="text-text/75 text-lg leading-relaxed mb-9">
           From pollinator gardens in local parks to festive window boxes on Main Street, our members
@@ -166,7 +173,7 @@ const siteIndex = [
             href={item.href}
             class="group flex flex-col gap-3 p-8 hover:bg-white transition-colors duration-200"
           >
-            <span class="font-heading italic text-gold/70 text-lg">{item.number}</span>
+            <span class="font-heading italic text-gold/45 text-4xl leading-none">{item.number}</span>
             <span class="font-heading text-2xl font-semibold text-text group-hover:text-primary transition-colors duration-200">{item.label}</span>
             <span class="text-[0.95rem] text-text/65 leading-relaxed">{item.line}</span>
             <span class="mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 group-hover:text-gold transition-colors duration-200">
@@ -181,19 +188,19 @@ const siteIndex = [
     </div>
   </section>
 
-  <!-- Get in touch -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 fade-in-section">
-    <div class="grid grid-cols-1 md:grid-cols-2 items-stretch bg-white rounded-sm border border-primary/10 shadow-[0_1px_3px_rgba(51,50,44,0.06)] overflow-hidden">
-      <div class="p-10 sm:p-14 flex flex-col justify-center border-t-2 border-t-gold/50">
-        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">Say Hello</p>
-        <h2 class="font-heading text-4xl sm:text-[2.75rem] font-semibold text-text mb-4 leading-tight">Get in Touch</h2>
-        <p class="text-text/75 text-lg leading-relaxed mb-8 max-w-md">
+  <!-- Get in touch — full-bleed closing band, flush against the footer -->
+  <section class="fade-in-section -mb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 items-stretch bg-primary text-background">
+      <div class="px-6 sm:px-12 lg:pl-[max(3rem,calc((100vw-72rem)/2+1rem))] lg:pr-20 py-20 sm:py-24 flex flex-col justify-center">
+        <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.28em] mb-5">Say Hello</p>
+        <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.05] tracking-[-0.01em]">Get in Touch</h2>
+        <p class="text-background/80 text-lg leading-relaxed mb-10 max-w-md">
           Questions about membership, our programs, or how to get involved? We'd love to hear
           from you — reach out and a club member will be in touch.
         </p>
         <a
           href="/contact"
-          class="self-start inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+          class="self-start inline-flex items-center gap-2.5 bg-background text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary"
         >
           Contact the Club
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -202,12 +209,12 @@ const siteIndex = [
         </a>
       </div>
 
-      <div class="min-h-[20rem]">
+      <div class="min-h-[22rem]">
         <SmartImage
           src="/demuseum.webp"
           alt="Bobbee Vernon Memorial Garden at the Delaware Museum of Nature & Science"
           widths={[400, 800, 1200]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes="(min-width: 768px) 50vw, 100vw"
           class="w-full h-full object-cover"
           loading="lazy"
         />
