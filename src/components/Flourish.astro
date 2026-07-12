@@ -1,9 +1,9 @@
 ---
-// Botanical flourish divider — a fine gold sprig between hairlines.
-// The site's signature ornament; replaces the emoji decorations used in the
-// previous design. `tone` picks the color for light or dark grounds.
+// Botanical flourish divider — a fine sprig between hairlines, drawn from the
+// logo's palette: sage leaves with a peach-blossom bud on gold rules. The
+// site's signature ornament. `tone` picks colors for light or dark grounds.
 interface Props {
-  /** "light" = gold on ivory (default) · "dark" = soft gold on green/photo */
+  /** "light" = on ivory (default) · "dark" = on green/photo */
   tone?: 'light' | 'dark';
   /** Extra classes on the wrapper (e.g. margins) */
   class?: string;
@@ -12,22 +12,27 @@ interface Props {
 const { tone = 'light', class: className } = Astro.props;
 
 const line = tone === 'light' ? 'bg-gold/30' : 'bg-gold-soft/40';
-const leaf = tone === 'light' ? 'text-gold/70' : 'text-gold-soft/80';
+const leaf = tone === 'light' ? 'text-accent' : 'text-gold-soft/80';
+const bud  = tone === 'light' ? 'text-blossom-deep' : 'text-blossom';
 ---
 
 <div class:list={['flex items-center justify-center gap-4', className]} aria-hidden="true">
   <div class:list={['h-px w-12 sm:w-16', line]}></div>
-  <svg class:list={['w-7 h-7 flex-shrink-0', leaf]} viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
-    <!-- stem -->
-    <path d="M14 24 C14 17 14 11 14 5" />
-    <!-- left leaves -->
-    <path d="M14 19 C10.5 18.5 8.5 16 8 12.5 C11.5 13 13.5 15.5 14 19 Z" />
-    <path d="M14 12.5 C11 12 9.5 10 9.2 7 C12.2 7.5 13.7 9.5 14 12.5 Z" />
-    <!-- right leaves -->
-    <path d="M14 19 C17.5 18.5 19.5 16 20 12.5 C16.5 13 14.5 15.5 14 19 Z" />
-    <path d="M14 12.5 C17 12 18.5 10 18.8 7 C15.8 7.5 14.3 9.5 14 12.5 Z" />
-    <!-- bud -->
-    <path d="M14 5 C13 4 13 2.8 14 2 C15 2.8 15 4 14 5 Z" />
+  <svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 28 28" fill="none" stroke-width="1.1" stroke-linecap="round">
+    <g class={leaf} stroke="currentColor">
+      <!-- stem -->
+      <path d="M14 24 C14 17 14 11 14 5" />
+      <!-- left leaves -->
+      <path d="M14 19 C10.5 18.5 8.5 16 8 12.5 C11.5 13 13.5 15.5 14 19 Z" />
+      <path d="M14 12.5 C11 12 9.5 10 9.2 7 C12.2 7.5 13.7 9.5 14 12.5 Z" />
+      <!-- right leaves -->
+      <path d="M14 19 C17.5 18.5 19.5 16 20 12.5 C16.5 13 14.5 15.5 14 19 Z" />
+      <path d="M14 12.5 C17 12 18.5 10 18.8 7 C15.8 7.5 14.3 9.5 14 12.5 Z" />
+    </g>
+    <!-- blossom bud -->
+    <g class={bud} stroke="currentColor">
+      <path d="M14 5 C12.8 3.9 12.8 2.6 14 1.7 C15.2 2.6 15.2 3.9 14 5 Z" />
+    </g>
   </svg>
   <div class:list={['h-px w-12 sm:w-16', line]}></div>
 </div>
