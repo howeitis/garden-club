@@ -13,6 +13,24 @@ import { resolveAsset, cappedWidths } from '../lib/assetImages';
 // it to the imported asset by filename. Anything not found (still in public/)
 // falls back to a plain <img>.
 
+/**
+ * Each page tints its hero wash with the accent color used on that page,
+ * blending down into the brand's deep green so titles stay legible and the
+ * footer of the wash always lands on-palette.
+ */
+type Accent = 'green' | 'blossom' | 'sage' | 'gold' | 'holly' | 'hen' | 'lavender' | 'marigold';
+
+const WASHES: Record<Accent, string> = {
+  green:    'bg-gradient-to-b from-[#16281a]/45 via-[#16281a]/40 to-[#16281a]/90',
+  blossom:  'bg-gradient-to-b from-[#57303c]/60 via-[#43262f]/50 to-[#16281a]/90',
+  sage:     'bg-gradient-to-b from-[#33461f]/60 via-[#2a3a1c]/50 to-[#16281a]/90',
+  gold:     'bg-gradient-to-b from-[#4e3f16]/60 via-[#3c3113]/50 to-[#16281a]/90',
+  holly:    'bg-gradient-to-b from-[#54232b]/60 via-[#411c22]/50 to-[#16281a]/90',
+  hen:      'bg-gradient-to-b from-[#26404f]/60 via-[#1f3340]/50 to-[#16281a]/90',
+  lavender: 'bg-gradient-to-b from-[#3f3350]/60 via-[#322940]/50 to-[#16281a]/90',
+  marigold: 'bg-gradient-to-b from-[#53381a]/60 via-[#402c15]/50 to-[#16281a]/90',
+};
+
 interface Props {
   /** Eyebrow text shown above the title (e.g. "For Gardeners") */
   eyebrow: string;
@@ -22,10 +40,13 @@ interface Props {
   subtitle?: string;
   /** Public path to the overlay image (defaults to /flower.jpg) */
   image?: string;
+  /** Wash tint — match it to the accent color used on the page */
+  accent?: Accent;
 }
 
-const { eyebrow, title, subtitle, image = '/flower.jpg' } = Astro.props;
+const { eyebrow, title, subtitle, image = '/flower.jpg', accent = 'green' } = Astro.props;
 const heroImage = resolveAsset(image);
+const wash = WASHES[accent];
 ---
 
 <section class="relative text-background overflow-hidden">
@@ -49,8 +70,8 @@ const heroImage = resolveAsset(image);
         loading="eager"
       />
     )}
-    <!-- Deep green wash, weighted toward the bottom where the title sits -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/45 via-[#16281a]/40 to-[#16281a]/90" aria-hidden="true"></div>
+    <!-- Accent-tinted wash, weighted toward the bottom where the title sits -->
+    <div class:list={['absolute inset-0', wash]} aria-hidden="true"></div>
   </div>
 
   <!-- Blossom-gold-sage signature line along the hero's bottom edge -->

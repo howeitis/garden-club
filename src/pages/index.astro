@@ -114,19 +114,22 @@ const siteIndex = [
     </div>
   </section>
 
-  <!-- Annual theme — editorial pull-quote -->
-  <section class="border-b border-gold/20 fade-in-section overflow-hidden">
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 sm:pt-28 sm:pb-24 text-center">
-      <!-- Hanging quotation mark, set enormous behind the quote -->
-      <span
-        class="absolute top-2 sm:top-0 left-1/2 -translate-x-1/2 font-heading text-[11rem] sm:text-[15rem] leading-none text-blossom/25 select-none pointer-events-none"
-        aria-hidden="true"
-      >&ldquo;</span>
-      <p class="relative text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-8">Our Theme &middot; {clubInfo.themePeriod}</p>
-      <blockquote class="relative font-heading italic text-4xl sm:text-5xl lg:text-[3.4rem] text-text leading-[1.15]">
-        {clubInfo.theme}
-      </blockquote>
-      <Flourish class="relative mt-10" />
+  <!-- Annual theme — editorial pull-quote framed by fine corner brackets -->
+  <section class="border-b border-gold/20 fade-in-section">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <div class="relative max-w-3xl mx-auto px-8 sm:px-14 py-12 sm:py-14 text-center">
+        <!-- Corner brackets, blossom fading to gold -->
+        <span class="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
+        <span class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-gold/40" aria-hidden="true"></span>
+        <span class="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-gold/40" aria-hidden="true"></span>
+        <span class="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-accent/60" aria-hidden="true"></span>
+
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-7">Our Theme &middot; {clubInfo.themePeriod}</p>
+        <blockquote class="font-heading italic text-4xl sm:text-5xl text-text leading-[1.15]">
+          <span class="text-blossom-deep" aria-hidden="true">&ldquo;</span>{clubInfo.theme}<span class="text-blossom-deep" aria-hidden="true">&rdquo;</span>
+        </blockquote>
+        <Flourish class="mt-9" />
+      </div>
     </div>
   </section>
 

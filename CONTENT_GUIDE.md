@@ -220,7 +220,7 @@ Valid status values:
 
 ### `projects.json` — Community Projects (Array)
 
-Each project documents a club initiative. The `"imageReference"` is a file path to a photo stored in the `public/images/projects/` folder.
+Each project documents a club initiative. The `"imageReference"` is the photo's filename written as a path, e.g. `"/pollinator-garden.jpg"`.
 
 **Complete example entry:**
 ```json
@@ -229,12 +229,12 @@ Each project documents a club initiative. The `"imageReference"` is a file path 
   "yearsActive": "2018–present",
   "description": "A quarter-acre pollinator meadow planted and maintained by club volunteers, featuring native milkweed, coneflowers, and black-eyed Susans to support monarch butterflies and native bees.",
   "location": "Memorial Park, Maplewood, NJ",
-  "imageReference": "/images/projects/pollinator-garden.jpg"
+  "imageReference": "/pollinator-garden.jpg"
 }
 ```
 
 - `"yearsActive"` — Use formats like `"2021–present"` or `"2009–2015"` (use an en-dash `–`, not a hyphen `-`).
-- `"imageReference"` — The path must start with `/images/projects/` and match an actual image file in the `public/images/projects/` folder. Ask your web contact to add the image file first.
+- `"imageReference"` — A `/` followed by the image's filename (no folders, no spaces in the name). The photo file itself lives in the `src/assets/content/` folder — ask your web contact to add the image file first; the site optimizes it automatically at build time.
 
 ---
 
