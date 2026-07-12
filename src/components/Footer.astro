@@ -16,7 +16,9 @@ const year = new Date().getFullYear();
 const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 ---
 
-<footer class="bg-primary text-background mt-20 border-t-2 border-gold-soft/50">
+<footer class="bg-primary text-background mt-20">
+  <!-- Blossom-gold-sage signature line -->
+  <div class="h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
 
@@ -36,7 +38,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
           />
           <span class="hidden md:block">
             <span class="block font-heading font-semibold text-[1.6rem] leading-tight group-hover:underline decoration-gold-soft/60 underline-offset-4">{clubInfo.name}</span>
-            <span class="mt-2 block text-gold-soft/90 text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Hockessin, Delaware &middot; Est. {foundingYear}</span>
+            <span class="mt-2 block text-gold-soft/90 text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Greenville, Delaware &middot; Est. {foundingYear}</span>
           </span>
         </a>
         <div class="flex-1 min-w-0 md:flex-none md:max-w-xs md:mt-4">

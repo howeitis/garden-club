@@ -1,6 +1,8 @@
 # Garden Gate Garden Club — Website
 
-The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) nonprofit garden club based in Wilmington, Delaware, founded in September 1963.
+The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) nonprofit garden club based in Greenville, Delaware, founded in September 1963.
+
+The site's "heritage editorial" design system is built around the club's watercolor crest logo — deep gate-green, antique gold, peach blossom, and holly on warm ivory. See `CLAUDE.md` for the full design-system reference (palette, typography, components, and UI patterns).
 
 ---
 
@@ -14,7 +16,7 @@ The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) non
 | Validation | [Zod](https://zod.dev) — all JSON data schema-validated at build time |
 | Deployment | [Vercel](https://vercel.com) (static) |
 | Forms | [Formspree](https://formspree.io) (contact form) |
-| Fonts | Google Fonts — Dancing Script (club name / script), Playfair Display (headings), Inter (body) |
+| Fonts | Google Fonts — Cormorant Garamond (headings, wordmark), Inter (body, 18px base) |
 
 ---
 
@@ -100,17 +102,19 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, fonts, View Transitions
 ├── components/
-│   ├── Header.astro         # Sticky nav, scroll-reveal, Members dropdown, mobile hamburger
-│   ├── Footer.astro         # 3-column footer with nav links
-│   ├── PageHero.astro       # Shared hero band for interior pages
-│   ├── SectionHeader.astro  # Section heading + decorative divider
-│   ├── LandingCard.astro    # Card linking to a sub-section (e.g. resources landing)
-│   ├── OfficerCard.astro    # Board member card
-│   ├── ProjectCard.astro    # Community service project card
-│   ├── GardenCard.astro     # Member / local garden card
-│   ├── PlantCard.astro      # Native plant card
-│   ├── AwardCard.astro      # Award with collapsible criteria & winners
+│   ├── Header.astro         # Fixed ivory nav: crest + serif wordmark, dropdowns, mobile hamburger, scroll-reveal
+│   ├── Footer.astro         # Deep-green 3-column footer, tri-color signature hairline
+│   ├── PageHero.astro       # Interior hero: photo + accent-tinted wash, bottom-left display title
+│   ├── SectionHeader.astro  # Gold small-caps eyebrow + optional folio numeral
+│   ├── Flourish.astro       # Botanical sprig divider (the site's signature ornament)
+│   ├── LandingCard.astro    # Editorial section link (resources landing)
+│   ├── OfficerCard.astro    # Unboxed officer entry with rotating accent rule
+│   ├── ProjectCard.astro    # Alternating photo/text feature row (community service)
+│   ├── GardenCard.astro     # Alternating photo/text feature row (gardens to visit)
+│   ├── PlantCard.astro      # Open gallery plant entry (native / banned variants)
+│   ├── AwardCard.astro      # Hairline-anchored award entry with criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
+│   ├── SmartImage.astro     # Public-style path → optimized responsive WebP image
 │   └── ContactForm.astro    # Formspree-backed contact form
 └── data/
     ├── schema.ts            # Zod schemas for all data types
@@ -219,15 +223,17 @@ Items on hold pending additional club details or future sprints. **These are now
 - [ ] **Project images** — Add photo file paths to `imageReference` fields in `projects.json`
 
 ### Design
-- [ ] **Club logo** — Replace `gggc-hero.png` with a proper emblem-sized logo (SVG preferred); update header, footer, favicon, and `og:image`
+- [x] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system
 - [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg`, and `joy-ericson.jpeg` in a gallery on the About or Home page
-- [ ] **Award card icons** — Replace emoji (🏅 🥇 📅) with SVG icons for a more polished awards page
+- [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
+- [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)
+- [ ] **Seasonal hero touches** — Subtly shift hero/flourish accents with the seasons (blossom in spring, holly in winter — both in the crest)
 
 ### SEO
 - [ ] **Production domain** — Update `site` in `astro.config.mjs` once domain is confirmed; also update `robots.txt` sitemap URL
 - [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight)
 
 ### Engineering
-- [ ] **Astro `<Image />` component** — Replace plain `<img>` tags with Astro's built-in Image component for automatic WebP conversion, responsive srcsets, and layout shift prevention
+- [x] **Astro `<Image />` component** — Photos are served as responsive WebP via `SmartImage` / `PageHero` / `getImage()`
 - [ ] **Officer photo field** — Add optional `photo` field to `OfficerSchema` and headshot slot to `OfficerCard.astro`
 - [ ] **CMS evaluation** — Evaluate [Decap CMS](https://decapcms.org) (Git-backed, free) so non-technical board members can update content without touching code

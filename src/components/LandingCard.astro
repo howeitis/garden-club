@@ -21,9 +21,11 @@ interface Props {
   images: [Image, Image, Image, Image];
   /** Mirror the layout (photos on the left) */
   flip?: boolean;
+  /** Text color class for the eyebrow — one hue from the logo palette */
+  eyebrowColor?: string;
 }
 
-const { href, title, description, eyebrow, cta, images, flip = false } = Astro.props;
+const { href, title, description, eyebrow, cta, images, flip = false, eyebrowColor = 'text-gold' } = Astro.props;
 
 const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
 ---
@@ -31,7 +33,7 @@ const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace
 <section aria-labelledby={headingId} class="fade-in-section py-16 first:pt-0 last:pb-0">
   <a href={href} class="group grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
     <div class:list={[flip && 'md:order-2']}>
-      <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">{eyebrow}</p>
+      <p class:list={['text-xs font-semibold uppercase tracking-[0.28em] mb-4', eyebrowColor]}>{eyebrow}</p>
       <h2 id={headingId} class="font-heading text-4xl sm:text-[2.75rem] font-semibold text-text mb-5 leading-tight" set:html={title} />
       <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-7">{description}</p>
       <span class="inline-flex items-center gap-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-primary group-hover:text-gold transition-colors duration-200">
