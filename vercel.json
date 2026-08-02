@@ -3,13 +3,5 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "garden-club-eight.vercel.app" }],
-      "destination": "https://gardengategardenclub.com/:path*",
-      "statusCode": 301
-    }
-  ]
+  "installCommand": "npm install"
 }
