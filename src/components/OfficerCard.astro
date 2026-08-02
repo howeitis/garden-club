@@ -1,15 +1,27 @@
 ---
+// Unboxed officer entry. Each card takes one accent from the logo's palette,
+// rotating down the grid — a disciplined return of the club's color.
 import type { Officer } from '../data/schema';
 
 interface Props {
   officer: Officer;
+  /** Position in the grid; picks the rotating accent */
+  index?: number;
 }
 
-const { officer } = Astro.props;
+const { officer, index = 0 } = Astro.props;
+
+const ACCENTS = [
+  { rule: 'border-blossom/70',   label: 'text-blossom-deep' },
+  { rule: 'border-sunflower/70', label: 'text-marigold' },
+  { rule: 'border-accent/70',    label: 'text-primary' },
+  { rule: 'border-holly/50',     label: 'text-holly' },
+];
+const accent = ACCENTS[index % ACCENTS.length];
 ---
 
-<article class="border-t-2 border-gold/40 pt-5 flex flex-col gap-1.5">
-  <span class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+<article class:list={['border-t-2 pt-5 flex flex-col gap-1.5', accent.rule]}>
+  <span class:list={['text-[0.65rem] font-semibold uppercase tracking-[0.2em]', accent.label]}>
     {officer.role}
   </span>
   <h3 class="font-heading text-[1.45rem] font-semibold text-text leading-snug">{officer.name}</h3>

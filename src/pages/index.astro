@@ -23,30 +23,40 @@ const heroMobile = await getImage({
 });
 
 // Editorial index of the site's main sections, shown below the community story.
+// Each entry carries one accent from the logo's palette — a small return of
+// the club's color and whimsy, one hue per tile.
 const siteIndex = [
   {
     number: '01',
     label: 'About Us',
     href: '/about',
     line: 'Six decades of history, our board, and our national affiliations.',
+    numeral: 'text-blossom-deep/70',
+    hover: 'group-hover:text-blossom-deep',
   },
   {
     number: '02',
     label: 'Resources',
     href: '/resources',
     line: 'Gardening wisdom, Delaware natives, and gardens worth the drive.',
+    numeral: 'text-accent/80',
+    hover: 'group-hover:text-accent',
   },
   {
     number: '03',
     label: 'Member Gardens',
     href: '/members',
     line: 'A look inside the gardens our members tend at home.',
+    numeral: 'text-marigold/70',
+    hover: 'group-hover:text-marigold',
   },
   {
     number: '04',
     label: 'Membership',
     href: '/membership',
     line: 'Meetings, dues, and how to join — all are welcome.',
+    numeral: 'text-holly/60',
+    hover: 'group-hover:text-holly',
   },
 ];
 ---
@@ -72,12 +82,12 @@ const siteIndex = [
       <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/75 to-[#16281a]/85" aria-hidden="true"></div>
     </div>
 
-    <!-- Gold hairline signature along the hero's bottom edge -->
-    <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-gold-soft/60 to-transparent" aria-hidden="true"></div>
+    <!-- Blossom-gold-sage signature line along the hero's bottom edge -->
+    <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 sm:pt-52 pb-28 sm:pb-36 text-center">
       <p class="hero-rise text-gold-soft text-xs font-semibold uppercase tracking-[0.32em] mb-6">
-        Est. {clubInfo.foundingDates.club} &middot; Hockessin, Delaware
+        Est. {clubInfo.foundingDates.club} &middot; Greenville, Delaware
       </p>
       <h1 class="hero-rise hero-rise-2 mb-5">
         <span class="block font-heading text-5xl sm:text-7xl lg:text-[7.5rem] font-semibold leading-[0.98] tracking-[-0.01em]">Garden Gate</span>
@@ -104,19 +114,22 @@ const siteIndex = [
     </div>
   </section>
 
-  <!-- Annual theme — editorial pull-quote -->
-  <section class="border-b border-gold/20 fade-in-section overflow-hidden">
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 sm:pt-28 sm:pb-24 text-center">
-      <!-- Hanging quotation mark, set enormous behind the quote -->
-      <span
-        class="absolute top-2 sm:top-0 left-1/2 -translate-x-1/2 font-heading text-[11rem] sm:text-[15rem] leading-none text-gold/[0.13] select-none pointer-events-none"
-        aria-hidden="true"
-      >&ldquo;</span>
-      <p class="relative text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-8">Our Theme &middot; {clubInfo.themePeriod}</p>
-      <blockquote class="relative font-heading italic text-4xl sm:text-5xl lg:text-[3.4rem] text-text leading-[1.15]">
-        {clubInfo.theme}
-      </blockquote>
-      <Flourish class="relative mt-10" />
+  <!-- Annual theme — editorial pull-quote framed by fine corner brackets -->
+  <section class="border-b border-gold/20 fade-in-section">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <div class="relative max-w-3xl mx-auto px-8 sm:px-14 py-12 sm:py-14 text-center">
+        <!-- Corner brackets, blossom fading to gold -->
+        <span class="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
+        <span class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-gold/40" aria-hidden="true"></span>
+        <span class="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-gold/40" aria-hidden="true"></span>
+        <span class="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-accent/60" aria-hidden="true"></span>
+
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-7">Our Theme &middot; {clubInfo.themePeriod}</p>
+        <blockquote class="font-heading italic text-4xl sm:text-5xl text-text leading-[1.15]">
+          <span class="text-blossom-deep" aria-hidden="true">&ldquo;</span>{clubInfo.theme}<span class="text-blossom-deep" aria-hidden="true">&rdquo;</span>
+        </blockquote>
+        <Flourish class="mt-9" />
+      </div>
     </div>
   </section>
 
@@ -173,10 +186,10 @@ const siteIndex = [
             href={item.href}
             class="group flex flex-col gap-3 p-8 hover:bg-white transition-colors duration-200"
           >
-            <span class="font-heading italic text-gold/45 text-4xl leading-none">{item.number}</span>
+            <span class:list={['font-heading italic text-4xl leading-none', item.numeral]}>{item.number}</span>
             <span class="font-heading text-2xl font-semibold text-text group-hover:text-primary transition-colors duration-200">{item.label}</span>
             <span class="text-[0.95rem] text-text/65 leading-relaxed">{item.line}</span>
-            <span class="mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 group-hover:text-gold transition-colors duration-200">
+            <span class:list={['mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 transition-colors duration-200', item.hover]}>
               Visit
               <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />

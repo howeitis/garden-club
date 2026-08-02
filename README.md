@@ -1,6 +1,8 @@
 # Garden Gate Garden Club — Website
 
-The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) nonprofit garden club based in Wilmington, Delaware, founded in September 1963.
+The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) nonprofit garden club based in Greenville, Delaware, founded in September 1963.
+
+The site's "heritage editorial" design system is built around the club's watercolor crest logo — deep gate-green, antique gold, peach blossom, and holly on warm ivory. See `CLAUDE.md` for the full design-system reference (palette, typography, components, and UI patterns).
 
 **Live at [gardengategardenclub.com](https://gardengategardenclub.com)**
 
@@ -14,9 +16,9 @@ The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) non
 | Styling | [Tailwind CSS](https://tailwindcss.com) 3 |
 | Language | TypeScript 5 (strict mode) |
 | Validation | [Zod](https://zod.dev) — all JSON data schema-validated at build time |
-| Deployment | [Vercel](https://vercel.com) (static) — domain `gardengategardenclub.com` |
+| Deployment | [Vercel](https://vercel.com) (static) |
 | Forms | [Web3Forms](https://web3forms.com) (contact form → club inbox) |
-| Fonts | Google Fonts — Cormorant Garamond (headings / wordmark), Inter (body) |
+| Fonts | Google Fonts — Cormorant Garamond (headings, wordmark), Inter (body, 18px base) |
 
 ---
 
@@ -82,6 +84,14 @@ The domain is hardcoded as the `site` value in `astro.config.mjs` and mirrored i
 
 `SITE_URL` overrides it if the site needs to build for a different host. It is deliberately *not* derived from Vercel's `VERCEL_URL`, which is the unique per-deployment hostname and would leak into canonical URLs and the sitemap.
 
+### Who can deploy
+
+The Vercel project lives on a personal Hobby account, but **this repository is public**, and Vercel's commit-author restriction applies only to private repos — so any GitHub collaborator can push to `main` and trigger a production deploy.
+
+> ⚠️ **Keep this repository public.** If it is ever switched to private, pushes from anyone other than the Vercel account owner will start failing with *"Git author must have access to the project on Vercel to create deployments."* Never commit secrets; `.env` is gitignored and the Web3Forms key lives only in Vercel.
+
+Note that environment variables, domain settings, build logs, and rollbacks remain accessible only to the Vercel account owner.
+
 ---
 
 ## Environment Variables
@@ -143,25 +153,20 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, fonts, View Transitions
 ├── components/
-│   ├── Header.astro         # Fixed ivory nav: crest + serif wordmark, Resources & Members dropdowns, mobile hamburger
-│   ├── Footer.astro         # Deep-green 3-column footer with nav links & affiliations
-│   ├── PageHero.astro       # Interior-page hero: full-bleed photo, display-scale title
-│   ├── SectionHeader.astro  # Gold eyebrow label + optional folio numeral
-│   ├── Flourish.astro       # Botanical sprig divider between gold hairlines
-│   ├── SmartImage.astro     # Resolves public-style paths to optimized astro:assets images
-│   ├── LandingCard.astro    # Open composition linking to a sub-section (resources landing)
-│   ├── OfficerCard.astro    # Board member list item
-│   ├── ProjectCard.astro    # Community service photo/text feature row
-│   ├── GardenCard.astro     # Member / local garden feature row
-│   ├── PlantCard.astro      # Native plant gallery entry
-│   ├── AwardCard.astro      # Award with criteria & winners
+│   ├── Header.astro         # Fixed ivory nav: crest + serif wordmark, dropdowns, mobile hamburger, scroll-reveal
+│   ├── Footer.astro         # Deep-green 3-column footer, tri-color signature hairline
+│   ├── PageHero.astro       # Interior hero: photo + accent-tinted wash, bottom-left display title
+│   ├── SectionHeader.astro  # Gold small-caps eyebrow + optional folio numeral
+│   ├── Flourish.astro       # Botanical sprig divider (the site's signature ornament)
+│   ├── LandingCard.astro    # Editorial section link (resources landing)
+│   ├── OfficerCard.astro    # Unboxed officer entry with rotating accent rule
+│   ├── ProjectCard.astro    # Alternating photo/text feature row (community service)
+│   ├── GardenCard.astro     # Alternating photo/text feature row (gardens to visit)
+│   ├── PlantCard.astro      # Open gallery plant entry (native / banned variants)
+│   ├── AwardCard.astro      # Hairline-anchored award entry with criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
+│   ├── SmartImage.astro     # Public-style path → optimized responsive WebP image
 │   └── ContactForm.astro    # Web3Forms-backed contact form (mailto fallback if unconfigured)
-├── lib/
-│   └── assetImages.ts       # Maps "/filename.ext" strings → imported src/assets images
-├── assets/
-│   ├── heroes/              # Page hero source photos (optimized at build)
-│   └── content/             # All other photo sources
 └── data/
     ├── schema.ts            # Zod schemas for all data types
     ├── index.ts             # Validated data exports
@@ -174,14 +179,13 @@ src/
     ├── judges.json          # Certified judges list
     └── projects.json        # Community service projects
 
-public/                 # Static assets served at root (logos, favicons, OG image only)
-├── favicon.svg             # SVG favicon (+ PNG sizes, apple-touch-icon)
-├── gggc-clean.png          # Watercolor crest (header logo)
-├── gggcwhitelogo.png       # White logo (footer, dark grounds)
+public/                 # Static assets served at root
+├── favicon.svg             # SVG favicon (32×32, primary green + leaf)
+├── gggc-hero.png           # Club hero image (used as logo + OG image)
 ├── ngc-logo.png            # National Garden Clubs logo
-├── og-share-v2.png         # Open Graph share image (1200×630)
 ├── manifest.json           # PWA web manifest
-└── robots.txt              # Crawler directives + sitemap reference
+├── robots.txt              # Crawler directives + sitemap reference
+└── [hero + photo images]
 
 .github/workflows/
 └── ci.yml              # Build check on push/PR to main
@@ -248,6 +252,7 @@ Every page includes:
 
 - ✅ **Production domain is live.** `gardengategardenclub.com`, registered through Vercel. Set in `astro.config.mjs` and `public/robots.txt` (see [Production Domain](#production-domain)).
 - ✅ **Contact form is live.** Posts to Web3Forms, delivering to `gardengate.communications@gmail.com`. Requires `PUBLIC_WEB3FORMS_KEY` to be set in Vercel (see [Contact Form](#contact-form)).
+- ⚠️ **The Vercel project is on a personal Hobby account.** Club collaborators can deploy because the repo is public, but env vars, the domain, and rollbacks stay owner-only (see [Who can deploy](#who-can-deploy)).
 - 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
 ### Repo hygiene done in this handoff pass
@@ -261,7 +266,7 @@ Every page includes:
 Items on hold pending additional club details or future sprints. **These are now tracked as GitHub issues [#7–#20](https://github.com/howeitis/garden-club/issues)** — the list below is a summary; use the issues for status.
 
 ### Product
-- [x] **Contact form** — Done: posts to Web3Forms, delivered to the club inbox, with a honeypot and a `mailto:` fallback when unconfigured
+- [x] **Contact form** — Posts to Web3Forms, delivered to the club inbox, with a honeypot and a `mailto:` fallback when unconfigured
 - [ ] **Officers roster** — Populate `officers.json` with full board names, roles, and optional bios
 - [ ] **Events calendar** — Add upcoming meeting dates as structured data or a dedicated section
 - [ ] **Newsletter signup** — Mailchimp or equivalent embed for email capture
@@ -269,16 +274,18 @@ Items on hold pending additional club details or future sprints. **These are now
 - [ ] **Project images** — Add photo file paths to `imageReference` fields in `projects.json`
 
 ### Design
-- [x] **Club logo** — Done in the 2026-07 design refresh: watercolor crest (`gggc-clean.png`) in the header, white logo (`gggcwhitelogo.png`) in the footer, updated favicons
-- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg` in a gallery on the About or Home page
-- [x] **Award card icons** — Done in the design refresh: all emoji decorations replaced by the `Flourish` botanical divider and hairline-rule styling
+- [x] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system
+- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg`, and `joy-ericson.jpeg` in a gallery on the About or Home page
+- [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
+- [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)
+- [ ] **Seasonal hero touches** — Subtly shift hero/flourish accents with the seasons (blossom in spring, holly in winter — both in the crest)
 
 ### SEO
-- [x] **Production domain** — Done: `gardengategardenclub.com` set in `astro.config.mjs` and `robots.txt`
+- [x] **Production domain** — `gardengategardenclub.com` set in `astro.config.mjs` and `robots.txt`
 - [ ] **Search Console** — Verify the domain in [Google Search Console](https://search.google.com/search-console) and submit `https://gardengategardenclub.com/sitemap-index.xml`
 - [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight), or enable Vercel Web Analytics
 
 ### Engineering
-- [x] **Astro `<Image />` component** — Done: all photos serve as responsive WebP via `astro:assets` (`SmartImage`, `PageHero`, `getImage`)
+- [x] **Astro `<Image />` component** — Photos are served as responsive WebP via `SmartImage` / `PageHero` / `getImage()`
 - [ ] **Officer photo field** — Add optional `photo` field to `OfficerSchema` and headshot slot to `OfficerCard.astro`
 - [ ] **CMS evaluation** — Evaluate [Decap CMS](https://decapcms.org) (Git-backed, free) so non-technical board members can update content without touching code

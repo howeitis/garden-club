@@ -7,11 +7,12 @@ import { clubInfo, officers, affiliations } from '../data/index';
 
 const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
 
+// Each figure takes one hue from the logo's palette.
 const membershipStats = [
-  { label: 'Active Members',    value: clubInfo.membership.activeMembers },
-  { label: 'Associate Members', value: clubInfo.membership.associateMembers },
-  { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers },
-  { label: 'Membership Cap',    value: clubInfo.membership.maxActive },
+  { label: 'Active Members',    value: clubInfo.membership.activeMembers,    color: 'text-primary' },
+  { label: 'Associate Members', value: clubInfo.membership.associateMembers, color: 'text-blossom-deep' },
+  { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers,  color: 'text-marigold' },
+  { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        color: 'text-holly' },
 ];
 ---
 
@@ -23,6 +24,7 @@ const membershipStats = [
     eyebrow="Our Story"
     title="About Us"
     image="/about-hero.jpg"
+    accent="blossom"
   />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
@@ -56,7 +58,7 @@ const membershipStats = [
         <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 border-y border-gold/25 divide-x divide-gold/15">
           {membershipStats.map((stat) => (
             <div class="py-6 px-3 text-center">
-              <p class="font-heading text-4xl font-semibold text-primary">{stat.value}</p>
+              <p class:list={['font-heading text-4xl font-semibold', stat.color]}>{stat.value}</p>
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-text/55 mt-2 leading-snug">{stat.label}</p>
             </div>
           ))}
@@ -74,8 +76,8 @@ const membershipStats = [
         Board of Officers
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-        {sortedOfficers.map((officer) => (
-          <OfficerCard officer={officer} />
+        {sortedOfficers.map((officer, i) => (
+          <OfficerCard officer={officer} index={i} />
         ))}
       </div>
     </section>
