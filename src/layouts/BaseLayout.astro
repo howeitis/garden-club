@@ -7,11 +7,17 @@ import { clubInfo, contact } from '../data/index';
 export interface Props {
   title: string;
   description?: string;
+  /** Keep this page out of search results. For utility pages (e.g. /thank-you)
+   *  that exist only as a redirect target. Pair with the sitemap `filter` in
+   *  astro.config.mjs — excluding a page from the sitemap does not stop it
+   *  being indexed if anything links to it. */
+  noindex?: boolean;
 }
 
 const {
   title,
   description = clubInfo.missionStatement,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -85,6 +91,9 @@ const jsonLd = {
 
     <!-- WhatsApp / iMessage read og:image above; no extra tags needed.
          The absolute URL resolves from `site` in astro.config.mjs. -->
+
+    <!-- Robots: opt specific utility pages out of search results -->
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />

@@ -19,6 +19,11 @@ export default defineConfig({
   },
   integrations: [
     tailwind(),
-    sitemap(),
+    sitemap({
+      // /thank-you exists only as the contact form's redirect target. It has no
+      // standalone value in search results, so keep it out of the sitemap.
+      // The page also sets noindex — see BaseLayout's `noindex` prop.
+      filter: (page) => !page.endsWith('/thank-you/'),
+    }),
   ],
 });

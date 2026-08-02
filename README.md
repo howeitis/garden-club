@@ -84,6 +84,8 @@ The domain is hardcoded as the `site` value in `astro.config.mjs` and mirrored i
 
 `SITE_URL` overrides it if the site needs to build for a different host. It is deliberately *not* derived from Vercel's `VERCEL_URL`, which is the unique per-deployment hostname and would leak into canonical URLs and the sitemap.
 
+The generated `garden-club-eight.vercel.app` hostname served the full site as a duplicate copy, so `vercel.json` now 308-redirects it to the custom domain. The `has` clause matches that **exact** host, so uniquely-named preview deployments (`garden-club-<hash>.vercel.app`) are unaffected and still work normally.
+
 ### Who can deploy
 
 The Vercel project lives on a personal Hobby account, but **this repository is public**, and Vercel's commit-author restriction applies only to private repos — so any GitHub collaborator can push to `main` and trigger a production deploy.
@@ -232,7 +234,7 @@ Every page includes:
 - **Open Graph** — `og:title`, `og:description`, `og:image`, `og:url`
 - **Twitter Card** — `summary_large_image` card with matching title/description/image
 - **Canonical URLs** — auto-generated from `Astro.site` + pathname
-- **Sitemap** — auto-generated at `/sitemap-index.xml` via `@astrojs/sitemap`
+- **Sitemap** — auto-generated at `/sitemap-index.xml` via `@astrojs/sitemap`. `/thank-you` is filtered out (see `astro.config.mjs`) and also sets `noindex` — it exists only as the contact form's redirect target. Excluding a page from the sitemap does not stop it being indexed, so both are needed.
 - **robots.txt** — at `/robots.txt` with sitemap reference
 
 ---
@@ -282,7 +284,7 @@ Items on hold pending additional club details or future sprints. **These are now
 
 ### SEO
 - [x] **Production domain** — `gardengategardenclub.com` set in `astro.config.mjs` and `robots.txt`
-- [ ] **Search Console** — Verify the domain in [Google Search Console](https://search.google.com/search-console) and submit `https://gardengategardenclub.com/sitemap-index.xml`
+- [x] **Search Console** — Domain property verified via DNS TXT record (**leave that record in place** — removing it unverifies the property) and `sitemap-index.xml` submitted
 - [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight), or enable Vercel Web Analytics
 
 ### Engineering
