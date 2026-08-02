@@ -6,6 +6,8 @@ The site's "heritage editorial" design system is built around the club's waterco
 
 **Live at [gardengategardenclub.com](https://gardengategardenclub.com)**
 
+> 📋 **Taking over this site?** Start with **[HANDOVER.md](HANDOVER.md)** — account ownership, risks, and who controls what. It opens with a one-page summary.
+
 ---
 
 ## Tech Stack
