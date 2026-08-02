@@ -84,7 +84,9 @@ The domain is hardcoded as the `site` value in `astro.config.mjs` and mirrored i
 
 `SITE_URL` overrides it if the site needs to build for a different host. It is deliberately *not* derived from Vercel's `VERCEL_URL`, which is the unique per-deployment hostname and would leak into canonical URLs and the sitemap.
 
-The generated `garden-club-eight.vercel.app` hostname served the full site as a duplicate copy, so `vercel.json` now 308-redirects it to the custom domain. The `has` clause matches that **exact** host, so uniquely-named preview deployments (`garden-club-<hash>.vercel.app`) are unaffected and still work normally.
+The generated `garden-club-eight.vercel.app` hostname now **307-redirects** to the custom domain. This is Vercel's own platform behavior for the generated host once a production domain is assigned — it is *not* configured in `vercel.json`, and a host-matched redirect rule there has no effect on it (verified: the 307 is unchanged whether such a rule is present or absent, and its status code ignores both `permanent` and `statusCode`).
+
+If the 307 (temporary) ever needs to be a 308 (permanent) for search-consolidation reasons, that is a dashboard change under **Project → Settings → Domains**, not a code change. In practice it matters little here: the destination pages carry correct self-referencing canonicals, and the old host appears in no sitemap and is linked from nowhere.
 
 ### Who can deploy
 

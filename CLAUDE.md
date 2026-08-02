@@ -193,7 +193,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - Each page sets `title` and `description` props on BaseLayout.
 - OG image: `public/og-share-v2.png` (1200x630, ~88 KB).
 - `BaseLayout` takes a `noindex` prop that emits `<meta name="robots" content="noindex, follow" />`. Used by `/thank-you`, which is also filtered out of the sitemap in `astro.config.mjs`. **Both are required** — excluding a page from the sitemap doesn't stop it being indexed if anything links to it.
-- The old `garden-club-eight.vercel.app` host 308-redirects to the custom domain via a host-matched rule in `vercel.json`. It matches that exact hostname, so preview deployments are unaffected.
+- The old `garden-club-eight.vercel.app` host 307-redirects to the custom domain. This is Vercel platform behavior, **not** `vercel.json` — a host-matched redirect rule there was tested and had no effect (the 307 persisted with the rule removed, and ignored both `permanent` and `statusCode`). Don't re-add one; change it under Project → Settings → Domains if a 308 is ever needed.
 
 ### Contact Form
 `ContactForm.astro` POSTs to `https://api.web3forms.com/submit`, which emails submissions to the club inbox (`gardengate.communications@gmail.com`). No server, no database.
