@@ -2,11 +2,14 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
-// Use SITE_URL env var (set in Vercel/hosting dashboard) or derive from VERCEL_URL,
-// falling back to the placeholder for local development.
-const site =
-  process.env.SITE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://garden-club-eight.vercel.app');
+// The club's production domain. This flows into canonical URLs, the sitemap,
+// JSON-LD, and the absolute Open Graph image URL, so it must always be the
+// public domain — never a per-deployment hostname. (An earlier version derived
+// this from Vercel's VERCEL_URL, which is the unique per-deployment URL and
+// would have leaked into canonicals and the sitemap.)
+//
+// SITE_URL overrides it if the site ever needs to build for a different host.
+const site = process.env.SITE_URL || 'https://gardengategardenclub.com';
 
 export default defineConfig({
   output: 'static',

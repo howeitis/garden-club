@@ -234,7 +234,19 @@ Each project documents a club initiative. The `"imageReference"` is a file path 
 ```
 
 - `"yearsActive"` — Use formats like `"2021–present"` or `"2009–2015"` (use an en-dash `–`, not a hyphen `-`).
-- `"imageReference"` — The path must start with `/images/projects/` and match an actual image file in the `public/images/projects/` folder. Ask your web contact to add the image file first.
+- `"imageReference"` — A path like `/pollinator-garden.jpg`. The matching image file must exist in the `src/assets/content/` folder, and its filename must use hyphens instead of spaces. Ask your web contact to add the image file first.
+
+---
+
+## The Contact Form
+
+Messages sent through the **Contact** page are emailed to **gardengate.communications@gmail.com**. They are not stored anywhere on the website, so treat that inbox as the only copy.
+
+A few things worth knowing:
+
+- **Replying works normally.** Hit Reply on the notification email and it goes straight back to the person who wrote in.
+- **Changing `primaryEmail` in `contact.json` does not change where form messages go.** That setting only controls the email address *displayed* on the Contact page. The delivery address is configured separately by your web contact. If the club changes its email address, ask them to update both.
+- **Check the spam folder occasionally**, at least early on, and mark the notifications as "not spam" so Gmail learns to trust them.
 
 ---
 

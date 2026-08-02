@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 
-# TODO (handoff): update this host to the final production domain once confirmed.
 # Must match `site` in astro.config.mjs so the sitemap link resolves.
-Sitemap: https://garden-club-eight.vercel.app/sitemap-index.xml
+Sitemap: https://gardengategardenclub.com/sitemap-index.xml

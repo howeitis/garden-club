@@ -2,6 +2,8 @@
 
 The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) nonprofit garden club based in Wilmington, Delaware, founded in September 1963.
 
+**Live at [gardengategardenclub.com](https://gardengategardenclub.com)**
+
 ---
 
 ## Tech Stack
@@ -12,9 +14,9 @@ The official website for the **Garden Gate Garden Club (GGGC)**, a 501(c)(3) non
 | Styling | [Tailwind CSS](https://tailwindcss.com) 3 |
 | Language | TypeScript 5 (strict mode) |
 | Validation | [Zod](https://zod.dev) — all JSON data schema-validated at build time |
-| Deployment | [Vercel](https://vercel.com) (static) |
-| Forms | [Formspree](https://formspree.io) (contact form) |
-| Fonts | Google Fonts — Dancing Script (club name / script), Playfair Display (headings), Inter (body) |
+| Deployment | [Vercel](https://vercel.com) (static) — domain `gardengategardenclub.com` |
+| Forms | [Web3Forms](https://web3forms.com) (contact form → club inbox) |
+| Fonts | Google Fonts — Cormorant Garamond (headings / wordmark), Inter (body) |
 
 ---
 
@@ -73,7 +75,48 @@ export default defineConfig({
 ```
 
 ### Production Domain
-The `site` value in `astro.config.mjs` is resolved from the `SITE_URL` environment variable (set it in the Vercel dashboard), falling back to `VERCEL_URL`, then to a placeholder for local dev. This value flows into canonical URLs, the sitemap, JSON-LD structured data, and Open Graph image URLs. Once the final domain is confirmed, set `SITE_URL` in Vercel **and** update the `Sitemap:` host in `public/robots.txt` to match.
+
+The site is live at **https://gardengategardenclub.com** (domain registered through Vercel).
+
+The domain is hardcoded as the `site` value in `astro.config.mjs` and mirrored in the `Sitemap:` line of `public/robots.txt`. It flows into canonical URLs, the sitemap, JSON-LD structured data, and Open Graph image URLs. **If the domain ever changes, update both files.**
+
+`SITE_URL` overrides it if the site needs to build for a different host. It is deliberately *not* derived from Vercel's `VERCEL_URL`, which is the unique per-deployment hostname and would leak into canonical URLs and the sitemap.
+
+---
+
+## Environment Variables
+
+Set these in **Vercel → Project → Settings → Environment Variables**. For local development, copy `.env.example` to `.env` (gitignored) and fill it in.
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `PUBLIC_WEB3FORMS_KEY` | For the contact form | Web3Forms access key. Without it the contact page renders a `mailto:` fallback instead of the form. |
+| `SITE_URL` | No | Overrides the production domain. Leave unset in normal operation. |
+
+The `PUBLIC_` prefix is Astro's convention for values that are safe to ship to the browser — this key appears in the page HTML by design. It lives in an env var so it can be rotated without a code change.
+
+---
+
+## Contact Form
+
+The contact form posts to [Web3Forms](https://web3forms.com), a no-account relay for static sites. Submissions are emailed straight to **gardengate.communications@gmail.com** — there is no dashboard, database, or password to maintain.
+
+**How it's wired** (`src/components/ContactForm.astro`):
+
+| Field | Purpose |
+|---|---|
+| `access_key` | From `PUBLIC_WEB3FORMS_KEY` |
+| `subject` | Notification email subject line (reserved by Web3Forms) |
+| `from_name` | Sender display name in the notification |
+| `redirect` | Absolute URL to `/thank-you`, built from `Astro.site` |
+| `botcheck` | Hidden honeypot checkbox — a checked value makes Web3Forms discard the submission |
+| `user_subject` | The visitor's own "Subject" field, renamed to avoid colliding with the reserved `subject` above |
+
+The visitor's `email` value is used as the reply-to, so replying to the notification goes straight back to them.
+
+**To rotate or re-issue the key:** request a new one at [web3forms.com](https://web3forms.com) using the club inbox, then update `PUBLIC_WEB3FORMS_KEY` in Vercel and redeploy. Because the site is statically built, an env var change only takes effect on the next deploy.
+
+**Limits:** the Web3Forms free tier covers 250 submissions/month, which is far more than this site should see. If spam ever becomes a problem, Web3Forms supports adding hCaptcha or reCAPTCHA to the same form.
 
 ---
 
@@ -100,18 +143,25 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, fonts, View Transitions
 ├── components/
-│   ├── Header.astro         # Sticky nav, scroll-reveal, Members dropdown, mobile hamburger
-│   ├── Footer.astro         # 3-column footer with nav links
-│   ├── PageHero.astro       # Shared hero band for interior pages
-│   ├── SectionHeader.astro  # Section heading + decorative divider
-│   ├── LandingCard.astro    # Card linking to a sub-section (e.g. resources landing)
-│   ├── OfficerCard.astro    # Board member card
-│   ├── ProjectCard.astro    # Community service project card
-│   ├── GardenCard.astro     # Member / local garden card
-│   ├── PlantCard.astro      # Native plant card
-│   ├── AwardCard.astro      # Award with collapsible criteria & winners
+│   ├── Header.astro         # Fixed ivory nav: crest + serif wordmark, Resources & Members dropdowns, mobile hamburger
+│   ├── Footer.astro         # Deep-green 3-column footer with nav links & affiliations
+│   ├── PageHero.astro       # Interior-page hero: full-bleed photo, display-scale title
+│   ├── SectionHeader.astro  # Gold eyebrow label + optional folio numeral
+│   ├── Flourish.astro       # Botanical sprig divider between gold hairlines
+│   ├── SmartImage.astro     # Resolves public-style paths to optimized astro:assets images
+│   ├── LandingCard.astro    # Open composition linking to a sub-section (resources landing)
+│   ├── OfficerCard.astro    # Board member list item
+│   ├── ProjectCard.astro    # Community service photo/text feature row
+│   ├── GardenCard.astro     # Member / local garden feature row
+│   ├── PlantCard.astro      # Native plant gallery entry
+│   ├── AwardCard.astro      # Award with criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
-│   └── ContactForm.astro    # Formspree-backed contact form
+│   └── ContactForm.astro    # Web3Forms-backed contact form (mailto fallback if unconfigured)
+├── lib/
+│   └── assetImages.ts       # Maps "/filename.ext" strings → imported src/assets images
+├── assets/
+│   ├── heroes/              # Page hero source photos (optimized at build)
+│   └── content/             # All other photo sources
 └── data/
     ├── schema.ts            # Zod schemas for all data types
     ├── index.ts             # Validated data exports
@@ -124,17 +174,19 @@ src/
     ├── judges.json          # Certified judges list
     └── projects.json        # Community service projects
 
-public/                 # Static assets served at root
-├── favicon.svg             # SVG favicon (32×32, primary green + leaf)
-├── gggc-hero.png           # Club hero image (used as logo + OG image)
+public/                 # Static assets served at root (logos, favicons, OG image only)
+├── favicon.svg             # SVG favicon (+ PNG sizes, apple-touch-icon)
+├── gggc-clean.png          # Watercolor crest (header logo)
+├── gggcwhitelogo.png       # White logo (footer, dark grounds)
 ├── ngc-logo.png            # National Garden Clubs logo
+├── og-share-v2.png         # Open Graph share image (1200×630)
 ├── manifest.json           # PWA web manifest
-├── robots.txt              # Crawler directives + sitemap reference
-└── [hero + photo images]
+└── robots.txt              # Crawler directives + sitemap reference
 
 .github/workflows/
 └── ci.yml              # Build check on push/PR to main
 
+.env.example            # Template for local environment variables
 vercel.json             # Vercel deployment configuration
 ```
 
@@ -194,10 +246,8 @@ Every page includes:
 
 ## Handoff Notes
 
-Known gaps for whoever picks this up next. The first two need info only the club can provide:
-
-- ⚠️ **Contact form is inactive.** `src/components/ContactForm.astro` still posts to `https://formspree.io/f/YOUR_FORM_ID`. Submissions will fail until this is replaced with the club's real [Formspree](https://formspree.io) endpoint.
-- ⚠️ **Production domain not confirmed.** `SITE_URL` (Vercel) and the `Sitemap:` host in `public/robots.txt` currently use the `garden-club-eight.vercel.app` placeholder. Update both once the final domain is live (see [Production Domain](#production-domain)).
+- ✅ **Production domain is live.** `gardengategardenclub.com`, registered through Vercel. Set in `astro.config.mjs` and `public/robots.txt` (see [Production Domain](#production-domain)).
+- ✅ **Contact form is live.** Posts to Web3Forms, delivering to `gardengate.communications@gmail.com`. Requires `PUBLIC_WEB3FORMS_KEY` to be set in Vercel (see [Contact Form](#contact-form)).
 - 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
 ### Repo hygiene done in this handoff pass
@@ -211,7 +261,7 @@ Known gaps for whoever picks this up next. The first two need info only the club
 Items on hold pending additional club details or future sprints. **These are now tracked as GitHub issues [#7–#20](https://github.com/howeitis/garden-club/issues)** — the list below is a summary; use the issues for status.
 
 ### Product
-- [ ] **Fix contact form** — Replace `YOUR_FORM_ID` in `ContactForm.astro` with the real Formspree endpoint
+- [x] **Contact form** — Done: posts to Web3Forms, delivered to the club inbox, with a honeypot and a `mailto:` fallback when unconfigured
 - [ ] **Officers roster** — Populate `officers.json` with full board names, roles, and optional bios
 - [ ] **Events calendar** — Add upcoming meeting dates as structured data or a dedicated section
 - [ ] **Newsletter signup** — Mailchimp or equivalent embed for email capture
@@ -219,15 +269,16 @@ Items on hold pending additional club details or future sprints. **These are now
 - [ ] **Project images** — Add photo file paths to `imageReference` fields in `projects.json`
 
 ### Design
-- [ ] **Club logo** — Replace `gggc-hero.png` with a proper emblem-sized logo (SVG preferred); update header, footer, favicon, and `og:image`
-- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg`, and `joy-ericson.jpeg` in a gallery on the About or Home page
-- [ ] **Award card icons** — Replace emoji (🏅 🥇 📅) with SVG icons for a more polished awards page
+- [x] **Club logo** — Done in the 2026-07 design refresh: watercolor crest (`gggc-clean.png`) in the header, white logo (`gggcwhitelogo.png`) in the footer, updated favicons
+- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg` in a gallery on the About or Home page
+- [x] **Award card icons** — Done in the design refresh: all emoji decorations replaced by the `Flourish` botanical divider and hairline-rule styling
 
 ### SEO
-- [ ] **Production domain** — Update `site` in `astro.config.mjs` once domain is confirmed; also update `robots.txt` sitemap URL
-- [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight)
+- [x] **Production domain** — Done: `gardengategardenclub.com` set in `astro.config.mjs` and `robots.txt`
+- [ ] **Search Console** — Verify the domain in [Google Search Console](https://search.google.com/search-console) and submit `https://gardengategardenclub.com/sitemap-index.xml`
+- [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight), or enable Vercel Web Analytics
 
 ### Engineering
-- [ ] **Astro `<Image />` component** — Replace plain `<img>` tags with Astro's built-in Image component for automatic WebP conversion, responsive srcsets, and layout shift prevention
+- [x] **Astro `<Image />` component** — Done: all photos serve as responsive WebP via `astro:assets` (`SmartImage`, `PageHero`, `getImage`)
 - [ ] **Officer photo field** — Add optional `photo` field to `OfficerSchema` and headshot slot to `OfficerCard.astro`
 - [ ] **CMS evaluation** — Evaluate [Decap CMS](https://decapcms.org) (Git-backed, free) so non-technical board members can update content without touching code
