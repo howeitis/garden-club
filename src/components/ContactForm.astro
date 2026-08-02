@@ -1,90 +1,141 @@
 ---
-// No server-side logic needed — this is a plain HTML form.
+// Contact form backed by Web3Forms (https://web3forms.com) — a no-account form
+// relay for static sites. Submissions are emailed straight to the club inbox
+// that the access key was issued to; there is no dashboard or password.
+//
+// The access key is set as the PUBLIC_WEB3FORMS_KEY environment variable in
+// Vercel (Project → Settings → Environment Variables). It is a *public* key by
+// design — it ends up in the page HTML — but it lives in an env var rather than
+// in git so it can be rotated without a code change.
+//
+// If the key is absent (local dev, CI, a fresh clone), we render a plain
+// mailto: fallback instead of a form that would silently swallow messages.
+import { clubInfo, contact } from '../data/index';
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+const redirectURL = new URL('/thank-you', Astro.site).toString();
+
 const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 text-base text-text placeholder:text-text/35
   focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-shadow`;
 ---
 
-<form
-  action="https://formspree.io/f/YOUR_FORM_ID"
-  method="POST"
-  class="flex flex-col gap-6"
-  novalidate
->
-  <!-- Formspree redirect after submission -->
-  <input type="hidden" name="_next" value="/thank-you" />
+{accessKey ? (
+  <form
+    action="https://api.web3forms.com/submit"
+    method="POST"
+    class="flex flex-col gap-6"
+  >
+    <!-- Web3Forms configuration -->
+    <input type="hidden" name="access_key" value={accessKey} />
+    <input type="hidden" name="subject" value={`New message from the ${clubInfo.name} website`} />
+    <input type="hidden" name="from_name" value={clubInfo.name} />
+    <input type="hidden" name="redirect" value={redirectURL} />
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-    <!-- Name -->
+    <!-- Honeypot: hidden from people, irresistible to bots. A checked value
+         tells Web3Forms to discard the submission. -->
+    <input
+      type="checkbox"
+      name="botcheck"
+      class="hidden"
+      style="display: none;"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+    />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Name -->
+      <div class="flex flex-col gap-2">
+        <label for="name" class="text-[0.95rem] font-medium text-text">
+          Full Name <span class="text-holly" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          autocomplete="name"
+          placeholder="Jane Smith"
+          class={inputClasses}
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="flex flex-col gap-2">
+        <label for="email" class="text-[0.95rem] font-medium text-text">
+          Email Address <span class="text-holly" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="jane@example.com"
+          class={inputClasses}
+        />
+      </div>
+    </div>
+
+    <!-- Subject -->
     <div class="flex flex-col gap-2">
-      <label for="name" class="text-[0.95rem] font-medium text-text">
-        Full Name <span class="text-holly" aria-hidden="true">*</span>
-      </label>
+      <label for="user_subject" class="text-[0.95rem] font-medium text-text">Subject</label>
       <input
         type="text"
-        id="name"
-        name="name"
-        required
-        autocomplete="name"
-        placeholder="Jane Smith"
+        id="user_subject"
+        name="user_subject"
+        placeholder="Membership inquiry, event question…"
         class={inputClasses}
       />
     </div>
 
-    <!-- Email -->
+    <!-- Message -->
     <div class="flex flex-col gap-2">
-      <label for="email" class="text-[0.95rem] font-medium text-text">
-        Email Address <span class="text-holly" aria-hidden="true">*</span>
+      <label for="message" class="text-[0.95rem] font-medium text-text">
+        Message <span class="text-holly" aria-hidden="true">*</span>
       </label>
-      <input
-        type="email"
-        id="email"
-        name="email"
+      <textarea
+        id="message"
+        name="message"
         required
-        autocomplete="email"
-        placeholder="jane@example.com"
-        class={inputClasses}
-      />
+        rows="6"
+        placeholder="Tell us how we can help…"
+        class={`${inputClasses} resize-y`}
+      ></textarea>
     </div>
-  </div>
 
-  <!-- Subject -->
-  <div class="flex flex-col gap-2">
-    <label for="subject" class="text-[0.95rem] font-medium text-text">Subject</label>
-    <input
-      type="text"
-      id="subject"
-      name="subject"
-      placeholder="Membership inquiry, event question…"
-      class={inputClasses}
-    />
-  </div>
-
-  <!-- Message -->
-  <div class="flex flex-col gap-2">
-    <label for="message" class="text-[0.95rem] font-medium text-text">
-      Message <span class="text-holly" aria-hidden="true">*</span>
-    </label>
-    <textarea
-      id="message"
-      name="message"
-      required
-      rows="6"
-      placeholder="Tell us how we can help…"
-      class={`${inputClasses} resize-y`}
-    ></textarea>
-  </div>
-
-  <!-- Submit -->
-  <div>
-    <button
-      type="submit"
-      class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm
-             hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+    <!-- Submit -->
+    <div>
+      <button
+        type="submit"
+        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm
+               hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+      >
+        Send Message
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </button>
+    </div>
+  </form>
+) : (
+  <div class="border-l-2 border-gold/40 pl-6 py-2">
+    <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold mb-3">
+      Form Not Configured
+    </p>
+    <p class="text-text/75 leading-relaxed mb-4">
+      The contact form isn&rsquo;t connected in this build. Please email us directly &mdash;
+      we read every message.
+    </p>
+    <a
+      href={`mailto:${contact.primaryEmail}`}
+      class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
     >
-      Send Message
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </svg>
-    </button>
+      {contact.primaryEmail}
+    </a>
+    <p class="text-xs text-text/45 mt-5 leading-relaxed">
+      Site maintainers: set <code class="font-mono">PUBLIC_WEB3FORMS_KEY</code> in the Vercel
+      project&rsquo;s environment variables (or a local <code class="font-mono">.env</code>) to enable the form.
+    </p>
   </div>
-</form>
+)}

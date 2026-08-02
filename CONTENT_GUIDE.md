@@ -238,6 +238,18 @@ Each project documents a club initiative. The `"imageReference"` is the photo's 
 
 ---
 
+## The Contact Form
+
+Messages sent through the **Contact** page are emailed to **gardengate.communications@gmail.com**. They are not stored anywhere on the website, so treat that inbox as the only copy.
+
+A few things worth knowing:
+
+- **Replying works normally.** Hit Reply on the notification email and it goes straight back to the person who wrote in.
+- **Changing `primaryEmail` in `contact.json` does not change where form messages go.** That setting only controls the email address *displayed* on the Contact page. The delivery address is configured separately by your web contact. If the club changes its email address, ask them to update both.
+- **Check the spam folder occasionally**, at least early on, and mark the notifications as "not spam" so Gmail learns to trust them.
+
+---
+
 ## Validation Tip
 
 Before handing off your changes, paste the entire file contents into [jsonlint.com](https://jsonlint.com). If it shows a green "Valid JSON" message, you're good. If it shows an error, it will point to the exact line with the problem.

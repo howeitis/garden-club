@@ -2,6 +2,8 @@
 
 Static website for the **Garden Gate Garden Club (GGGC)**, a nonprofit garden club in Greenville, Delaware, founded in September 1963.
 
+Live at **https://gardengategardenclub.com** (Vercel-registered domain). The domain is hardcoded as `site` in `astro.config.mjs` and mirrored in the `Sitemap:` line of `public/robots.txt` — **change both together**. `SITE_URL` overrides it; it is deliberately not derived from `VERCEL_URL` (that's the per-deployment hostname and would leak into canonicals).
+
 ---
 
 ## Quick Start
@@ -24,7 +26,8 @@ A `.claude/launch.json` is configured so `preview_start` can launch the dev serv
 | **Framework**   | Astro 5 — static output, file-based routing        |
 | **Styling**     | Tailwind CSS 3, utility-only (no CSS modules)      |
 | **Types**       | TypeScript + Zod schema validation                 |
-| **Deployment**  | Vercel (`vercel.json`)                             |
+| **Deployment**  | Vercel (`vercel.json`) — `gardengategardenclub.com` |
+| **Forms**       | Web3Forms relay → club Gmail inbox                 |
 | **Fonts**       | Cormorant Garamond (headings, wordmark, folio numerals), Inter (body, 18px base) via Google Fonts |
 | **Transitions** | Astro View Transitions API + IntersectionObserver scroll fade-in + hero entrance animation |
 
@@ -80,7 +83,7 @@ src/
 │   ├── AwardCard.astro            # Hairline-anchored award entry, criteria/winners side by side
 │   ├── JudgeRow.astro             # Plain list row; parent supplies divide-y/border
 │   ├── SmartImage.astro           # Resolves public-style path → optimized responsive WebP <Image>
-│   └── ContactForm.astro          # Formspree contact form (unboxed)
+│   └── ContactForm.astro          # Web3Forms contact form (unboxed)
 └── data/
     ├── schema.ts                  # Zod schemas (types + validation)
     ├── index.ts                   # Single import point for all data
@@ -190,6 +193,15 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - Each page sets `title` and `description` props on BaseLayout.
 - OG image: `public/og-share-v2.png` (1200x630, ~88 KB).
 
+### Contact Form
+`ContactForm.astro` POSTs to `https://api.web3forms.com/submit`, which emails submissions to the club inbox (`gardengate.communications@gmail.com`). No server, no database.
+
+- The access key comes from `import.meta.env.PUBLIC_WEB3FORMS_KEY` (set in Vercel; `.env.example` documents it). It's public by design — it ships in the HTML — but lives in an env var so it can be rotated without a code change.
+- **If the key is unset, the component renders a `mailto:` fallback instead of the form.** Never let it emit a form that would silently drop messages. This is why local and CI builds pass without the key.
+- Reserved Web3Forms field names: `access_key`, `subject`, `from_name`, `redirect`, `botcheck`. The visitor's own subject input is named **`user_subject`** to avoid colliding with the reserved `subject` (which sets the notification email's subject line).
+- `botcheck` is a visually hidden checkbox honeypot; Web3Forms discards submissions where it's checked.
+- Success redirects to `/thank-you` via an absolute URL built from `Astro.site`.
+
 ---
 
 ## How to Add a New Page
@@ -243,4 +255,5 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 | Add/edit gardens to visit   | `src/pages/resources/gardens.astro`          |
 | Featured member gardens     | `src/pages/members/index.astro` (frontmatter)|
 | SEO / meta tags             | `src/layouts/BaseLayout.astro`               |
-| Contact form                | `src/components/ContactForm.astro`           |
+| Contact form                | `src/components/ContactForm.astro` (+ `PUBLIC_WEB3FORMS_KEY` in Vercel) |
+| Production domain           | `astro.config.mjs` AND `public/robots.txt`   |
