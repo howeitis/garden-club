@@ -1,5 +1,6 @@
 ---
-import { clubInfo, affiliations } from '../data/index';
+import { clubInfo, affiliations, contact } from '../data/index';
+import SocialIcon from './SocialIcon.astro';
 
 // Footer nav lists only the top-level pages, not every subpage. Subpages are
 // reachable via the header's Resources / Members dropdowns.
@@ -14,6 +15,14 @@ const navLinks = [
 
 const year = new Date().getFullYear();
 const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
+
+// The platform key is lowercase in contact.json; CSS capitalizes it visually,
+// so title-case it here for the accessible name too.
+const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, url]) => ({
+  url,
+  label: platform.charAt(0).toUpperCase() + platform.slice(1),
+  platform,
+}));
 ---
 
 <footer class="bg-primary text-background mt-20">
@@ -81,9 +90,30 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 
     </div>
 
-    <!-- Bottom bar -->
-    <div class="mt-12 pt-6 border-t border-background/15 text-center text-xs tracking-wide text-background/50">
-      &copy; {year} {clubInfo.name}. All rights reserved.
+    <!-- Bottom bar: copyright left, social icons right (stacked on mobile) -->
+    <div class="mt-12 pt-6 border-t border-background/15 flex flex-col sm:flex-row items-center sm:justify-between gap-6">
+      {socialLinks.length > 0 && (
+        <ul class="flex items-center gap-3 order-1 sm:order-2">
+          {socialLinks.map(({ platform, url, label }) => (
+            <li>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${clubInfo.name} on ${label} (opens in a new tab)`}
+                class="flex items-center justify-center w-10 h-10 rounded-sm border border-gold-soft/35 text-gold-soft/90
+                       hover:text-background hover:border-gold-soft/70 hover:bg-background/5 transition-colors duration-200
+                       focus:outline-none focus:ring-2 focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary"
+              >
+                <SocialIcon platform={platform} class="w-[1.15rem] h-[1.15rem]" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p class="order-2 sm:order-1 text-xs tracking-wide text-background/50 text-center sm:text-left">
+        &copy; {year} {clubInfo.name}. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

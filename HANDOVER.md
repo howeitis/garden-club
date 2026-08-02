@@ -23,7 +23,7 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 | Google Search Console | ✅ Verified, sitemap submitted |
 | Automatic publishing when content changes | ✅ Working |
 | **Board roster** | ⚠️ **Not filled in — shows "TBD" on the live site** |
-| Social media links | ⚠️ None listed |
+| Social media links | ✅ Facebook and Instagram |
 
 ## ▸ The first job: the board roster
 
@@ -54,7 +54,6 @@ Replacing them is a five-minute job that requires no coding — see §3, or simp
 | Action | Who |
 |---|---|
 | **Replace the four "TBD" officers** with the real board roster | Communications chair |
-| Add the club's Facebook page (if there is one) | Communications chair |
 | Note "keep the GitHub repo public" in board records | Board |
 | Note the domain renewal date (August 2027) on the club calendar | Board |
 
@@ -329,7 +328,7 @@ Removing the DNS TXT record unverifies the Search Console property.
 
 ### 9.5 Open content items
 
-Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](https://github.com/howeitis/garden-club/issues/11)), **social links** ([#14](https://github.com/howeitis/garden-club/issues/14)), events calendar ([#12](https://github.com/howeitis/garden-club/issues/12)), analytics ([#19](https://github.com/howeitis/garden-club/issues/19)), CMS evaluation ([#20](https://github.com/howeitis/garden-club/issues/20)).
+Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](https://github.com/howeitis/garden-club/issues/11)), events calendar ([#12](https://github.com/howeitis/garden-club/issues/12)), analytics ([#19](https://github.com/howeitis/garden-club/issues/19)), CMS evaluation ([#20](https://github.com/howeitis/garden-club/issues/20)).
 
 ### 9.6 Optional improvements
 

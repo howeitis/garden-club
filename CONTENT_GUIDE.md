@@ -176,19 +176,18 @@ Edit this to update the contact email, mailing address, or social media links. T
     "state": "Delaware",
     "zip": "19807"
   },
-  "socialLinks": {}
+  "socialLinks": {
+    "facebook": "https://www.facebook.com/people/Garden-Gate-Garden-Club-Delaware/61592716023518/",
+    "instagram": "https://www.instagram.com/gardengategardenclub/"
+  }
 }
 ```
 
-**`socialLinks` is currently empty.** To add the club's Facebook page, replace `{}` with:
+Social links appear in two places automatically: as text links in the "Follow Us" section of the Contact page, and as icon buttons in the footer of every page. To add another platform, add a line inside `socialLinks` — for example `"youtube": "https://youtube.com/@yourchannel"`. Remember the comma after the previous entry.
 
-```json
-  "socialLinks": {
-    "facebook": "https://facebook.com/YourClubPage"
-  }
-```
+Facebook and Instagram get their own icons. Any other platform falls back to a generic link icon, which is fine — ask if you want a custom one added.
 
-Links appear automatically in the "Follow Us" section of the Contact page. If there are none, that section simply does not appear.
+If you remove all of them and leave `{}`, both sections simply disappear.
 
 > **Note:** changing `primaryEmail` changes the address **shown** on the Contact page. It does **not** change where contact-form messages are delivered. Those two are set in different places — see the handover document if the club's email address ever changes.
 

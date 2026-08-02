@@ -177,6 +177,7 @@ src/
 │   ├── AwardCard.astro      # Hairline-anchored award entry with criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
 │   ├── SmartImage.astro     # Public-style path → optimized responsive WebP image
+│   ├── SocialIcon.astro     # Stroked brand glyph per platform (generic link fallback)
 │   └── ContactForm.astro    # Web3Forms-backed contact form (mailto fallback if unconfigured)
 └── data/
     ├── schema.ts            # Zod schemas for all data types
@@ -272,7 +273,6 @@ Every page includes:
 - 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
 - ⚠️ **The board roster is unpopulated.** `officers.json` holds four `TBD` entries, live on `/about`. See [#11](https://github.com/howeitis/garden-club/issues/11).
-- ⚠️ **`socialLinks` is empty.** No Facebook or other accounts are listed. See [#14](https://github.com/howeitis/garden-club/issues/14).
 
 ### Repo hygiene done in this handoff pass
 - `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.
@@ -289,7 +289,7 @@ Items on hold pending additional club details or future sprints. **These are now
 - [ ] **Officers roster** — Populate `officers.json` with full board names, roles, and optional bios
 - [ ] **Events calendar** — Add upcoming meeting dates as structured data or a dedicated section
 - [ ] **Newsletter signup** — Mailchimp or equivalent embed for email capture
-- [ ] **Social links** — Add Facebook and other accounts to `contact.json > socialLinks`
+- [x] **Social links** — Facebook and Instagram in `contact.json > socialLinks`; render as text links on `/contact` and icon buttons in the footer, and feed JSON-LD `sameAs`
 - [x] **Project images** — All 8 projects in `projects.json` reference a photo
 
 ### Design
