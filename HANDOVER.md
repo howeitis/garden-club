@@ -25,30 +25,28 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 
 ## The five accounts that keep the site alive
 
-| # | Service | What it does | Who controls it today |
+| # | Service | What it does | Who controls it |
 |---|---|---|---|
-| 1 | **Vercel** | Hosts the site **and** holds the domain registration | Personal account (`howeitis`) |
-| 2 | **Domain** `gardengategardenclub.com` | The web address; renews annually for a fee | Registered inside that same Vercel account |
-| 3 | **GitHub** `howeitis/garden-club` | Stores all the website's files and content | Personal account, with the club added as a collaborator |
+| 1 | **Vercel** | Hosts the site **and** holds the domain registration | **Owen Howe** (`howeitis`) |
+| 2 | **Domain** `gardengategardenclub.com` | The web address; renews annually | **Owen Howe** — registered through his Vercel account |
+| 3 | **GitHub** `howeitis/garden-club` | Stores all the website's files and content | **Owen Howe** (`howeitis`), owner — the club account `gardengategardenclub` is a collaborator with write access |
 | 4 | **Gmail** `gardengate.communications@gmail.com` | Receives every contact-form message | The club |
 | 5 | **Web3Forms** | Delivers form messages to that inbox | No account — a key stored in Vercel |
 
-## ⚠️ The three things that could take the site down
+## Three things to know
 
-1. **The Vercel account is one person's personal account.** It holds both the hosting *and* the domain registration. If that account lapses, is closed, or its payment card expires, the domain can expire and the website goes offline. **This is the single biggest risk and the most important thing to resolve.**
+1. **Owen Howe manages the hosting and the domain.** The club can publish content changes on its own (see below), but anything touching settings, the domain, or the contact-form key goes through Owen. He is the point of contact for those.
 
-2. **The club Gmail account has no confirmed backup access.** Every contact-form message goes there and is stored nowhere else. If no one can get into that inbox, those messages are gone.
+2. **The GitHub repository must stay public.** It is public today, and that is what lets the club publish changes directly. Switching it to private will silently stop the club's updates from going live, with a confusing error. This one is worth writing down because the cause is not obvious later.
 
-3. **The GitHub repository must stay public.** It is public today, and that is what allows the club to publish changes. Switching it to private will silently stop the club's updates from going live, with a confusing error.
+3. **Contact-form messages live only in the club inbox.** They are not stored on the website or anywhere else, so treat that inbox as the record.
 
 ## What to do next
 
-| Priority | Action | Who |
-|---|---|---|
-| 1 | Decide the long-term home for the Vercel account and domain | Board + current maintainer |
-| 2 | Add two board members as recovery contacts on the club Gmail | Board |
-| 3 | Confirm the domain renewal date and who pays it | Board |
-| 4 | Note "keep the GitHub repo public" in board records | Board |
+| Action | Who |
+|---|---|
+| Note "keep the GitHub repo public" in board records | Board |
+| Confirm the domain renewal date for the club's calendar | Board + Owen |
 
 ## Day-to-day: who does what
 
@@ -81,27 +79,22 @@ Further technical reference lives in `README.md` (setup, deployment, environment
 
 ## 2. Accounts and access — the full inventory
 
-This is the most important section of the document. **Losing access to any of these is difficult or impossible to recover without the original owner.**
+Knowing who controls what is the practical value of this section — it tells you who to contact when something needs changing.
 
 ### 2.1 Vercel — hosting *and* domain registration
 
+- **Account holder:** **Owen Howe** (`howeitis`).
 - **Plan:** believed to be the free "Hobby" tier — worth confirming in the dashboard.
 - **What it holds:** the live website, the domain registration, the environment variables, deployment history, and rollback ability.
-- **Who has access:** the personal account only.
 
-Two important constraints:
-
-- **Hobby accounts are single-user.** You cannot invite the club as a team member without upgrading to a paid plan (Pro, currently around $20/user/month).
-- **The domain registration lives inside this account.** Because the domain was purchased through Vercel rather than a separate registrar, it cannot simply be pointed elsewhere — moving it means a domain transfer.
-
-The club does have its own Vercel account under the club Gmail, which makes an eventual transfer feasible. See §9.1.
+One structural note: **Hobby accounts are single-user**, so the club cannot be added as a team member without upgrading to a paid plan. This is why the club publishes through GitHub rather than through Vercel directly (see §4). The club does also have its own Vercel account under the club Gmail, which keeps a future transfer straightforward if the board ever wants one. See §9.1.
 
 ### 2.2 Domain — `gardengategardenclub.com`
 
-- Registered through Vercel.
+- **Registered by Owen Howe**, through his Vercel account.
 - Nameservers: `ns1.vercel-dns.com`, `ns2.vercel-dns.com`.
-- **Renews annually for a fee**, billed to the payment method on the Vercel account. Confirm the exact amount and renewal date in the Vercel dashboard.
-- **If the renewal fails, the domain expires and the website goes offline.** This is the most common way volunteer-run websites die.
+- **Renews annually**, billed to the payment method on that account. Owen manages the renewal; the board may want the date on the club calendar for awareness.
+- Because the domain was purchased through Vercel rather than a separate registrar, moving it to another account would be a domain transfer rather than a simple repointing.
 
 **DNS records currently in place:**
 
@@ -112,10 +105,11 @@ The club does have its own Vercel account under the club Gmail, which makes an e
 
 ### 2.3 GitHub — `howeitis/garden-club`
 
-- **Visibility: public.** This matters — see §9.4.
-- **Collaborators:** `howeitis` (admin), `gardengategardenclub` (write access).
+- **Owner: Owen Howe** (`howeitis`), admin.
+- **Collaborator:** the club account `gardengategardenclub`, with **write access**.
+- **Visibility: public.** This matters — see §9.3.
 
-The club's account can edit files and publish changes. It cannot delete the repository, change its settings, or transfer ownership — those require admin.
+The club's account can edit files and publish changes. It cannot delete the repository, change its settings, or transfer ownership — those require admin, which is Owen.
 
 There is no confidential information in this repository. The contact-form key is stored in Vercel, not in the code, and local environment files are excluded from version control.
 
@@ -128,8 +122,6 @@ Used for three things:
 3. The club's own Vercel account login.
 
 **Messages are not stored anywhere else.** There is no copy on the website, no database, and no backup. This inbox is the only record.
-
-**Action required:** confirm that recovery phone and recovery email are set to something the *club* controls — not one individual's personal phone — and that at least two board members can sign in.
 
 ### 2.5 Web3Forms — contact-form delivery
 
@@ -181,7 +173,7 @@ Two automated checks run on every change:
 - **GitHub Actions** runs a type-check and a full build. Visible in the repository's "Actions" tab.
 - **Vercel** rebuilds and deploys. If the build fails, **the previous version stays live** — a broken change cannot replace a working site.
 
-**Why the club can publish even though hosting is on someone else's account:** Vercel normally requires the person making a change to have access to the hosting account. That restriction applies only to *private* repositories. Because this repository is public, any collaborator can publish. This is exactly why §9.4 matters.
+**Why the club can publish even though hosting is on someone else's account:** Vercel normally requires the person making a change to have access to the hosting account. That restriction applies only to *private* repositories. Because this repository is public, any collaborator can publish. This is exactly why §9.3 matters.
 
 ---
 
@@ -235,50 +227,46 @@ Search Console will take days to weeks to fully index the site. That is normal.
 | Item | Cost |
 |---|---|
 | Vercel hosting (Hobby tier) | Free |
-| Domain renewal | Annual fee — confirm amount and date in Vercel |
+| Domain renewal | Annual fee — billed to Owen Howe's Vercel account |
 | Web3Forms | Free (250 submissions/month) |
 | Google Search Console | Free |
 | GitHub (public repository) | Free |
 
-**The domain renewal is the only recurring cost, and it is the one that can take the site offline if missed.** Confirm which payment method it bills to and set a calendar reminder ahead of the renewal date.
+The domain renewal is the only recurring cost. Owen manages it; the board may want the date noted on the club calendar.
 
 ---
 
-## 9. Risks and recommended actions
+## 9. Ownership, access, and things to watch
 
-### 9.1 Vercel account ownership — highest priority
+### 9.1 How ownership is arranged today
 
-**The problem:** hosting, the domain registration, environment variables, and rollback ability all sit in one person's personal account. The club can publish content changes, but cannot change settings, rotate the form key, roll back a bad deployment, or renew the domain.
+Hosting, the domain registration, environment variables, and rollback ability all sit in **Owen Howe's** Vercel account. The club publishes content changes independently through GitHub, but changes to settings, the domain, or the contact-form key go through Owen.
 
-**Why it is not trivial to fix:** Hobby accounts are single-user, so the club cannot simply be added as a member. Vercel's in-dashboard ownership transfer is also restricted on that tier.
+This works, and there is nothing that needs fixing. It is documented here so the board knows who to contact, and so the options are on record if the club ever wants the site fully under its own accounts.
 
-**Options:**
+**If the board ever chooses to consolidate:**
 
 | Option | Cost | Trade-off |
 |---|---|---|
 | Move project + domain to the club's own Vercel account | Free | Requires a domain transfer between accounts — confirm the process with Vercel support first |
 | Upgrade to Vercel Pro and add the club as a team member | ~$20/user/month | Ongoing cost for a nonprofit |
-| Leave as-is | Free | The site depends on one person's account remaining active and paid |
+| Leave as arranged | Free | Settings changes continue to route through Owen |
 
-**Recommendation:** pursue the first option. The club already has a Vercel account under its Gmail, which makes it viable. Sequence it carefully — the domain registration is the part that needs the most attention.
+The club already has a Vercel account under its Gmail, so the first option is available whenever it is wanted. There is no deadline on this decision.
 
-### 9.2 Gmail account recovery — high priority
+### 9.2 Domain renewal
 
-Set recovery contacts the club controls and ensure at least two board members can sign in. This inbox is the only copy of every contact-form message and is also the login for the club's GitHub and Vercel accounts.
+The domain renews annually through Owen's Vercel account. Worth putting the date on the club calendar for awareness.
 
-### 9.3 Domain renewal — high priority
-
-Confirm the renewal date and the payment method. Set a calendar reminder. An expired domain takes the website offline and, after a grace period, releases the name for anyone to buy.
-
-### 9.4 Keep the GitHub repository public — important, easily overlooked
+### 9.3 Keep the GitHub repository public — easily overlooked
 
 Making it private will cause the club's changes to stop publishing, with the error *"Git author must have access to the project on Vercel to create deployments."* The cause will not be obvious months later. Record this decision somewhere the board will find it.
 
-### 9.5 Search Console TXT record — do not delete
+### 9.4 Search Console TXT record — do not delete
 
 Removing the DNS TXT record unverifies the Search Console property.
 
-### 9.6 Optional improvements (not risks)
+### 9.5 Optional improvements
 
 - **Analytics** — Vercel Web Analytics, or a privacy-friendly option like Plausible or Fathom.
 - **Officer photos** — the data structure supports adding headshots.
@@ -295,8 +283,8 @@ Removing the DNS TXT record unverifies the Search Console property.
 | Build fails after editing a data file | JSON formatting error — usually a stray or missing comma | The error names the file and line. See `CONTENT_GUIDE.md` |
 | Contact page shows an email address instead of a form | `PUBLIC_WEB3FORMS_KEY` is missing from Vercel | Re-add it in Vercel, then redeploy |
 | Form messages stopped arriving | Monthly limit exceeded, spam filtering, or an invalid key | Check the Gmail spam folder first |
-| Club's changes stop deploying | The repository was switched to private | Make it public again (§9.4) |
-| Whole site is offline | Domain renewal lapsed | Check the Vercel dashboard for domain status |
+| Club's changes stop deploying | The repository was switched to private | Make it public again (§9.3) |
+| Whole site is offline | Hosting or domain issue | Contact Owen Howe — check the Vercel dashboard |
 | Search Console lost verification | The DNS TXT record was deleted | Re-add it (§2.6) |
 
 ---
