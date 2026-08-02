@@ -41,6 +41,8 @@ npm run dev
 
 Open [http://localhost:4321](http://localhost:4321).
 
+> **On a fresh clone, run `npm install` before `npm run check`.** `@astrojs/check` is a devDependency, and without it `astro check` interactively prompts to install it. CI is unaffected — it uses `npm ci`.
+
 ### Commands
 
 | Command | Description |
@@ -48,6 +50,7 @@ Open [http://localhost:4321](http://localhost:4321).
 | `npm run dev` | Start local dev server at localhost:4321 |
 | `npm run build` | Build for production (outputs to `dist/`) |
 | `npm run preview` | Preview the production build locally |
+| `npm run check` | Type-check with `astro check` — **CI gates on this** |
 
 ---
 
@@ -88,7 +91,9 @@ The domain is hardcoded as the `site` value in `astro.config.mjs` and mirrored i
 
 The generated `garden-club-eight.vercel.app` hostname now **307-redirects** to the custom domain. This is Vercel's own platform behavior for the generated host once a production domain is assigned — it is *not* configured in `vercel.json`, and a host-matched redirect rule there has no effect on it (verified: the 307 is unchanged whether such a rule is present or absent, and its status code ignores both `permanent` and `statusCode`).
 
-If the 307 (temporary) ever needs to be a 308 (permanent) for search-consolidation reasons, that is a dashboard change under **Project → Settings → Domains**, not a code change. In practice it matters little here: the destination pages carry correct self-referencing canonicals, and the old host appears in no sitemap and is linked from nowhere.
+`www.gardengategardenclub.com` behaves the same way — also a 307 to the apex, also platform-managed.
+
+If either 307 (temporary) ever needs to be a 308 (permanent) for search-consolidation reasons, that is a dashboard change under **Project → Settings → Domains**, not a code change. In practice it matters little here: the destination pages carry correct self-referencing canonicals, and neither alternate host appears in a sitemap or is linked from anywhere.
 
 ### Who can deploy
 
@@ -185,13 +190,14 @@ src/
     ├── judges.json          # Certified judges list
     └── projects.json        # Community service projects
 
-public/                 # Static assets served at root
-├── favicon.svg             # SVG favicon (32×32, primary green + leaf)
-├── gggc-hero.png           # Club hero image (used as logo + OG image)
+public/                 # Static assets served at root (logos, icons, OG image only)
+├── favicon.svg             # SVG favicon (+ 16/32/192/512 PNGs, apple-touch-icon)
+├── gggc-clean.png          # Watercolor crest — header logo
+├── gggcwhitelogo.png       # White logo — footer / dark grounds
 ├── ngc-logo.png            # National Garden Clubs logo
+├── og-share-v2.png         # Open Graph share card (1200×630)
 ├── manifest.json           # PWA web manifest
-├── robots.txt              # Crawler directives + sitemap reference
-└── [hero + photo images]
+└── robots.txt              # Crawler directives + sitemap reference
 
 .github/workflows/
 └── ci.yml              # Build check on push/PR to main
@@ -203,6 +209,10 @@ vercel.json             # Vercel deployment configuration
 ---
 
 ## Updating Content
+
+> **Recommended: use an AI coding assistant.** [Claude Code](https://claude.com/claude-code) or OpenAI's Codex can make content and code changes from a plain-English description — they handle the JSON formatting, schema constraints, and the two-places-to-update gotchas documented throughout this file. **Nobody maintaining this site needs to hand-edit code.** `CONTENT_GUIDE.md` covers the same workflow for non-technical board members, including the browser-only GitHub path.
+
+> ⚠️ **`officers.json` is still four `TBD` placeholders**, and they render on the live `/about` page. Populating the board roster is the first outstanding content job — tracked as [#11](https://github.com/howeitis/garden-club/issues/11).
 
 All site content lives in `src/data/*.json`. Most updates require **no code changes** — just edit the relevant JSON file and push.
 
@@ -261,6 +271,9 @@ Every page includes:
 - ⚠️ **The Vercel project is on a personal Hobby account.** Club collaborators can deploy because the repo is public, but env vars, the domain, and rollbacks stay owner-only (see [Who can deploy](#who-can-deploy)).
 - 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
+- ⚠️ **The board roster is unpopulated.** `officers.json` holds four `TBD` entries, live on `/about`. See [#11](https://github.com/howeitis/garden-club/issues/11).
+- ⚠️ **`socialLinks` is empty.** No Facebook or other accounts are listed. See [#14](https://github.com/howeitis/garden-club/issues/14).
+
 ### Repo hygiene done in this handoff pass
 - `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.
 - `.nvmrc` pins Node 20; CI reads the version from it.
@@ -277,10 +290,10 @@ Items on hold pending additional club details or future sprints. **These are now
 - [ ] **Events calendar** — Add upcoming meeting dates as structured data or a dedicated section
 - [ ] **Newsletter signup** — Mailchimp or equivalent embed for email capture
 - [ ] **Social links** — Add Facebook and other accounts to `contact.json > socialLinks`
-- [ ] **Project images** — Add photo file paths to `imageReference` fields in `projects.json`
+- [x] **Project images** — All 8 projects in `projects.json` reference a photo
 
 ### Design
-- [x] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system
+- [ ] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system, but [#16](https://github.com/howeitis/garden-club/issues/16) asks specifically for an **SVG emblem** and the crest is still a PNG
 - [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg`, and `joy-ericson.jpeg` in a gallery on the About or Home page
 - [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
 - [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)

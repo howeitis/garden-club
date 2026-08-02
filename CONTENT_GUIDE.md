@@ -2,16 +2,68 @@
 
 This guide explains how to update the information on the club website. All content lives in small text files inside the `src/data/` folder. You do **not** need to know how to code — just follow the instructions below carefully.
 
+**You do not need to install anything.** Every edit in this guide can be made in a web browser, signed in to GitHub as the club.
+
+---
+
+## Before You Start: Sign In
+
+You need the club's GitHub account:
+
+- **Username:** `gardengategardenclub`
+- **Signs in with:** `gardengate.communications@gmail.com`
+
+This account has **write access** to the website, which means your edits publish themselves. You do not need to ask anyone to publish for you.
+
 ---
 
 ## How to Edit Content
 
-1. Open the file you want to edit in a plain-text editor (e.g., Notepad, VS Code, or TextEdit).
-2. Make your changes, following the format already in the file.
-3. Save the file.
-4. Ask your web contact to rebuild and publish the site, **or** commit and push the file if you have GitHub access.
+This is the whole workflow. It takes about two minutes.
 
-> **Important:** The website is automatically checked for errors every time it is published. If a file has a mistake, the build will fail and the site will not update until the error is fixed. This protects the live site from broken data.
+1. Go to **https://github.com/howeitis/garden-club** and sign in as the club account.
+2. Click into the `src` folder, then `data`, then click the file you want to change — for example `officers.json`.
+3. Click the **pencil icon** (✏️ *Edit this file*) in the top-right of the file view.
+4. Make your changes directly in the browser, following the format already in the file.
+5. Scroll to the bottom. Leave **"Commit directly to the `main` branch"** selected.
+6. Write a short note in the description box, like *"Update officer roster for 2026"*.
+7. Click **Commit changes**.
+
+**That's it — you have published.** The website rebuilds itself automatically and your change is live in about a minute. There is no separate "publish" button and no one to notify.
+
+### Checking that it worked
+
+Click the **Actions** tab at the top of the repository. You will see your change listed:
+
+- **Green check ✓** — published successfully. Refresh the website to see it.
+- **Yellow dot** — still building. Wait about a minute.
+- **Red ✗** — something in the file was formatted incorrectly. **The live website is unaffected and still shows the previous version.** Click into the red entry to see which file and line caused the problem, fix it the same way, and commit again.
+
+> **You cannot break the live site with a typo.** The website is checked automatically every time it is published. If a file has a mistake, publishing stops and the previous working version stays up until the error is fixed.
+
+### One important limit
+
+You can publish, but you **cannot undo a publish yourself.** If you post something you would rather take back, the fix is to edit the file again and commit the correction — which takes another minute. Rolling back to an earlier version of the whole site requires the Vercel dashboard, which only Owen Howe can access. For content edits this rarely matters; just correct and re-commit.
+
+---
+
+## A Much Easier Way: Let an AI Assistant Do It
+
+**This is the recommended approach, and it is genuinely easier than editing files by hand.**
+
+Tools like **[Claude Code](https://claude.com/claude-code)** or **OpenAI's Codex** can make these changes for you. You describe what you want in plain English and the assistant edits the right files, checks the formatting, and publishes.
+
+For example, you can simply say:
+
+> *"Update the officers list: Jane Smith is President, Maria Lopez is Treasurer, Anne Chen is Reporting Secretary, and Pat Rivera is Corresponding Secretary."*
+
+> *"Add a new community service project called Spring Bulb Planting at Rockford Park, chaired by Ellen Ward, running 2026 to present."*
+
+> *"Add our Facebook page to the website."*
+
+The assistant handles the file format, the commas, the quotes — all the things the "Common Mistakes" section below warns about. **Nobody on the board needs to learn JSON.**
+
+The rest of this guide explains the file formats for anyone who prefers to edit by hand, or who wants to check an assistant's work.
 
 ---
 
@@ -94,18 +146,18 @@ Every item in a list or object (except the last one) needs a comma after it.
 
 ### `clubInfo.json` — Club Name, Mission & Theme
 
-Edit this to update the club name, founding year, mission statement, or annual theme.
+Edit this to update the club name, founding dates, mission statement, or annual theme. This is the club's real file, abbreviated:
 
 ```json
 {
-  "name": "Maplewood Garden Club",
+  "name": "Garden Gate Garden Club",
   "foundingDates": {
-    "club": "1952",
-    "federation": "1955"
+    "club": "September 1963",
+    "federation": "June 1964",
+    "incorporated": "October 2018"
   },
-  "missionStatement": "To foster the love of gardening...",
-  "nonprofitStatus": "501(c)(3) nonprofit organization",
-  "theme": "Roots & Renewal: Growing Together for Tomorrow"
+  "nonprofitStatus": "501(c)(3) Organization",
+  "theme": "Promoting our love of gardening through kindness."
 }
 ```
 
@@ -113,25 +165,32 @@ Edit this to update the club name, founding year, mission statement, or annual t
 
 ### `contact.json` — Email, Mailing Address & Social Media
 
-Edit this to update the contact email, mailing address, or social media links.
+Edit this to update the contact email, mailing address, or social media links. This is the club's real file:
 
 ```json
 {
-  "primaryEmail": "info@maplewoodgardenclub.org",
+  "primaryEmail": "gardengate.communications@gmail.com",
   "mailingAddress": {
-    "street": "P.O. Box 412",
-    "city": "Maplewood",
-    "state": "NJ",
-    "zip": "07040"
+    "street": "P.O. Box 4754",
+    "city": "Wilmington",
+    "state": "Delaware",
+    "zip": "19807"
   },
-  "socialLinks": {
-    "facebook": "https://facebook.com/maplewoodgardenclub",
-    "instagram": "https://instagram.com/maplewoodgardenclub"
-  }
+  "socialLinks": {}
 }
 ```
 
-To remove social links entirely, you may delete the `"socialLinks"` section (including its `{` and `}`).
+**`socialLinks` is currently empty.** To add the club's Facebook page, replace `{}` with:
+
+```json
+  "socialLinks": {
+    "facebook": "https://facebook.com/YourClubPage"
+  }
+```
+
+Links appear automatically in the "Follow Us" section of the Contact page. If there are none, that section simply does not appear.
+
+> **Note:** changing `primaryEmail` changes the address **shown** on the Contact page. It does **not** change where contact-form messages are delivered. Those two are set in different places — see the handover document if the club's email address ever changes.
 
 ---
 
@@ -148,6 +207,10 @@ Update the names, themes, and officers for national, regional, and state affilia
 ---
 
 ### `officers.json` — Board Members (Array)
+
+> ### ▸ Start here
+>
+> **The board roster is not filled in yet.** All four entries currently say `"TBD"`, and those four "TBD"s are visible on the live About page right now. **Replacing them is the first content job for the club.** Follow the workflow at the top of this guide, or just ask an AI assistant to do it.
 
 This is a **list** of officer entries. Each entry uses `{` `}` and is separated by commas.
 
@@ -220,21 +283,58 @@ Valid status values:
 
 ### `projects.json` — Community Projects (Array)
 
-Each project documents a club initiative. The `"imageReference"` is the photo's filename written as a path, e.g. `"/pollinator-garden.jpg"`.
+Each project documents a club initiative. The `"imageReference"` is the photo's filename written as a path, e.g. `"/bluestar.webp"`.
 
-**Complete example entry:**
+**Complete example entry** (this is a real entry from the club's file, shortened):
 ```json
 {
-  "name": "Memorial Park Pollinator Garden",
-  "yearsActive": "2018–present",
-  "description": "A quarter-acre pollinator meadow planted and maintained by club volunteers, featuring native milkweed, coneflowers, and black-eyed Susans to support monarch butterflies and native bees.",
-  "location": "Memorial Park, Maplewood, NJ",
-  "imageReference": "/pollinator-garden.jpg"
+  "name": "Blue Star Memorial Marker",
+  "yearsActive": "2014–present",
+  "chairperson": "TBD",
+  "description": "GGGC installed the Blue Star Memorial Marker at the Wilmington VA Medical Center in 2014.",
+  "location": "Wilmington VA Medical Center",
+  "imageReference": "/bluestar.webp"
 }
 ```
 
 - `"yearsActive"` — Use formats like `"2021–present"` or `"2009–2015"` (use an en-dash `–`, not a hyphen `-`).
-- `"imageReference"` — A `/` followed by the image's filename (no folders, no spaces in the name). The photo file itself lives in the `src/assets/content/` folder — ask your web contact to add the image file first; the site optimizes it automatically at build time.
+- `"imageReference"` — A `/` followed by the image's filename (no folders, no spaces in the name). The photo file itself lives in the `src/assets/content/` folder. See **Adding Photos** below — you can do this yourself.
+
+---
+
+## Adding Photos
+
+You can add photos yourself, in the browser, without installing anything. It is a two-step job: upload the file, then point a data file at it.
+
+### Step 1 — Upload the photo
+
+1. Go to **https://github.com/howeitis/garden-club** and sign in as the club account.
+2. Navigate into `src`, then `assets`, then `content`.
+3. Click **Add file → Upload files** in the top-right.
+4. Drag your photo in.
+5. Leave **"Commit directly to the `main` branch"** selected and click **Commit changes**.
+
+### Step 2 — Point a data file at it
+
+Edit the relevant file (for example `projects.json`) and set the `imageReference` to a `/` plus the filename:
+
+```json
+"imageReference": "/spring-bulb-planting.jpg"
+```
+
+The website resizes and optimizes the photo automatically when it publishes. You do not need to shrink it first.
+
+### Filename rules — these matter
+
+| Rule | Good | Bad |
+|---|---|---|
+| **No spaces** — use hyphens | `spring-bulb-planting.jpg` | `spring bulb planting.jpg` |
+| **All lowercase** | `rose-garden.jpg` | `Rose-Garden.JPG` |
+| **Reference must match exactly** | file `bluestar.webp` → `"/bluestar.webp"` | file `bluestar.webp` → `"/bluestar.jpg"` |
+
+A filename with a space in it will break the photo's web address. If the name and the reference do not match exactly — including the `.jpg` / `.webp` ending — the photo will not appear.
+
+> **Easier option:** ask an AI assistant. *"I've uploaded spring-bulb-planting.jpg to src/assets/content — add it to the Spring Bulb Planting project."* It will handle the naming and the reference.
 
 ---
 
@@ -245,11 +345,13 @@ Messages sent through the **Contact** page are emailed to **gardengate.communica
 A few things worth knowing:
 
 - **Replying works normally.** Hit Reply on the notification email and it goes straight back to the person who wrote in.
-- **Changing `primaryEmail` in `contact.json` does not change where form messages go.** That setting only controls the email address *displayed* on the Contact page. The delivery address is configured separately by your web contact. If the club changes its email address, ask them to update both.
+- **Changing `primaryEmail` in `contact.json` does not change where form messages go.** That setting only controls the email address *displayed* on the Contact page. Delivery is configured separately, in the hosting settings. If the club changes its email address, both must be updated — ask Owen Howe for the second one.
 - **Check the spam folder occasionally**, at least early on, and mark the notifications as "not spam" so Gmail learns to trust them.
 
 ---
 
 ## Validation Tip
 
-Before handing off your changes, paste the entire file contents into [jsonlint.com](https://jsonlint.com). If it shows a green "Valid JSON" message, you're good. If it shows an error, it will point to the exact line with the problem.
+If you are editing by hand and want to check your work **before** committing, copy the entire file contents into [jsonlint.com](https://jsonlint.com). A green "Valid JSON" message means the format is correct. An error will point to the exact line with the problem.
+
+This is optional — the website checks the file automatically when you publish, and refuses to update if there is a mistake. Validating first just saves you a round trip.

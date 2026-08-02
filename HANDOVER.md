@@ -14,7 +14,7 @@ This document has two parts. **Part 1 is a one-page summary** — if you read no
 
 A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirteen pages covering the club's history, board, community service projects, membership, gardening resources, and a working contact form. It is a "static" site, which means it is fast, cheap (currently free to host), and has no database or login system to maintain.
 
-## Status: everything is live and working
+## Status
 
 | Item | Status |
 |---|---|
@@ -22,6 +22,14 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 | Contact form → club inbox | ✅ Live and tested |
 | Google Search Console | ✅ Verified, sitemap submitted |
 | Automatic publishing when content changes | ✅ Working |
+| **Board roster** | ⚠️ **Not filled in — shows "TBD" on the live site** |
+| Social media links | ⚠️ None listed |
+
+## ▸ The first job: the board roster
+
+**The About page currently lists all four officers as "TBD."** The roster was never supplied, so the site went live with placeholders and they are visible to the public right now.
+
+Replacing them is a five-minute job that requires no coding — see §3, or simply ask an AI assistant (§3.1). This is the single most visible unfinished item on the site.
 
 ## The five accounts that keep the site alive
 
@@ -45,14 +53,17 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 
 | Action | Who |
 |---|---|
+| **Replace the four "TBD" officers** with the real board roster | Communications chair |
+| Add the club's Facebook page (if there is one) | Communications chair |
 | Note "keep the GitHub repo public" in board records | Board |
-| Confirm the domain renewal date for the club's calendar | Board + Owen |
+| Note the domain renewal date (August 2027) on the club calendar | Board |
 
 ## Day-to-day: who does what
 
-- **Updating text and photos** (officers, projects, awards, meeting dates): follow `CONTENT_GUIDE.md`. No coding required.
+- **Updating text and photos** (officers, projects, awards, meeting dates): sign in to GitHub as the club and edit in the browser — **no software to install, no coding required.** Full walkthrough in `CONTENT_GUIDE.md`.
+- **Easier still:** ask an AI assistant like [Claude Code](https://claude.com/claude-code) or OpenAI's Codex to make the change in plain English. This is the recommended approach — see §3.1.
 - **Contact-form messages**: check `gardengate.communications@gmail.com`. Reply normally — replies go straight to the sender.
-- **Anything else** (design changes, new pages, settings): needs someone comfortable with the code. See Part 2.
+- **Design changes, new pages, or settings**: also well within reach of an AI assistant. Hosting settings and rollbacks go through Owen Howe.
 
 ---
 ---
@@ -84,16 +95,17 @@ Knowing who controls what is the practical value of this section — it tells yo
 ### 2.1 Vercel — hosting *and* domain registration
 
 - **Account holder:** **Owen Howe** (`howeitis`).
-- **Plan:** believed to be the free "Hobby" tier — worth confirming in the dashboard.
+- **Plan:** Hobby (free tier).
 - **What it holds:** the live website, the domain registration, the environment variables, deployment history, and rollback ability.
 
 One structural note: **Hobby accounts are single-user**, so the club cannot be added as a team member without upgrading to a paid plan. This is why the club publishes through GitHub rather than through Vercel directly (see §4). The club does also have its own Vercel account under the club Gmail, which keeps a future transfer straightforward if the board ever wants one. See §9.1.
 
 ### 2.2 Domain — `gardengategardenclub.com`
 
-- **Registered by Owen Howe**, through his Vercel account.
+- **Registered by Owen Howe**, through his Vercel account, on **2 August 2026**.
+- **Renews:** **August 2027**, then annually. **Auto-renew is on.**
+- **Cost:** **$12/year**, billed to the payment method on Owen's Vercel account.
 - Nameservers: `ns1.vercel-dns.com`, `ns2.vercel-dns.com`.
-- **Renews annually**, billed to the payment method on that account. Owen manages the renewal; the board may want the date on the club calendar for awareness.
 - Because the domain was purchased through Vercel rather than a separate registrar, moving it to another account would be a domain transfer rather than a simple repointing.
 
 **DNS records currently in place:**
@@ -123,6 +135,22 @@ Used for three things:
 
 **Messages are not stored anywhere else.** There is no copy on the website, no database, and no backup. This inbox is the only record.
 
+Because it is the login for the club's GitHub and Vercel accounts as well as the form inbox, whoever holds it effectively holds the club's website access. On a board with annually rotating officers, that makes it worth recording who has it and how it passes on.
+
+**Custody record — for the club to complete and keep with its records:**
+
+| | |
+|---|---|
+| Password held by | |
+| Also known to | |
+| Two-factor authentication enabled? | |
+| Where 2FA backup codes are filed | |
+| Recovery email on the account | |
+| Recovery phone on the account | |
+| Handover procedure at officer rotation | |
+
+*Left blank deliberately — the club has chosen to complete this after handover.*
+
 ### 2.5 Web3Forms — contact-form delivery
 
 - **No account or password.** Web3Forms issues an "access key" tied to an email address; messages are relayed to that address.
@@ -138,6 +166,28 @@ Used for three things:
 ---
 
 ## 3. Updating content (no coding required)
+
+**The club can publish changes on its own.** The GitHub account `gardengategardenclub` has write access, which means edits go live without anyone else's involvement. Nothing needs to be installed.
+
+The whole workflow, in a browser:
+
+> Sign in to GitHub as the club → open `github.com/howeitis/garden-club` → click into `src` / `data` / the file → **pencil icon** → edit → **Commit directly to `main`** → **Commit changes**.
+
+Live in about a minute. `CONTENT_GUIDE.md` has this with screenshots-level detail, plus how to confirm it worked and what to do if it fails.
+
+### 3.1 Recommended: let an AI assistant do it
+
+**Neither the board nor a future volunteer needs to hand-edit code on this site.** Tools like **[Claude Code](https://claude.com/claude-code)** or **OpenAI's Codex** make changes from a plain-English description — they find the right file, respect the format, and publish.
+
+> *"Update the officers list: Jane Smith is President, Maria Lopez is Treasurer…"*
+>
+> *"Add our Facebook page to the website."*
+>
+> *"Add a new community service project called Spring Bulb Planting at Rockford Park."*
+
+This is the recommended way to maintain the site. It removes the JSON-formatting risk entirely, and it extends past content to design changes and new pages — work that would otherwise need a developer. The repository is documented for exactly this: `CLAUDE.md` describes the architecture and design system so an assistant picks up the conventions rather than inventing its own.
+
+### 3.2 The content files
 
 All the site's text content lives in eight files under `src/data/`:
 
@@ -173,7 +223,18 @@ Two automated checks run on every change:
 - **GitHub Actions** runs a type-check and a full build. Visible in the repository's "Actions" tab.
 - **Vercel** rebuilds and deploys. If the build fails, **the previous version stays live** — a broken change cannot replace a working site.
 
-**Why the club can publish even though hosting is on someone else's account:** Vercel normally requires the person making a change to have access to the hosting account. That restriction applies only to *private* repositories. Because this repository is public, any collaborator can publish. This is exactly why §9.3 matters.
+**Why the club can publish even though hosting is on Owen's account:** Vercel normally requires the person making a change to have access to the hosting account. That restriction applies only to *private* repositories. Because this repository is public, any collaborator can publish. This is exactly why §9.3 matters.
+
+### The club can publish, but cannot roll back
+
+These are two different things, and the distinction matters:
+
+- **A broken build cannot replace a working site.** If a file is malformed, publishing stops and the previous version stays live. This is automatic protection against typos.
+- **A *successful* publish of something you regret is a different matter.** If the club publishes wording it wants to retract, the site updates normally — nothing is broken, so nothing stops it.
+
+There is no branch protection on `main`; the club account commits directly, which is the intended design. But **rolling back to a previous deployment lives in the Vercel dashboard, which only Owen can reach.**
+
+**The club's self-serve fix is to edit again and commit the correction** — another minute. For content edits that is almost always sufficient. Reach for Owen only if the site needs to be reverted wholesale.
 
 ---
 
@@ -201,7 +262,7 @@ Two automated checks run on every change:
 
 - **Primary address:** `https://gardengategardenclub.com`
 - `www.gardengategardenclub.com` redirects to it automatically.
-- The old Vercel address `garden-club-eight.vercel.app` redirects to it as well. This is Vercel's own behavior, not a setting in the code — a note in `CLAUDE.md` explains why it should not be "fixed" in `vercel.json`.
+- The old Vercel address `garden-club-eight.vercel.app` redirects to it as well. Both of these are 307 (temporary) redirects managed by Vercel itself, not settings in the code — a note in `CLAUDE.md` explains why they should not be "fixed" in `vercel.json`. Harmless: every page carries a canonical URL pointing at the primary address.
 
 **If the domain ever changes**, two files must be updated together:
 1. `astro.config.mjs` — the `site` value
@@ -227,12 +288,12 @@ Search Console will take days to weeks to fully index the site. That is normal.
 | Item | Cost |
 |---|---|
 | Vercel hosting (Hobby tier) | Free |
-| Domain renewal | Annual fee — billed to Owen Howe's Vercel account |
+| Domain renewal | **$12/year**, auto-renewing each August — billed to Owen Howe's Vercel account |
 | Web3Forms | Free (250 submissions/month) |
 | Google Search Console | Free |
 | GitHub (public repository) | Free |
 
-The domain renewal is the only recurring cost. Owen manages it; the board may want the date noted on the club calendar.
+The domain renewal is the only recurring cost, and it renews automatically. The board may want **August 2027** noted on the club calendar for awareness.
 
 ---
 
@@ -256,7 +317,7 @@ The club already has a Vercel account under its Gmail, so the first option is av
 
 ### 9.2 Domain renewal
 
-The domain renews annually through Owen's Vercel account. Worth putting the date on the club calendar for awareness.
+**$12/year, auto-renewing, next due August 2027**, through Owen's Vercel account. Auto-renew means no action is needed; the date is worth noting on the club calendar for awareness.
 
 ### 9.3 Keep the GitHub repository public — easily overlooked
 
@@ -266,7 +327,11 @@ Making it private will cause the club's changes to stop publishing, with the err
 
 Removing the DNS TXT record unverifies the Search Console property.
 
-### 9.5 Optional improvements
+### 9.5 Open content items
+
+Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](https://github.com/howeitis/garden-club/issues/11)), **social links** ([#14](https://github.com/howeitis/garden-club/issues/14)), events calendar ([#12](https://github.com/howeitis/garden-club/issues/12)), analytics ([#19](https://github.com/howeitis/garden-club/issues/19)), CMS evaluation ([#20](https://github.com/howeitis/garden-club/issues/20)).
+
+### 9.6 Optional improvements
 
 - **Analytics** — Vercel Web Analytics, or a privacy-friendly option like Plausible or Fathom.
 - **Officer photos** — the data structure supports adding headshots.

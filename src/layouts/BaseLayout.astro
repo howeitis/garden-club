@@ -21,8 +21,8 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-// og-share.png is a purpose-built 1200×630 card (≈88 KB) — well within WhatsApp's limit.
-// gggc-hero.png is 2048×2048 at ~6 MB and would be silently dropped by most scrapers.
+// og-share-v2.png is a purpose-built 1200×630 card (~121 KB) — well within WhatsApp's limit.
+// Don't point this at a full-size photo; multi-MB images are silently dropped by most scrapers.
 const ogImage = new URL('/og-share-v2.png', Astro.site).toString();
 
 // Build JSON-LD Organization schema dynamically from validated data
