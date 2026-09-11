@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import Analytics from '@vercel/analytics/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { clubInfo, contact } from '../data/index';
@@ -121,6 +122,7 @@ const jsonLd = {
 
     <title>{title}</title>
     <ClientRouter />
+    <Analytics />
 
     <style is:global>
       html { font-size: 18px; }
