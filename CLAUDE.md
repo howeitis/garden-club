@@ -61,7 +61,8 @@ src/
 │   │   └── gardens.astro          # /resources/gardens (local + regional)
 │   ├── community-service.astro    # /community-service
 │   ├── members/
-│   │   ├── index.astro            # /members (member gardens)
+│   │   ├── index.astro            # /members (member gardens + Member of the Month callout)
+│   │   ├── member-of-the-month.astro # /members/member-of-the-month (data-driven profile + archive)
 │   │   └── awards-and-judges.astro # /members/awards-and-judges
 │   ├── membership.astro           # /membership
 │   ├── contact.astro              # /contact
@@ -94,7 +95,8 @@ src/
     ├── officers.json              # Board members with roles and bios
     ├── awards.json                # DFGC & GGGC awards with criteria
     ├── judges.json                # Certified judges (active & emeritus)
-    └── projects.json              # Community service projects
+    ├── projects.json              # Community service projects
+    └── membersOfTheMonth.json     # Member of the Month honorees, newest first
 public/                            # Logos, favicons, OG image only (photos live in src/assets/)
 ```
 
@@ -232,6 +234,12 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - Data files (`projects.json`, plant/garden arrays, etc.) reference images by the same `/filename.ext` string — just drop the source in `src/assets/content/`.
 - Use `loading="eager"` only for above-fold hero images; everything else `loading="lazy"`.
 
+## Member of the Month
+
+`/members/member-of-the-month` is fully data-driven from `src/data/membersOfTheMonth.json` (schema: `MemberOfTheMonthSchema`). **Array order matters: the first entry is the current honoree**; the rest render as a "Past Honorees" strip at the bottom (hidden while there's only one). The current honoree also feeds the callout on `/members` and the slim teaser on the home page via the `currentMemberOfTheMonth` export.
+
+To feature a new member: convert their photos to WebP into `src/assets/content/` (a tall `portrait` is required, a `secondary` photo is optional), then prepend an entry to the JSON. Fields: `headline` / `tagline` (the two-line display title), `summary` (one line for teasers), `chapters[]` (label + paragraph; an optional `link: { phrase, href }` turns the first occurrence of `phrase` into an inline anchor), `stats[]` (up to four value/label pairs for the "at a glance" strip), and an optional `note` with a link. `period` (e.g. `"October 2026"`) is optional — omit it and the page says "Featured Member" with no date.
+
 ## Resources Section Structure
 
 `/resources` is a landing page of three `LandingCard` links (each with its own `eyebrowColor` and alternating `flip`). The content lives on three subpages, each with data arrays defined in frontmatter:
@@ -256,6 +264,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 | Add/edit native plants      | `src/pages/resources/plants.astro`           |
 | Add/edit gardens to visit   | `src/pages/resources/gardens.astro`          |
 | Featured member gardens     | `src/pages/members/index.astro` (frontmatter)|
+| Member of the Month         | `src/data/membersOfTheMonth.json` (+ photos in `src/assets/content/`) |
 | SEO / meta tags             | `src/layouts/BaseLayout.astro`               |
 | Contact form                | `src/components/ContactForm.astro` (+ `PUBLIC_WEB3FORMS_KEY` in Vercel) |
 | Production domain           | `astro.config.mjs` AND `public/robots.txt`   |

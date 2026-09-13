@@ -17,6 +17,7 @@ import {
   AwardsSchema,
   JudgesSchema,
   ProjectsSchema,
+  MembersOfTheMonthSchema,
   type ClubInfo,
   type Contact,
   type Meetings,
@@ -25,6 +26,7 @@ import {
   type Award,
   type Judge,
   type Project,
+  type MemberOfTheMonth,
 } from './schema';
 
 import clubInfoRaw from './clubInfo.json';
@@ -35,6 +37,7 @@ import officersRaw from './officers.json';
 import awardsRaw from './awards.json';
 import judgesRaw from './judges.json';
 import projectsRaw from './projects.json';
+import membersOfTheMonthRaw from './membersOfTheMonth.json';
 
 // Parse and validate each data file. If any file fails validation,
 // the build will throw a ZodError with details about what is wrong.
@@ -46,6 +49,9 @@ export const officers: Officer[] = OfficersSchema.parse(officersRaw);
 export const awards: Award[] = AwardsSchema.parse(awardsRaw);
 export const judges: Judge[] = JudgesSchema.parse(judgesRaw);
 export const projects: Project[] = ProjectsSchema.parse(projectsRaw);
+export const membersOfTheMonth: MemberOfTheMonth[] = MembersOfTheMonthSchema.parse(membersOfTheMonthRaw);
+// Convenience: the newest honoree is the one currently featured.
+export const currentMemberOfTheMonth: MemberOfTheMonth = membersOfTheMonth[0];
 
 // Re-export types for convenience so components only need one import path.
-export type { ClubInfo, Contact, Meetings, Affiliations, Officer, Award, Judge, Project };
+export type { ClubInfo, Contact, Meetings, Affiliations, Officer, Award, Judge, Project, MemberOfTheMonth };

@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import SmartImage from '../../components/SmartImage.astro';
-import { clubInfo } from '../../data/index';
+import Flourish from '../../components/Flourish.astro';
+import { clubInfo, currentMemberOfTheMonth as featured } from '../../data/index';
 
 const memberGardens = [
   {
@@ -57,6 +58,45 @@ const memberGardens = [
   />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
+
+    <!-- Member of the Month callout -->
+    <section aria-labelledby="motm-heading" class="fade-in-section">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
+        <a href="/members/member-of-the-month" class="md:col-span-4 block group" aria-hidden="true" tabindex="-1">
+          <div class="relative">
+            <span class="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
+            <span class="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
+            <SmartImage
+              src={featured.photos.portrait.src}
+              alt=""
+              widths={[400, 800]}
+              sizes="(min-width: 768px) 33vw, 100vw"
+              class="w-full aspect-[3/4] object-cover rounded-sm transition-transform duration-500 group-hover:scale-[1.02]"
+              style={featured.photos.portrait.position ? `object-position: ${featured.photos.portrait.position}` : undefined}
+              loading="lazy"
+            />
+          </div>
+        </a>
+        <div class="md:col-span-8">
+          <SectionHeader label={featured.period ? `Member of the Month · ${featured.period}` : 'Member of the Month'} />
+          <h2 id="motm-heading" class="font-heading font-semibold tracking-[-0.01em] text-text leading-[1.02] mb-5">
+            <span class="block text-4xl sm:text-5xl lg:text-6xl">{featured.headline}</span>
+            <span class="mt-2 block font-normal italic text-2xl sm:text-3xl text-blossom-deep">{featured.tagline}</span>
+          </h2>
+          <p class="text-text/75 text-lg leading-relaxed max-w-2xl mb-8">{featured.summary}</p>
+          <a
+            href="/members/member-of-the-month"
+            class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+          >
+            Read {featured.name.split(' ')[0]}'s Story
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <Flourish class="mt-20" />
+    </section>
 
     <!-- Featured Member Gardens -->
     <section aria-labelledby="gardens-heading" class="fade-in-section">

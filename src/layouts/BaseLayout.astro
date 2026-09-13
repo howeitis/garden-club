@@ -128,6 +128,8 @@ const jsonLd = {
       html { font-size: 18px; }
       body { text-rendering: optimizeLegibility; }
       h1, h2, h3 { text-wrap: balance; }
+      /* Fixed header is 5.5rem tall; keep in-page anchor targets clear of it. */
+      [id] { scroll-margin-top: 7rem; }
 
       /* Hero entrance: content rises in as the page arrives. */
       @keyframes heroRise {

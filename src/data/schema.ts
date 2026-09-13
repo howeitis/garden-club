@@ -139,3 +139,56 @@ export const ProjectSchema = z.object({
 export const ProjectsSchema = z.array(ProjectSchema);
 
 export type Project = z.infer<typeof ProjectSchema>;
+
+// ─── membersOfTheMonth.json ────────────────────────────────────────────────────
+// One entry per honoree, newest first. The first entry is the current feature;
+// the rest render as the "Past Honorees" strip on /members/member-of-the-month.
+export const FeaturePhotoSchema = z.object({
+  src: z.string(),                    // public-style path, e.g. "/joy-ericson-portrait.webp"
+  alt: z.string(),
+  caption: z.string().optional(),
+  /** CSS object-position override for awkward crops (e.g. "center 20%") */
+  position: z.string().optional(),
+});
+
+export const FeatureChapterSchema = z.object({
+  label: z.string(),                  // small-caps chapter label, e.g. "The Beginning"
+  text: z.string(),
+  /** Optional inline link: the first occurrence of `phrase` in `text` becomes an anchor */
+  link: z.object({ phrase: z.string(), href: z.string() }).optional(),
+});
+
+export const FeatureStatSchema = z.object({
+  value: z.string(),                  // "40+"
+  label: z.string(),                  // "Years as a certified flower show judge"
+});
+
+export const MemberOfTheMonthSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+  /** Optional period label, e.g. "September 2026". Omit to show "Featured Member" only. */
+  period: z.string().optional(),
+  headline: z.string(),               // "Celebrating Joy Ericson"
+  tagline: z.string(),                // "and her love of flowers"
+  /** One-line summary for teasers (home page, members page, past-honorees strip) */
+  summary: z.string(),
+  photos: z.object({
+    portrait: FeaturePhotoSchema,     // tall lead photo
+    secondary: FeaturePhotoSchema.optional(),
+  }),
+  chapters: z.array(FeatureChapterSchema).min(1),
+  stats: z.array(FeatureStatSchema).max(4).optional(),
+  /** Closing note with an optional link, e.g. to an award that carries the honoree's name */
+  note: z.object({
+    text: z.string(),
+    linkLabel: z.string().optional(),
+    href: z.string().optional(),
+  }).optional(),
+});
+
+export const MembersOfTheMonthSchema = z.array(MemberOfTheMonthSchema).min(1);
+
+export type MemberOfTheMonth = z.infer<typeof MemberOfTheMonthSchema>;
+export type FeaturePhoto = z.infer<typeof FeaturePhotoSchema>;
+export type FeatureChapter = z.infer<typeof FeatureChapterSchema>;
+export type FeatureStat = z.infer<typeof FeatureStatSchema>;

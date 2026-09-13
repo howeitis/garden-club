@@ -5,7 +5,7 @@ import Flourish from '../components/Flourish.astro';
 import { getImage } from 'astro:assets';
 import heroDesktopSrc from '../assets/heroes/home-hero.png';
 import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
-import { clubInfo } from '../data/index';
+import { clubInfo, currentMemberOfTheMonth as featured } from '../data/index';
 
 // Art-directed home hero: a portrait-ish crop on phones, the wide shot on
 // larger screens. Both are optimized to WebP with responsive srcsets.
@@ -169,6 +169,46 @@ const siteIndex = [
         ))}
       </div>
     </div>
+  </section>
+
+  <!-- Member of the Month teaser — a slim editorial row -->
+  <section class="border-t border-gold/20 fade-in-section" aria-labelledby="home-motm-heading">
+    <a
+      href="/members/member-of-the-month"
+      class="group block max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14"
+    >
+      <div class="flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-10">
+        <div class="relative flex-shrink-0 w-32 sm:w-36">
+          <span class="absolute -top-2 -left-2 w-7 h-7 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
+          <span class="absolute -bottom-2 -right-2 w-7 h-7 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
+          <SmartImage
+            src={featured.photos.portrait.src}
+            alt=""
+            widths={[200, 400]}
+            sizes="9rem"
+            class="w-full aspect-[3/4] object-cover rounded-sm"
+            style={featured.photos.portrait.position ? `object-position: ${featured.photos.portrait.position}` : undefined}
+            loading="lazy"
+          />
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-3">
+            {featured.period ? `Member of the Month · ${featured.period}` : 'Member of the Month'}
+          </p>
+          <h2 id="home-motm-heading" class="font-heading font-semibold text-text tracking-[-0.01em] leading-[1.05] group-hover:text-primary transition-colors duration-200">
+            <span class="text-3xl sm:text-4xl">{featured.headline}</span>
+            <span class="font-normal italic text-2xl sm:text-3xl text-blossom-deep"> {featured.tagline}</span>
+          </h2>
+          <p class="mt-3 text-text/70 leading-relaxed max-w-2xl">{featured.summary}</p>
+        </div>
+        <span class="inline-flex items-center gap-2 self-start sm:self-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 group-hover:text-primary transition-colors duration-200 whitespace-nowrap">
+          Read the story
+          <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </div>
+    </a>
   </section>
 
   <!-- Editorial site index -->
