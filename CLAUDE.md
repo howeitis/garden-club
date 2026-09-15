@@ -25,10 +25,12 @@ A `.claude/launch.json` is configured so `preview_start` can launch the dev serv
 |-----------------|----------------------------------------------------|
 | **Framework**   | Astro 5 — static output, file-based routing        |
 | **Styling**     | Tailwind CSS 3, utility-only (no CSS modules)      |
+| **Content**     | Astro content collections — one Markdown/YAML file per item under `src/content/`, Zod-validated |
+| **Editing**     | Pages CMS (app.pagescms.org) — git-backed admin configured by `.pages.yml` |
 | **Types**       | TypeScript + Zod schema validation                 |
 | **Deployment**  | Vercel (`vercel.json`) — `gardengategardenclub.com` |
 | **Forms**       | Web3Forms relay → club Gmail inbox                 |
-| **Fonts**       | Cormorant Garamond (headings, wordmark, folio numerals), Inter (body, 18px base) via Google Fonts |
+| **Fonts**       | Cormorant Garamond (headings, wordmark, folio numerals), Inter (body, 18px base) — self-hosted via `@fontsource-variable` |
 | **Transitions** | Astro View Transitions API + IntersectionObserver scroll fade-in + hero entrance animation |
 
 ---
@@ -76,35 +78,38 @@ src/
 │   ├── Header.astro               # Fixed light-ivory nav: color crest + serif wordmark, small-caps links with gold active underline, Resources/Members dropdowns, mobile hamburger, scroll-direction reveal
 │   ├── Footer.astro               # Deep-green 4-column footer (identity, Explore, Resources, theme); links every page
 │   ├── PageHero.astro             # Interior hero: photo + accent-tinted wash, bottom-left display title, entrance animation (accent prop — see below)
+│   ├── Breadcrumb.astro           # Subpage trail + BreadcrumbList JSON-LD (items prop, Home implied)
 │   ├── SectionHeader.astro        # Gold small-caps eyebrow + optional oversized italic folio numeral (number prop)
 │   ├── Flourish.astro             # Botanical sprig divider (tone: light | dark)
+│   ├── Button.astro               # The one button style: variant primary|light|outline|outline-light, arrow, href or type=submit
+│   ├── ArrowIcon.astro            # The thin → used after link labels (direction, class)
+│   ├── Prose.astro                # Typography wrapper for editor-written Markdown (<Content /> or html prop)
 │   ├── LandingCard.astro          # Unboxed section link: text + staggered 2x2 photo cluster (flip, eyebrowColor props)
-│   ├── OfficerCard.astro          # Unboxed officer entry with rotating accent rule (index prop)
-│   ├── ProjectCard.astro          # Editorial feature row for projects (flip prop)
-│   ├── GardenCard.astro           # Editorial feature row for gardens to visit (flip prop)
-│   ├── PlantCard.astro            # Open gallery entry (variant: native | banned)
+│   ├── OfficerCard.astro          # Unboxed officer entry with rotating accent rule (officer entry, index)
+│   ├── ProjectCard.astro          # Editorial feature row for a project entry (flip prop)
+│   ├── GardenCard.astro           # Editorial feature row for a garden entry (flip prop)
+│   ├── PlantCard.astro            # Open gallery entry for a plant entry (badge from data.type)
 │   ├── AwardCard.astro            # Award the club *gives* (CEW): criteria/winners side by side
-│   ├── Breadcrumb.astro           # Subpage trail + BreadcrumbList JSON-LD (items prop, Home implied)
-│   ├── MemberProfile.astro        # Member of the Month feature article + "by the numbers" strip
+│   ├── MemberProfile.astro        # Member of the Month feature article (chapters from the Markdown body) + "by the numbers" strip
 │   ├── HonoreeGrid.astro          # Grid of honorees linking to their permanent pages
 │   ├── JudgeRow.astro             # Plain list row; parent supplies divide-y/border
-│   ├── SmartImage.astro           # Resolves public-style path → optimized responsive WebP <Image>
+│   ├── SmartImage.astro           # Resolves public-style path → optimized responsive WebP <Image>; fails the build on a missing file
 │   └── ContactForm.astro          # Web3Forms contact form (unboxed)
-├── lib/
-│   ├── assetImages.ts             # Resolves "/file.webp" strings → imported ImageMetadata
-│   └── memberOfTheMonth.ts        # honoreePath(), honoreeShareImage() for MOTM URLs and OG images
-└── data/
-    ├── schema.ts                  # Zod schemas (types + validation)
-    ├── index.ts                   # Single import point for all data
-    ├── clubInfo.json              # Club name, mission, theme, membership stats
-    ├── contact.json               # Email, mailing address, social links
-    ├── meetings.json              # Schedule, time blocks, dues
-    ├── affiliations.json          # NGC, region, state affiliations
-    ├── officers.json              # Board members with roles and bios
-    ├── awards.json                # DFGC & GGGC awards with criteria
-    ├── judges.json                # Certified judges (active & emeritus)
-    ├── projects.json              # Community service projects
-    └── membersOfTheMonth.json     # Member of the Month honorees, newest first
+├── content/                       # ALL editable content — see "Content Layer"
+│   ├── members-of-the-month/*.md  # one per honoree (newest `date` = current)
+│   ├── projects/*.md · officers/*.md · member-gardens/*.md · awards/*.md
+│   ├── judges/*.md · plants/*.md · gardens/*.md · gardening-tips/*.md
+│   ├── settings/                  # club.yml · contact.yml · meetings.yml · affiliations.yml
+│   └── pages/                     # editable paragraphs per page (home.yml, about.yml, …)
+├── content.config.ts              # defineCollection + Zod schema for every collection (plain-English error messages)
+├── data/
+│   └── index.ts                   # Reads collections once; exports sorted lists, settings, getPageCopy(), derived values
+└── lib/
+    ├── assetImages.ts             # Resolves "/file.jpg" strings → imported ImageMetadata
+    ├── markdown.ts                # marked → HTML for Markdown inside YAML text fields (block / inline)
+    └── memberOfTheMonth.ts        # honoreePath(), honoreeShareImage() for MOTM URLs and OG images
+.pages.yml                         # Pages CMS admin config — labels, descriptions, dropdowns; mirrors content.config.ts
+scripts/check-images.mjs           # Pre-build lint of src/assets/content (size, filename); wired via "prebuild"
 public/                            # Logos, favicons, OG image only (photos live in src/assets/)
 ```
 
@@ -112,11 +117,17 @@ public/                            # Logos, favicons, OG image only (photos live
 
 ## Key Architecture Decisions
 
-### Data Layer
-- **All data lives in `src/data/*.json`** files validated by Zod schemas in `schema.ts`.
-- **Single import point**: Components import only from `src/data/index.ts`, never from individual JSON files.
-- **Build-time validation**: Malformed JSON fails the build with clear Zod errors.
-- To **add/edit content**: modify the JSON files. To **change structure**: update `schema.ts` first, then `index.ts`, then the JSON.
+### Content Layer
+
+**Every editable thing is a file under `src/content/`**, read through Astro content collections.
+
+- **Lists** (projects, honorees, officers, judges, awards, member gardens, plants, gardens, gardening tips) are **one Markdown file per item**: frontmatter for the fields, the body for the description. Adding an item = adding a file. Items sort by an `order` number (honorees by `date`, newest first).
+- **Settings** (`src/content/settings/*.yml`) and **page copy** (`src/content/pages/*.yml`) are single YAML files. Each declares which one it is (`file: club`, `page: about`) so a misnamed file fails loudly.
+- **`src/content.config.ts` is the schema.** Zod with `required_error` / `errorMap` messages written for club members ("`type` must be native or invasive"). Optional fields go through `optional()` / `optionalString`, which treat `""` and empty objects as absent — the CMS writes blanks for untouched fields.
+- **`src/data/index.ts` is the only import point for pages.** It awaits the collections once at module load and exports plain values: `club`, `contact`, `meetings`, `affiliations`, the sorted lists, `currentMemberOfTheMonth`, `honoreePeriod()`, `getPageCopy('about')`, `foundingYear`, `foundingDateISO`. Pages never call `getCollection` themselves.
+- **Markdown bodies render via `render(entry)` → `<Content />`**, wrapped in `<Prose>` for house typography. Markdown inside YAML strings (About history, intros with *italics*) goes through `block()` / `inline()` from `src/lib/markdown.ts` and `set:html`.
+- **`.pages.yml` is the admin's mirror of the schema.** Same field names, plus labels/descriptions/dropdown labels. **Any field you add or rename must be changed in both `content.config.ts` and `.pages.yml`.** The CMS commits straight to `main`; a bad save fails the build (site unchanged) with the message from the schema.
+- Photos live in `src/assets/content/` (any JPG/PNG/WebP; the CMS uploads there) and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build and fails on >8 MB or unsafe filenames, warns >3 MB.
 
 ### Routing
 - **File-based**: add a `.astro` file in `src/pages/` to create a route.
@@ -137,13 +148,14 @@ public/                            # Logos, favicons, OG image only (photos live
 ### Styling
 All styling is Tailwind utility classes. No CSS modules or separate stylesheets (global keyframes/reset live in `BaseLayout.astro`).
 
-**Fonts** (defined in `tailwind.config.mjs` → `fontFamily`):
+**Fonts** — self-hosted variable fonts imported in `BaseLayout.astro` from `@fontsource-variable/*` (no Google Fonts request). Family names in `tailwind.config.mjs` → `fontFamily` must match the `@font-face` names those packages declare:
 
-| Token         | Font               | Usage                                        |
-|---------------|--------------------|----------------------------------------------|
-| `font-heading`| Cormorant Garamond | Display titles, section headings, wordmark, folio numerals (italic), prices |
-| `font-body`   | Inter              | Body text (default, 18px base)               |
-| `font-script` | Cormorant Garamond | Legacy alias — the cursive wordmark was retired; do not use in new code |
+| Token         | Font                          | Usage                                        |
+|---------------|-------------------------------|----------------------------------------------|
+| `font-heading`| "Cormorant Garamond Variable" | Display titles, section headings, wordmark, folio numerals (italic), prices |
+| `font-body`   | "Inter Variable"              | Body text (default, 18px base)               |
+
+The one exception to utility-only styling is the scoped `<style>` in `MemberProfile.astro`, which styles the Markdown-rendered chapters (CSS counters for the folio numerals) because those elements can't carry classes.
 
 **Theme colors** (defined in `tailwind.config.mjs` → `colors`) — all drawn from the crest logo:
 
@@ -178,9 +190,10 @@ Section heading:    <SectionHeader label="Small Caps Label" number="01" />
                     <h2 class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
 Intro paragraph:    text-text/75 mb-12 leading-relaxed max-w-2xl
 Eyebrow label:      text-gold text-xs font-semibold uppercase tracking-[0.28em]  (0.65–0.68rem/0.2em for small)
-Primary button:     inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold
-                    uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors
-                    duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2
+Buttons:            <Button href="/x">Label</Button> · variant="light" on green/photo · "outline" secondary ·
+                    "outline-light" secondary on green · arrow (→) · arrow="back" · type="submit" for forms
+Link arrow:         <ArrowIcon class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+Editor Markdown:    <Prose class="text-text/75"><Content /></Prose>  or  <Prose html={block(copy.history)} />
 Entry separators:   parent: divide-y divide-gold/20 · rows: py-14 first:pt-0 last:pb-0
 Editorial row:      grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center; image md:col-span-5 (or 7),
                     text the rest; alternate sides with flip / md:order-2
@@ -229,12 +242,14 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 5. Add the route to nav arrays in **both** `Header.astro` and `Footer.astro`.
 6. If the page uses data, import from `src/data/index` only.
 
-## How to Add a New Data Type
+## How to Add a New Collection (or a field to one)
 
-1. Define the Zod schema in `src/data/schema.ts`.
-2. Create the JSON file in `src/data/`.
-3. Import, parse, and export in `src/data/index.ts`.
-4. Import the exported data in your page/component from `src/data/index`.
+1. **`src/content.config.ts`** — add the `defineCollection` (or the field), with a plain-English `required_error` / `errorMap` message. Use `optionalString` / `optional()` for anything not required.
+2. **`.pages.yml`** — add the matching collection or field with a `label` and a one-line `description` an editor would understand. Enums become `type: select` with labelled values; Markdown bodies are `component: body`.
+3. **`src/data/index.ts`** — export the sorted list (`byOrder(await getCollection('…'))`) and a type alias.
+4. Create the folder and at least one file under `src/content/`; run `npx astro sync` so the types exist, then `npm run check`.
+5. Use it from a page via `src/data/index` only. Render bodies with `render(entry)` + `<Prose><Content /></Prose>`.
+6. Add a row to the "What you can edit" table in `CONTENT_GUIDE.md`.
 
 ## How to Add Images
 
@@ -243,45 +258,44 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - **Content images** (galleries, feature rows, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass a public-style string, e.g. `<SmartImage src="/metzlers.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
 - **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — same resolver.
 - The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
-- Data files (`projects.json`, plant/garden arrays, etc.) reference images by the same `/filename.ext` string — just drop the source in `src/assets/content/`.
+- Content files reference images by the same `/filename.ext` string (`image: /photo.jpg`) — just drop the source in `src/assets/content/`. Plain JPG/PNG is fine; conversion to WebP happens at build. `SmartImage` throws at build time if the file doesn't exist.
 - Use `loading="eager"` only for above-fold hero images; everything else `loading="lazy"`.
 
 ## Member of the Month
 
-Fully data-driven from `src/data/membersOfTheMonth.json` (schema: `MemberOfTheMonthSchema`). **Array order matters: the first entry is the current honoree.**
+One Markdown file per honoree in `src/content/members-of-the-month/`. **The newest `date` is the current honoree** (`currentMemberOfTheMonth`); `showDate: false` hides the month label ("Featured Member" instead).
 
-- **Every honoree gets a permanent page** at `/members/member-of-the-month/<slug>/` (`[slug].astro`, via `getStaticPaths`). This is the URL to share on social — it carries the honoree's portrait as the OG image and a `Person` schema, and it keeps working after they roll off the index.
+- **Every honoree gets a permanent page** at `/members/member-of-the-month/<file-id>/` (`[slug].astro`, via `getStaticPaths`). This is the URL to share on social — it carries the honoree's portrait as the OG image and a `Person` schema, and it keeps working after they roll off the index.
 - `/members/member-of-the-month/` (`index.astro`) shows the current honoree in full plus a "Past Honorees" grid, and **canonicalizes to the current honoree's slug URL** so the two never compete in search.
-- The current honoree also feeds the callout on `/members` and the teaser on the home page (`currentMemberOfTheMonth` export); both link to the permanent URL via `honoreePath()`.
-- The profile markup lives in `MemberProfile.astro`; the archive grid in `HonoreeGrid.astro`.
-
-To feature a new member: convert their photos to WebP into `src/assets/content/` (a tall `portrait` is required, a `secondary` photo is optional), then prepend an entry to the JSON. Fields: `headline` / `tagline` (the two-line display title), `summary` (one line for teasers), `chapters[]` (label + paragraph; an optional `link: { phrase, href }` turns the first occurrence of `phrase` into an inline anchor), `stats[]` (up to four value/label pairs for the "at a glance" strip), and an optional `note` with a link. `period` (e.g. `"October 2026"`) is optional — omit it and the page says "Featured Member" with no date.
+- The current honoree also feeds the callout on `/members` and the teaser on the home page; both link to the permanent URL via `honoreePath()`.
+- **The story is the Markdown body.** Each `## Heading` is a chapter; `MemberProfile.astro` renders `<Content />` inside `.story` and styles the h2s as small-caps chapter labels with CSS-counter folio numerals (01, 02…), a drop cap on the first paragraph, and hairlines between chapters. Inline links are ordinary Markdown links.
+- Frontmatter: `name`, `date`, `showDate`, `headline` / `tagline` (two-line display title), `summary` (one line for teasers), `portrait { image, alt, caption?, focus? }`, optional `secondPhoto`, `stats[]` (≤4 `{ value, label }`), optional `note { text, linkText?, link? }`.
 
 ## Resources Section Structure
 
-`/resources` is a landing page of three `LandingCard` links (each with its own `eyebrowColor` and alternating `flip`). The content lives on three subpages, each with data arrays defined in frontmatter:
+`/resources` is a landing page of three `LandingCard` links (descriptions from `pages/resources.yml`). The three subpages read their lists from collections and split them by a field:
 
-1. **`resources/gardening-tips.astro`** — `evergreenTips[]` + `gardenRhythms[]` (open gallery grids, marigold frequency labels).
-2. **`resources/plants.astro`** — `nativePlants[]` (blossom bloom badges) + `bannedPlants[]` (holly "Invasive" badges).
-3. **`resources/gardens.astro`** — `localGardens[]` + `regionalGardens[]` (alternating `GardenCard` feature rows).
+1. **`resources/gardening-tips.astro`** — `gardeningTips` split by `section: fundamentals | rhythms`.
+2. **`resources/plants.astro`** — `plants` split by `type: native | invasive`.
+3. **`resources/gardens.astro`** — `gardens` split by `region: local | regional`.
 
 ## Key Files to Edit for Common Tasks
 
 | Task                        | File(s)                                      |
 |-----------------------------|----------------------------------------------|
-| Change club info/mission    | `src/data/clubInfo.json`                     |
-| Update officers/board       | `src/data/officers.json`                     |
-| Edit meeting schedule       | `src/data/meetings.json`                     |
-| Modify awards or judges     | `src/data/awards.json`, `src/data/judges.json` — `category: "DFGC"` = award the club received (trophy list, grouped by `year`); `"GGGC"` = award the club gives (full `AwardCard` with criteria) |
+| Any content (text, lists, photos) | `src/content/**` — or the club does it in Pages CMS |
+| Club info / mission / theme | `src/content/settings/club.yml`              |
+| Officers / board            | `src/content/officers/*.md` (`name: TBD` hides a role) |
+| Meeting schedule / dues     | `src/content/settings/meetings.yml`          |
+| Awards or judges            | `src/content/awards/*.md` (`type: received` → trophy list by `year`; `given` → `AwardCard`), `src/content/judges/*.md` |
+| Member of the Month         | `src/content/members-of-the-month/*.md` (+ photos in `src/assets/content/`) |
+| Page paragraphs / hero subtitles | `src/content/pages/<page>.yml`          |
+| What a field *is* (validation, labels) | `src/content.config.ts` **and** `.pages.yml` |
 | Update nav links            | `Header.astro` AND `Footer.astro`            |
 | Change theme colors         | `tailwind.config.mjs`                        |
-| Change fonts                | `tailwind.config.mjs` + Google Fonts link in `BaseLayout.astro` |
+| Change fonts                | `tailwind.config.mjs` + the `@fontsource-variable` imports in `BaseLayout.astro` |
 | Hero wash tints             | `WASHES` in `src/components/PageHero.astro`  |
-| Add/edit gardening tips     | `src/pages/resources/gardening-tips.astro`   |
-| Add/edit native plants      | `src/pages/resources/plants.astro`           |
-| Add/edit gardens to visit   | `src/pages/resources/gardens.astro`          |
-| Featured member gardens     | `src/pages/members/index.astro` (frontmatter)|
-| Member of the Month         | `src/data/membersOfTheMonth.json` (+ photos in `src/assets/content/`) |
 | SEO / meta tags             | `src/layouts/BaseLayout.astro`               |
 | Contact form                | `src/components/ContactForm.astro` (+ `PUBLIC_WEB3FORMS_KEY` in Vercel) |
 | Production domain           | `astro.config.mjs` AND `public/robots.txt`   |
+| Photo size limits           | `scripts/check-images.mjs`                   |

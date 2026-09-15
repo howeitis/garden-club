@@ -31,15 +31,16 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 
 Replacing them is a five-minute job that requires no coding — see §3, or simply ask an AI assistant (§3.1). This is the single most visible unfinished item on the site.
 
-## The five accounts that keep the site alive
+## The six accounts that keep the site alive
 
 | # | Service | What it does | Who controls it |
 |---|---|---|---|
 | 1 | **Vercel** | Hosts the site **and** holds the domain registration | **Owen Howe** (`howeitis`) |
 | 2 | **Domain** `gardengategardenclub.com` | The web address; renews annually | **Owen Howe** — registered through his Vercel account |
 | 3 | **GitHub** `howeitis/garden-club` | Stores all the website's files and content | **Owen Howe** (`howeitis`), owner — the club account `gardengategardenclub` is a collaborator with write access |
-| 4 | **Gmail** `gardengate.communications@gmail.com` | Receives every contact-form message | The club |
-| 5 | **Web3Forms** | Delivers form messages to that inbox | No account — a key stored in Vercel |
+| 4 | **Pages CMS** (app.pagescms.org) | The editing screens the club uses day to day | Free service; its GitHub App is installed on the repository by Owen. The club signs in with its GitHub account and can invite other editors by email |
+| 5 | **Gmail** `gardengate.communications@gmail.com` | Receives every contact-form message | The club |
+| 6 | **Web3Forms** | Delivers form messages to that inbox | No account — a key stored in Vercel |
 
 ## Three things to know
 
@@ -59,8 +60,8 @@ Replacing them is a five-minute job that requires no coding — see §3, or simp
 
 ## Day-to-day: who does what
 
-- **Updating text and photos** (officers, projects, awards, meeting dates): sign in to GitHub as the club and edit in the browser — **no software to install, no coding required.** Full walkthrough in `CONTENT_GUIDE.md`.
-- **Easier still:** ask an AI assistant like [Claude Code](https://claude.com/claude-code) or OpenAI's Codex to make the change in plain English. This is the recommended approach — see §3.1.
+- **Updating text and photos** (officers, projects, Member of the Month, meeting dates, plants…): sign in to the admin at **app.pagescms.org**, fill in the form, save. **No software to install, no coding required.** Full walkthrough in `CONTENT_GUIDE.md`.
+- **Anything the admin doesn't cover** (layout, navigation, a new page): ask an AI assistant like [Claude Code](https://claude.com/claude-code) to make the change in plain English — see §3.2.
 - **Contact-form messages**: check `gardengate.communications@gmail.com`. Reply normally — replies go straight to the sender.
 - **Design changes, new pages, or settings**: also well within reach of an AI assistant. Hosting settings and rollbacks go through Owen Howe.
 
@@ -166,46 +167,40 @@ Because it is the login for the club's GitHub and Vercel accounts as well as the
 
 ## 3. Updating content (no coding required)
 
-**The club can publish changes on its own.** The GitHub account `gardengategardenclub` has write access, which means edits go live without anyone else's involvement. Nothing needs to be installed.
+**The club publishes changes on its own, through an admin screen.** Nothing needs to be installed.
 
-The whole workflow, in a browser:
+### 3.1 The admin: Pages CMS
 
-> Sign in to GitHub as the club → open `github.com/howeitis/garden-club` → click into `src` / `data` / the file → **pencil icon** → edit → **Commit directly to `main`** → **Commit changes**.
+The admin lives at **https://app.pagescms.org**. It is a free, open-source service that presents the site's content as forms — pick *Community Service Projects*, click a project, change a field, **Save** — and writes the result straight into the club's GitHub repository, which publishes it. Live in about a minute.
 
-Live in about a minute. `CONTENT_GUIDE.md` has this with screenshots-level detail, plus how to confirm it worked and what to do if it fails.
+Two kinds of login:
 
-### 3.1 Recommended: let an AI assistant do it
+- **The club's GitHub account** (`gardengategardenclub`) signs in with *Sign in with GitHub* and opens the `garden-club` repository. This account can do everything, including inviting other editors.
+- **Anyone else is invited by email** from inside the admin (Settings → Collaborators). They sign in with their email, see only this site, and can edit content and photos but not the admin's configuration. **This is how a rotating board should work:** one custodian holds the GitHub login; each year's editors are added and removed by email invite.
 
-**Neither the board nor a future volunteer needs to hand-edit code on this site.** Tools like **[Claude Code](https://claude.com/claude-code)** or **OpenAI's Codex** make changes from a plain-English description — they find the right file, respect the format, and publish.
+`CONTENT_GUIDE.md` is the step-by-step manual written for the club — which screen does what, the common jobs, photos, and what to do when a save is refused.
 
-> *"Update the officers list: Jane Smith is President, Maria Lopez is Treasurer…"*
->
-> *"Add our Facebook page to the website."*
->
-> *"Add a new community service project called Spring Bulb Planting at Rockford Park."*
+**What makes it safe.** Every save is checked before it goes live. A missing field, a mistyped dropdown value, or a photo the site can't use stops the publish, keeps the previous version of the site up, and reports the problem by name (*"plants → japanese-barberry: type must be native or invasive"*). Nothing the club can do in the admin can take the site down.
 
-This is the recommended way to maintain the site. It removes the JSON-formatting risk entirely, and it extends past content to design changes and new pages — work that would otherwise need a developer. The repository is documented for exactly this: `CLAUDE.md` describes the architecture and design system so an assistant picks up the conventions rather than inventing its own.
+**How it's wired up.** A GitHub App for Pages CMS is installed on the repository (by Owen, from his GitHub account — it appears under *Settings → GitHub Apps* on the repository). The file `.pages.yml` in the repository tells the admin what is editable and what each field means; `src/content.config.ts` is the website's own definition of the same fields, and the two are kept in step.
 
-### 3.2 The content files
+**If Pages CMS ever goes away.** Every piece of content is a small text file in the repository under `src/content/`, not in the admin. The admin is only a way of editing those files. If the service disappeared tomorrow, nothing would be lost: the club can edit the files directly on GitHub (Appendix of `CONTENT_GUIDE.md`), use a different git-based CMS pointed at the same folders, or ask an AI assistant.
 
-All the site's text content lives in eight files under `src/data/`:
+### 3.2 For everything else: an AI assistant
 
-| File | Controls |
-|---|---|
-| `clubInfo.json` | Club name, mission, theme, membership numbers |
-| `contact.json` | Displayed email address, mailing address, social links |
-| `meetings.json` | Meeting schedule, dues, order of business |
-| `officers.json` | Board roster |
-| `awards.json` | Awards and criteria |
-| `judges.json` | Certified judges |
-| `projects.json` | Community service projects |
-| `affiliations.json` | National, regional, and state affiliations |
+The admin covers content. For layout, colours, the navigation menu, a new page, or anything else that lives in code, **tools like [Claude Code](https://claude.com/claude-code)** make changes from a plain-English description and publish them. The repository is documented for exactly this: `CLAUDE.md` describes the architecture, conventions, and design system so an assistant follows them rather than inventing its own.
 
-**`CONTENT_GUIDE.md` is the step-by-step guide written for non-technical editors.** It covers the exact format, the five mistakes that most often break things, and how to check your work before publishing.
+### 3.3 Where the content lives
 
-One safety feature worth knowing: **if a content file has a formatting error, the site refuses to republish and keeps showing the previous working version.** A typo cannot take the site down — it just means the update does not appear until the error is fixed.
-
-Gardening tips, plant lists, and the gardens-to-visit list live in the page files rather than the data files. See the table in `CLAUDE.md` for exactly which file to edit.
+```
+src/content/
+  members-of-the-month/   one Markdown file per honoree
+  projects/               one per project
+  officers/  member-gardens/  awards/  judges/  plants/  gardens/  gardening-tips/
+  settings/               club.yml · contact.yml · meetings.yml · affiliations.yml
+  pages/                  the editable paragraphs of each page
+src/assets/content/       photos (plain JPG/PNG is fine; the site resizes them)
+```
 
 ---
 
@@ -344,7 +339,9 @@ Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](http
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | A content change is not appearing | The build failed, or the change was not pushed to `main` | Check the "Actions" tab on GitHub for a red ✗ |
-| Build fails after editing a data file | JSON formatting error — usually a stray or missing comma | The error names the file and line. See `CONTENT_GUIDE.md` |
+| A save in the admin is refused / build fails | A required field is empty, a dropdown value is mistyped, or a photo is too large or badly named | The report names the item and field in plain English. Fix and save again — see `CONTENT_GUIDE.md` §8 |
+| The admin (app.pagescms.org) is down | Third-party service outage | Content is safe in GitHub. Wait, or edit directly on GitHub (`CONTENT_GUIDE.md` appendix) |
+| An editor can't see the site in the admin | They weren't invited, or the invite went to a different email | Re-invite from the admin's Collaborators screen |
 | Contact page shows an email address instead of a form | `PUBLIC_WEB3FORMS_KEY` is missing from Vercel | Re-add it in Vercel, then redeploy |
 | Form messages stopped arriving | Monthly limit exceeded, spam filtering, or an invalid key | Check the Gmail spam folder first |
 | Club's changes stop deploying | The repository was switched to private | Make it public again (§9.3) |
@@ -374,6 +371,6 @@ Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](http
 | File | Audience | Covers |
 |---|---|---|
 | `HANDOVER.md` | Board + maintainer | This document |
-| `CONTENT_GUIDE.md` | Non-technical editors | Step-by-step content editing |
+| `CONTENT_GUIDE.md` | Club editors | The admin, step by step: every screen, the common jobs, photos, troubleshooting |
 | `README.md` | Developers | Setup, deployment, environment variables, project structure |
 | `CLAUDE.md` | Developers | Architecture, design system, conventions |

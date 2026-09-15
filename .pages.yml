@@ -1,0 +1,960 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Pages CMS configuration — https://app.pagescms.org
+#
+# This file tells the Pages CMS admin what the club can edit and what each
+# field means. It mirrors src/content.config.ts, which is what the website
+# actually validates against at build time. When you add or rename a field,
+# change both files.
+#
+# Editors never need to read this. See CONTENT_GUIDE.md for how to use the
+# admin, and CLAUDE.md / README.md for how the two files relate.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Photos are uploaded straight into src/assets/content/. The website converts
+# and resizes them at build time, so ordinary phone JPGs are fine. The value
+# written into content is "/filename.jpg", which is how every image field on
+# the site refers to a photo. (scripts/check-images.mjs enforces a size cap.)
+media:
+  input: src/assets/content
+  output: /
+  extensions: [jpg, jpeg, png, webp]
+  rename: safe
+  categories: [image]
+
+# Reusable field definitions.
+components:
+  order:
+    name: order
+    label: Order on the page
+    type: number
+    default: 100
+    description: Smallest number shows first. Leave gaps (10, 20, 30…) so new items can be slotted in between.
+    options:
+      min: 0
+  photo:
+    name: image
+    label: Photo
+    type: image
+    required: true
+    description: Upload a JPG or PNG straight from your phone or camera — the site resizes it. Landscape photos work best in most spots.
+  focus:
+    name: focus
+    label: Photo focus point
+    type: string
+    description: Optional. If the photo is cropped badly, nudge the crop — e.g. "center 30%" keeps the top third in view, "center bottom" keeps the bottom.
+  body:
+    name: body
+    label: Description
+    type: rich-text
+    options:
+      format: markdown
+      media: false
+      switcher: false
+
+content:
+
+  # ── Things that change most often ──────────────────────────────────────────
+
+  - name: members-of-the-month
+    label: Member of the Month
+    description: One entry per honoree. The newest by date is featured on the home page and the Members page; the others appear in the archive. Every honoree keeps a permanent page.
+    type: collection
+    path: src/content/members-of-the-month
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, date, showDate]
+      sort: [date, name]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: name
+        label: Member's name
+        type: string
+        required: true
+      - name: date
+        label: Month featured
+        type: date
+        required: true
+        description: Pick any day in the month they were featured. This decides the order — the newest is the current honoree.
+        options:
+          format: yyyy-MM-dd
+      - name: showDate
+        label: Show the month on the page
+        type: boolean
+        default: true
+        description: Turn off if the club would rather not date the feature.
+      - name: headline
+        label: Headline
+        type: string
+        required: true
+        description: The big first line, e.g. "Celebrating Joy Ericson".
+      - name: tagline
+        label: Tagline
+        type: string
+        required: true
+        description: The italic second line, e.g. "and her love of flowers".
+      - name: summary
+        label: One-sentence summary
+        type: text
+        required: true
+        description: Shown on the home page teaser and in the archive.
+        options:
+          maxlength: 240
+      - name: portrait
+        label: Main photo
+        type: object
+        description: A tall (portrait) photo works best — it sits beside the story.
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            required: true
+          - name: alt
+            label: Describe the photo
+            type: string
+            required: true
+            description: One sentence for people using screen readers, e.g. "Joy holding a ribbon at the flower show."
+          - name: caption
+            label: Caption
+            type: string
+            description: Optional small caption under the photo.
+          - component: focus
+      - name: secondPhoto
+        label: Second photo
+        type: object
+        description: Optional. Shown beside the "at a glance" numbers.
+        fields:
+          - name: image
+            label: Photo
+            type: image
+          - name: alt
+            label: Describe the photo
+            type: string
+          - name: caption
+            label: Caption
+            type: string
+          - component: focus
+      - name: body
+        label: The story
+        type: rich-text
+        required: true
+        description: Write the story in short chapters. Use a "Heading 2" for each chapter title (e.g. "The Beginning") followed by a paragraph or two. Links are welcome.
+        options:
+          format: markdown
+          media: false
+          switcher: false
+      - name: stats
+        label: At a glance
+        type: object
+        list:
+          max: 4
+        description: Up to four big numbers, e.g. "40+" / "Years as a certified judge". Leave empty to skip this section.
+        fields:
+          - name: value
+            label: Number
+            type: string
+            required: true
+          - name: label
+            label: What it means
+            type: string
+            required: true
+      - name: note
+        label: Closing note
+        type: object
+        description: Optional italic note at the end of the story, with an optional link.
+        fields:
+          - name: text
+            label: Note
+            type: text
+          - name: linkText
+            label: Link text
+            type: string
+            description: e.g. "Read about the award"
+          - name: link
+            label: Link address
+            type: string
+            description: e.g. /members/awards-and-judges
+
+  - name: projects
+    label: Community Service Projects
+    description: The projects listed on the Community Service page, in the order you choose.
+    type: collection
+    path: src/content/projects
+    format: yaml-frontmatter
+    filename: "{title}.md"
+    view:
+      primary: title
+      fields: [title, years, chair, order]
+      sort: [order, title]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: title
+        label: Project name
+        type: string
+        required: true
+      - name: years
+        label: Years active
+        type: string
+        required: true
+        description: e.g. "2014–present" for ongoing projects, or "2025–2026" for a one-season project.
+      - name: chair
+        label: Chaired by
+        type: string
+        required: true
+      - name: location
+        label: Location
+        type: string
+        required: true
+        description: e.g. "Goodstay Gardens, Wilmington"
+      - component: photo
+      - component: body
+      - component: order
+
+  - name: officers
+    label: Board of Officers
+    description: Shown on the About page. Type "TBD" as the name to keep a role listed but hidden from the website.
+    type: collection
+    path: src/content/officers
+    format: yaml-frontmatter
+    filename: "{role}.md"
+    view:
+      primary: role
+      fields: [role, name, order]
+      sort: [order]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: role
+        label: Role
+        type: string
+        required: true
+        description: e.g. "President", "Treasurer"
+      - name: name
+        label: Name
+        type: string
+        required: true
+        description: The officer's name — or "TBD" to hide this role until it's filled.
+      - name: body
+        label: Short bio (optional)
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+          switcher: false
+      - component: order
+
+  - name: member-gardens
+    label: Member Gardens
+    description: The featured home gardens on the Members page.
+    type: collection
+    path: src/content/member-gardens
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, gardener, order]
+      sort: [order, name]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: name
+        label: Garden name
+        type: string
+        required: true
+        description: e.g. "Pollinator Paradise"
+      - name: gardener
+        label: Gardener
+        type: string
+        required: true
+        description: The member whose garden this is.
+      - name: highlight
+        label: Highlight badge
+        type: string
+        description: A few words shown as a small badge, e.g. "Certified wildlife habitat". Optional.
+      - component: photo
+      - component: focus
+      - component: body
+      - component: order
+
+  # ── Awards & judges ────────────────────────────────────────────────────────
+
+  - name: awards
+    label: Awards
+    description: Awards the club has received (shown as a list by year) and awards the club gives to members (shown with their criteria).
+    type: collection
+    path: src/content/awards
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, type, placement, year]
+      sort: [year, name, order]
+      default:
+        sort: year
+        order: desc
+    fields:
+      - name: name
+        label: Award name
+        type: string
+        required: true
+      - name: type
+        label: Kind of award
+        type: select
+        required: true
+        description: "Received" = an award given to the club (by the Delaware Federation, for example). "Given" = an award the club presents to its own members.
+        options:
+          values:
+            - name: received
+              label: Received by the club
+            - name: given
+              label: Given by the club
+      - name: placement
+        label: Placement
+        type: string
+        description: For awards received — e.g. "1st Place", "Special Achievement".
+      - name: year
+        label: Year or season
+        type: string
+        required: true
+        description: e.g. "2024-25", or "Ongoing" for an award the club gives every year.
+      - component: body
+      - name: criteria
+        label: Criteria
+        type: string
+        list: true
+        description: For awards the club gives — one line per eligibility or judging point.
+      - name: winners
+        label: Recent recipients
+        type: string
+        list: true
+        description: For awards the club gives. Optional.
+      - component: order
+
+  - name: judges
+    label: Certified Judges
+    type: collection
+    path: src/content/judges
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, level, status, order]
+      sort: [order, name]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: name
+        label: Name
+        type: string
+        required: true
+      - name: level
+        label: Certification level
+        type: string
+        required: true
+        description: e.g. "Master Judge", "Accredited Judge", "Student Judge"
+      - name: status
+        label: Status
+        type: select
+        default: active
+        options:
+          values:
+            - name: active
+              label: Active
+            - name: emeritus
+              label: Emeritus
+      - component: order
+
+  # ── Resources ──────────────────────────────────────────────────────────────
+
+  - name: plants
+    label: Plants (native & invasive)
+    description: The plant guide. Natives show a bloom-time badge; invasives show an "Invasive" badge.
+    type: collection
+    path: src/content/plants
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, type, scientificName, order]
+      sort: [type, order, name]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: name
+        label: Common name
+        type: string
+        required: true
+      - name: scientificName
+        label: Scientific name
+        type: string
+        required: true
+        description: e.g. "Ilex opaca"
+      - name: type
+        label: Native or invasive?
+        type: select
+        required: true
+        options:
+          values:
+            - name: native
+              label: Native — worth planting
+            - name: invasive
+              label: Invasive — avoid
+      - name: bloom
+        label: Bloom period
+        type: string
+        description: For natives, e.g. "May – June". Leave blank for invasives.
+      - component: photo
+      - component: body
+      - component: order
+
+  - name: gardens
+    label: Gardens to Visit
+    type: collection
+    path: src/content/gardens
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
+      primary: name
+      fields: [name, region, location, order]
+      sort: [region, order, name]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: name
+        label: Garden name
+        type: string
+        required: true
+      - name: location
+        label: Town and state
+        type: string
+        required: true
+        description: e.g. "Kennett Square, PA"
+      - name: region
+        label: Section
+        type: select
+        required: true
+        options:
+          values:
+            - name: local
+              label: Local (Brandywine Valley)
+            - name: regional
+              label: Regional (worth the drive)
+      - name: website
+        label: Website
+        type: string
+        required: true
+        description: Just the address, without "https://" — e.g. "longwoodgardens.org"
+        pattern:
+          regex: "^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/.*)?$"
+          message: Enter the address without "https://", e.g. longwoodgardens.org
+      - component: photo
+      - component: body
+      - component: order
+
+  - name: gardening-tips
+    label: Gardening Tips
+    type: collection
+    path: src/content/gardening-tips
+    format: yaml-frontmatter
+    filename: "{title}.md"
+    view:
+      primary: title
+      fields: [title, section, frequency, order]
+      sort: [section, order, title]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: title
+        label: Tip
+        type: string
+        required: true
+      - name: section
+        label: Section
+        type: select
+        required: true
+        options:
+          values:
+            - name: fundamentals
+              label: Evergreen Tips (always true)
+            - name: rhythms
+              label: Garden Rhythms (recurring tasks)
+      - name: frequency
+        label: How often
+        type: string
+        description: For Garden Rhythms only, e.g. "Weekly" or "Every 2–3 days in peak season".
+      - component: photo
+      - component: body
+      - component: order
+
+  # ── Settings (one page each) ───────────────────────────────────────────────
+
+  - name: settings
+    label: Club Settings
+    type: group
+    items:
+
+      - name: club
+        label: Club details
+        type: file
+        path: src/content/settings/club.yml
+        format: yaml
+        fields:
+          - name: file
+            type: string
+            hidden: true
+            default: club
+          - name: name
+            label: Club name
+            type: string
+            required: true
+          - name: shortName
+            label: Short name
+            type: string
+            description: e.g. "GGGC"
+          - name: founded
+            label: Founded
+            type: string
+            description: e.g. "September 1963"
+          - name: joinedFederation
+            label: Joined the federation
+            type: string
+            description: e.g. "June 1964"
+          - name: incorporated
+            label: Incorporated
+            type: string
+            description: e.g. "October 2018"
+          - name: mission
+            label: Mission statement
+            type: text
+            required: true
+            description: Shown on the home page hero and used as the site's search-engine description.
+          - name: nonprofitStatus
+            label: Nonprofit status
+            type: string
+            description: e.g. "501(c)(3) Organization"
+          - name: theme
+            label: Current theme
+            type: text
+            required: true
+            description: Shown on the home page and in the footer.
+          - name: themeYears
+            label: Theme years
+            type: string
+            description: e.g. "2025-27"
+          - name: membership
+            label: Membership numbers
+            type: object
+            description: Shown on the About page.
+            fields:
+              - name: active
+                label: Active members
+                type: number
+              - name: associate
+                label: Associate members
+                type: number
+              - name: honorary
+                label: Honorary members
+                type: number
+              - name: maxActive
+                label: Membership cap
+                type: number
+              - name: note
+                label: Associate & honorary note
+                type: text
+
+      - name: contact
+        label: Contact details
+        type: file
+        path: src/content/settings/contact.yml
+        format: yaml
+        fields:
+          - name: file
+            type: string
+            hidden: true
+            default: contact
+          - name: email
+            label: Club email
+            type: string
+            required: true
+            description: Where the contact form and "Email us" links go.
+          - name: address
+            label: Mailing address
+            type: object
+            fields:
+              - name: street
+                label: Street or P.O. Box
+                type: string
+              - name: city
+                label: City
+                type: string
+              - name: state
+                label: State
+                type: string
+              - name: zip
+                label: ZIP
+                type: string
+          - name: social
+            label: Social media
+            type: object
+            description: Full web addresses. Leave blank to hide a platform.
+            fields:
+              - name: facebook
+                label: Facebook page
+                type: string
+              - name: instagram
+                label: Instagram
+                type: string
+
+      - name: meetings
+        label: Meetings & dues
+        type: file
+        path: src/content/settings/meetings.yml
+        format: yaml
+        fields:
+          - name: file
+            type: string
+            hidden: true
+            default: meetings
+          - name: schedule
+            label: When we meet
+            type: string
+            required: true
+            description: e.g. "Second Wednesday of each month, September through June."
+          - name: timeBlocks
+            label: Meeting timetable
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Segment
+                type: string
+              - name: time
+                label: Time
+                type: string
+          - name: dues
+            label: Annual dues
+            type: object
+            fields:
+              - name: active
+                label: Active member
+                type: string
+                description: e.g. "$80.00"
+              - name: associate
+                label: Associate member
+                type: string
+              - name: deadline
+                label: Payment deadline
+                type: string
+                description: e.g. "Due no later than May 31"
+          - name: orderOfBusiness
+            label: Order of business
+            type: string
+            list: true
+
+      - name: affiliations
+        label: Affiliations (NGC, region, state)
+        type: file
+        path: src/content/settings/affiliations.yml
+        format: yaml
+        fields:
+          - name: file
+            type: string
+            hidden: true
+            default: affiliations
+          - name: national
+            label: National Garden Clubs
+            type: object
+            fields:
+              - name: name
+                label: Name
+                type: string
+              - name: address
+                label: Address
+                type: string
+              - name: phone
+                label: Phone
+                type: string
+              - name: website
+                label: Website
+                type: string
+                description: Without "https://", e.g. "www.gardenclub.org"
+              - name: theme
+                label: NGC theme
+                type: string
+              - name: president
+                label: NGC president
+                type: string
+              - name: presidentEmail
+                label: President's email
+                type: string
+              - name: convention
+                label: Annual convention
+                type: object
+                description: Leave both blank to hide the convention line.
+                fields:
+                  - name: dates
+                    label: Dates
+                    type: string
+                  - name: location
+                    label: Location
+                    type: string
+          - name: region
+            label: Region
+            type: object
+            fields:
+              - name: name
+                label: Name
+                type: string
+              - name: abbreviation
+                label: Abbreviation
+                type: string
+          - name: state
+            label: State federation
+            type: object
+            fields:
+              - name: name
+                label: Name
+                type: string
+              - name: abbreviation
+                label: Abbreviation
+                type: string
+          - name: other
+            label: Additional affiliates
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Name
+                type: string
+          - name: howWeSupport
+            label: How we support NGC
+            type: text
+            list: true
+            description: One paragraph per item.
+
+  # ── Page text ──────────────────────────────────────────────────────────────
+
+  - name: pages
+    label: Page Text
+    description: The paragraphs on each page that the club may want to reword. Headings, buttons, and layout stay as they are.
+    type: group
+    items:
+
+      - name: page-home
+        label: Home page
+        type: file
+        path: src/content/pages/home.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: home
+          - name: communityIntro
+            label: "Community paragraph"
+            type: text
+            description: Under "Cultivating Beauty Where We Live".
+          - name: contactIntro
+            label: "Get in Touch paragraph"
+            type: text
+            description: In the green band at the bottom of the page.
+
+      - name: page-about
+        label: About page
+        type: file
+        path: src/content/pages/about.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: about
+          - name: history
+            label: Our History
+            type: rich-text
+            description: The paragraphs under "Our History". Bold and links work.
+            options:
+              format: markdown
+              media: false
+              switcher: false
+
+      - name: page-membership
+        label: Membership page
+        type: file
+        path: src/content/pages/membership.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: membership
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: applyHeading
+            label: Invitation heading
+            type: string
+            description: e.g. "Ready to apply for membership?"
+          - name: applyText
+            label: Invitation paragraph
+            type: text
+          - name: agendaIntro
+            label: Order of Business intro
+            type: text
+          - name: closingText
+            label: Closing paragraph
+            type: text
+            description: Under "Ready to Join?" at the bottom.
+
+      - name: page-members
+        label: Members page
+        type: file
+        path: src/content/pages/members.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: members
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: gardensIntro
+            label: Featured Member Gardens intro
+            type: text
+
+      - name: page-member-of-the-month
+        label: Member of the Month page
+        type: file
+        path: src/content/pages/member-of-the-month.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: member-of-the-month
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+
+      - name: page-community-service
+        label: Community Service page
+        type: file
+        path: src/content/pages/community-service.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: community-service
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+
+      - name: page-contact
+        label: Contact page
+        type: file
+        path: src/content/pages/contact.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: contact
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+
+      - name: page-resources
+        label: Resources page
+        type: file
+        path: src/content/pages/resources.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: resources
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: tipsDescription
+            label: Gardening Tips blurb
+            type: text
+          - name: plantsDescription
+            label: Plants blurb
+            type: text
+          - name: gardensDescription
+            label: Gardens to Visit blurb
+            type: text
+
+      - name: page-gardening-tips
+        label: Gardening Tips page
+        type: file
+        path: src/content/pages/gardening-tips.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: gardening-tips
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: fundamentalsIntro
+            label: Evergreen Tips intro
+            type: text
+          - name: rhythmsIntro
+            label: Garden Rhythms intro
+            type: text
+
+      - name: page-plants
+        label: Plants page
+        type: file
+        path: src/content/pages/plants.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: plants
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: nativesIntro
+            label: Native plants intro
+            type: text
+          - name: invasivesIntro
+            label: Invasive plants intro
+            type: text
+
+      - name: page-gardens
+        label: Gardens to Visit page
+        type: file
+        path: src/content/pages/gardens.yml
+        format: yaml
+        fields:
+          - name: page
+            type: string
+            hidden: true
+            default: gardens
+          - name: heroSubtitle
+            label: Line under the page title
+            type: string
+          - name: localIntro
+            label: Local gardens intro
+            type: text
+          - name: regionalIntro
+            label: Regional gardens intro
+            type: text

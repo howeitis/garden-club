@@ -5,8 +5,13 @@ import Flourish from '../components/Flourish.astro';
 import { getImage } from 'astro:assets';
 import heroDesktopSrc from '../assets/heroes/home-hero.png';
 import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
-import { clubInfo, currentMemberOfTheMonth as featured } from '../data/index';
+import { club, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../data/index';
 import { honoreePath } from '../lib/memberOfTheMonth';
+import Button from '../components/Button.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+
+const copy = await getPageCopy('home');
+const featuredPeriod = honoreePeriod(featured);
 
 // Art-directed home hero: a portrait-ish crop on phones, the wide shot on
 // larger screens. Both are optimized to WebP with responsive srcsets.
@@ -63,8 +68,8 @@ const siteIndex = [
 ---
 
 <BaseLayout
-  title={`${clubInfo.name} | Greenville & Wilmington, Delaware`}
-  description={`A 501(c)(3) garden club founded in Greenville, Delaware in 1963. ${clubInfo.missionStatement}`}
+  title={`${club.name} | Greenville & Wilmington, Delaware`}
+  description={`A 501(c)(3) garden club founded in Greenville, Delaware in 1963. ${club.mission}`}
 >
 
   <!-- Hero -->
@@ -91,7 +96,7 @@ const siteIndex = [
 
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 sm:pt-52 pb-28 sm:pb-36 text-center">
       <p class="hero-rise text-gold-soft text-xs font-semibold uppercase tracking-[0.32em] mb-6">
-        Est. {clubInfo.foundingDates.club} &middot; Greenville, Delaware
+        Est. {club.founded} &middot; Greenville, Delaware
       </p>
       <h1 class="hero-rise hero-rise-2 mb-5">
         <span class="block font-heading text-5xl sm:text-7xl lg:text-[7.5rem] font-semibold leading-[0.98] tracking-[-0.01em]">Garden Gate</span>
@@ -99,21 +104,11 @@ const siteIndex = [
       </h1>
       <Flourish tone="dark" class="hero-rise hero-rise-3 mb-7" />
       <p class="hero-rise hero-rise-3 text-background/85 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-11">
-        {clubInfo.missionStatement}
+        {club.mission}
       </p>
       <div class="hero-rise hero-rise-4 flex flex-wrap gap-4 justify-center">
-        <a
-          href="/membership"
-          class="bg-background text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
-        >
-          Become a Member
-        </a>
-        <a
-          href="/about"
-          class="border border-background/60 text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-background/10 hover:border-background transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
-        >
-          Our Story
-        </a>
+        <Button href="/membership" variant="light">Become a Member</Button>
+        <Button href="/about" variant="outline-light">Our Story</Button>
       </div>
     </div>
   </section>
@@ -128,9 +123,9 @@ const siteIndex = [
         <span class="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-gold/40" aria-hidden="true"></span>
         <span class="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-accent/60" aria-hidden="true"></span>
 
-        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-7">Our Theme &middot; {clubInfo.themePeriod}</p>
+        <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-7">Our Theme &middot; {club.themeYears}</p>
         <blockquote class="font-heading italic text-4xl sm:text-5xl text-text leading-[1.15]">
-          <span class="text-blossom-deep" aria-hidden="true">&ldquo;</span>{clubInfo.theme}<span class="text-blossom-deep" aria-hidden="true">&rdquo;</span>
+          <span class="text-blossom-deep" aria-hidden="true">&ldquo;</span>{club.theme}<span class="text-blossom-deep" aria-hidden="true">&rdquo;</span>
         </blockquote>
         <Flourish class="mt-9" />
       </div>
@@ -145,20 +140,8 @@ const siteIndex = [
         <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold text-text mb-6 leading-[1.05] tracking-[-0.01em]">
           Cultivating <em class="italic text-primary">Beauty</em><br />Where We Live
         </h2>
-        <p class="text-text/75 text-lg leading-relaxed mb-9">
-          From pollinator gardens in local parks to festive window boxes on Main Street, our members
-          volunteer hundreds of hours each year to make our community greener, more welcoming, and
-          more alive.
-        </p>
-        <a
-          href="/community-service"
-          class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-        >
-          View Our Projects
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
+        <p class="text-text/75 text-lg leading-relaxed mb-9">{copy.communityIntro}</p>
+        <Button href="/community-service" arrow>View Our Projects</Button>
       </div>
 
       <!-- Photo grid -->
@@ -186,30 +169,28 @@ const siteIndex = [
           <span class="absolute -top-2 -left-2 w-7 h-7 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
           <span class="absolute -bottom-2 -right-2 w-7 h-7 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
           <SmartImage
-            src={featured.photos.portrait.src}
+            src={featured.data.portrait.image}
             alt=""
             widths={[200, 400]}
             sizes="9rem"
             class="w-full aspect-[3/4] object-cover rounded-sm"
-            style={featured.photos.portrait.position ? `object-position: ${featured.photos.portrait.position}` : undefined}
+            style={featured.data.portrait.focus ? `object-position: ${featured.data.portrait.focus}` : undefined}
             loading="lazy"
           />
         </div>
         <div class="min-w-0 flex-1">
           <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-3">
-            {featured.period ? `Member of the Month · ${featured.period}` : 'Member of the Month'}
+            {featuredPeriod ? `Member of the Month · ${featuredPeriod}` : 'Member of the Month'}
           </p>
           <h2 id="home-motm-heading" class="font-heading font-semibold text-text tracking-[-0.01em] leading-[1.05] group-hover:text-primary transition-colors duration-200">
-            <span class="text-3xl sm:text-4xl">{featured.headline}</span>
-            <span class="font-normal italic text-2xl sm:text-3xl text-blossom-deep"> {featured.tagline}</span>
+            <span class="text-3xl sm:text-4xl">{featured.data.headline}</span>
+            <span class="font-normal italic text-2xl sm:text-3xl text-blossom-deep"> {featured.data.tagline}</span>
           </h2>
-          <p class="mt-3 text-text/70 leading-relaxed max-w-2xl">{featured.summary}</p>
+          <p class="mt-3 text-text/70 leading-relaxed max-w-2xl">{featured.data.summary}</p>
         </div>
         <span class="inline-flex items-center gap-2 self-start sm:self-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 group-hover:text-primary transition-colors duration-200 whitespace-nowrap">
           Read the story
-          <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
+          <ArrowIcon class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
         </span>
       </div>
     </a>
@@ -235,9 +216,7 @@ const siteIndex = [
             <span class="text-[0.95rem] text-text/70 leading-relaxed">{item.line}</span>
             <span class:list={['mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 transition-colors duration-200', item.hover]}>
               Visit
-              <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              <ArrowIcon class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
             </span>
           </a>
         ))}
@@ -251,19 +230,8 @@ const siteIndex = [
       <div class="px-6 sm:px-12 lg:pl-[max(3rem,calc((100vw-72rem)/2+1rem))] lg:pr-20 py-20 sm:py-24 flex flex-col justify-center">
         <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.28em] mb-5">Say Hello</p>
         <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.05] tracking-[-0.01em]">Get in Touch</h2>
-        <p class="text-background/80 text-lg leading-relaxed mb-10 max-w-md">
-          Questions about membership, our programs, or how to get involved? We'd love to hear
-          from you — reach out and a club member will be in touch.
-        </p>
-        <a
-          href="/contact"
-          class="self-start inline-flex items-center gap-2.5 bg-background text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary"
-        >
-          Contact the Club
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
+        <p class="text-background/80 text-lg leading-relaxed mb-10 max-w-md">{copy.contactIntro}</p>
+        <Button href="/contact" variant="light" arrow class="self-start">Contact the Club</Button>
       </div>
 
       <div class="min-h-[22rem]">

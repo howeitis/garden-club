@@ -4,42 +4,28 @@ import PageHero from '../../components/PageHero.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import SmartImage from '../../components/SmartImage.astro';
 import Flourish from '../../components/Flourish.astro';
-import { clubInfo, currentMemberOfTheMonth as featured } from '../../data/index';
+import Prose from '../../components/Prose.astro';
+import { render } from 'astro:content';
+import { club, memberGardens, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../../data/index';
 import { honoreePath } from '../../lib/memberOfTheMonth';
+import Button from '../../components/Button.astro';
+import ArrowIcon from '../../components/ArrowIcon.astro';
 
-const memberGardens = [
-  {
-    name: 'Pollinator Paradise',
-    member: 'Rita Thompson',
-    description:
-      'Designed with wildlife in mind, this sunny border garden is packed with Purple Coneflower, Black-eyed Susans, Anise Hyssop, Common Yarrow, and Mexican Sunflower to attract butterflies, bees, and hummingbirds throughout the season.',
-    highlight: 'Certified wildlife habitat',
-    image: '/pollinatorparadise.webp',
-    // Portrait photo — bias the crop upward so the monarch butterfly stays
-    // in frame when the wide card crops the top and bottom of the image.
-    imagePosition: 'center 35%',
-  },
-  {
-    name: 'Birdbath Bloomery',
-    member: 'Chris Metzler',
-    description:
-      'A sunny cottage-style border anchored by a classic white birdbath and overflowing with Black-eyed Susans, Marigolds, Surprise Lilies, and Shrub Roses for layered color from midsummer into fall.',
-    highlight: 'Cottage-style borders',
-    image: '/metzlers.webp',
-  },
-  // Add more members' gardens here. Each entry needs a real member's name and
-  // a photo of their actual garden in src/assets/content/.
-];
+const copy = await getPageCopy('members');
+const featuredPeriod = honoreePeriod(featured);
+// Render each garden's Markdown description up front so the template stays flat.
+const gardens = await Promise.all(memberGardens.map(async (garden) => ({ ...garden, Content: (await render(garden)).Content })));
+
 ---
 
 <BaseLayout
-  title={`Member Gardens | ${clubInfo.name}`}
-  description={`Home gardens tended by ${clubInfo.name} members in and around Greenville, Delaware, plus our current Member of the Month.`}
+  title={`Member Gardens | ${club.name}`}
+  description={`Home gardens tended by ${club.name} members in and around Greenville, Delaware, plus our current Member of the Month.`}
 >
   <PageHero
     eyebrow="Our Members"
     title="Members"
-    subtitle="Celebrating the gardeners who make our club bloom."
+    subtitle={copy.heroSubtitle}
     image="/home-hero.png"
     accent="lavender"
   />
@@ -54,32 +40,24 @@ const memberGardens = [
             <span class="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
             <span class="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
             <SmartImage
-              src={featured.photos.portrait.src}
+              src={featured.data.portrait.image}
               alt=""
               widths={[400, 800]}
               sizes="(min-width: 768px) 33vw, 100vw"
               class="w-full aspect-[3/4] object-cover rounded-sm transition-transform duration-500 group-hover:scale-[1.02]"
-              style={featured.photos.portrait.position ? `object-position: ${featured.photos.portrait.position}` : undefined}
+              style={featured.data.portrait.focus ? `object-position: ${featured.data.portrait.focus}` : undefined}
               loading="lazy"
             />
           </div>
         </a>
         <div class="md:col-span-8">
-          <SectionHeader label={featured.period ? `Member of the Month · ${featured.period}` : 'Member of the Month'} />
+          <SectionHeader label={featuredPeriod ? `Member of the Month · ${featuredPeriod}` : 'Member of the Month'} />
           <h2 id="motm-heading" class="font-heading font-semibold tracking-[-0.01em] text-text leading-[1.02] mb-5">
-            <span class="block text-4xl sm:text-5xl lg:text-6xl">{featured.headline}</span>
-            <span class="mt-2 block font-normal italic text-2xl sm:text-3xl text-blossom-deep">{featured.tagline}</span>
+            <span class="block text-4xl sm:text-5xl lg:text-6xl">{featured.data.headline}</span>
+            <span class="mt-2 block font-normal italic text-2xl sm:text-3xl text-blossom-deep">{featured.data.tagline}</span>
           </h2>
-          <p class="text-text/75 text-lg leading-relaxed max-w-2xl mb-8">{featured.summary}</p>
-          <a
-            href={honoreePath(featured)}
-            class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-          >
-            Read {featured.name.split(' ')[0]}'s Story
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+          <p class="text-text/75 text-lg leading-relaxed max-w-2xl mb-8">{featured.data.summary}</p>
+          <Button href={honoreePath(featured)} arrow>Read {featured.data.name.split(' ')[0]}'s Story</Button>
         </div>
       </div>
       <Flourish class="mt-20" />
@@ -91,13 +69,10 @@ const memberGardens = [
       <h2 id="gardens-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Featured Member Gardens
       </h2>
-      <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">
-        Each season we spotlight gardens from our members. From cottage borders to productive kitchen
-        gardens, our club is home to a wonderful variety of gardening styles.
-      </p>
+      <p class="text-text/75 mb-12 leading-relaxed max-w-2xl">{copy.gardensIntro}</p>
 
       <div class="divide-y divide-gold/20">
-        {memberGardens.map((garden, i) => (
+        {gardens.map(({ data: garden, Content }, i) => (
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
             <div class:list={['md:col-span-7 overflow-hidden rounded-sm', i % 2 === 1 && 'md:order-2']}>
               <SmartImage
@@ -106,17 +81,19 @@ const memberGardens = [
                 widths={[400, 800, 1200]}
                 sizes="(min-width: 768px) 58vw, 100vw"
                 class="w-full h-64 sm:h-96 object-cover"
-                style={garden.imagePosition ? `object-position: ${garden.imagePosition}` : undefined}
+                style={garden.focus ? `object-position: ${garden.focus}` : undefined}
                 loading="lazy"
               />
             </div>
             <div class:list={['md:col-span-5', i % 2 === 1 && 'md:order-1']}>
-              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-blossom-deep mb-3">Gardener: {garden.member}</p>
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-blossom-deep mb-3">Gardener: {garden.gardener}</p>
               <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{garden.name}</h3>
-              <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-6">{garden.description}</p>
-              <span class="inline-block text-[0.65rem] font-semibold uppercase tracking-[0.16em] px-2.5 py-1 rounded-sm border border-accent/50 text-primary">
-                {garden.highlight}
-              </span>
+              <Prose class="text-base sm:text-lg text-text/75 mb-6"><Content /></Prose>
+              {garden.highlight && (
+                <span class="inline-block text-[0.65rem] font-semibold uppercase tracking-[0.16em] px-2.5 py-1 rounded-sm border border-accent/50 text-primary">
+                  {garden.highlight}
+                </span>
+              )}
             </div>
           </div>
         ))}
@@ -130,15 +107,7 @@ const memberGardens = [
         Learn about our club and Delaware Federation awards, judging criteria, and meet our
         certified judges.
       </p>
-      <a
-        href="/members/awards-and-judges"
-        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-      >
-        View Awards &amp; Judges
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
+      <Button href="/members/awards-and-judges">View Awards &amp; Judges <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5l7 7-7 7" /> </svg></Button>
     </section>
 
   </div>

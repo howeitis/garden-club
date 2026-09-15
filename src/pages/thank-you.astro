@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Flourish from '../components/Flourish.astro';
-import { clubInfo } from '../data/index';
+import { club } from '../data/index';
+import Button from '../components/Button.astro';
 ---
 
 <BaseLayout
-  title={`Message Sent | ${clubInfo.name}`}
+  title={`Message Sent | ${club.name}`}
   description="Thank you for reaching out. We received your message and will be in touch soon."
   noindex
 >
@@ -29,23 +30,14 @@ import { clubInfo } from '../data/index';
       <Flourish class="mb-7" />
 
       <p class="text-text/75 text-lg leading-relaxed mb-3">
-        Thank you for reaching out to <strong class="text-text font-semibold">{clubInfo.name}</strong>.
+        Thank you for reaching out to <strong class="text-text font-semibold">{club.name}</strong>.
       </p>
       <p class="text-text/70 leading-relaxed mb-10">
         We've received your message and will get back to you as soon as possible — usually within a few days.
         We look forward to connecting with you.
       </p>
 
-      <a
-        href="/"
-        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm
-               hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Home
-      </a>
+      <Button href="/" arrow="back">Back to Home</Button>
 
     </div>
   </section>

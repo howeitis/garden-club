@@ -2,17 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import LandingCard from '../components/LandingCard.astro';
-import { clubInfo } from '../data/index';
+import { club, getPageCopy } from '../data/index';
+
+const copy = await getPageCopy('resources');
 ---
 
 <BaseLayout
-  title={`Gardening Resources for Delaware Gardeners | ${clubInfo.name}`}
-  description={`Gardening tips for Zone 7a, native and invasive plants of Delaware, and public gardens to visit near Wilmington — curated by ${clubInfo.name}.`}
+  title={`Gardening Resources for Delaware Gardeners | ${club.name}`}
+  description={`Gardening tips for Zone 7a, native and invasive plants of Delaware, and public gardens to visit near Wilmington — curated by ${club.name}.`}
 >
   <PageHero
     eyebrow="For Gardeners"
     title="Resources"
-    subtitle="Tips, inspiration, and places to explore for gardeners of every level."
+    subtitle={copy.heroSubtitle}
     accent="gold"
   />
 
@@ -23,7 +25,7 @@ import { clubInfo } from '../data/index';
       eyebrow="Grow Better"
       eyebrowColor="text-marigold"
       title="Gardening Tips"
-      description="Evergreen fundamentals plus our Garden Rhythms — the recurring weekly and monthly tasks that keep a healthy garden humming all season long."
+      description={copy.tipsDescription}
       cta="Visit the Tips Guide"
       images={[
         { src: '/soil.jpg' },
@@ -39,7 +41,7 @@ import { clubInfo } from '../data/index';
       eyebrow="Plant Guide"
       eyebrowColor="text-blossom-deep"
       title="Native &amp; Banned Plants of Delaware"
-      description="Explore the natives that thrive in our Piedmont region — and the invasive species that should be avoided to protect our local ecosystems."
+      description={copy.plantsDescription}
       cta="Visit the Plant Guide"
       images={[
         { src: '/americanholly.webp' },
@@ -54,7 +56,7 @@ import { clubInfo } from '../data/index';
       eyebrow="Garden Guide"
       eyebrowColor="text-primary"
       title="Gardens to Visit"
-      description="From local treasures in the Brandywine Valley to renowned regional destinations just beyond, discover public gardens worth a visit any season of the year."
+      description={copy.gardensDescription}
       cta="Visit the Garden Guide"
       images={[
         { src: '/longwoodvisit.webp' },
