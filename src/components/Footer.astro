@@ -13,6 +13,8 @@ const navLinks = [
   { label: 'Contact',           href: '/contact' },
 ];
 
+// Evaluated at build time (the site is static), so the copyright year is the
+// year of the last deploy. Any content change in January refreshes it.
 const year = new Date().getFullYear();
 const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 
@@ -47,12 +49,12 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
           />
           <span class="hidden md:block">
             <span class="block font-heading font-semibold text-[1.6rem] leading-tight group-hover:underline decoration-gold-soft/60 underline-offset-4">{clubInfo.name}</span>
-            <span class="mt-2 block text-gold-soft/90 text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Greenville, Delaware &middot; Est. {foundingYear}</span>
+            <span class="mt-2 block text-gold-soft text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Greenville, Delaware &middot; Est. {foundingYear}</span>
           </span>
         </a>
         <div class="flex-1 min-w-0 md:flex-none md:max-w-xs md:mt-4">
           <span class="md:hidden block font-heading font-semibold text-xl leading-tight mb-1">{clubInfo.name}</span>
-          <span class="md:hidden block text-gold-soft/90 text-[0.6rem] font-semibold uppercase tracking-[0.28em] mb-2">Est. {foundingYear}</span>
+          <span class="md:hidden block text-gold-soft text-[0.6rem] font-semibold uppercase tracking-[0.28em] mb-2">Est. {foundingYear}</span>
           <p class="text-sm text-background/70 leading-relaxed">
             {clubInfo.nonprofitStatus}
           </p>
@@ -61,7 +63,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
 
       <!-- Navigation Links -->
       <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">Explore</h3>
+        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">Explore</h3>
         <ul class="flex flex-col gap-2.5">
           {navLinks.map((link) => (
             <li>
@@ -78,12 +80,12 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">This Year's Theme</h3>
+        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h3>
         <p class="font-heading italic text-xl text-background/90 leading-relaxed">
           &ldquo;{clubInfo.theme}&rdquo;
         </p>
         <div class="mt-6 h-px w-16 bg-gold-soft/40" aria-hidden="true"></div>
-        <p class="mt-4 text-sm text-background/60 leading-relaxed max-w-xs">
+        <p class="mt-4 text-sm text-background/70 leading-relaxed max-w-xs">
           Member of {affiliations.ngc.name} and the {affiliations.state.name}.
         </p>
       </div>
@@ -101,7 +103,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${clubInfo.name} on ${label} (opens in a new tab)`}
-                class="flex items-center justify-center w-10 h-10 rounded-sm border border-gold-soft/35 text-gold-soft/90
+                class="flex items-center justify-center w-10 h-10 rounded-sm border border-gold-soft/35 text-gold-soft
                        hover:text-background hover:border-gold-soft/70 hover:bg-background/5 transition-colors duration-200
                        focus:outline-none focus:ring-2 focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary"
               >
@@ -111,7 +113,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
           ))}
         </ul>
       )}
-      <p class="order-2 sm:order-1 text-xs tracking-wide text-background/50 text-center sm:text-left">
+      <p class="order-2 sm:order-1 text-xs tracking-wide text-background/70 text-center sm:text-left">
         &copy; {year} {clubInfo.name}. All rights reserved.
       </p>
     </div>

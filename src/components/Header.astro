@@ -67,7 +67,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
                     'text-[0.78rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-200 pb-1 border-b inline-flex items-center gap-1.5',
                     isActive
                       ? 'border-gold text-primary'
-                      : 'border-transparent text-primary/70 hover:text-primary hover:border-gold/50',
+                      : 'border-transparent text-primary/80 hover:text-primary hover:border-gold/50',
                   ]}
                   aria-current={isActive ? 'page' : undefined}
                 >
@@ -76,8 +76,9 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </a>
-                <!-- Dropdown -->
-                <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <!-- Dropdown. Opens on hover and on keyboard focus within the
+                     group, so Tab users can reach the child links. -->
+                <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
                   <div class="bg-background border border-gold/30 shadow-[0_10px_30px_rgba(51,50,44,0.12)] py-2 min-w-[13rem]">
                     {link.children.map((child) => {
                       const isChildActive = currentPath === child.href;
@@ -109,7 +110,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
                 'text-[0.78rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-200 pb-1 border-b',
                 isActive
                   ? 'border-gold text-primary'
-                  : 'border-transparent text-primary/70 hover:text-primary hover:border-gold/50',
+                  : 'border-transparent text-primary/80 hover:text-primary hover:border-gold/50',
               ]}
               aria-current={isActive ? 'page' : undefined}
             >
@@ -171,7 +172,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
                         'px-3 py-2 text-[0.95rem] transition-colors duration-200 block border-l-2',
                         isChildActive
                           ? 'border-gold text-primary font-medium'
-                          : 'border-transparent text-text/65 hover:text-primary',
+                          : 'border-transparent text-text/70 hover:text-primary',
                       ]}
                       aria-current={isChildActive ? 'page' : undefined}
                     >
@@ -232,12 +233,29 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
     if (open) header?.classList.remove('-translate-y-full');
   }
 
-  // Mobile menu — delegated click survives view transition DOM swaps
+  function isMenuOpen() {
+    const menu = document.getElementById('mobile-menu');
+    return !!menu && !menu.classList.contains('hidden');
+  }
+
+  // Mobile menu — delegated click survives view transition DOM swaps.
+  // Toggles on the button; closes on any click outside the header.
   document.addEventListener('click', (event) => {
     const target = event.target as Element | null;
-    if (!target?.closest('#mobile-menu-button')) return;
-    const menu = document.getElementById('mobile-menu');
-    setMenuOpen(menu?.classList.contains('hidden') ?? false);
+    if (target?.closest('#mobile-menu-button')) {
+      setMenuOpen(!isMenuOpen());
+      return;
+    }
+    if (isMenuOpen() && !target?.closest('#site-header')) {
+      setMenuOpen(false);
+    }
+  });
+
+  // Escape closes the menu and returns focus to the button.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !isMenuOpen()) return;
+    setMenuOpen(false);
+    document.getElementById('mobile-menu-button')?.focus();
   });
 
   // Scroll-direction reveal: hide on scroll down, show on scroll up.

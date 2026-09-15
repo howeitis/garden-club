@@ -37,7 +37,7 @@ const { award } = Astro.props;
       <!-- Judging Criteria -->
       {award.judgingCriteria.length > 0 && (
         <div class:list={[award.recentWinners.length === 0 && 'sm:col-span-2']}>
-          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 mb-2.5">Judging Criteria</h4>
+          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Judging Criteria</h4>
           <ul class="flex flex-col gap-1.5">
             {award.judgingCriteria.map((criterion) => (
               <li class="flex items-start gap-2.5 text-base text-text/75">
@@ -52,7 +52,7 @@ const { award } = Astro.props;
       <!-- Recent Winners -->
       {award.recentWinners.length > 0 && (
         <div>
-          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 mb-2.5">Recent Winners</h4>
+          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Recent Winners</h4>
           <ul class="flex flex-col gap-1.5">
             {award.recentWinners.map((winner) => (
               <li class="text-base text-text/80 flex items-start gap-2.5">

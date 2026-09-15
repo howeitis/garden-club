@@ -144,8 +144,8 @@ All styling is Tailwind utility classes. No CSS modules or separate stylesheets 
 | `primary`      | `#2A5434` | Deep gate green: buttons, footer, wordmark          |
 | `background`   | `#FAF7F0` | Warm ivory page ground                             |
 | `text`         | `#33322C` | Warm ink body text                                 |
-| `gold`         | `#8F7433` | **Primary accent**: eyebrows, hairlines, folio numerals |
-| `gold-soft`    | `#C9AE6A` | Gold for dark grounds (hero eyebrows, footer labels)|
+| `gold`         | `#856B2E` | **Primary accent**: eyebrows, hairlines, folio numerals |
+| `gold-soft`    | `#DCC68E` | Gold for dark grounds (hero eyebrows, footer labels)|
 | `accent`       | `#7A9367` | Sage foliage: flourish leaves, native-plant accents |
 | `blossom`      | `#D9A0AE` | Dusty peach-blossom pink (rules, dots, quote marks) |
 | `blossom-deep` | `#A65868` | Blossom for text on light grounds                  |
@@ -155,9 +155,11 @@ All styling is Tailwind utility classes. No CSS modules or separate stylesheets 
 | `coral`        | `#B96A57` | Muted terracotta (rarely used)                     |
 | `sunflower`    | `#C9A24B` | Light antique gold (rules)                          |
 | `lavender`     | `#A79BB8` | Muted garden lavender (hero tints)                 |
-| `marigold`     | `#A87B2F` | Deep ochre gold: frequency labels, stat accents     |
+| `marigold`     | `#8F6826` | Deep ochre gold: frequency labels, stat accents     |
 
 **Color discipline:** gold is the workhorse accent; the other hues appear as *single deliberate touches* (one per element, rotating across siblings). Never reintroduce multi-color gradients or per-section rainbow theming.
+
+**Contrast floors (WCAG AA, measured against the ivory ground):** `gold`, `marigold`, and `gold-soft` were darkened/lightened to pass 4.5:1 for small text — don't lighten them. Muted text is `text-text/70` at minimum (4.84:1); `/65` and below fail for anything under 18px. On the green footer, `text-background/70` is the floor. `accent` (sage) fails at 3.2:1 and is only used for large display numerals and decorative strokes.
 
 **Common UI patterns** (copy these for consistency):
 

@@ -47,6 +47,15 @@ interface Props {
 const { eyebrow, title, subtitle, image = '/flower.jpg', accent = 'green' } = Astro.props;
 const heroImage = resolveAsset(image);
 const wash = WASHES[accent];
+
+// Without an explicit `width`, <Image widths={…}> emits the fallback `src`
+// (and width/height attributes) at the source's full resolution — a 4000px,
+// multi-megabyte file for some heroes. Cap it at the largest srcset candidate.
+// Quality is lowered because every hero sits under a 60–90% opaque wash;
+// compression artifacts are invisible there and the files are ~40% smaller.
+const heroWidths = heroImage ? cappedWidths(heroImage.width, [640, 1024, 1600, 2000]) : [];
+const heroMaxWidth = heroWidths[heroWidths.length - 1];
+const HERO_QUALITY = 65;
 ---
 
 <section class="relative text-background overflow-hidden">
@@ -55,9 +64,11 @@ const wash = WASHES[accent];
       <Image
         src={heroImage}
         alt=""
-        widths={cappedWidths(heroImage.width, [640, 1024, 1600, 2000])}
+        width={heroMaxWidth}
+        widths={heroWidths}
         sizes="100vw"
         format="webp"
+        quality={HERO_QUALITY}
         class="w-full h-full object-cover"
         loading="eager"
         fetchpriority="high"

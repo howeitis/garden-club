@@ -27,7 +27,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
 
   <!-- Breadcrumb -->
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2.5 text-sm text-text/50">
+    <ol class="flex items-center gap-2.5 text-sm text-text/70">
       <li><a href="/members" class="hover:text-primary underline decoration-gold/30 underline-offset-4 transition-colors">Members</a></li>
       <li aria-hidden="true" class="text-gold/60">&middot;</li>
       <li class="text-text/80 font-medium" aria-current="page">Awards &amp; Judges</li>
@@ -92,7 +92,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
       <!-- Emeritus Judges -->
       {emeritusJudges.length > 0 && (
         <div class="max-w-3xl">
-          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 pb-3 border-b border-gold/40">Emeritus Judges</h3>
+          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 pb-3 border-b border-gold/40">Emeritus Judges</h3>
           <ul class="divide-y divide-primary/10" role="list" aria-label="Emeritus judges">
             {emeritusJudges.map((judge) => (
               <JudgeRow judge={judge} />

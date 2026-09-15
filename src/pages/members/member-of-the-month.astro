@@ -37,7 +37,7 @@ function splitOnPhrase(text: string, phrase?: string): [string, string] | null {
 
   <!-- Breadcrumb -->
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2.5 text-sm text-text/50">
+    <ol class="flex items-center gap-2.5 text-sm text-text/70">
       <li><a href="/members" class="hover:text-primary underline decoration-gold/30 underline-offset-4 transition-colors">Members</a></li>
       <li aria-hidden="true" class="text-gold/60">&middot;</li>
       <li class="text-text/80 font-medium" aria-current="page">Member of the Month</li>
@@ -81,7 +81,7 @@ function splitOnPhrase(text: string, phrase?: string): [string, string] | null {
             />
           </div>
           {member.photos.portrait.caption && (
-            <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/55">
+            <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/70">
               <span class="h-px w-6 bg-blossom/70" aria-hidden="true"></span>
               {member.photos.portrait.caption}
             </figcaption>
@@ -154,7 +154,7 @@ function splitOnPhrase(text: string, phrase?: string): [string, string] | null {
                 loading="lazy"
               />
               {member.photos.secondary.caption && (
-                <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/55">
+                <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/70">
                   <span class="h-px w-6 bg-accent/80" aria-hidden="true"></span>
                   {member.photos.secondary.caption}
                 </figcaption>
@@ -207,7 +207,7 @@ function splitOnPhrase(text: string, phrase?: string): [string, string] | null {
                 <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">{honoree.period}</p>
               )}
               <h3 class="font-heading text-2xl font-semibold text-text leading-snug">{honoree.name}</h3>
-              <p class="mt-2 text-[0.95rem] text-text/65 leading-relaxed">{honoree.summary}</p>
+              <p class="mt-2 text-[0.95rem] text-text/70 leading-relaxed">{honoree.summary}</p>
             </li>
           ))}
         </ul>

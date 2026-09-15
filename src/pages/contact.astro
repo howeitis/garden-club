@@ -36,7 +36,7 @@ import { clubInfo, contact } from '../data/index';
               </svg>
             </div>
             <div>
-              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-1.5">Email</p>
+              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-1.5">Email</p>
               <a
                 href={`mailto:${contact.primaryEmail}`}
                 class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
@@ -56,7 +56,7 @@ import { clubInfo, contact } from '../data/index';
               </svg>
             </div>
             <div>
-              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-1.5">Mailing Address</p>
+              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-1.5">Mailing Address</p>
               <address class="not-italic text-text/80 leading-relaxed">
                 {contact.mailingAddress.street}<br />
                 {contact.mailingAddress.city}, {contact.mailingAddress.state} {contact.mailingAddress.zip}
@@ -68,7 +68,7 @@ import { clubInfo, contact } from '../data/index';
         <!-- Social Links -->
         {contact.socialLinks && Object.keys(contact.socialLinks).length > 0 && (
           <div>
-            <h3 class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/50 mb-4">Follow Us</h3>
+            <h3 class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-4">Follow Us</h3>
             <ul class="flex flex-col gap-2.5">
               {Object.entries(contact.socialLinks).map(([platform, url]) => (
                 <li>

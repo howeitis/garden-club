@@ -11,8 +11,8 @@ export default {
         background: '#FAF7F0', // warm ivory
         text:       '#33322C', // warm ink
         accent:     '#7A9367', // sage foliage
-        gold:       '#8F7433', // antique-gold scrollwork — primary accent
-        'gold-soft': '#C9AE6A', // lighter gold for rules on dark grounds
+        gold:       '#856B2E', // antique-gold scrollwork — primary accent
+        'gold-soft': '#DCC68E', // lighter gold for rules on dark grounds
         blossom:    '#D9A0AE', // dusty peach-blossom pink
         'blossom-deep': '#A65868', // deep blossom for text on light grounds
         holly:      '#8E3B45', // refined holly-berry burgundy
@@ -21,7 +21,7 @@ export default {
         coral:      '#B96A57', // muted terracotta
         sunflower:  '#C9A24B', // antique gold, light
         lavender:   '#A79BB8', // muted garden lavender
-        marigold:   '#A87B2F', // deep ochre gold
+        marigold:   '#8F6826', // deep ochre gold
       },
       fontFamily: {
         heading: ['"Cormorant Garamond"', 'Georgia', 'serif'],
