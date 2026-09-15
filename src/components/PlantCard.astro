@@ -3,31 +3,28 @@
 // and banned species — a photograph with text set directly on the page,
 // no card chrome.
 //
-// `variant` switches the badge:
-//   • "native" — bloom-period badge in sage
-//   • "banned" — "Invasive" badge in holly
+// The plant's `type` switches the badge:
+//   • "native" — bloom-period badge in blossom
+//   • "invasive" — "Invasive" badge in holly
+import { render } from 'astro:content';
+import type { Plant } from '../data/index';
 import SmartImage from './SmartImage.astro';
-
-type Variant = 'native' | 'banned';
+import Prose from './Prose.astro';
 
 interface Props {
-  name: string;
-  scientific: string;
-  description: string;
-  image: string;
-  /** Bloom period (e.g. "May – June"). Required for native plants only. */
-  bloom?: string;
-  variant: Variant;
+  plant: Plant;
 }
 
-const { name, scientific, description, image, bloom, variant } = Astro.props;
+const { plant } = Astro.props;
+const { name, scientificName, image, bloom, type } = plant.data;
+const { Content } = await render(plant);
 
-const BADGES: Record<Variant, string> = {
+const BADGES: Record<Plant['data']['type'], string> = {
   native: 'text-blossom-deep border-blossom/60',
-  banned: 'text-holly border-holly/40',
+  invasive: 'text-holly border-holly/40',
 };
 
-const badgeText = variant === 'native' ? bloom : 'Invasive';
+const badgeText = type === 'native' ? bloom : 'Invasive';
 ---
 
 <div>
@@ -44,11 +41,11 @@ const badgeText = variant === 'native' ? bloom : 'Invasive';
   <div class="flex items-baseline justify-between gap-3 mb-1">
     <h3 class="font-heading text-2xl font-semibold text-text">{name}</h3>
     {badgeText && (
-      <span class={`text-[0.62rem] font-semibold uppercase tracking-[0.14em] px-2.5 py-1 rounded-sm border whitespace-nowrap ${BADGES[variant]}`}>
+      <span class={`text-[0.62rem] font-semibold uppercase tracking-[0.14em] px-2.5 py-1 rounded-sm border whitespace-nowrap ${BADGES[type]}`}>
         {badgeText}
       </span>
     )}
   </div>
-  <p class="text-[0.95rem] italic font-heading text-text/70 mb-3">{scientific}</p>
-  <p class="text-base text-text/75 leading-relaxed">{description}</p>
+  <p class="text-[0.95rem] italic font-heading text-text/70 mb-3">{scientificName}</p>
+  <Prose class="text-base text-text/75"><Content /></Prose>
 </div>

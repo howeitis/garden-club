@@ -3,34 +3,38 @@
 // Award) — anchored by a gold hairline instead of a card, with judging
 // criteria and recent winners set side by side where space allows. Awards
 // the club has *received* render as a compact trophy list on the page itself.
-import type { Award } from '../data/schema';
+import { render } from 'astro:content';
+import type { Award } from '../data/index';
+import Prose from './Prose.astro';
 
 interface Props {
   award: Award;
 }
 
 const { award } = Astro.props;
+const { name, placement, year, criteria, winners } = award.data;
+const { Content } = await render(award);
 ---
 
 <article class="border-t border-gold/30 pt-7 flex flex-col gap-5">
 
   <!-- Header -->
   <div>
-    <h3 class="font-heading text-2xl font-semibold text-text leading-snug mb-2">{award.awardName}</h3>
+    <h3 class="font-heading text-2xl font-semibold text-text leading-snug mb-2">{name}</h3>
     <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gold mb-3">
-      {award.placement && <>{award.placement} &middot; </>}{award.year}
+      {placement && <>{placement} &middot; </>}{year}
     </p>
-    <p class="text-base text-text/75 leading-relaxed">{award.description}</p>
+    <Prose class="text-base text-text/75"><Content /></Prose>
   </div>
 
-  {(award.judgingCriteria.length > 0 || award.recentWinners.length > 0) && (
+  {(criteria.length > 0 || winners.length > 0) && (
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5">
       <!-- Judging Criteria -->
-      {award.judgingCriteria.length > 0 && (
-        <div class:list={[award.recentWinners.length === 0 && 'sm:col-span-2']}>
+      {criteria.length > 0 && (
+        <div class:list={[winners.length === 0 && 'sm:col-span-2']}>
           <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Judging Criteria</h4>
           <ul class="flex flex-col gap-1.5">
-            {award.judgingCriteria.map((criterion) => (
+            {criteria.map((criterion) => (
               <li class="flex items-start gap-2.5 text-base text-text/75">
                 <span class="mt-[0.65rem] w-1 h-1 rounded-full bg-gold flex-shrink-0" aria-hidden="true"></span>
                 {criterion}
@@ -41,11 +45,11 @@ const { award } = Astro.props;
       )}
 
       <!-- Recent Winners -->
-      {award.recentWinners.length > 0 && (
+      {winners.length > 0 && (
         <div>
           <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Recent Winners</h4>
           <ul class="flex flex-col gap-1.5">
-            {award.recentWinners.map((winner) => (
+            {winners.map((winner) => (
               <li class="text-base text-text/80 flex items-start gap-2.5">
                 <span class="mt-[0.65rem] w-1 h-1 rounded-full bg-holly flex-shrink-0" aria-hidden="true"></span>
                 {winner}

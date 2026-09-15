@@ -1,0 +1,33 @@
+---
+// Typography for Markdown written by editors (project descriptions, plant
+// notes, the About history…). Wrap a rendered <Content /> or a set:html
+// string in this so paragraphs, links, emphasis, and lists all pick up the
+// house style without each page restating it.
+//
+//   <Prose class="text-lg"><Content /></Prose>
+//
+// `class` adds to the wrapper (size, color); the inner element styles are
+// fixed here so they stay consistent site-wide.
+interface Props {
+  class?: string;
+  /** Rendered HTML to insert instead of a slot (for YAML page copy). */
+  html?: string;
+}
+
+const { class: className, html } = Astro.props;
+
+const proseClasses = [
+  'leading-relaxed',
+  '[&_p]:mb-5 [&_p:last-child]:mb-0',
+  '[&_strong]:font-semibold [&_strong]:text-text',
+  '[&_em]:italic',
+  '[&_a]:text-primary [&_a]:underline [&_a]:decoration-gold/50 [&_a]:decoration-1 [&_a]:underline-offset-4 hover:[&_a]:decoration-gold',
+  '[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_li]:mb-1.5',
+];
+---
+
+{html !== undefined ? (
+  <div class:list={[proseClasses, className]} set:html={html} />
+) : (
+  <div class:list={[proseClasses, className]}><slot /></div>
+)}

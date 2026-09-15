@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         primary:    '#2A5434', // deep gate green
+        'primary-dark': '#1F4128', // hover state for green buttons
         background: '#FAF7F0', // warm ivory
         text:       '#33322C', // warm ink
         accent:     '#7A9367', // sage foliage
@@ -23,12 +24,12 @@ export default {
         lavender:   '#A79BB8', // muted garden lavender
         marigold:   '#8F6826', // deep ochre gold
       },
+      // Self-hosted variable fonts, imported in BaseLayout.astro from
+      // @fontsource-variable. The family names are the ones those packages
+      // declare in their @font-face rules.
       fontFamily: {
-        heading: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        body: ['Inter', 'sans-serif'],
-        // Legacy token — the cursive wordmark was retired in the design
-        // refresh; anything still using font-script renders the heading serif.
-        script: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        heading: ['"Cormorant Garamond Variable"', 'Georgia', 'serif'],
+        body: ['"Inter Variable"', 'Inter', 'sans-serif'],
       },
       letterSpacing: {
         label: '0.24em', // small-caps eyebrow labels

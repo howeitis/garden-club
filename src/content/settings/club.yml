@@ -1,0 +1,18 @@
+file: club
+name: Garden Gate Garden Club
+shortName: GGGC
+founded: September 1963
+joinedFederation: June 1964
+incorporated: October 2018
+mission: >-
+  To stimulate the knowledge and love of gardening, to aid in the protection of plants and wildlife,
+  and to encourage civic beauty.
+nonprofitStatus: 501(c)(3) Organization
+theme: Promoting our love of gardening through kindness.
+themeYears: 2025-27
+membership:
+  active: 29
+  associate: 3
+  honorary: 4
+  maxActive: 30
+  note: Associate and Honorary Memberships are by invitation of the Executive Board.

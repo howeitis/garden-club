@@ -3,17 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import Flourish from '../components/Flourish.astro';
-import { clubInfo, meetings } from '../data/index';
+import { club, meetings, getPageCopy } from '../data/index';
+import Button from '../components/Button.astro';
+
+const copy = await getPageCopy('membership');
 ---
 
 <BaseLayout
-  title={`Join ${clubInfo.name} | Membership in Greenville, Delaware`}
-  description={`When we meet (${meetings.schedule.replace(/\.$/, '')}), annual dues, and how to join ${clubInfo.name} in Greenville, Delaware.`}
+  title={`Join ${club.name} | Membership in Greenville, Delaware`}
+  description={`When we meet (${meetings.schedule.replace(/\.$/, '')}), annual dues, and how to join ${club.name} in Greenville, Delaware.`}
 >
   <PageHero
     eyebrow="Join Us"
     title="Membership"
-    subtitle="All are welcome. Come grow with us."
+    subtitle={copy.heroSubtitle}
     image="/membership-hero.jpg"
     accent="marigold"
   />
@@ -23,20 +26,12 @@ import { clubInfo, meetings } from '../data/index';
     <!-- Apply invitation -->
     <section aria-labelledby="apply-cta-heading" class="fade-in-section text-center border-b border-gold/20 pb-16">
       <h2 id="apply-cta-heading" class="font-heading text-3xl sm:text-4xl font-semibold text-text mb-4">
-        Ready to apply for membership?
+        {copy.applyHeading}
       </h2>
       <p class="text-text/70 text-lg leading-relaxed max-w-xl mx-auto mb-8">
-        We'd love to welcome you. Reach out and a club member will follow up with next steps.
+        {copy.applyText}
       </p>
-      <a
-        href="/contact"
-        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-      >
-        Apply to Join
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
+      <Button href="/contact" arrow>Apply to Join</Button>
     </section>
 
     <!-- Meeting Schedule -->
@@ -80,7 +75,7 @@ import { clubInfo, meetings } from '../data/index';
         Order of Business
       </h2>
       <p class="text-text/70 mb-10 leading-relaxed max-w-2xl">
-        Our monthly meetings follow a consistent agenda to ensure every voice is heard and time is used well.
+        {copy.agendaIntro}
       </p>
       <ol class="grid grid-cols-1 sm:grid-cols-2 gap-x-16 border-t border-gold/25">
         {meetings.orderOfBusiness.map((item, index) => (
@@ -103,11 +98,11 @@ import { clubInfo, meetings } from '../data/index';
       <dl class="max-w-2xl border-t border-gold/25">
         <div class="flex items-baseline justify-between gap-6 py-5 border-b border-primary/10">
           <dt class="font-medium text-text/75">Active Member</dt>
-          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.activeMember}</dd>
+          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.active}</dd>
         </div>
         <div class="flex items-baseline justify-between gap-6 py-5 border-b border-primary/10">
           <dt class="font-medium text-text/75">Associate Member</dt>
-          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.associateMember}</dd>
+          <dd class="font-heading text-3xl font-semibold text-primary">{meetings.dues.associate}</dd>
         </div>
         <div class="flex items-baseline justify-between gap-6 py-5 border-b border-gold/25">
           <dt class="font-medium text-text/75">Payment Deadline</dt>
@@ -123,7 +118,7 @@ import { clubInfo, meetings } from '../data/index';
           Associate &amp; Honorary Membership
         </h2>
         <p class="text-text/75 leading-relaxed italic">
-          {clubInfo.membership.associateAndHonoraryNote}
+          {club.membership.note}
         </p>
       </div>
     </section>
@@ -132,15 +127,10 @@ import { clubInfo, meetings } from '../data/index';
     <section class="text-center border-t border-gold/25 px-6 pt-16 fade-in-section">
       <h2 class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-4">Ready to Join?</h2>
       <p class="text-text/70 text-lg mb-6 max-w-md mx-auto leading-relaxed">
-        We'd love to have you. Reach out with any questions, or simply come along to our next meeting.
+        {copy.closingText}
       </p>
       <Flourish class="mb-8" />
-      <a
-        href="/contact"
-        class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-      >
-        Contact Us
-      </a>
+      <Button href="/contact">Contact Us</Button>
     </section>
 
   </div>

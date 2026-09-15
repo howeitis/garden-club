@@ -1,0 +1,57 @@
+---
+// The site's one button style — letterspaced small caps on a rounded-sm
+// block — in four variants. Renders an <a> when given `href`, otherwise a
+// <button> (for the contact form). An optional arrow sits after the label.
+//
+//   <Button href="/membership">Become a Member</Button>
+//   <Button href="/contact" arrow>Contact the Club</Button>
+//   <Button href="/about" variant="outline-light">Our Story</Button>
+//   <Button type="submit" arrow>Send Message</Button>
+//
+// Variants:
+//   primary        green fill, ivory text — the default, on the ivory ground
+//   light          ivory fill, green text — on green or photo grounds
+//   outline        green hairline, green text — secondary action on ivory
+//   outline-light  ivory hairline, ivory text — secondary action on green
+import ArrowIcon from './ArrowIcon.astro';
+
+type Variant = 'primary' | 'light' | 'outline' | 'outline-light';
+
+interface Props {
+  href?: string;
+  variant?: Variant;
+  /** Show a trailing arrow (→), or a leading one ("back") */
+  arrow?: boolean | 'back';
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { href, variant = 'primary', arrow = false, type = 'button', class: className } = Astro.props;
+
+const base =
+  'inline-flex items-center gap-2.5 text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm ' +
+  'transition-colors duration-200 focus:outline-none focus:ring-2';
+
+const VARIANTS: Record<Variant, string> = {
+  primary: 'bg-primary text-background hover:bg-primary-dark focus:ring-gold focus:ring-offset-2',
+  light: 'bg-background text-primary hover:bg-white focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary',
+  outline: 'border border-primary/30 text-primary hover:border-primary hover:bg-white focus:ring-gold focus:ring-offset-2',
+  'outline-light': 'border border-background/60 text-background hover:bg-background/10 hover:border-background focus:ring-background focus:ring-offset-2 focus:ring-offset-primary',
+};
+
+const classes = [base, VARIANTS[variant], className];
+---
+
+{href ? (
+  <a href={href} class:list={classes}>
+    {arrow === 'back' && <ArrowIcon direction="left" />}
+    <slot />
+    {arrow === true && <ArrowIcon />}
+  </a>
+) : (
+  <button type={type} class:list={classes}>
+    {arrow === 'back' && <ArrowIcon direction="left" />}
+    <slot />
+    {arrow === true && <ArrowIcon />}
+  </button>
+)}

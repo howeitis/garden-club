@@ -20,7 +20,7 @@ The site's "heritage editorial" design system is built around the club's waterco
 | Validation | [Zod](https://zod.dev) — all JSON data schema-validated at build time |
 | Deployment | [Vercel](https://vercel.com) (static) |
 | Forms | [Web3Forms](https://web3forms.com) (contact form → club inbox) |
-| Fonts | Google Fonts — Cormorant Garamond (headings, wordmark), Inter (body, 18px base) |
+| Fonts | Self-hosted variable fonts via `@fontsource-variable` — Cormorant Garamond (headings, wordmark), Inter (body, 18px base) |
 
 ---
 
@@ -51,6 +51,7 @@ Open [http://localhost:4321](http://localhost:4321).
 | `npm run build` | Build for production (outputs to `dist/`) |
 | `npm run preview` | Preview the production build locally |
 | `npm run check` | Type-check with `astro check` — **CI gates on this** |
+| `npm run check:images` | Lint editor-uploaded photos (size, filename) — runs automatically before `build` |
 
 ---
 
@@ -159,37 +160,53 @@ src/
 │   │   ├── plants.astro            # /resources/plants (native plants)
 │   │   └── gardens.astro           # /resources/gardens (local gardens)
 │   └── members/
-│       ├── index.astro             # /members (member gardens)
-│       └── awards-and-judges.astro # /members/awards-and-judges
+│       ├── index.astro             # /members (member gardens + MOTM callout)
+│       ├── awards-and-judges.astro # /members/awards-and-judges
+│       └── member-of-the-month/
+│           ├── index.astro         # /members/member-of-the-month (current + archive)
+│           └── [slug].astro        # /members/member-of-the-month/<slug> (one per honoree)
 ├── layouts/
-│   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, fonts, View Transitions
+│   └── BaseLayout.astro     # Master layout: SEO, JSON-LD, self-hosted fonts, View Transitions
 ├── components/
 │   ├── Header.astro         # Fixed ivory nav: crest + serif wordmark, dropdowns, mobile hamburger, scroll-reveal
-│   ├── Footer.astro         # Deep-green 3-column footer, tri-color signature hairline
+│   ├── Footer.astro         # Deep-green 4-column footer, tri-color signature hairline
 │   ├── PageHero.astro       # Interior hero: photo + accent-tinted wash, bottom-left display title
+│   ├── Breadcrumb.astro     # Subpage trail + BreadcrumbList JSON-LD
 │   ├── SectionHeader.astro  # Gold small-caps eyebrow + optional folio numeral
 │   ├── Flourish.astro       # Botanical sprig divider (the site's signature ornament)
+│   ├── Button.astro         # The one button style, 4 variants, optional arrow
+│   ├── ArrowIcon.astro      # The thin arrow used in links and buttons
+│   ├── Prose.astro          # Typography wrapper for editor-written Markdown
 │   ├── LandingCard.astro    # Editorial section link (resources landing)
 │   ├── OfficerCard.astro    # Unboxed officer entry with rotating accent rule
 │   ├── ProjectCard.astro    # Alternating photo/text feature row (community service)
 │   ├── GardenCard.astro     # Alternating photo/text feature row (gardens to visit)
-│   ├── PlantCard.astro      # Open gallery plant entry (native / banned variants)
-│   ├── AwardCard.astro      # Hairline-anchored award entry with criteria & winners
+│   ├── PlantCard.astro      # Open gallery plant entry (native / invasive)
+│   ├── AwardCard.astro      # Award the club gives, with criteria & winners
 │   ├── JudgeRow.astro       # Certified judge listing row
+│   ├── MemberProfile.astro  # Member of the Month feature article
+│   ├── HonoreeGrid.astro    # Grid of honorees linking to their pages
 │   ├── SmartImage.astro     # Public-style path → optimized responsive WebP image
 │   ├── SocialIcon.astro     # Stroked brand glyph per platform (generic link fallback)
 │   └── ContactForm.astro    # Web3Forms-backed contact form (mailto fallback if unconfigured)
-└── data/
-    ├── schema.ts            # Zod schemas for all data types
-    ├── index.ts             # Validated data exports
-    ├── clubInfo.json        # Club name, theme, membership stats
-    ├── contact.json         # Email, mailing address, social links
-    ├── meetings.json        # Schedule, time blocks, dues, agenda
-    ├── affiliations.json    # NGC, regional, state affiliations
-    ├── officers.json        # Board member roster
-    ├── awards.json          # Award definitions and criteria
-    ├── judges.json          # Certified judges list
-    └── projects.json        # Community service projects
+├── content/                 # ALL editable content — see "Updating Content"
+│   ├── members-of-the-month/  projects/  officers/  member-gardens/  awards/
+│   ├── judges/  plants/  gardens/  gardening-tips/      (one .md per item)
+│   ├── settings/            # club.yml · contact.yml · meetings.yml · affiliations.yml
+│   └── pages/               # editable paragraphs per page (home.yml, about.yml …)
+├── content.config.ts        # Collection schemas (Zod) — validates every content file at build
+├── data/
+│   └── index.ts             # Reads the collections once; exports sorted lists + settings
+├── lib/
+│   ├── assetImages.ts       # "/photo.jpg" string → imported asset
+│   ├── markdown.ts          # Markdown → HTML for YAML text fields
+│   └── memberOfTheMonth.ts  # Honoree URLs and share images
+└── assets/
+    ├── content/             # Photos (editor uploads land here)
+    └── heroes/              # Page hero photographs
+
+.pages.yml              # Pages CMS admin configuration (mirrors content.config.ts)
+scripts/check-images.mjs # Pre-build photo lint
 
 public/                 # Static assets served at root (logos, icons, OG image only)
 ├── favicon.svg             # SVG favicon (+ 16/32/192/512 PNGs, apple-touch-icon)
@@ -211,22 +228,25 @@ vercel.json             # Vercel deployment configuration
 
 ## Updating Content
 
-> **Recommended: use an AI coding assistant.** [Claude Code](https://claude.com/claude-code) or OpenAI's Codex can make content and code changes from a plain-English description — they handle the JSON formatting, schema constraints, and the two-places-to-update gotchas documented throughout this file. **Nobody maintaining this site needs to hand-edit code.** `CONTENT_GUIDE.md` covers the same workflow for non-technical board members, including the browser-only GitHub path.
+**Club members edit the site through Pages CMS** — a free, git-backed admin at https://app.pagescms.org that presents `src/content/` as forms and commits straight to `main`. `CONTENT_GUIDE.md` is the manual for them; `HANDOVER.md` §3 explains the setup and the accounts.
 
-> ⚠️ **`officers.json` is still four `TBD` placeholders**, and they render on the live `/about` page. Populating the board roster is the first outstanding content job — tracked as [#11](https://github.com/howeitis/garden-club/issues/11).
+For developers and AI assistants, the model is:
 
-All site content lives in `src/data/*.json`. Most updates require **no code changes** — just edit the relevant JSON file and push.
+- **Every editable thing is a file under `src/content/`.** Lists are one Markdown file per item (frontmatter fields + a Markdown body for the description); settings and page paragraphs are YAML.
+- **`src/content.config.ts` defines and validates every collection** (Astro content collections + Zod). A bad file fails the build naming the file and field, with the plain-English messages written there.
+- **`.pages.yml` is the admin's view of the same fields** — labels, descriptions, dropdown values. **When you add or rename a field, change both files.**
+- **`src/data/index.ts`** reads the collections once and exports plain values (`club`, `projects`, `currentMemberOfTheMonth`, `getPageCopy('about')`…). Pages import from there only.
+- **Photos** go in `src/assets/content/` as ordinary JPG/PNG/WebP and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build and rejects files over 8 MB or with unsafe names.
 
-| File | What to update |
+| To change… | Edit |
 |---|---|
-| `clubInfo.json` | Club name, annual theme, membership counts, founding dates |
-| `officers.json` | Board member names, roles, bios |
-| `projects.json` | Community service projects, chairpersons, descriptions, photo paths |
-| `awards.json` | Award names, winners, judging criteria |
-| `judges.json` | Certified judges, certification level, active/emeritus status |
-| `meetings.json` | Meeting schedule, dues amounts, order of business |
-| `contact.json` | Primary email, mailing address, social media links |
-| `affiliations.json` | NGC, regional, state affiliation details |
+| Any list (projects, honorees, plants…) | the item's file in `src/content/<collection>/` |
+| Club name, mission, theme, membership numbers | `src/content/settings/club.yml` |
+| Email, address, social links | `src/content/settings/contact.yml` |
+| Meetings, dues, order of business | `src/content/settings/meetings.yml` |
+| NGC / region / state details | `src/content/settings/affiliations.yml` |
+| A page's paragraphs or hero subtitle | `src/content/pages/<page>.yml` |
+| What a collection *is* (fields, validation) | `src/content.config.ts` **and** `.pages.yml` |
 
 ### Adding images
 
@@ -237,7 +257,7 @@ src/assets/content/project-pollinator-garden.jpg   ✓
 src/assets/content/project pollinator garden.jpg   ✗  (spaces break URLs)
 ```
 
-Reference them in JSON / props by the same public-style string, e.g. `/project-pollinator-garden.jpg` — `SmartImage` and `PageHero` resolve it to the optimized asset (see the image-handling notes in `CLAUDE.md`). Only logos, favicons, and the OG image live in `public/`.
+Reference them in content files by the same public-style string, e.g. `image: /project-pollinator-garden.jpg` — `SmartImage` and `PageHero` resolve it to the optimized asset (see the image-handling notes in `CLAUDE.md`). Only logos, favicons, and the OG image live in `public/`.
 
 ---
 
@@ -272,7 +292,7 @@ Every page includes:
 - ⚠️ **The Vercel project is on a personal Hobby account.** Club collaborators can deploy because the repo is public, but env vars, the domain, and rollbacks stay owner-only (see [Who can deploy](#who-can-deploy)).
 - 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
 
-- ⚠️ **The board roster is unpopulated.** `officers.json` holds four `TBD` entries, live on `/about`. See [#11](https://github.com/howeitis/garden-club/issues/11).
+- ⚠️ **The board roster is unpopulated.** The four files in `src/content/officers/` are `TBD`, so the section is hidden on `/about` until names are entered. See [#11](https://github.com/howeitis/garden-club/issues/11).
 
 ### Repo hygiene done in this handoff pass
 - `npm run check` (`astro check`) runs as a typecheck gate in CI before the build.
@@ -286,11 +306,11 @@ Items on hold pending additional club details or future sprints. **These are now
 
 ### Product
 - [x] **Contact form** — Posts to Web3Forms, delivered to the club inbox, with a honeypot and a `mailto:` fallback when unconfigured
-- [ ] **Officers roster** — Populate `officers.json` with full board names, roles, and optional bios
+- [ ] **Officers roster** — Enter names in `src/content/officers/*.md` (or via the admin) with optional bios
 - [ ] **Events calendar** — Add upcoming meeting dates as structured data or a dedicated section
 - [ ] **Newsletter signup** — Mailchimp or equivalent embed for email capture
-- [x] **Social links** — Facebook and Instagram in `contact.json > socialLinks`; render as text links on `/contact` and icon buttons in the footer, and feed JSON-LD `sameAs`
-- [x] **Project images** — All 8 projects in `projects.json` reference a photo
+- [x] **Social links** — Facebook and Instagram in `src/content/settings/contact.yml → social`; render as text links on `/contact` and icon buttons in the footer, and feed JSON-LD `sameAs`
+- [x] **Project images** — All 8 projects in `src/content/projects/` reference a photo
 
 ### Design
 - [ ] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system, but [#16](https://github.com/howeitis/garden-club/issues/16) asks specifically for an **SVG emblem** and the crest is still a PNG

@@ -1,356 +1,251 @@
-# Content Guide for Garden Club Website
+# Updating the Garden Gate Website
 
-This guide explains how to update the information on the club website. All content lives in small text files inside the `src/data/` folder. You do **not** need to know how to code — just follow the instructions below carefully.
+**For club members. No coding required.**
 
-**You do not need to install anything.** Every edit in this guide can be made in a web browser, signed in to GitHub as the club.
+Everything on the website that changes — officers, projects, the Member of the Month, plants, meeting times, photos, the paragraphs on each page — is edited through a simple admin screen. You fill in forms, click **Save**, and the website updates itself within about a minute.
 
----
-
-## Before You Start: Sign In
-
-You need the club's GitHub account:
-
-- **Username:** `gardengategardenclub`
-- **Signs in with:** `gardengate.communications@gmail.com`
-
-This account has **write access** to the website, which means your edits publish themselves. You do not need to ask anyone to publish for you.
+You cannot break the live site. Every change is checked before it goes live; if something is wrong, the site simply keeps showing the previous version and tells you what to fix.
 
 ---
 
-## How to Edit Content
+## Contents
 
-This is the whole workflow. It takes about two minutes.
-
-1. Go to **https://github.com/howeitis/garden-club** and sign in as the club account.
-2. Click into the `src` folder, then `data`, then click the file you want to change — for example `officers.json`.
-3. Click the **pencil icon** (✏️ *Edit this file*) in the top-right of the file view.
-4. Make your changes directly in the browser, following the format already in the file.
-5. Scroll to the bottom. Leave **"Commit directly to the `main` branch"** selected.
-6. Write a short note in the description box, like *"Update officer roster for 2026"*.
-7. Click **Commit changes**.
-
-**That's it — you have published.** The website rebuilds itself automatically and your change is live in about a minute. There is no separate "publish" button and no one to notify.
-
-### Checking that it worked
-
-Click the **Actions** tab at the top of the repository. You will see your change listed:
-
-- **Green check ✓** — published successfully. Refresh the website to see it.
-- **Yellow dot** — still building. Wait about a minute.
-- **Red ✗** — something in the file was formatted incorrectly. **The live website is unaffected and still shows the previous version.** Click into the red entry to see which file and line caused the problem, fix it the same way, and commit again.
-
-> **You cannot break the live site with a typo.** The website is checked automatically every time it is published. If a file has a mistake, publishing stops and the previous working version stays up until the error is fixed.
-
-### One important limit
-
-You can publish, but you **cannot undo a publish yourself.** If you post something you would rather take back, the fix is to edit the file again and commit the correction — which takes another minute. Rolling back to an earlier version of the whole site requires the Vercel dashboard, which only Owen Howe can access. For content edits this rarely matters; just correct and re-commit.
+1. [Getting in](#1-getting-in)
+2. [Making a change](#2-making-a-change)
+3. [What you can edit, and where](#3-what-you-can-edit-and-where)
+4. [Step-by-step: the common jobs](#4-step-by-step-the-common-jobs)
+5. [Photos](#5-photos)
+6. [Writing tips](#6-writing-tips)
+7. [Checking that it went live](#7-checking-that-it-went-live)
+8. [If something goes wrong](#8-if-something-goes-wrong)
+9. [Giving someone else access](#9-giving-someone-else-access)
+10. [Appendix: editing without the admin](#10-appendix-editing-without-the-admin)
 
 ---
 
-## A Much Easier Way: Let an AI Assistant Do It
+## 1. Getting in
 
-**This is the recommended approach, and it is genuinely easier than editing files by hand.**
+The admin is at **https://app.pagescms.org**.
 
-Tools like **[Claude Code](https://claude.com/claude-code)** or **OpenAI's Codex** can make these changes for you. You describe what you want in plain English and the assistant edits the right files, checks the formatting, and publishes.
+There are two ways to sign in. Either works — use whichever you were given.
 
-For example, you can simply say:
+**A. With the club's GitHub account.** Click *Sign in with GitHub* and use the club's login (the one tied to `gardengate.communications@gmail.com`). Then open **garden-club** from the list of repositories.
 
-> *"Update the officers list: Jane Smith is President, Maria Lopez is Treasurer, Anne Chen is Reporting Secretary, and Pat Rivera is Corresponding Secretary."*
+**B. With an email invitation.** If you were invited by email, follow the link in that email and sign in with your email address. You'll see the Garden Club site and nothing else. You won't need a GitHub account.
 
-> *"Add a new community service project called Spring Bulb Planting at Rockford Park, chaired by Ellen Ward, running 2026 to present."*
-
-> *"Add our Facebook page to the website."*
-
-The assistant handles the file format, the commas, the quotes — all the things the "Common Mistakes" section below warns about. **Nobody on the board needs to learn JSON.**
-
-The rest of this guide explains the file formats for anyone who prefers to edit by hand, or who wants to check an assistant's work.
+Once in, the left-hand menu lists everything you can edit.
 
 ---
 
-## Common Mistakes
+## 2. Making a change
 
-These are the most frequent errors that prevent the site from building. Read this section carefully before making edits.
+The routine is the same for everything:
 
-### 1. Trailing Commas
+1. Pick a section from the left menu (for example **Community Service Projects**).
+2. Click the item you want to change, or **Add** to create a new one.
+3. Fill in the form. Each field has a short note under it explaining what it's for.
+4. Click **Save** at the top.
 
-JSON does **not** allow a comma after the last item in a list or object.
+That's it — saving *is* publishing. The website rebuilds itself and your change is live in about a minute. There's no separate "publish" button and nobody to notify.
 
-```json
-// WRONG — trailing comma after last item
-[
-  { "name": "Alice" },
-  { "name": "Bob" },   ← this comma will break the file
-]
+**To remove something** (a project that has ended, an officer who has stepped down): open it and use **Delete** in the item's menu. Some sections have a gentler option — see "hiding an officer" below.
 
-// CORRECT
-[
-  { "name": "Alice" },
-  { "name": "Bob" }
-]
-```
-
-### 2. Missing Quotes Around Text
-
-Every piece of text (a word, sentence, email address, etc.) must be wrapped in double quotes `"like this"`. Numbers do **not** use quotes.
-
-```json
-// WRONG
-{ "role": President }
-
-// CORRECT
-{ "role": "President" }
-```
-
-### 3. Accidentally Deleting Brackets or Braces
-
-Each file uses `{` `}` for objects and `[` `]` for lists. Deleting one of these will break the entire file.
-
-- `{` must always have a matching `}`
-- `[` must always have a matching `]`
-
-**Tip:** Use a free JSON validator like [jsonlint.com](https://jsonlint.com) — paste your file contents to check for errors before saving.
-
-### 4. Using Single Quotes Instead of Double Quotes
-
-JSON requires double quotes `"`. Single quotes `'` are not allowed.
-
-```json
-// WRONG
-{ 'name': 'Alice' }
-
-// CORRECT
-{ "name": "Alice" }
-```
-
-### 5. Forgetting Commas Between Items
-
-Every item in a list or object (except the last one) needs a comma after it.
-
-```json
-// WRONG
-{
-  "name": "Alice"
-  "role": "President"
-}
-
-// CORRECT
-{
-  "name": "Alice",
-  "role": "President"
-}
-```
+**To change the order** things appear on the page: most sections have an **Order on the page** field. Smaller numbers show first. The existing items use 10, 20, 30… so you can slot a new one in between (25) without renumbering everything.
 
 ---
 
-## File Reference
+## 3. What you can edit, and where
 
-### `clubInfo.json` — Club Name, Mission & Theme
-
-Edit this to update the club name, founding dates, mission statement, or annual theme. This is the club's real file, abbreviated:
-
-```json
-{
-  "name": "Garden Gate Garden Club",
-  "foundingDates": {
-    "club": "September 1963",
-    "federation": "June 1964",
-    "incorporated": "October 2018"
-  },
-  "nonprofitStatus": "501(c)(3) Organization",
-  "theme": "Promoting our love of gardening through kindness."
-}
-```
-
----
-
-### `contact.json` — Email, Mailing Address & Social Media
-
-Edit this to update the contact email, mailing address, or social media links. This is the club's real file:
-
-```json
-{
-  "primaryEmail": "gardengate.communications@gmail.com",
-  "mailingAddress": {
-    "street": "P.O. Box 4754",
-    "city": "Wilmington",
-    "state": "Delaware",
-    "zip": "19807"
-  },
-  "socialLinks": {
-    "facebook": "https://www.facebook.com/people/Garden-Gate-Garden-Club-Delaware/61592716023518/",
-    "instagram": "https://www.instagram.com/gardengategardenclub/"
-  }
-}
-```
-
-Social links appear in two places automatically: as text links in the "Follow Us" section of the Contact page, and as icon buttons in the footer of every page. To add another platform, add a line inside `socialLinks` — for example `"youtube": "https://youtube.com/@yourchannel"`. Remember the comma after the previous entry.
-
-Facebook and Instagram get their own icons. Any other platform falls back to a generic link icon, which is fine — ask if you want a custom one added.
-
-If you remove all of them and leave `{}`, both sections simply disappear.
-
-> **Note:** changing `primaryEmail` changes the address **shown** on the Contact page. It does **not** change where contact-form messages are delivered. Those two are set in different places — see the handover document if the club's email address ever changes.
-
----
-
-### `meetings.json` — Meeting Schedule & Agenda
-
-Edit the `timeBlocks` to change the schedule, `dues` to update the annual fee, and `orderOfBusiness` to adjust the agenda.
-
----
-
-### `affiliations.json` — NGC, Region & State Links
-
-Update the names, themes, and officers for national, regional, and state affiliations here.
-
----
-
-### `officers.json` — Board Members (Array)
-
-> ### ▸ Start here
->
-> **The board roster is not filled in yet.** All four entries currently say `"TBD"`, and those four "TBD"s are visible on the live About page right now. **Replacing them is the first content job for the club.** Follow the workflow at the top of this guide, or just ask an AI assistant to do it.
-
-This is a **list** of officer entries. Each entry uses `{` `}` and is separated by commas.
-
-**Complete example entry:**
-```json
-{
-  "role": "Vice President – Programs",
-  "name": "Diane Okafor",
-  "sortOrder": 2,
-  "bio": "Diane coordinates our monthly speakers and has a background in horticultural therapy."
-}
-```
-
-- `"role"` — The officer's title (required)
-- `"name"` — Full name (required)
-- `"sortOrder"` — A number controlling display order; use `1` for President, `2` for next, etc. (required, **no quotes** around the number)
-- `"bio"` — Short biography paragraph (optional — you may omit this line entirely)
-
-**To add a new officer**, copy an existing `{ ... }` block, paste it before the closing `]`, and add a comma after the previous entry.
-
-**To remove an officer**, delete the entire `{ ... }` block for that person and remove the preceding comma if it was the last item.
-
----
-
-### `awards.json` — Club Awards (Array)
-
-Each award entry must include the award name, a description, a list of recent winners, and the judging criteria.
-
-**Complete example entry:**
-```json
-{
-  "awardName": "Founder's Cup",
-  "description": "Awarded annually to the member who best exemplifies the club's founding values of community service and horticultural excellence.",
-  "recentWinners": [
-    "Patricia Moore (2023)",
-    "James Whitaker (2022)",
-    "Ruth Alcott (2021)"
-  ],
-  "judgingCriteria": [
-    "Years of active club membership",
-    "Volunteer hours contributed",
-    "Impact on community beautification",
-    "Mentorship of newer members"
-  ]
-}
-```
-
-- `"recentWinners"` and `"judgingCriteria"` are both **lists** — each item is a quoted string, separated by commas, inside `[` `]`.
-
----
-
-### `judges.json` — Certified Judges (Array)
-
-List all club-certified judges. The `"status"` field must be exactly `"active"` or `"emeritus"` (lowercase, with quotes).
-
-**Complete example entry:**
-```json
-{
-  "name": "Beverly Ashworth",
-  "certificationLevel": "Master Judge",
-  "status": "active"
-}
-```
-
-Valid status values:
-- `"active"` — currently serving as a judge
-- `"emeritus"` — retired / honorary status
-
----
-
-### `projects.json` — Community Projects (Array)
-
-Each project documents a club initiative. The `"imageReference"` is the photo's filename written as a path, e.g. `"/bluestar.webp"`.
-
-**Complete example entry** (this is a real entry from the club's file, shortened):
-```json
-{
-  "name": "Blue Star Memorial Marker",
-  "yearsActive": "2014–present",
-  "chairperson": "TBD",
-  "description": "GGGC installed the Blue Star Memorial Marker at the Wilmington VA Medical Center in 2014.",
-  "location": "Wilmington VA Medical Center",
-  "imageReference": "/bluestar.webp"
-}
-```
-
-- `"yearsActive"` — Use formats like `"2021–present"` or `"2009–2015"` (use an en-dash `–`, not a hyphen `-`).
-- `"imageReference"` — A `/` followed by the image's filename (no folders, no spaces in the name). The photo file itself lives in the `src/assets/content/` folder. See **Adding Photos** below — you can do this yourself.
-
----
-
-## Adding Photos
-
-You can add photos yourself, in the browser, without installing anything. It is a two-step job: upload the file, then point a data file at it.
-
-### Step 1 — Upload the photo
-
-1. Go to **https://github.com/howeitis/garden-club** and sign in as the club account.
-2. Navigate into `src`, then `assets`, then `content`.
-3. Click **Add file → Upload files** in the top-right.
-4. Drag your photo in.
-5. Leave **"Commit directly to the `main` branch"** selected and click **Commit changes**.
-
-### Step 2 — Point a data file at it
-
-Edit the relevant file (for example `projects.json`) and set the `imageReference` to a `/` plus the filename:
-
-```json
-"imageReference": "/spring-bulb-planting.jpg"
-```
-
-The website resizes and optimizes the photo automatically when it publishes. You do not need to shrink it first.
-
-### Filename rules — these matter
-
-| Rule | Good | Bad |
+| To change… | Open… | Notes |
 |---|---|---|
-| **No spaces** — use hyphens | `spring-bulb-planting.jpg` | `spring bulb planting.jpg` |
-| **All lowercase** | `rose-garden.jpg` | `Rose-Garden.JPG` |
-| **Reference must match exactly** | file `bluestar.webp` → `"/bluestar.webp"` | file `bluestar.webp` → `"/bluestar.jpg"` |
+| The featured member on the home page | **Member of the Month** | Add a new honoree; the newest date becomes the feature automatically |
+| Community service projects | **Community Service Projects** | One entry per project |
+| The board on the About page | **Board of Officers** | Type `TBD` as the name to hide a role |
+| Members' home gardens | **Member Gardens** | |
+| Awards received or given | **Awards** | Choose "Received by the club" or "Given by the club" |
+| Certified judges | **Certified Judges** | Active or Emeritus |
+| Native and invasive plants | **Plants** | Choose Native or Invasive |
+| Public gardens to visit | **Gardens to Visit** | Choose Local or Regional |
+| Gardening tips | **Gardening Tips** | Choose Evergreen or Garden Rhythms |
+| Club name, mission, theme, membership numbers | **Club Settings → Club details** | The mission is also what search engines show |
+| Email, mailing address, Facebook, Instagram | **Club Settings → Contact details** | |
+| Meeting day, timetable, dues, order of business | **Club Settings → Meetings & dues** | |
+| NGC, region, and state federation details | **Club Settings → Affiliations** | Leave the convention blank to hide that line |
+| The paragraphs on a page | **Page Text → (that page)** | Headings and buttons stay as they are |
 
-A filename with a space in it will break the photo's web address. If the name and the reference do not match exactly — including the `.jpg` / `.webp` ending — the photo will not appear.
-
-> **Easier option:** ask an AI assistant. *"I've uploaded spring-bulb-planting.jpg to src/assets/content — add it to the Spring Bulb Planting project."* It will handle the naming and the reference.
-
----
-
-## The Contact Form
-
-Messages sent through the **Contact** page are emailed to **gardengate.communications@gmail.com**. They are not stored anywhere on the website, so treat that inbox as the only copy.
-
-A few things worth knowing:
-
-- **Replying works normally.** Hit Reply on the notification email and it goes straight back to the person who wrote in.
-- **Changing `primaryEmail` in `contact.json` does not change where form messages go.** That setting only controls the email address *displayed* on the Contact page. Delivery is configured separately, in the hosting settings. If the club changes its email address, both must be updated — ask Owen Howe for the second one.
-- **Check the spam folder occasionally**, at least early on, and mark the notifications as "not spam" so Gmail learns to trust them.
+Things that are **not** in the admin (they need a developer or an AI assistant — see the appendix): page layouts, colours and fonts, the navigation menu, adding a whole new page, the logo.
 
 ---
 
-## Validation Tip
+## 4. Step-by-step: the common jobs
 
-If you are editing by hand and want to check your work **before** committing, copy the entire file contents into [jsonlint.com](https://jsonlint.com). A green "Valid JSON" message means the format is correct. An error will point to the exact line with the problem.
+### A new Member of the Month
 
-This is optional — the website checks the file automatically when you publish, and refuses to update if there is a mistake. Validating first just saves you a round trip.
+1. Get one or two photos from the member. A **tall (portrait) photo** works best for the main one.
+2. Open **Member of the Month** → **Add**.
+3. Fill in:
+   - **Member's name**
+   - **Month featured** — pick any day in the month. This is what makes them the current feature (the newest date wins). Turn off *Show the month on the page* if you'd rather not print a date.
+   - **Headline** and **Tagline** — the big two-line title, e.g. *Celebrating Joy Ericson* / *and her love of flowers*.
+   - **One-sentence summary** — appears on the home page.
+   - **Main photo** — upload it, then write one sentence describing it (this is read aloud to visitors using screen readers).
+   - **The story** — write it in short chapters. For each chapter, put the title on its own line as a **Heading 2** (use the toolbar's heading button or type `## ` before it), then the paragraph. The website turns each heading into a numbered chapter label.
+   - **At a glance** — up to four big numbers (e.g. `40+` / *Years as a certified judge*). Optional.
+   - **Second photo** and **Closing note** — optional.
+4. **Save.** The previous honoree automatically moves to the "Past Honorees" archive, and both keep their own page.
+
+Every honoree gets a permanent web address you can share on Facebook or Instagram:
+`https://gardengategardenclub.com/members/member-of-the-month/<their-name>/` — for example `/members/member-of-the-month/joy-ericson/`. The link keeps working after the next honoree is featured.
+
+### A new community service project
+
+**Community Service Projects → Add.** Fill in the project name, **Years active** (`2026–present` for ongoing, or `2026–2027` for a one-season project), who chairs it, the location, a photo, and the description. Set **Order on the page** to control where it sits in the list.
+
+When a project ends, either delete it or change *Years active* to the finished range.
+
+### Updating the board
+
+**Board of Officers.** There is one entry per role. Open a role and change the **Name**. Add a short bio if you like.
+
+To keep a role listed but hidden from the website (say, between elections), set the name to `TBD`. When *every* role is `TBD`, the whole "Board of Officers" section disappears from the About page and reappears as soon as one real name is entered.
+
+### Meeting times, dues, order of business
+
+**Club Settings → Meetings & dues.** The timetable and the order of business are lists — use the **+** button to add a row, the arrows to reorder, and the **×** to remove one.
+
+### The theme, mission, or membership numbers
+
+**Club Settings → Club details.**
+
+### Adding a plant, garden, or tip
+
+**Plants**, **Gardens to Visit**, or **Gardening Tips → Add.** Each has a dropdown that decides which section of the page it appears in (Native/Invasive, Local/Regional, Evergreen/Rhythms).
+
+### Changing a paragraph on a page
+
+**Page Text → (the page).** Each field is labelled with where on the page it appears. Bold and links work in most of them.
+
+---
+
+## 5. Photos
+
+- **Any JPG or PNG straight from a phone or camera is fine.** The website resizes and compresses photos itself, so you don't need to edit them first.
+- **Size:** under 3 MB is ideal. Anything over 8 MB is refused with a message asking you to resize it. (Most phones offer a "medium" or "large" export that's well under this.)
+- **Shape:** most spots on the site show photos in landscape. The Member of the Month main photo is the exception — it's tall.
+- **Filenames** are tidied automatically when you upload through the admin. If you ever add photos another way, use only letters, numbers, and dashes: `spring-planting.jpg`, not `Spring Planting (1).JPG`.
+- **Focus point:** if a photo is cropped badly on the page (someone's head cut off), open the item and fill in **Photo focus point** — `center 30%` keeps the top third in view; `center bottom` keeps the bottom. Leave it blank normally.
+- **Describe the photo** fields (sometimes labelled *alt*): one plain sentence saying what's in the picture. Visitors who can't see the photo hear this instead.
+
+---
+
+## 6. Writing tips
+
+- Most description fields accept simple formatting: **bold**, *italic*, and links. Use the toolbar, or type `**bold**`, `*italic*`, and `[link text](https://example.org)`.
+- For the Member of the Month story, each **Heading 2** starts a new chapter. Keep chapters short — two or three paragraphs.
+- Link to other pages on the site by their path: `/membership`, `/members/awards-and-judges`, `/resources/plants`.
+- The site handles curly quotes and dashes for you — type straight quotes and they'll look right.
+- Keep the **One-sentence summary** fields to a sentence. They appear in small spaces.
+
+---
+
+## 7. Checking that it went live
+
+Wait a minute, then open the website and refresh the page. If you're impatient or something looks off:
+
+1. Go to **https://github.com/howeitis/garden-club/actions**.
+2. The top row is your change. **Green check ✓** — it's live. **Yellow dot** — still building. **Red ✗** — something needs fixing (next section).
+
+---
+
+## 8. If something goes wrong
+
+**The website is never broken by a mistake.** If a change can't be published, the previous version stays up, and the build report says exactly what's wrong. The messages are written in plain English — for example:
+
+> `plants → japanese-barberry` — "type" must be "native" or "invasive"
+
+> `A photo problem: spring planting.jpg has spaces in the filename. Rename it using only letters, numbers, and dashes.`
+
+> Every project needs a "chair" (the member who leads it)
+
+Open the item named, fix the field named, and save again.
+
+**You published something you'd rather take back.** Edit it again and save — that's another minute. (Rolling back to an earlier version of the whole site is a Vercel-dashboard job for Owen; for content edits, correcting and re-saving is always enough.)
+
+**The admin won't load or shows an error.** The admin (Pages CMS) is a free service run by other people. Everything you edit is stored safely in the club's GitHub repository, not in the admin, so nothing is lost. If it's down for more than a day, edit through GitHub directly (appendix), or ask an AI assistant to make the change.
+
+---
+
+## 9. Giving someone else access
+
+The club's GitHub login is the master key, and it's best to keep it with one person. Everyone else should get an **email invitation** — it gives them the editing screens and nothing more.
+
+1. Sign in to the admin with the club's GitHub account.
+2. Open the garden-club site → **Settings** (in the left menu) → **Collaborators**.
+3. Enter their email address and send the invite.
+
+They'll receive a link, sign in with their email, and can start editing. Remove them from the same screen when they step down.
+
+---
+
+## 10. Appendix: editing without the admin
+
+Every item on the site is a small text file in the club's GitHub repository, under `src/content/`. The admin is just a friendly way of editing those files — you can also edit them directly on GitHub if you ever need to.
+
+### Where things live
+
+```
+src/content/
+  members-of-the-month/   one file per honoree      (joy-ericson.md)
+  projects/               one file per project      (blue-star-memorial-marker.md)
+  officers/               one file per role         (president.md)
+  member-gardens/         one file per garden
+  awards/                 one file per award
+  judges/                 one file per judge
+  plants/                 one file per plant
+  gardens/                one file per garden to visit
+  gardening-tips/         one file per tip
+  settings/               club.yml · contact.yml · meetings.yml · affiliations.yml
+  pages/                  one file per page's editable paragraphs (home.yml, about.yml …)
+src/assets/content/       all the photos
+```
+
+### What a file looks like
+
+A project, for example:
+
+```markdown
+---
+title: Goodstay Gardens’ Peony Garden Renovation
+years: 2025–2026
+chair: Jane Hollingsworth
+location: Goodstay Gardens, Wilmington
+image: /goodstaygardens.webp
+order: 20
+---
+
+This project marks a new opportunity for Garden Gate to continue its
+support of Goodstay Gardens — one of Wilmington’s best-kept secrets…
+```
+
+The part between the `---` lines is a list of `field: value` pairs. Below it is the description, as ordinary text. To add a project by hand, copy an existing file, rename it, and change the values.
+
+A settings file (`settings/meetings.yml`) is the same `field: value` style all the way through, with lists shown as lines starting with `- `.
+
+### Editing on GitHub
+
+1. Go to **https://github.com/howeitis/garden-club** and sign in as the club.
+2. Click into `src` → `content` → the folder → the file.
+3. Click the **pencil** (✏️) to edit, or **Add file → Create new file** to add one.
+4. Make the change, then **Commit changes** with "Commit directly to the main branch" selected.
+
+The same checks run and the same rules apply: if a field is missing or mistyped, the build report names it and the live site is unaffected.
+
+A few things the admin does for you that you must do yourself here:
+
+- Keep the `field:` names exactly as in the other files (`chair`, not `Chair`).
+- Values with a colon or a leading symbol need quotes: `dates: "May 4–6, 2026"`.
+- Photos go in `src/assets/content/` and are referred to as `/filename.jpg`.
+
+### Letting an AI assistant do it
+
+Tools such as [Claude Code](https://claude.com/claude-code) can make any of these changes from a plain-English request — *"Add Maria Lopez as Treasurer"*, *"Feature Bob Howatt as Member of the Month with these two photos"* — and will check the formatting and publish. This is a good fallback for anything the admin can't do (layout, navigation, new pages).

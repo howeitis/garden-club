@@ -1,7 +1,9 @@
 ---
 // Unboxed officer entry. Each card takes one accent from the logo's palette,
 // rotating down the grid — a disciplined return of the club's color.
-import type { Officer } from '../data/schema';
+import { render } from 'astro:content';
+import type { Officer } from '../data/index';
+import Prose from './Prose.astro';
 
 interface Props {
   officer: Officer;
@@ -18,14 +20,17 @@ const ACCENTS = [
   { rule: 'border-holly/50',     label: 'text-holly' },
 ];
 const accent = ACCENTS[index % ACCENTS.length];
+const { role, name } = officer.data;
+const hasBio = !!officer.body?.trim();
+const { Content } = await render(officer);
 ---
 
 <article class:list={['border-t-2 pt-5 flex flex-col gap-1.5', accent.rule]}>
   <span class:list={['text-[0.65rem] font-semibold uppercase tracking-[0.2em]', accent.label]}>
-    {officer.role}
+    {role}
   </span>
-  <h3 class="font-heading text-[1.45rem] font-semibold text-text leading-snug">{officer.name}</h3>
-  {officer.bio && (
-    <p class="text-base text-text/70 leading-relaxed mt-1">{officer.bio}</p>
+  <h3 class="font-heading text-[1.45rem] font-semibold text-text leading-snug">{name}</h3>
+  {hasBio && (
+    <Prose class="text-base text-text/70 mt-1"><Content /></Prose>
   )}
 </article>
