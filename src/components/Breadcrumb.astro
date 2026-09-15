@@ -1,0 +1,50 @@
+---
+// Breadcrumb trail for subpages, rendered directly under the hero. Emits the
+// matching schema.org BreadcrumbList so search results can show the path.
+//
+// Pass the trail *excluding* Home — it is implied visually (the crest links
+// there) but included in the structured data, where Google expects it.
+// The last item is the current page and is not linked.
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ label: 'Home', href: '/' }, ...items].map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href ? { item: new URL(crumb.href, Astro.site).toString() } : {}),
+  })),
+};
+---
+
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" aria-label="Breadcrumb">
+  <ol class="flex flex-wrap items-center gap-2.5 text-sm text-text/70">
+    {items.map((crumb, i) => {
+      const isLast = i === items.length - 1;
+      return (
+        <>
+          <li>
+            {isLast || !crumb.href ? (
+              <span class="text-text/80 font-medium" aria-current={isLast ? 'page' : undefined}>{crumb.label}</span>
+            ) : (
+              <a href={crumb.href} class="hover:text-primary underline decoration-gold/30 underline-offset-4 transition-colors">{crumb.label}</a>
+            )}
+          </li>
+          {!isLast && <li aria-hidden="true" class="text-gold/60">&middot;</li>}
+        </>
+      );
+    })}
+  </ol>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</nav>

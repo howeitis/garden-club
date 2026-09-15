@@ -6,6 +6,7 @@ import { getImage } from 'astro:assets';
 import heroDesktopSrc from '../assets/heroes/home-hero.png';
 import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
 import { clubInfo, currentMemberOfTheMonth as featured } from '../data/index';
+import { honoreePath } from '../lib/memberOfTheMonth';
 
 // Art-directed home hero: a portrait-ish crop on phones, the wide shot on
 // larger screens. Both are optimized to WebP with responsive srcsets.
@@ -61,7 +62,10 @@ const siteIndex = [
 ];
 ---
 
-<BaseLayout title={`${clubInfo.name} — Delaware Garden Club`} description={clubInfo.missionStatement}>
+<BaseLayout
+  title={`${clubInfo.name} | Greenville & Wilmington, Delaware`}
+  description={`A 501(c)(3) garden club founded in Greenville, Delaware in 1963. ${clubInfo.missionStatement}`}
+>
 
   <!-- Hero -->
   <section class="relative text-background overflow-hidden">
@@ -174,7 +178,7 @@ const siteIndex = [
   <!-- Member of the Month teaser — a slim editorial row -->
   <section class="border-t border-gold/20 fade-in-section" aria-labelledby="home-motm-heading">
     <a
-      href="/members/member-of-the-month"
+      href={honoreePath(featured)}
       class="group block max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14"
     >
       <div class="flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-10">

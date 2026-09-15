@@ -1,0 +1,51 @@
+---
+// Compact grid of Member of the Month honorees, each linking to their
+// permanent profile. Used for "Past Honorees" on the index and "More
+// Honorees" on individual profile pages. Renders nothing when empty.
+import type { MemberOfTheMonth } from '../data/schema';
+import SmartImage from './SmartImage.astro';
+import { honoreePath } from '../lib/memberOfTheMonth';
+
+interface Props {
+  honorees: MemberOfTheMonth[];
+  eyebrow: string;
+  title: string;
+}
+
+const { honorees, eyebrow, title } = Astro.props;
+---
+
+{honorees.length > 0 && (
+  <section aria-labelledby="honoree-grid-heading" class="fade-in-section">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-4">{eyebrow}</p>
+    <h2 id="honoree-grid-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
+      {title}
+    </h2>
+    <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12 border-t border-gold/25 pt-10" role="list">
+      {honorees.map((honoree) => (
+        <li class="group relative">
+          <SmartImage
+            src={honoree.photos.portrait.src}
+            alt=""
+            widths={[300, 600]}
+            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 50vw"
+            class="w-full aspect-[3/4] object-cover rounded-sm mb-4 transition-transform duration-500 group-hover:scale-[1.02]"
+            style={honoree.photos.portrait.position ? `object-position: ${honoree.photos.portrait.position}` : undefined}
+            loading="lazy"
+          />
+          {honoree.period && (
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">{honoree.period}</p>
+          )}
+          <h3 class="font-heading text-2xl font-semibold text-text leading-snug group-hover:text-primary transition-colors duration-200">
+            <!-- The link's ::after stretches over the whole card so the photo
+                 is clickable, while the accessible name stays just the honoree. -->
+            <a href={honoreePath(honoree)} class="after:absolute after:inset-0 focus:outline-none focus-visible:underline decoration-gold underline-offset-4">
+              {honoree.name}
+            </a>
+          </h3>
+          <p class="mt-2 text-[0.95rem] text-text/70 leading-relaxed">{honoree.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

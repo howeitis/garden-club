@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import SmartImage from '../../components/SmartImage.astro';
 import { clubInfo } from '../../data/index';
@@ -91,8 +92,8 @@ const gardenRhythms = [
 ---
 
 <BaseLayout
-  title={`Gardening Tips | ${clubInfo.name}`}
-  description={`Evergreen fundamentals and seasonal Garden Rhythms — tips from ${clubInfo.name}.`}
+  title={`Gardening Tips for Delaware (Zone 7a) | ${clubInfo.name}`}
+  description={`Soil, watering, mulch, pollinators, and a weekly-to-monthly garden rhythm — practical tips for Delaware Piedmont gardens from ${clubInfo.name}.`}
 >
 
   <PageHero
@@ -101,6 +102,8 @@ const gardenRhythms = [
     subtitle="Timeless fundamentals plus seasonal routines to keep your garden thriving."
     accent="marigold"
   />
+
+  <Breadcrumb items={[{ label: 'Resources', href: '/resources' }, { label: 'Gardening Tips' }]} />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
