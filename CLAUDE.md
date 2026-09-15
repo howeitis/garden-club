@@ -156,7 +156,6 @@ All styling is Tailwind utility classes. No CSS modules or separate stylesheets 
 | `font-body`   | "Inter Variable"              | Body text (default, 18px base)               |
 
 The one exception to utility-only styling is the scoped `<style>` in `MemberProfile.astro`, which styles the Markdown-rendered chapters (CSS counters for the folio numerals) because those elements can't carry classes.
-| `font-script` | Cormorant Garamond | Legacy alias — the cursive wordmark was retired; do not use in new code |
 
 **Theme colors** (defined in `tailwind.config.mjs` → `colors`) — all drawn from the crest logo:
 
