@@ -3,7 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import Analytics from '@vercel/analytics/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { clubInfo, contact } from '../data/index';
+import { clubInfo, contact, affiliations } from '../data/index';
 
 export interface Props {
   title: string;
@@ -13,18 +13,36 @@ export interface Props {
    *  astro.config.mjs — excluding a page from the sitemap does not stop it
    *  being indexed if anything links to it. */
   noindex?: boolean;
+  /** Override the canonical URL (site-relative path or absolute). Used when a
+   *  page mirrors content whose permanent home is elsewhere — e.g. the Member
+   *  of the Month index canonicalizes to the current honoree's own URL. */
+  canonical?: string;
+  /** Absolute URL of a page-specific share image. Defaults to the club card. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  /** Open Graph type; profiles and stories are "article". */
+  ogType?: 'website' | 'article';
+  /** Additional JSON-LD objects (BreadcrumbList, Person, …) emitted alongside
+   *  the site-wide Organization schema. */
+  jsonLd?: Record<string, unknown>[];
 }
 
 const {
   title,
   description = clubInfo.missionStatement,
   noindex = false,
+  canonical,
+  ogType = 'website',
+  jsonLd: extraJsonLd = [],
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = canonical ? new URL(canonical, Astro.site) : new URL(Astro.url.pathname, Astro.site);
 // og-share-v2.png is a purpose-built 1200×630 card (~121 KB) — well within WhatsApp's limit.
 // Don't point this at a full-size photo; multi-MB images are silently dropped by most scrapers.
-const ogImage = new URL('/og-share-v2.png', Astro.site).toString();
+const defaultOgImage = new URL('/og-share-v2.png', Astro.site).toString();
+const ogImage = Astro.props.ogImage ?? defaultOgImage;
+const ogImageAlt = Astro.props.ogImageAlt ?? `${clubInfo.name} — peach blossom garden club logo`;
+const hasCustomOgImage = ogImage !== defaultOgImage;
 
 // Build JSON-LD Organization schema dynamically from validated data
 const sameAs = contact.socialLinks ? Object.values(contact.socialLinks) : [];
@@ -40,12 +58,21 @@ const foundingDateISO = (() => {
   return `${year}-${months[month] ?? '01'}`;
 })();
 
-const jsonLd = {
+// Organization rather than LocalBusiness: a nonprofit club has no opening
+// hours or telephone, and Search Console flags LocalBusiness without them.
+const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': ['Organization', 'LocalBusiness'],
+  '@type': 'Organization',
+  '@id': new URL('/#organization', Astro.site).toString(),
   name: clubInfo.name,
+  alternateName: 'GGGC',
+  url: Astro.site?.toString(),
+  logo: new URL('/gggc-clean.png', Astro.site).toString(),
   description: clubInfo.missionStatement,
   foundingDate: foundingDateISO,
+  foundingLocation: { '@type': 'Place', name: 'Greenville, Delaware' },
+  areaServed: { '@type': 'Place', name: 'Wilmington, Delaware' },
+  nonprofitStatus: 'https://schema.org/Nonprofit501c3',
   email: contact.primaryEmail,
   address: {
     '@type': 'PostalAddress',
@@ -55,8 +82,18 @@ const jsonLd = {
     postalCode: contact.mailingAddress.zip,
     addressCountry: 'US',
   },
+  memberOf: [
+    { '@type': 'Organization', name: affiliations.ngc.name, url: `https://${affiliations.ngc.website}` },
+    { '@type': 'Organization', name: affiliations.state.name },
+    { '@type': 'Organization', name: affiliations.region.name },
+  ],
   sameAs,
 };
+
+const jsonLdBlocks = [
+  organizationJsonLd,
+  ...extraJsonLd.map((block) => ({ '@context': 'https://schema.org', ...block })),
+];
 ---
 
 <!doctype html>
@@ -67,28 +104,37 @@ const jsonLd = {
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#2A5434" />
 
+    <!-- Marks the document as JS-capable before first paint. Scroll-reveal
+         animations hide content until a script shows it, so they are scoped
+         to `.js` — without JavaScript the page is simply fully visible. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
     <!-- Standard SEO -->
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:site_name" content={clubInfo.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:secure_url" content={ogImage} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
+    {!hasCustomOgImage && (
+      <>
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </>
+    )}
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content={`${clubInfo.name} — peach blossom garden club logo`} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- WhatsApp / iMessage read og:image above; no extra tags needed.
          The absolute URL resolves from `site` in astro.config.mjs. -->
@@ -117,8 +163,10 @@ const jsonLd = {
       rel="stylesheet"
     />
 
-    <!-- JSON-LD Structured Data: Organization + LocalBusiness -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
+    <!-- JSON-LD Structured Data: site-wide Organization + any page-specific blocks -->
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block, null, 2)} />
+    ))}
 
     <title>{title}</title>
     <ClientRouter />
@@ -157,13 +205,15 @@ const jsonLd = {
         animation: fadeSlideIn 0.3s ease-out forwards;
       }
 
-      /* Scroll-triggered fade-in for sections */
-      .fade-in-section {
+      /* Scroll-triggered fade-in for sections. Only applies once the inline
+         script in <head> has added `.js` to <html>; otherwise sections would
+         stay invisible for anyone whose scripts fail or are blocked. */
+      .js .fade-in-section {
         opacity: 0;
         transform: translateY(24px);
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       }
-      .fade-in-section.is-visible {
+      .js .fade-in-section.is-visible {
         opacity: 1;
         transform: translateY(0);
       }
@@ -171,7 +221,7 @@ const jsonLd = {
       /* Respect users who prefer reduced motion: content is always visible
          and page transitions cross-fade instantly. */
       @media (prefers-reduced-motion: reduce) {
-        .fade-in-section {
+        .js .fade-in-section {
           opacity: 1;
           transform: none;
           transition: none;
@@ -190,7 +240,7 @@ const jsonLd = {
       }
 
       :focus-visible {
-        outline: 2px solid #8f7433;
+        outline: 2px solid #856b2e;
         outline-offset: 2px;
       }
     </style>

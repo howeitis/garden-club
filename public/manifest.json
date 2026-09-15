@@ -4,8 +4,8 @@
   "description": "To stimulate the knowledge and love of gardening, to aid in the protection of plants and wildlife, and to encourage civic beauty.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FEF0F5",
-  "theme_color": "#F2AABF",
+  "background_color": "#FAF7F0",
+  "theme_color": "#2A5434",
   "icons": [
     {
       "src": "/favicon.svg",

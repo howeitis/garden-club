@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import PlantCard from '../../components/PlantCard.astro';
 import { clubInfo } from '../../data/index';
@@ -110,8 +111,8 @@ const bannedPlants = [
 ---
 
 <BaseLayout
-  title={`Plants | ${clubInfo.name}`}
-  description={`Native and invasive plants of Delaware — a guide from ${clubInfo.name}.`}
+  title={`Native & Invasive Plants of Delaware | ${clubInfo.name}`}
+  description={`${nativePlants.length} Delaware natives worth planting and ${bannedPlants.length} invasive species to avoid, with bloom times and why each matters to the Piedmont ecosystem.`}
 >
   <PageHero
     eyebrow="Delaware Flora"
@@ -119,6 +120,8 @@ const bannedPlants = [
     subtitle="Natives to celebrate and invasives to avoid in the Delaware Piedmont."
     accent="sage"
   />
+
+  <Breadcrumb items={[{ label: 'Resources', href: '/resources' }, { label: 'Plants' }]} />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 

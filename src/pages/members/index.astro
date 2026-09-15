@@ -5,6 +5,7 @@ import SectionHeader from '../../components/SectionHeader.astro';
 import SmartImage from '../../components/SmartImage.astro';
 import Flourish from '../../components/Flourish.astro';
 import { clubInfo, currentMemberOfTheMonth as featured } from '../../data/index';
+import { honoreePath } from '../../lib/memberOfTheMonth';
 
 const memberGardens = [
   {
@@ -26,28 +27,14 @@ const memberGardens = [
     highlight: 'Cottage-style borders',
     image: '/metzlers.webp',
   },
-  {
-    name: 'The Rose Walk',
-    member: 'Jane Doe',
-    description:
-      'A winding gravel path bordered by David Austin English roses and fragrant lavender. Visitors are welcomed by a classic white arbor draped in climbing New Dawn roses.',
-    highlight: 'Over 40 rose varieties',
-    image: '/rosegarden.webp',
-  },
-  {
-    name: 'Shade Sanctuary',
-    member: 'Mary Smith',
-    description:
-      'Nestled beneath mature oaks, this woodland garden showcases native ferns, hostas, and hellebores. A small water feature provides a tranquil backdrop for shade-loving perennials.',
-    highlight: 'Native woodland plants',
-    image: '/shadegarden.webp',
-  },
+  // Add more members' gardens here. Each entry needs a real member's name and
+  // a photo of their actual garden in src/assets/content/.
 ];
 ---
 
 <BaseLayout
-  title={`Members | ${clubInfo.name}`}
-  description={`Meet the members of ${clubInfo.name} and explore their beautiful home gardens.`}
+  title={`Member Gardens | ${clubInfo.name}`}
+  description={`Home gardens tended by ${clubInfo.name} members in and around Greenville, Delaware, plus our current Member of the Month.`}
 >
   <PageHero
     eyebrow="Our Members"
@@ -62,7 +49,7 @@ const memberGardens = [
     <!-- Member of the Month callout -->
     <section aria-labelledby="motm-heading" class="fade-in-section">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
-        <a href="/members/member-of-the-month" class="md:col-span-4 block group" aria-hidden="true" tabindex="-1">
+        <a href={honoreePath(featured)} class="md:col-span-4 block group" aria-hidden="true" tabindex="-1">
           <div class="relative">
             <span class="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
             <span class="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
@@ -85,7 +72,7 @@ const memberGardens = [
           </h2>
           <p class="text-text/75 text-lg leading-relaxed max-w-2xl mb-8">{featured.summary}</p>
           <a
-            href="/members/member-of-the-month"
+            href={honoreePath(featured)}
             class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
           >
             Read {featured.name.split(' ')[0]}'s Story
