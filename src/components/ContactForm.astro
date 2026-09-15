@@ -15,7 +15,7 @@ import { clubInfo, contact } from '../data/index';
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 const redirectURL = new URL('/thank-you', Astro.site).toString();
 
-const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 text-base text-text placeholder:text-text/35
+const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 text-base text-text placeholder:text-text/50
   focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-shadow`;
 ---
 
@@ -133,7 +133,7 @@ const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 t
     >
       {contact.primaryEmail}
     </a>
-    <p class="text-xs text-text/45 mt-5 leading-relaxed">
+    <p class="text-xs text-text/70 mt-5 leading-relaxed">
       Site maintainers: set <code class="font-mono">PUBLIC_WEB3FORMS_KEY</code> in the Vercel
       project&rsquo;s environment variables (or a local <code class="font-mono">.env</code>) to enable the form.
     </p>

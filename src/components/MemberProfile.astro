@@ -1,0 +1,166 @@
+---
+// Magazine-style profile of one Member of the Month honoree: display
+// headline, sticky portrait beside the story in chapters, then a
+// "by the numbers" strip with the secondary photo. Used by the index page
+// (current honoree) and by each honoree's permanent page.
+import type { MemberOfTheMonth } from '../data/schema';
+import SmartImage from './SmartImage.astro';
+
+interface Props {
+  member: MemberOfTheMonth;
+  /** Eager-load the portrait (it's the LCP element on these pages). */
+  eager?: boolean;
+}
+
+const { member, eager = true } = Astro.props;
+const hasStats = (member.stats?.length ?? 0) > 0;
+
+// One accent per stat, rotating across siblings.
+const statAccents = ['text-blossom-deep', 'text-gold', 'text-accent', 'text-holly'];
+
+// Chapter text with an optional inline link. Splitting on the phrase (rather
+// than allowing HTML in the JSON) keeps the data plain and the markup ours.
+function splitOnPhrase(text: string, phrase?: string): [string, string] | null {
+  if (!phrase) return null;
+  const i = text.indexOf(phrase);
+  return i === -1 ? null : [text.slice(0, i), text.slice(i + phrase.length)];
+}
+---
+
+<!-- ── Feature ─────────────────────────────────────────────────────── -->
+<article aria-labelledby="feature-heading" class="fade-in-section">
+
+  <!-- Headline -->
+  <header class="mb-12 sm:mb-16">
+    <p class="flex items-center gap-4 text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-6">
+      <span class="h-px w-10 bg-gold/40" aria-hidden="true"></span>
+      {member.period ? `Member of the Month · ${member.period}` : 'Featured Member'}
+    </p>
+    <h2 id="feature-heading" class="font-heading font-semibold text-text tracking-[-0.01em] leading-[0.98]">
+      <span class="block text-5xl sm:text-6xl lg:text-7xl">{member.headline}</span>
+      <span class="mt-3 block font-normal italic text-3xl sm:text-4xl lg:text-5xl text-blossom-deep">{member.tagline}</span>
+    </h2>
+  </header>
+
+  <!-- Portrait + story -->
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 lg:gap-20 items-start">
+
+    <!-- Lead portrait — stays in view on desktop while the story scrolls -->
+    <figure class="md:col-span-5 md:sticky md:top-28">
+      <div class="relative">
+        <!-- Blossom corner brackets frame the honoree -->
+        <span class="absolute -top-3 -left-3 w-12 h-12 border-t-2 border-l-2 border-blossom/70" aria-hidden="true"></span>
+        <span class="absolute -bottom-3 -right-3 w-12 h-12 border-b-2 border-r-2 border-gold/50" aria-hidden="true"></span>
+        <SmartImage
+          src={member.photos.portrait.src}
+          alt={member.photos.portrait.alt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 768px) 40vw, 100vw"
+          class="w-full aspect-[3/4] object-cover rounded-sm"
+          style={member.photos.portrait.position ? `object-position: ${member.photos.portrait.position}` : undefined}
+          loading={eager ? 'eager' : 'lazy'}
+        />
+      </div>
+      {member.photos.portrait.caption && (
+        <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/70">
+          <span class="h-px w-6 bg-blossom/70" aria-hidden="true"></span>
+          {member.photos.portrait.caption}
+        </figcaption>
+      )}
+    </figure>
+
+    <!-- Story in chapters -->
+    <div class="md:col-span-7 divide-y divide-gold/20">
+      {member.chapters.map((chapter, i) => {
+        const parts = splitOnPhrase(chapter.text, chapter.link?.phrase);
+        const isFirst = i === 0;
+        return (
+          <section class="py-10 first:pt-0 last:pb-0" aria-label={chapter.label}>
+            <p class="flex items-baseline gap-4 mb-5">
+              <span class="font-heading italic text-3xl text-gold/50 leading-none" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="text-gold text-xs font-semibold uppercase tracking-[0.28em]">{chapter.label}</span>
+            </p>
+            <p class:list={[
+              'text-lg sm:text-xl text-text/85 leading-relaxed',
+              isFirst && 'first-letter:font-heading first-letter:text-[4.6rem] first-letter:leading-[0.8] first-letter:font-semibold first-letter:text-primary first-letter:float-left first-letter:mr-3 first-letter:mt-1.5',
+            ]}>
+              {parts ? (
+                <>
+                  {parts[0]}<a href={chapter.link!.href} class="text-primary underline decoration-gold/50 decoration-1 underline-offset-4 hover:decoration-gold transition-colors">{chapter.link!.phrase}</a>{parts[1]}
+                </>
+              ) : chapter.text}
+            </p>
+          </section>
+        );
+      })}
+
+      {member.note && (
+        <aside class="pt-10 mt-2">
+          <div class="border-l-2 border-gold/50 pl-7">
+            <p class="font-heading italic text-2xl text-text/85 leading-[1.35]">{member.note.text}</p>
+            {member.note.href && member.note.linkLabel && (
+              <a
+                href={member.note.href}
+                class="group mt-4 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 hover:text-primary transition-colors duration-200"
+              >
+                {member.note.linkLabel}
+                <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            )}
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
+</article>
+
+<!-- ── By the numbers + second photo ───────────────────────────────── -->
+{(hasStats || member.photos.secondary) && (
+  <section aria-labelledby="numbers-heading" class="fade-in-section border-y border-gold/25 py-14 sm:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
+
+      {member.photos.secondary && (
+        <figure class="md:col-span-5 md:order-2">
+          <SmartImage
+            src={member.photos.secondary.src}
+            alt={member.photos.secondary.alt}
+            widths={[480, 800, 1000]}
+            sizes="(min-width: 768px) 40vw, 100vw"
+            class="w-full aspect-[4/5] object-cover rounded-sm"
+            style={member.photos.secondary.position ? `object-position: ${member.photos.secondary.position}` : undefined}
+            loading="lazy"
+          />
+          {member.photos.secondary.caption && (
+            <figcaption class="mt-5 flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-text/70">
+              <span class="h-px w-6 bg-accent/80" aria-hidden="true"></span>
+              {member.photos.secondary.caption}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      {hasStats && member.stats && (
+        <div class:list={[member.photos.secondary ? 'md:col-span-7 md:order-1' : 'md:col-span-12']}>
+          <p class="text-gold text-xs font-semibold uppercase tracking-[0.28em] mb-3">By the Numbers</p>
+          <h3 id="numbers-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
+            {member.name.split(' ')[0]}, at a glance
+          </h3>
+          <dl class="divide-y divide-gold/20">
+            {member.stats.map((stat, i) => (
+              <div class="grid grid-cols-[minmax(6.5rem,auto)_1fr] sm:grid-cols-[minmax(9rem,auto)_1fr] gap-x-6 sm:gap-x-10 items-baseline py-6 first:pt-0 last:pb-0">
+                <dd class:list={['font-heading italic text-6xl sm:text-7xl leading-none tracking-[-0.02em] order-first', statAccents[i % statAccents.length]]}>
+                  {stat.value}
+                </dd>
+                <dt class="text-base sm:text-lg text-text/75 leading-snug">{stat.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+    </div>
+  </section>
+)}

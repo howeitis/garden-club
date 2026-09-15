@@ -4,19 +4,32 @@ import PageHero from '../../components/PageHero.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import AwardCard from '../../components/AwardCard.astro';
 import JudgeRow from '../../components/JudgeRow.astro';
-import { clubInfo, awards, judges } from '../../data/index';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { clubInfo, awards, judges, affiliations } from '../../data/index';
 
 const activeJudges   = judges.filter((j) => j.status === 'active');
 const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
 
-// Split awards by category
-const dfgcAwards = awards.filter((a) => a.category === 'DFGC');
-const gggcAwards = awards.filter((a) => a.category === 'GGGC');
+// The two categories are different kinds of thing: DFGC entries are awards
+// the club has *received* from the state federation (a trophy case), while
+// GGGC entries are awards the club *gives* to its members (with criteria).
+const awardsReceived = awards.filter((a) => a.category === 'DFGC');
+const awardsGiven    = awards.filter((a) => a.category === 'GGGC');
+
+// Group received awards by year, newest first, so the trophy case reads as
+// a timeline as more seasons are added.
+const receivedByYear = [...new Set(awardsReceived.map((a) => a.year))]
+  .sort((a, b) => b.localeCompare(a))
+  .map((year) => ({ year, awards: awardsReceived.filter((a) => a.year === year) }));
+
+// Placement accents: first place in gold, everything else in the quieter ink.
+const placementClass = (placement: string | null) =>
+  placement?.toLowerCase().startsWith('1st') ? 'text-gold' : 'text-text/70';
 ---
 
 <BaseLayout
-  title={`Awards & Judges | ${clubInfo.name}`}
-  description={`Club awards, judging criteria, and certified judges of ${clubInfo.name}.`}
+  title={`Awards & Certified Flower Show Judges | ${clubInfo.name}`}
+  description={`${affiliations.state.name} awards ${clubInfo.name} has received, the CEW Training Award we give our members, and our NGC-accredited flower show judges.`}
 >
   <PageHero
     eyebrow="Recognition"
@@ -25,41 +38,58 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
     accent="holly"
   />
 
-  <!-- Breadcrumb -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2.5 text-sm text-text/50">
-      <li><a href="/members" class="hover:text-primary underline decoration-gold/30 underline-offset-4 transition-colors">Members</a></li>
-      <li aria-hidden="true" class="text-gold/60">&middot;</li>
-      <li class="text-text/80 font-medium" aria-current="page">Awards &amp; Judges</li>
-    </ol>
-  </nav>
+  <Breadcrumb items={[{ label: 'Members', href: '/members' }, { label: 'Awards & Judges' }]} />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
-    <!-- DFGC Awards -->
-    {dfgcAwards.length > 0 && (
-      <section aria-labelledby="dfgc-awards-heading">
-        <SectionHeader label="State Federation" number="01" />
-        <h2 id="dfgc-awards-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
-          Delaware Federation Awards
+    <!-- Awards the club has received — a trophy case, grouped by season -->
+    {awardsReceived.length > 0 && (
+      <section aria-labelledby="dfgc-awards-heading" class="fade-in-section">
+        <SectionHeader label="Recognition" number="01" />
+        <h2 id="dfgc-awards-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
+          Awards We&rsquo;ve Received
         </h2>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-12">
-          {dfgcAwards.map((award) => (
-            <AwardCard award={award} />
+        <p class="text-text/75 mb-10 leading-relaxed max-w-2xl">
+          Each year the {affiliations.state.name} recognizes member clubs for their civic,
+          conservation, and horticultural work. Garden Gate&rsquo;s recent honors:
+        </p>
+
+        <div class="space-y-12">
+          {receivedByYear.map(({ year, awards: seasonAwards }) => (
+            <div>
+              <h3 class="flex items-center gap-4 mb-2">
+                <span class="font-heading italic text-3xl text-gold/50 leading-none" aria-hidden="true">{year.slice(0, 4)}</span>
+                <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">{affiliations.state.abbreviation} Awards &middot; {year}</span>
+                <span class="h-px flex-1 max-w-[8rem] bg-gold/30" aria-hidden="true"></span>
+              </h3>
+              <ul class="divide-y divide-primary/10 border-t border-gold/25 max-w-3xl" role="list">
+                {seasonAwards.map((award) => (
+                  <li class="grid grid-cols-1 sm:grid-cols-[minmax(9rem,auto)_1fr] gap-x-8 gap-y-1 py-4">
+                    <span class:list={['text-[0.7rem] font-semibold uppercase tracking-[0.2em] self-baseline sm:pt-1.5', placementClass(award.placement)]}>
+                      {award.placement ?? 'Recognized'}
+                    </span>
+                    <div>
+                      <p class="font-heading text-xl font-semibold text-text leading-snug">{award.awardName}</p>
+                      <p class="text-[0.95rem] text-text/70 leading-relaxed mt-0.5">{award.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </section>
     )}
 
-    <!-- GGGC Awards (CEW Training Award) -->
-    {gggcAwards.length > 0 && (
-      <section aria-labelledby="gggc-awards-heading">
-        <SectionHeader label="Garden Gate" number="02" />
+    <!-- Awards the club gives — currently the CEW Training Award -->
+    {awardsGiven.length > 0 && (
+      <section aria-labelledby="gggc-awards-heading" class="fade-in-section">
+        <SectionHeader label="For Our Members" number="02" />
         <h2 id="gggc-awards-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
-          Club Awards
+          Awards We Give
         </h2>
         <div class="grid grid-cols-1 gap-y-12">
-          {gggcAwards.map((award) => (
+          {awardsGiven.map((award) => (
             <AwardCard award={award} />
           ))}
         </div>
@@ -67,7 +97,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
     )}
 
     <!-- Judges Section -->
-    <section aria-labelledby="judges-heading">
+    <section aria-labelledby="judges-heading" class="fade-in-section">
       <SectionHeader label="Accredited Expertise" number="03" />
       <h2 id="judges-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-5">
         Certified Judges
@@ -92,7 +122,7 @@ const gggcAwards = awards.filter((a) => a.category === 'GGGC');
       <!-- Emeritus Judges -->
       {emeritusJudges.length > 0 && (
         <div class="max-w-3xl">
-          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 pb-3 border-b border-gold/40">Emeritus Judges</h3>
+          <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 pb-3 border-b border-gold/40">Emeritus Judges</h3>
           <ul class="divide-y divide-primary/10" role="list" aria-label="Emeritus judges">
             {emeritusJudges.map((judge) => (
               <JudgeRow judge={judge} />

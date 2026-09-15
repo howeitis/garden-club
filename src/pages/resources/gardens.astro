@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import GardenCard from '../../components/GardenCard.astro';
 import { clubInfo } from '../../data/index';
@@ -77,8 +78,8 @@ const regionalGardens = [
 ---
 
 <BaseLayout
-  title={`Gardens to Visit | ${clubInfo.name}`}
-  description={`Local and regional gardens to explore — recommended by ${clubInfo.name}.`}
+  title={`Public Gardens to Visit Near Wilmington, DE | ${clubInfo.name}`}
+  description={`Longwood, Winterthur, Mt. Cuba, Chanticleer, and more — public gardens in the Brandywine Valley and greater Philadelphia worth a day trip, recommended by ${clubInfo.name}.`}
 >
   <PageHero
     eyebrow="Explore"
@@ -86,6 +87,8 @@ const regionalGardens = [
     subtitle="Local treasures and regional destinations across the Brandywine Valley and beyond."
     accent="hen"
   />
+
+  <Breadcrumb items={[{ label: 'Resources', href: '/resources' }, { label: 'Gardens to Visit' }]} />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 

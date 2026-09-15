@@ -6,6 +6,7 @@ import { getImage } from 'astro:assets';
 import heroDesktopSrc from '../assets/heroes/home-hero.png';
 import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
 import { clubInfo, currentMemberOfTheMonth as featured } from '../data/index';
+import { honoreePath } from '../lib/memberOfTheMonth';
 
 // Art-directed home hero: a portrait-ish crop on phones, the wide shot on
 // larger screens. Both are optimized to WebP with responsive srcsets.
@@ -61,7 +62,10 @@ const siteIndex = [
 ];
 ---
 
-<BaseLayout title={`${clubInfo.name} — Delaware Garden Club`} description={clubInfo.missionStatement}>
+<BaseLayout
+  title={`${clubInfo.name} | Greenville & Wilmington, Delaware`}
+  description={`A 501(c)(3) garden club founded in Greenville, Delaware in 1963. ${clubInfo.missionStatement}`}
+>
 
   <!-- Hero -->
   <section class="relative text-background overflow-hidden">
@@ -174,7 +178,7 @@ const siteIndex = [
   <!-- Member of the Month teaser — a slim editorial row -->
   <section class="border-t border-gold/20 fade-in-section" aria-labelledby="home-motm-heading">
     <a
-      href="/members/member-of-the-month"
+      href={honoreePath(featured)}
       class="group block max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14"
     >
       <div class="flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-10">
@@ -201,7 +205,7 @@ const siteIndex = [
           </h2>
           <p class="mt-3 text-text/70 leading-relaxed max-w-2xl">{featured.summary}</p>
         </div>
-        <span class="inline-flex items-center gap-2 self-start sm:self-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 group-hover:text-primary transition-colors duration-200 whitespace-nowrap">
+        <span class="inline-flex items-center gap-2 self-start sm:self-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 group-hover:text-primary transition-colors duration-200 whitespace-nowrap">
           Read the story
           <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -228,8 +232,8 @@ const siteIndex = [
           >
             <span class:list={['font-heading italic text-4xl leading-none', item.numeral]}>{item.number}</span>
             <span class="font-heading text-2xl font-semibold text-text group-hover:text-primary transition-colors duration-200">{item.label}</span>
-            <span class="text-[0.95rem] text-text/65 leading-relaxed">{item.line}</span>
-            <span class:list={['mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/70 transition-colors duration-200', item.hover]}>
+            <span class="text-[0.95rem] text-text/70 leading-relaxed">{item.line}</span>
+            <span class:list={['mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 transition-colors duration-200', item.hover]}>
               Visit
               <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />

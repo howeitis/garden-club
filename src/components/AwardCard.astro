@@ -1,6 +1,8 @@
 ---
-// Unboxed award entry — anchored by a gold hairline instead of a card, with
-// judging criteria and recent winners set side by side where space allows.
+// Unboxed entry for an award the club *gives* (currently the CEW Training
+// Award) — anchored by a gold hairline instead of a card, with judging
+// criteria and recent winners set side by side where space allows. Awards
+// the club has *received* render as a compact trophy list on the page itself.
 import type { Award } from '../data/schema';
 
 interface Props {
@@ -12,20 +14,9 @@ const { award } = Astro.props;
 
 <article class="border-t border-gold/30 pt-7 flex flex-col gap-5">
 
-  <!-- Header: name and meta badges -->
+  <!-- Header -->
   <div>
-    <div class="flex flex-wrap items-center gap-2.5 mb-2">
-      <h3 class="font-heading text-2xl font-semibold text-text leading-snug">{award.awardName}</h3>
-      <!-- Category badge: DFGC in holly burgundy, GGGC in deep blossom -->
-      <span class:list={[
-        'text-[0.62rem] font-semibold uppercase tracking-[0.16em] px-2 py-0.5 rounded-sm border',
-        award.category === 'DFGC'
-          ? 'text-holly border-holly/30'
-          : 'text-blossom-deep border-blossom-deep/30',
-      ]}>
-        {award.category}
-      </span>
-    </div>
+    <h3 class="font-heading text-2xl font-semibold text-text leading-snug mb-2">{award.awardName}</h3>
     <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gold mb-3">
       {award.placement && <>{award.placement} &middot; </>}{award.year}
     </p>
@@ -37,7 +28,7 @@ const { award } = Astro.props;
       <!-- Judging Criteria -->
       {award.judgingCriteria.length > 0 && (
         <div class:list={[award.recentWinners.length === 0 && 'sm:col-span-2']}>
-          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 mb-2.5">Judging Criteria</h4>
+          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Judging Criteria</h4>
           <ul class="flex flex-col gap-1.5">
             {award.judgingCriteria.map((criterion) => (
               <li class="flex items-start gap-2.5 text-base text-text/75">
@@ -52,7 +43,7 @@ const { award } = Astro.props;
       <!-- Recent Winners -->
       {award.recentWinners.length > 0 && (
         <div>
-          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/50 mb-2.5">Recent Winners</h4>
+          <h4 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-text/70 mb-2.5">Recent Winners</h4>
           <ul class="flex flex-col gap-1.5">
             {award.recentWinners.map((winner) => (
               <li class="text-base text-text/80 flex items-start gap-2.5">

@@ -2,17 +2,36 @@
 import { clubInfo, affiliations, contact } from '../data/index';
 import SocialIcon from './SocialIcon.astro';
 
-// Footer nav lists only the top-level pages, not every subpage. Subpages are
-// reachable via the header's Resources / Members dropdowns.
-const navLinks = [
-  { label: 'About',             href: '/about' },
-  { label: 'Community Service', href: '/community-service' },
-  { label: 'Resources',         href: '/resources' },
-  { label: 'Members',           href: '/members' },
-  { label: 'Membership',        href: '/membership' },
-  { label: 'Contact',           href: '/contact' },
+// Two link columns. Every page is listed — including the Resources and
+// Members subpages, which are the site's best search-engine content and
+// otherwise only reachable through the header dropdowns. Mirror any change
+// here in Header.astro's navLinks.
+const navColumns = [
+  {
+    heading: 'Explore',
+    links: [
+      { label: 'About',               href: '/about' },
+      { label: 'Community Service',   href: '/community-service' },
+      { label: 'Membership',          href: '/membership' },
+      { label: 'Contact',             href: '/contact' },
+      { label: 'Member Gardens',      href: '/members' },
+      { label: 'Member of the Month', href: '/members/member-of-the-month' },
+      { label: 'Awards & Judges',     href: '/members/awards-and-judges' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'All Resources',       href: '/resources' },
+      { label: 'Gardening Tips',      href: '/resources/gardening-tips' },
+      { label: 'Native & Invasive Plants', href: '/resources/plants' },
+      { label: 'Gardens to Visit',    href: '/resources/gardens' },
+    ],
+  },
 ];
 
+// Evaluated at build time (the site is static), so the copyright year is the
+// year of the last deploy. Any content change in January refreshes it.
 const year = new Date().getFullYear();
 const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 
@@ -29,7 +48,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
   <!-- Blossom-gold-sage signature line -->
   <div class="h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr] gap-12">
 
       <!-- Club Identity — logo and name link to home -->
       <div class="flex md:block items-center gap-4 md:gap-0">
@@ -47,12 +66,12 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
           />
           <span class="hidden md:block">
             <span class="block font-heading font-semibold text-[1.6rem] leading-tight group-hover:underline decoration-gold-soft/60 underline-offset-4">{clubInfo.name}</span>
-            <span class="mt-2 block text-gold-soft/90 text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Greenville, Delaware &middot; Est. {foundingYear}</span>
+            <span class="mt-2 block text-gold-soft text-[0.62rem] font-semibold uppercase tracking-[0.3em]">Greenville, Delaware &middot; Est. {foundingYear}</span>
           </span>
         </a>
         <div class="flex-1 min-w-0 md:flex-none md:max-w-xs md:mt-4">
           <span class="md:hidden block font-heading font-semibold text-xl leading-tight mb-1">{clubInfo.name}</span>
-          <span class="md:hidden block text-gold-soft/90 text-[0.6rem] font-semibold uppercase tracking-[0.28em] mb-2">Est. {foundingYear}</span>
+          <span class="md:hidden block text-gold-soft text-[0.6rem] font-semibold uppercase tracking-[0.28em] mb-2">Est. {foundingYear}</span>
           <p class="text-sm text-background/70 leading-relaxed">
             {clubInfo.nonprofitStatus}
           </p>
@@ -60,30 +79,32 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
       </div>
 
       <!-- Navigation Links -->
-      <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">Explore</h3>
-        <ul class="flex flex-col gap-2.5">
-          {navLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="text-[0.95rem] text-background/80 hover:text-background hover:underline decoration-gold-soft/50 underline-offset-4 transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {navColumns.map((column) => (
+        <div>
+          <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">{column.heading}</h3>
+          <ul class="flex flex-col gap-2.5">
+            {column.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-[0.95rem] text-background/80 hover:text-background hover:underline decoration-gold-soft/50 underline-offset-4 transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft/90 mb-5">This Year's Theme</h3>
+        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h3>
         <p class="font-heading italic text-xl text-background/90 leading-relaxed">
           &ldquo;{clubInfo.theme}&rdquo;
         </p>
         <div class="mt-6 h-px w-16 bg-gold-soft/40" aria-hidden="true"></div>
-        <p class="mt-4 text-sm text-background/60 leading-relaxed max-w-xs">
+        <p class="mt-4 text-sm text-background/70 leading-relaxed max-w-xs">
           Member of {affiliations.ngc.name} and the {affiliations.state.name}.
         </p>
       </div>
@@ -101,7 +122,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${clubInfo.name} on ${label} (opens in a new tab)`}
-                class="flex items-center justify-center w-10 h-10 rounded-sm border border-gold-soft/35 text-gold-soft/90
+                class="flex items-center justify-center w-10 h-10 rounded-sm border border-gold-soft/35 text-gold-soft
                        hover:text-background hover:border-gold-soft/70 hover:bg-background/5 transition-colors duration-200
                        focus:outline-none focus:ring-2 focus:ring-gold-soft focus:ring-offset-2 focus:ring-offset-primary"
               >
@@ -111,7 +132,7 @@ const socialLinks = Object.entries(contact.socialLinks ?? {}).map(([platform, ur
           ))}
         </ul>
       )}
-      <p class="order-2 sm:order-1 text-xs tracking-wide text-background/50 text-center sm:text-left">
+      <p class="order-2 sm:order-1 text-xs tracking-wide text-background/70 text-center sm:text-left">
         &copy; {year} {clubInfo.name}. All rights reserved.
       </p>
     </div>

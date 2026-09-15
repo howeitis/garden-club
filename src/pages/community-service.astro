@@ -15,8 +15,8 @@ const focusAreas = [
 ---
 
 <BaseLayout
-  title={`Community Service | ${clubInfo.name}`}
-  description={`Explore the community service projects and civic beautification initiatives of ${clubInfo.name}.`}
+  title={`Community Service Projects in Wilmington, DE | ${clubInfo.name}`}
+  description={`Blue Star Memorial, Goodstay Gardens, Ronald McDonald House, and the other civic gardening projects ${clubInfo.name} tends across Wilmington, Delaware.`}
 >
   <PageHero
     eyebrow="Giving Back"
@@ -30,7 +30,7 @@ const focusAreas = [
   <div class="border-b border-gold/20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center">
       {focusAreas.map((area) => (
-        <span class="inline-flex items-center gap-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/70">
+        <span class="inline-flex items-center gap-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">
           <span class:list={['w-2 h-2 rounded-full', area.dot]} aria-hidden="true"></span>
           {area.label}
         </span>
@@ -52,7 +52,7 @@ const focusAreas = [
         ))}
       </div>
     ) : (
-      <p class="text-text/60 italic">No projects to display at this time. Check back soon!</p>
+      <p class="text-text/70 italic">No projects to display at this time. Check back soon!</p>
     )}
   </section>
 

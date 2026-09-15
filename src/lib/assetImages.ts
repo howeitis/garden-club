@@ -1,7 +1,7 @@
 // Central registry of optimizable images living under src/assets/.
 //
 // Content and hero images are referenced throughout the site by public-style
-// path strings (e.g. "/rosegarden.webp") stored in data files and component
+// path strings (e.g. "/metzlers.webp") stored in data files and component
 // props. Keeping that stable string API means data doesn't need to know about
 // Astro's asset pipeline. This module resolves such a string to the imported
 // ImageMetadata so components can hand it to <Image /> / getImage() for

@@ -62,7 +62,9 @@ src/
 │   ├── community-service.astro    # /community-service
 │   ├── members/
 │   │   ├── index.astro            # /members (member gardens + Member of the Month callout)
-│   │   ├── member-of-the-month.astro # /members/member-of-the-month (data-driven profile + archive)
+│   │   ├── member-of-the-month/
+│   │   │   ├── index.astro        # /members/member-of-the-month (current honoree + archive; canonical → current slug)
+│   │   │   └── [slug].astro       # /members/member-of-the-month/<slug> (permanent per-honoree page)
 │   │   └── awards-and-judges.astro # /members/awards-and-judges
 │   ├── membership.astro           # /membership
 │   ├── contact.astro              # /contact
@@ -72,7 +74,7 @@ src/
 │   └── BaseLayout.astro           # Master layout: Header, Footer, SEO, JSON-LD, View Transitions, global CSS (fade-in, hero-rise, reduced motion, focus styles)
 ├── components/
 │   ├── Header.astro               # Fixed light-ivory nav: color crest + serif wordmark, small-caps links with gold active underline, Resources/Members dropdowns, mobile hamburger, scroll-direction reveal
-│   ├── Footer.astro               # Deep-green 3-column footer, serif wordmark, Est. line, tri-color signature hairline on top
+│   ├── Footer.astro               # Deep-green 4-column footer (identity, Explore, Resources, theme); links every page
 │   ├── PageHero.astro             # Interior hero: photo + accent-tinted wash, bottom-left display title, entrance animation (accent prop — see below)
 │   ├── SectionHeader.astro        # Gold small-caps eyebrow + optional oversized italic folio numeral (number prop)
 │   ├── Flourish.astro             # Botanical sprig divider (tone: light | dark)
@@ -81,10 +83,16 @@ src/
 │   ├── ProjectCard.astro          # Editorial feature row for projects (flip prop)
 │   ├── GardenCard.astro           # Editorial feature row for gardens to visit (flip prop)
 │   ├── PlantCard.astro            # Open gallery entry (variant: native | banned)
-│   ├── AwardCard.astro            # Hairline-anchored award entry, criteria/winners side by side
+│   ├── AwardCard.astro            # Award the club *gives* (CEW): criteria/winners side by side
+│   ├── Breadcrumb.astro           # Subpage trail + BreadcrumbList JSON-LD (items prop, Home implied)
+│   ├── MemberProfile.astro        # Member of the Month feature article + "by the numbers" strip
+│   ├── HonoreeGrid.astro          # Grid of honorees linking to their permanent pages
 │   ├── JudgeRow.astro             # Plain list row; parent supplies divide-y/border
 │   ├── SmartImage.astro           # Resolves public-style path → optimized responsive WebP <Image>
 │   └── ContactForm.astro          # Web3Forms contact form (unboxed)
+├── lib/
+│   ├── assetImages.ts             # Resolves "/file.webp" strings → imported ImageMetadata
+│   └── memberOfTheMonth.ts        # honoreePath(), honoreeShareImage() for MOTM URLs and OG images
 └── data/
     ├── schema.ts                  # Zod schemas (types + validation)
     ├── index.ts                   # Single import point for all data
@@ -124,7 +132,7 @@ public/                            # Logos, favicons, OG image only (photos live
   - Mobile hamburger with collapsible sub-items and gold left-rule active state.
 - **Footer** (`src/components/Footer.astro`): deep green, white crest, serif wordmark, "Greenville, Delaware · Est. 1963" line, Explore links, theme quote. Topped by the tri-color signature hairline.
 - **Nav order**: About, Community Service, Resources (dropdown), Members (dropdown), Membership, Contact.
-- Nav links are defined as arrays at the top of **both** Header.astro and Footer.astro. **Update both** when adding/removing pages.
+- Nav links are defined as arrays at the top of **both** Header.astro (`navLinks`) and Footer.astro (`navColumns`, which lists every subpage too). **Update both** when adding/removing pages.
 
 ### Styling
 All styling is Tailwind utility classes. No CSS modules or separate stylesheets (global keyframes/reset live in `BaseLayout.astro`).
@@ -144,8 +152,8 @@ All styling is Tailwind utility classes. No CSS modules or separate stylesheets 
 | `primary`      | `#2A5434` | Deep gate green: buttons, footer, wordmark          |
 | `background`   | `#FAF7F0` | Warm ivory page ground                             |
 | `text`         | `#33322C` | Warm ink body text                                 |
-| `gold`         | `#8F7433` | **Primary accent**: eyebrows, hairlines, folio numerals |
-| `gold-soft`    | `#C9AE6A` | Gold for dark grounds (hero eyebrows, footer labels)|
+| `gold`         | `#856B2E` | **Primary accent**: eyebrows, hairlines, folio numerals |
+| `gold-soft`    | `#DCC68E` | Gold for dark grounds (hero eyebrows, footer labels)|
 | `accent`       | `#7A9367` | Sage foliage: flourish leaves, native-plant accents |
 | `blossom`      | `#D9A0AE` | Dusty peach-blossom pink (rules, dots, quote marks) |
 | `blossom-deep` | `#A65868` | Blossom for text on light grounds                  |
@@ -155,9 +163,11 @@ All styling is Tailwind utility classes. No CSS modules or separate stylesheets 
 | `coral`        | `#B96A57` | Muted terracotta (rarely used)                     |
 | `sunflower`    | `#C9A24B` | Light antique gold (rules)                          |
 | `lavender`     | `#A79BB8` | Muted garden lavender (hero tints)                 |
-| `marigold`     | `#A87B2F` | Deep ochre gold: frequency labels, stat accents     |
+| `marigold`     | `#8F6826` | Deep ochre gold: frequency labels, stat accents     |
 
 **Color discipline:** gold is the workhorse accent; the other hues appear as *single deliberate touches* (one per element, rotating across siblings). Never reintroduce multi-color gradients or per-section rainbow theming.
+
+**Contrast floors (WCAG AA, measured against the ivory ground):** `gold`, `marigold`, and `gold-soft` were darkened/lightened to pass 4.5:1 for small text — don't lighten them. Muted text is `text-text/70` at minimum (4.84:1); `/65` and below fail for anything under 18px. On the green footer, `text-background/70` is the floor. `accent` (sage) fails at 3.2:1 and is only used for large display numerals and decorative strokes.
 
 **Common UI patterns** (copy these for consistency):
 
@@ -190,9 +200,11 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - **Reduced motion**: all of the above are disabled under `prefers-reduced-motion: reduce` (see the global `<style>` in BaseLayout). Any new animation must be added to that block.
 
 ### SEO
-- `BaseLayout.astro` handles: `<title>`, meta description, Open Graph, Twitter Cards, canonical URL, JSON-LD Organization schema.
+- `BaseLayout.astro` handles: `<title>`, meta description, Open Graph, Twitter Cards, canonical URL, JSON-LD `Organization` schema (with `url`, `logo`, `memberOf`, `nonprofitStatus`).
+- Optional BaseLayout props: `canonical` (override, used by the MOTM index), `ogImage` / `ogImageAlt` (page-specific share image), `ogType` (`article` for profiles), `jsonLd` (array of extra schema blocks — `@context` is added for you).
+- Subpages render `<Breadcrumb items={[…]} />` under the hero; it emits the matching `BreadcrumbList` schema.
 - Sitemap auto-generated by `@astrojs/sitemap`.
-- Each page sets `title` and `description` props on BaseLayout.
+- Each page sets `title` and `description` props on BaseLayout. **Titles and descriptions carry place names** ("Greenville, Delaware", "Wilmington, DE", "Delaware (Zone 7a)") — that's the local-search signal; keep them when editing.
 - OG image: `public/og-share-v2.png` (1200x630, ~88 KB).
 - `BaseLayout` takes a `noindex` prop that emits `<meta name="robots" content="noindex, follow" />`. Used by `/thank-you`, which is also filtered out of the sitemap in `astro.config.mjs`. **Both are required** — excluding a page from the sitemap doesn't stop it being indexed if anything links to it.
 - The old `garden-club-eight.vercel.app` host 307-redirects to the custom domain. This is Vercel platform behavior, **not** `vercel.json` — a host-matched redirect rule there was tested and had no effect (the 307 persisted with the rule removed, and ignored both `permanent` and `statusCode`). Don't re-add one; change it under Project → Settings → Domains if a 308 is ever needed.
@@ -228,7 +240,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 
 **Photos are optimized through `astro:assets`** — only logos, favicons, and the OG image stay in `public/`.
 - Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, everything else in `src/assets/content/`).
-- **Content images** (galleries, feature rows, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass a public-style string, e.g. `<SmartImage src="/rosegarden.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
+- **Content images** (galleries, feature rows, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass a public-style string, e.g. `<SmartImage src="/metzlers.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
 - **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — same resolver.
 - The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
 - Data files (`projects.json`, plant/garden arrays, etc.) reference images by the same `/filename.ext` string — just drop the source in `src/assets/content/`.
@@ -236,7 +248,12 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 
 ## Member of the Month
 
-`/members/member-of-the-month` is fully data-driven from `src/data/membersOfTheMonth.json` (schema: `MemberOfTheMonthSchema`). **Array order matters: the first entry is the current honoree**; the rest render as a "Past Honorees" strip at the bottom (hidden while there's only one). The current honoree also feeds the callout on `/members` and the slim teaser on the home page via the `currentMemberOfTheMonth` export.
+Fully data-driven from `src/data/membersOfTheMonth.json` (schema: `MemberOfTheMonthSchema`). **Array order matters: the first entry is the current honoree.**
+
+- **Every honoree gets a permanent page** at `/members/member-of-the-month/<slug>/` (`[slug].astro`, via `getStaticPaths`). This is the URL to share on social — it carries the honoree's portrait as the OG image and a `Person` schema, and it keeps working after they roll off the index.
+- `/members/member-of-the-month/` (`index.astro`) shows the current honoree in full plus a "Past Honorees" grid, and **canonicalizes to the current honoree's slug URL** so the two never compete in search.
+- The current honoree also feeds the callout on `/members` and the teaser on the home page (`currentMemberOfTheMonth` export); both link to the permanent URL via `honoreePath()`.
+- The profile markup lives in `MemberProfile.astro`; the archive grid in `HonoreeGrid.astro`.
 
 To feature a new member: convert their photos to WebP into `src/assets/content/` (a tall `portrait` is required, a `secondary` photo is optional), then prepend an entry to the JSON. Fields: `headline` / `tagline` (the two-line display title), `summary` (one line for teasers), `chapters[]` (label + paragraph; an optional `link: { phrase, href }` turns the first occurrence of `phrase` into an inline anchor), `stats[]` (up to four value/label pairs for the "at a glance" strip), and an optional `note` with a link. `period` (e.g. `"October 2026"`) is optional — omit it and the page says "Featured Member" with no date.
 
@@ -255,7 +272,7 @@ To feature a new member: convert their photos to WebP into `src/assets/content/`
 | Change club info/mission    | `src/data/clubInfo.json`                     |
 | Update officers/board       | `src/data/officers.json`                     |
 | Edit meeting schedule       | `src/data/meetings.json`                     |
-| Modify awards or judges     | `src/data/awards.json`, `src/data/judges.json`|
+| Modify awards or judges     | `src/data/awards.json`, `src/data/judges.json` — `category: "DFGC"` = award the club received (trophy list, grouped by `year`); `"GGGC"` = award the club gives (full `AwardCard` with criteria) |
 | Update nav links            | `Header.astro` AND `Footer.astro`            |
 | Change theme colors         | `tailwind.config.mjs`                        |
 | Change fonts                | `tailwind.config.mjs` + Google Fonts link in `BaseLayout.astro` |
