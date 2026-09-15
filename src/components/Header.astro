@@ -50,8 +50,11 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
         </span>
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
+      <!-- Desktop Navigation. Switches on at `xl` (1280px), not `lg`: the six
+           letterspaced links measure ~740px, and with the crest + wordmark
+           there is no room for them until ~1250px — at `lg` the nav ran
+           straight into the wordmark. -->
+      <nav class="hidden xl:flex items-center gap-6" aria-label="Main navigation">
         {navLinks.map((link) => {
           const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
 
@@ -120,7 +123,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
       <button
         id="mobile-menu-button"
         type="button"
-        class="lg:hidden inline-flex items-center justify-center p-2.5 text-primary hover:bg-primary/5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold"
+        class="xl:hidden inline-flex items-center justify-center p-2.5 text-primary hover:bg-primary/5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold"
         aria-controls="mobile-menu"
         aria-expanded="false"
         aria-label="Toggle navigation menu"
@@ -138,7 +141,7 @@ const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="lg:hidden hidden border-t border-gold/25 bg-background">
+  <div id="mobile-menu" class="xl:hidden hidden border-t border-gold/25 bg-background">
     <nav class="flex flex-col px-4 py-4 gap-1" aria-label="Mobile navigation">
       {navLinks.map((link) => {
         const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));

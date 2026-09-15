@@ -5,7 +5,12 @@ import SectionHeader from '../components/SectionHeader.astro';
 import OfficerCard from '../components/OfficerCard.astro';
 import { clubInfo, officers, affiliations } from '../data/index';
 
-const sortedOfficers = [...officers].sort((a, b) => a.sortOrder - b.sortOrder);
+// Officers whose name is still the "TBD" placeholder are kept in the JSON so
+// the roles are documented, but never rendered. The whole section is hidden
+// until at least one real name is entered.
+const sortedOfficers = officers
+  .filter((o) => o.name.trim().toUpperCase() !== 'TBD')
+  .sort((a, b) => a.sortOrder - b.sortOrder);
 
 // Each figure takes one hue from the logo's palette.
 const membershipStats = [
@@ -59,32 +64,34 @@ const membershipStats = [
           {membershipStats.map((stat) => (
             <div class="py-6 px-3 text-center">
               <p class:list={['font-heading text-4xl font-semibold', stat.color]}>{stat.value}</p>
-              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-text/55 mt-2 leading-snug">{stat.label}</p>
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-text/70 mt-2 leading-snug">{stat.label}</p>
             </div>
           ))}
         </div>
-        <p class="text-sm text-text/55 mt-4 leading-relaxed italic">
+        <p class="text-sm text-text/70 mt-4 leading-relaxed italic">
           {clubInfo.membership.associateAndHonoraryNote}
         </p>
       </div>
     </section>
 
     <!-- Board of Officers -->
-    <section aria-labelledby="officers-heading" class="fade-in-section">
-      <SectionHeader label="Leadership" number="02" />
-      <h2 id="officers-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
-        Board of Officers
-      </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-        {sortedOfficers.map((officer, i) => (
-          <OfficerCard officer={officer} index={i} />
-        ))}
-      </div>
-    </section>
+    {sortedOfficers.length > 0 && (
+      <section aria-labelledby="officers-heading" class="fade-in-section">
+        <SectionHeader label="Leadership" number="02" />
+        <h2 id="officers-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
+          Board of Officers
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+          {sortedOfficers.map((officer, i) => (
+            <OfficerCard officer={officer} index={i} />
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Affiliations -->
     <section aria-labelledby="affiliations-heading" class="fade-in-section">
-      <SectionHeader label="Our Network" number="03" />
+      <SectionHeader label="Our Network" number={sortedOfficers.length > 0 ? '03' : '02'} />
       <h2 id="affiliations-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-10">
         Our Affiliations
       </h2>
@@ -102,32 +109,32 @@ const membershipStats = [
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 mb-6">
           <dl class="space-y-3">
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">President</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">President</dt>
               <dd class="text-text/80 mt-0.5">{affiliations.ngc.president}</dd>
             </div>
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Email</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Email</dt>
               <dd class="mt-0.5">
                 <a href={`mailto:${affiliations.ngc.presidentEmail}`}
                   class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.presidentEmail}</a>
               </dd>
             </div>
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Theme</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Theme</dt>
               <dd class="font-heading italic text-lg text-text/75 mt-0.5">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
             </div>
           </dl>
           <dl class="space-y-3">
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Address</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Address</dt>
               <dd class="text-text/80 mt-0.5">{affiliations.ngc.address}</dd>
             </div>
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Phone</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Phone</dt>
               <dd class="text-text/80 mt-0.5">{affiliations.ngc.phone}</dd>
             </div>
             <div>
-              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/45">Website</dt>
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Website</dt>
               <dd class="mt-0.5">
                 <a href={`https://${affiliations.ngc.website}`} target="_blank" rel="noopener noreferrer"
                   class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.website}</a>
@@ -150,13 +157,13 @@ const membershipStats = [
         <div class="border-t border-gold/30 pt-5">
           <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">Region</span>
           <h3 class="font-heading text-xl font-semibold text-text mt-2 leading-snug">{affiliations.region.name}</h3>
-          <p class="text-[0.95rem] text-text/55 mt-1">{affiliations.region.abbreviation}</p>
+          <p class="text-[0.95rem] text-text/70 mt-1">{affiliations.region.abbreviation}</p>
         </div>
 
         <div class="border-t border-gold/30 pt-5">
           <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">State</span>
           <h3 class="font-heading text-xl font-semibold text-text mt-2 leading-snug">{affiliations.state.name}</h3>
-          <p class="text-[0.95rem] text-text/55 mt-1">{affiliations.state.abbreviation}</p>
+          <p class="text-[0.95rem] text-text/70 mt-1">{affiliations.state.abbreviation}</p>
         </div>
 
         {affiliations.other.length > 0 && (
