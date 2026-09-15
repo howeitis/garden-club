@@ -3,7 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { clubInfo, projects } from '../data/index';
+import { club, projects, getPageCopy } from '../data/index';
+
+const copy = await getPageCopy('community-service');
 
 // Each focus area takes one hue from the logo's palette.
 const focusAreas = [
@@ -15,13 +17,13 @@ const focusAreas = [
 ---
 
 <BaseLayout
-  title={`Community Service Projects in Wilmington, DE | ${clubInfo.name}`}
-  description={`Blue Star Memorial, Goodstay Gardens, Ronald McDonald House, and the other civic gardening projects ${clubInfo.name} tends across Wilmington, Delaware.`}
+  title={`Community Service Projects in Wilmington, DE | ${club.name}`}
+  description={`Blue Star Memorial, Goodstay Gardens, Ronald McDonald House, and the other civic gardening projects ${club.name} tends across Wilmington, Delaware.`}
 >
   <PageHero
     eyebrow="Giving Back"
     title="Community Service"
-    subtitle="Our hands in the soil, our hearts in the community."
+    subtitle={copy.heroSubtitle}
     image="/community-service-hero.jpg"
     accent="sage"
   />

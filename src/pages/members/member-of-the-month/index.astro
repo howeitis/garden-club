@@ -1,7 +1,7 @@
 ---
 // Member of the Month — the current honoree's full profile, with past
 // honorees collected in a grid below. Everything comes from
-// src/data/membersOfTheMonth.json; the first entry is the current feature.
+// src/content/members-of-the-month/; the newest by date is the current feature.
 //
 // Every honoree also has a permanent page at /members/member-of-the-month/
 // <slug>/ (see [slug].astro). This index mirrors the current one, so it
@@ -13,25 +13,27 @@ import Breadcrumb from '../../../components/Breadcrumb.astro';
 import MemberProfile from '../../../components/MemberProfile.astro';
 import HonoreeGrid from '../../../components/HonoreeGrid.astro';
 import Flourish from '../../../components/Flourish.astro';
-import { clubInfo, membersOfTheMonth, currentMemberOfTheMonth as member } from '../../../data/index';
+import { club, membersOfTheMonth, currentMemberOfTheMonth as member, getPageCopy } from '../../../data/index';
 import { honoreePath, honoreeShareImage } from '../../../lib/memberOfTheMonth';
+import Button from '../../../components/Button.astro';
 
+const copy = await getPageCopy('member-of-the-month');
 const pastHonorees = membersOfTheMonth.slice(1);
 const shareImage = await honoreeShareImage(member, Astro.site);
 ---
 
 <BaseLayout
-  title={`Member of the Month · ${member.name} | ${clubInfo.name}`}
-  description={`${member.headline} ${member.tagline}. ${member.summary}`}
+  title={`Member of the Month · ${member.data.name} | ${club.name}`}
+  description={`${member.data.headline} ${member.data.tagline}. ${member.data.summary}`}
   canonical={honoreePath(member)}
   ogImage={shareImage}
-  ogImageAlt={member.photos.portrait.alt}
+  ogImageAlt={member.data.portrait.alt}
   ogType="article"
 >
   <PageHero
     eyebrow="Our Members"
     title="Member of the Month"
-    subtitle="Celebrating the people who make Garden Gate bloom."
+    subtitle={copy.heroSubtitle}
     image="/flower.jpg"
     accent="blossom"
   />
@@ -52,18 +54,8 @@ const shareImage = await honoreeShareImage(member, Astro.site);
         Wander through the gardens our members tend at home, or meet the club's certified judges.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4">
-        <a
-          href="/members"
-          class="inline-flex items-center gap-2.5 bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-        >
-          Member Gardens
-        </a>
-        <a
-          href="/members/awards-and-judges"
-          class="inline-flex items-center gap-2.5 border border-primary/30 text-primary text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:border-primary hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-        >
-          Awards &amp; Judges
-        </a>
+        <Button href="/members">Member Gardens</Button>
+        <Button href="/members/awards-and-judges" variant="outline">Awards &amp; Judges</Button>
       </div>
     </section>
 

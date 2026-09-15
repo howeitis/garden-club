@@ -3,27 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import OfficerCard from '../components/OfficerCard.astro';
-import { clubInfo, officers, affiliations } from '../data/index';
+import Prose from '../components/Prose.astro';
+import { club, officers, affiliations, getPageCopy } from '../data/index';
+import { block } from '../lib/markdown';
 
-// Officers whose name is still the "TBD" placeholder are kept in the JSON so
-// the roles are documented, but never rendered. The whole section is hidden
-// until at least one real name is entered.
-const sortedOfficers = officers
-  .filter((o) => o.name.trim().toUpperCase() !== 'TBD')
-  .sort((a, b) => a.sortOrder - b.sortOrder);
+const copy = await getPageCopy('about');
+// Officers named "TBD" are already filtered out in src/data/index.ts; the
+// section hides itself while the list is empty.
+const sortedOfficers = officers;
 
 // Each figure takes one hue from the logo's palette.
 const membershipStats = [
-  { label: 'Active Members',    value: clubInfo.membership.activeMembers,    color: 'text-primary' },
-  { label: 'Associate Members', value: clubInfo.membership.associateMembers, color: 'text-blossom-deep' },
-  { label: 'Honorary Members',  value: clubInfo.membership.honoraryMembers,  color: 'text-marigold' },
-  { label: 'Membership Cap',    value: clubInfo.membership.maxActive,        color: 'text-holly' },
+  { label: 'Active Members',    value: club.membership.active,    color: 'text-primary' },
+  { label: 'Associate Members', value: club.membership.associate, color: 'text-blossom-deep' },
+  { label: 'Honorary Members',  value: club.membership.honorary,  color: 'text-marigold' },
+  { label: 'Membership Cap',    value: club.membership.maxActive, color: 'text-holly' },
 ];
 ---
 
 <BaseLayout
-  title={`About ${clubInfo.name} | Est. 1963, Greenville, Delaware`}
-  description={`The history, board, and affiliations of ${clubInfo.name} — a National Garden Clubs member founded in Greenville, Delaware in ${clubInfo.foundingDates.club}.`}
+  title={`About ${club.name} | Est. 1963, Greenville, Delaware`}
+  description={`The history, board, and affiliations of ${club.name} — a National Garden Clubs member founded in Greenville, Delaware in ${club.founded}.`}
 >
   <PageHero
     eyebrow="Our Story"
@@ -39,23 +39,13 @@ const membershipStats = [
       <div class="max-w-3xl">
         <SectionHeader label="Since 1963" number="01" />
         <h2 id="history-heading" class="font-heading text-4xl sm:text-5xl font-semibold tracking-[-0.01em] text-text mb-7">Our History</h2>
-        <div class="space-y-5 text-text/80 text-lg leading-relaxed">
-          <p class="first-letter:font-heading first-letter:font-semibold first-letter:text-primary first-letter:text-[3.6em] first-letter:float-left first-letter:leading-[0.78] first-letter:mr-3 first-letter:mt-1">
-            <strong class="text-text font-semibold">{clubInfo.name}</strong> was founded in
-            <strong class="text-text font-semibold">{clubInfo.foundingDates.club}</strong> by a small group of
-            passionate gardeners who believed that community beauty begins at home.
-          </p>
-          <p>
-            In <strong class="text-text font-semibold">{clubInfo.foundingDates.federation}</strong>, the club formally
-            joined a regional garden federation, connecting our members with a wider network of
-            horticulturalists, conservationists, and civic volunteers.
-          </p>
-          <p>
-            In <strong class="text-text font-semibold">{clubInfo.foundingDates.incorporated}</strong>, the club was
-            incorporated as a <strong class="text-text font-semibold">{clubInfo.nonprofitStatus}</strong>.
-          </p>
-          <blockquote class="font-heading italic text-2xl sm:text-[1.7rem] text-text/85 border-l-2 border-gold/60 pl-7 py-2 leading-[1.35] !mt-9">
-            &ldquo;{clubInfo.missionStatement}&rdquo;
+        <div class="text-text/80 text-lg">
+          <Prose
+            class="[&>p:first-child]:first-letter:font-heading [&>p:first-child]:first-letter:font-semibold [&>p:first-child]:first-letter:text-primary [&>p:first-child]:first-letter:text-[3.6em] [&>p:first-child]:first-letter:float-left [&>p:first-child]:first-letter:leading-[0.78] [&>p:first-child]:first-letter:mr-3 [&>p:first-child]:first-letter:mt-1"
+            html={block(copy.history)}
+          />
+          <blockquote class="font-heading italic text-2xl sm:text-[1.7rem] text-text/85 border-l-2 border-gold/60 pl-7 py-2 leading-[1.35] mt-9 leading-relaxed">
+            &ldquo;{club.mission}&rdquo;
           </blockquote>
         </div>
 
@@ -69,7 +59,7 @@ const membershipStats = [
           ))}
         </div>
         <p class="text-sm text-text/70 mt-4 leading-relaxed italic">
-          {clubInfo.membership.associateAndHonoraryNote}
+          {club.membership.note}
         </p>
       </div>
     </section>
@@ -101,7 +91,7 @@ const membershipStats = [
         <div class="flex items-start justify-between gap-4 mb-6">
           <div>
             <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">National</span>
-            <h3 class="font-heading text-2xl font-semibold text-text mt-1.5">{affiliations.ngc.name}</h3>
+            <h3 class="font-heading text-2xl font-semibold text-text mt-1.5">{affiliations.national.name}</h3>
           </div>
           <img src="/ngc-logo.png" alt="NGC Logo" class="w-16 h-auto object-contain flex-shrink-0" loading="lazy" />
         </div>
@@ -110,46 +100,48 @@ const membershipStats = [
           <dl class="space-y-3">
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">President</dt>
-              <dd class="text-text/80 mt-0.5">{affiliations.ngc.president}</dd>
+              <dd class="text-text/80 mt-0.5">{affiliations.national.president}</dd>
             </div>
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Email</dt>
               <dd class="mt-0.5">
-                <a href={`mailto:${affiliations.ngc.presidentEmail}`}
-                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.presidentEmail}</a>
+                <a href={`mailto:${affiliations.national.presidentEmail}`}
+                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.national.presidentEmail}</a>
               </dd>
             </div>
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Theme</dt>
-              <dd class="font-heading italic text-lg text-text/75 mt-0.5">&ldquo;{affiliations.ngc.theme}&rdquo;</dd>
+              <dd class="font-heading italic text-lg text-text/75 mt-0.5">&ldquo;{affiliations.national.theme}&rdquo;</dd>
             </div>
           </dl>
           <dl class="space-y-3">
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Address</dt>
-              <dd class="text-text/80 mt-0.5">{affiliations.ngc.address}</dd>
+              <dd class="text-text/80 mt-0.5">{affiliations.national.address}</dd>
             </div>
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Phone</dt>
-              <dd class="text-text/80 mt-0.5">{affiliations.ngc.phone}</dd>
+              <dd class="text-text/80 mt-0.5">{affiliations.national.phone}</dd>
             </div>
             <div>
               <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text/70">Website</dt>
               <dd class="mt-0.5">
-                <a href={`https://${affiliations.ngc.website}`} target="_blank" rel="noopener noreferrer"
-                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.ngc.website}</a>
+                <a href={`https://${affiliations.national.website}`} target="_blank" rel="noopener noreferrer"
+                  class="text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{affiliations.national.website}</a>
               </dd>
             </div>
           </dl>
         </div>
 
-        <!-- Annual Convention -->
-        <div class="border-t border-gold/20 pt-5">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">Annual Convention</p>
-          <p class="text-text/80">
-            <strong class="font-semibold">{affiliations.ngc.annualConvention.dates}</strong> &mdash; {affiliations.ngc.annualConvention.location}
-          </p>
-        </div>
+        <!-- Annual Convention (omit `convention` in affiliations.yml to hide) -->
+        {affiliations.national.convention && (
+          <div class="border-t border-gold/20 pt-5">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">Annual Convention</p>
+            <p class="text-text/80">
+              <strong class="font-semibold">{affiliations.national.convention.dates}</strong> &mdash; {affiliations.national.convention.location}
+            </p>
+          </div>
+        )}
       </div>
 
       <!-- Region + State + Additional affiliates -->
@@ -179,13 +171,13 @@ const membershipStats = [
       </div>
 
       <!-- NGC Support narratives -->
-      {affiliations.ngcSupport.length > 0 && (
+      {affiliations.howWeSupport.length > 0 && (
         <div class="border-t border-gold/30 pt-7">
           <h3 class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold mb-6">
             How We Support NGC
           </h3>
           <ul class="space-y-4 max-w-3xl">
-            {affiliations.ngcSupport.map((item) => (
+            {affiliations.howWeSupport.map((item) => (
               <li class="flex items-start gap-4 text-text/80 leading-relaxed">
                 <span class="mt-[0.65rem] w-1 h-1 rounded-full bg-gold flex-shrink-0" aria-hidden="true"></span>
                 {item}

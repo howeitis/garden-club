@@ -5,31 +5,35 @@ import SectionHeader from '../../components/SectionHeader.astro';
 import AwardCard from '../../components/AwardCard.astro';
 import JudgeRow from '../../components/JudgeRow.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { clubInfo, awards, judges, affiliations } from '../../data/index';
+import Prose from '../../components/Prose.astro';
+import { render } from 'astro:content';
+import { club, awards, judges, affiliations } from '../../data/index';
 
-const activeJudges   = judges.filter((j) => j.status === 'active');
-const emeritusJudges = judges.filter((j) => j.status === 'emeritus');
+const activeJudges   = judges.filter((j) => j.data.status === 'active');
+const emeritusJudges = judges.filter((j) => j.data.status === 'emeritus');
 
 // The two categories are different kinds of thing: DFGC entries are awards
 // the club has *received* from the state federation (a trophy case), while
 // GGGC entries are awards the club *gives* to its members (with criteria).
-const awardsReceived = awards.filter((a) => a.category === 'DFGC');
-const awardsGiven    = awards.filter((a) => a.category === 'GGGC');
+const awardsReceived = await Promise.all(
+  awards.filter((a) => a.data.type === 'received').map(async (a) => ({ ...a, Content: (await render(a)).Content })),
+);
+const awardsGiven = awards.filter((a) => a.data.type === 'given');
 
 // Group received awards by year, newest first, so the trophy case reads as
 // a timeline as more seasons are added.
-const receivedByYear = [...new Set(awardsReceived.map((a) => a.year))]
+const receivedByYear = [...new Set(awardsReceived.map((a) => a.data.year))]
   .sort((a, b) => b.localeCompare(a))
-  .map((year) => ({ year, awards: awardsReceived.filter((a) => a.year === year) }));
+  .map((year) => ({ year, awards: awardsReceived.filter((a) => a.data.year === year) }));
 
 // Placement accents: first place in gold, everything else in the quieter ink.
-const placementClass = (placement: string | null) =>
+const placementClass = (placement: string | undefined) =>
   placement?.toLowerCase().startsWith('1st') ? 'text-gold' : 'text-text/70';
 ---
 
 <BaseLayout
-  title={`Awards & Certified Flower Show Judges | ${clubInfo.name}`}
-  description={`${affiliations.state.name} awards ${clubInfo.name} has received, the CEW Training Award we give our members, and our NGC-accredited flower show judges.`}
+  title={`Awards & Certified Flower Show Judges | ${club.name}`}
+  description={`${affiliations.state.name} awards ${club.name} has received, the CEW Training Award we give our members, and our NGC-accredited flower show judges.`}
 >
   <PageHero
     eyebrow="Recognition"
@@ -63,14 +67,14 @@ const placementClass = (placement: string | null) =>
                 <span class="h-px flex-1 max-w-[8rem] bg-gold/30" aria-hidden="true"></span>
               </h3>
               <ul class="divide-y divide-primary/10 border-t border-gold/25 max-w-3xl" role="list">
-                {seasonAwards.map((award) => (
+                {seasonAwards.map(({ data: award, Content }) => (
                   <li class="grid grid-cols-1 sm:grid-cols-[minmax(9rem,auto)_1fr] gap-x-8 gap-y-1 py-4">
                     <span class:list={['text-[0.7rem] font-semibold uppercase tracking-[0.2em] self-baseline sm:pt-1.5', placementClass(award.placement)]}>
                       {award.placement ?? 'Recognized'}
                     </span>
                     <div>
-                      <p class="font-heading text-xl font-semibold text-text leading-snug">{award.awardName}</p>
-                      <p class="text-[0.95rem] text-text/70 leading-relaxed mt-0.5">{award.description}</p>
+                      <p class="font-heading text-xl font-semibold text-text leading-snug">{award.name}</p>
+                      <Prose class="text-[0.95rem] text-text/70 mt-0.5"><Content /></Prose>
                     </div>
                   </li>
                 ))}

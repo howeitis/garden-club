@@ -1,11 +1,12 @@
 ---
-import type { Judge } from '../data/schema';
+import type { Judge } from '../data/index';
 
 interface Props {
   judge: Judge;
 }
 
 const { judge } = Astro.props;
+const { name, level, status } = judge.data;
 
 const statusStyles = {
   active:   'text-holly border border-holly/30',
@@ -19,15 +20,15 @@ const statusLabel = {
 
 <li class="flex flex-wrap items-center justify-between gap-3 py-4">
   <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-    <span class="font-heading text-lg font-semibold text-text">{judge.name}</span>
-    <span class="text-[0.95rem] text-text/70">{judge.certificationLevel}</span>
+    <span class="font-heading text-lg font-semibold text-text">{name}</span>
+    <span class="text-[0.95rem] text-text/70">{level}</span>
   </div>
   <span
     class:list={[
       'text-[0.62rem] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 rounded-sm',
-      statusStyles[judge.status],
+      statusStyles[status],
     ]}
   >
-    {statusLabel[judge.status]}
+    {statusLabel[status]}
   </span>
 </li>

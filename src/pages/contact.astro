@@ -4,17 +4,20 @@ import PageHero from '../components/PageHero.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Flourish from '../components/Flourish.astro';
 import SocialIcon from '../components/SocialIcon.astro';
-import { clubInfo, contact } from '../data/index';
+import { club, contact, getPageCopy } from '../data/index';
+
+const copy = await getPageCopy('contact');
+const socialLinks = Object.entries(contact.social).filter((pair): pair is [string, string] => !!pair[1]);
 ---
 
 <BaseLayout
-  title={`Contact ${clubInfo.name} | Greenville, Delaware`}
-  description={`Email ${clubInfo.name} in Greenville, Delaware with questions about membership, monthly meetings, or our community projects.`}
+  title={`Contact ${club.name} | Greenville, Delaware`}
+  description={`Email ${club.name} in Greenville, Delaware with questions about membership, monthly meetings, or our community projects.`}
 >
   <PageHero
     eyebrow="Say Hello"
     title="Contact Us"
-    subtitle="Questions about membership, events, or projects? We'd love to hear from you."
+    subtitle={copy.heroSubtitle}
     image="/contact-hero.jpg"
     accent="hen"
   />
@@ -38,10 +41,10 @@ import { clubInfo, contact } from '../data/index';
             <div>
               <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-1.5">Email</p>
               <a
-                href={`mailto:${contact.primaryEmail}`}
+                href={`mailto:${contact.email}`}
                 class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
               >
-                {contact.primaryEmail}
+                {contact.email}
               </a>
             </div>
           </div>
@@ -58,25 +61,25 @@ import { clubInfo, contact } from '../data/index';
             <div>
               <p class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-1.5">Mailing Address</p>
               <address class="not-italic text-text/80 leading-relaxed">
-                {contact.mailingAddress.street}<br />
-                {contact.mailingAddress.city}, {contact.mailingAddress.state} {contact.mailingAddress.zip}
+                {contact.address.street}<br />
+                {contact.address.city}, {contact.address.state} {contact.address.zip}
               </address>
             </div>
           </div>
         </div>
 
         <!-- Social Links -->
-        {contact.socialLinks && Object.keys(contact.socialLinks).length > 0 && (
+        {socialLinks.length > 0 && (
           <div>
             <h3 class="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-text/70 mb-4">Follow Us</h3>
             <ul class="flex flex-col gap-2.5">
-              {Object.entries(contact.socialLinks).map(([platform, url]) => (
+              {socialLinks.map(([platform, url]) => (
                 <li>
                   <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${clubInfo.name} on ${platform.charAt(0).toUpperCase() + platform.slice(1)} (opens in a new tab)`}
+                    aria-label={`${club.name} on ${platform.charAt(0).toUpperCase() + platform.slice(1)} (opens in a new tab)`}
                     class="inline-flex items-center gap-2.5 text-primary font-medium capitalize underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
                   >
                     <SocialIcon platform={platform} class="w-[1.05rem] h-[1.05rem] text-gold flex-shrink-0" />
@@ -91,7 +94,7 @@ import { clubInfo, contact } from '../data/index';
         <!-- Club theme flourish -->
         <div class="border-t border-gold/25 pt-8 text-center">
           <Flourish class="mb-5" />
-          <p class="font-heading italic text-xl text-text/70 leading-snug">&ldquo;{clubInfo.theme}&rdquo;</p>
+          <p class="font-heading italic text-xl text-text/70 leading-snug">&ldquo;{club.theme}&rdquo;</p>
         </div>
       </aside>
 

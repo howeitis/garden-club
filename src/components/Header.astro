@@ -1,5 +1,5 @@
 ---
-import { clubInfo } from '../data/index';
+import { foundingYear } from '../data/index';
 
 const navLinks = [
   { label: 'About',             href: '/about' },
@@ -27,7 +27,6 @@ const navLinks = [
 ];
 
 const currentPath = Astro.url.pathname;
-const foundingYear = clubInfo.foundingDates.club.split(' ').pop();
 ---
 
 <header

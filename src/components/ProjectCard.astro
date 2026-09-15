@@ -1,8 +1,10 @@
 ---
 // Editorial project row used on /community-service. A large photograph on one
 // side, text on the other; `flip` alternates the composition down the page.
-import type { Project } from '../data/schema';
+import { render } from 'astro:content';
+import type { Project } from '../data/index';
 import SmartImage from './SmartImage.astro';
+import Prose from './Prose.astro';
 
 interface Props {
   project: Project;
@@ -11,15 +13,17 @@ interface Props {
 }
 
 const { project, flip = false } = Astro.props;
+const { title, years, chair, location, image } = project.data;
+const { Content } = await render(project);
 ---
 
 <article class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
 
   <div class:list={['md:col-span-5 overflow-hidden rounded-sm', flip && 'md:order-2']}>
-    {project.imageReference ? (
+    {image ? (
       <SmartImage
-        src={project.imageReference}
-        alt={`Photo of ${project.name}`}
+        src={image}
+        alt={`Photo of ${title}`}
         widths={[400, 800]}
         sizes="(min-width: 768px) 42vw, 100vw"
         class="w-full h-64 sm:h-80 object-cover"
@@ -38,12 +42,12 @@ const { project, flip = false } = Astro.props;
 
   <div class:list={['md:col-span-7', flip && 'md:order-1']}>
     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-3">
-      {project.location} &middot; {project.yearsActive}
+      {location} &middot; {years}
     </p>
-    <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{project.name}</h3>
-    <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-5">{project.description}</p>
+    <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{title}</h3>
+    <Prose class="text-base sm:text-lg text-text/75 mb-5"><Content /></Prose>
     <p class="text-[0.95rem] text-text/70">
-      Chaired by <span class="font-medium text-text/75">{project.chairperson}</span>
+      Chaired by <span class="font-medium text-text/75">{chair}</span>
     </p>
   </div>
 </article>

@@ -1,0 +1,31 @@
+file: affiliations
+national:
+  name: National Garden Clubs, Inc.
+  address: 4401 Magnolia Ave., St. Louis, MO 63110
+  phone: 314-776-7574
+  website: www.gardenclub.org
+  theme: Go Green - Plant America
+  president: Brenda Moore
+  presidentEmail: bmoore@gardenclub.org
+  convention:
+    dates: May 4-6, 2026
+    location: NGC Headquarters, St. Louis, Missouri
+region:
+  name: Central Atlantic Region of State Garden Clubs, Inc.
+  abbreviation: CAR-SGC
+state:
+  name: Delaware Federation of Garden Clubs
+  abbreviation: DFGC
+other:
+  - name: Delaware Center for Horticulture
+howWeSupport:
+  - >-
+    GGGC supports NGC's Plant America Theme through its community service projects and contributions
+    to the Delaware Center for Horticulture and the Delaware Nature Society.
+  - >-
+    GGGC supports the President's "Go Green - Plant America" Project through its monthly community
+    gardening projects.
+  - >-
+    GGGC established the CEW Training Award to provide financial assistance to members who would
+    like to attend NGC Flower Show School classes or horticulture/design classes, at accredited
+    institutions.

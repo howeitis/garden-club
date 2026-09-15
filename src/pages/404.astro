@@ -1,17 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Flourish from '../components/Flourish.astro';
-import { clubInfo } from '../data/index';
+import { club } from '../data/index';
+import Button from '../components/Button.astro';
 ---
 
 <BaseLayout
-  title={`Page Not Found | ${clubInfo.name}`}
+  title={`Page Not Found | ${club.name}`}
   description="The page you're looking for doesn't exist."
 >
   <div class="flex flex-col items-center justify-center min-h-[60vh] px-4 pt-40 pb-24 text-center">
     <img
       src="/gggc-clean.png"
-      alt={clubInfo.name}
+      alt={club.name}
       class="h-28 w-auto object-contain mb-8"
       loading="eager"
     />
@@ -22,11 +23,6 @@ import { clubInfo } from '../data/index';
     <p class="text-text/70 text-lg mb-10 max-w-md leading-relaxed">
       We couldn't find that page. It may have moved, or perhaps it was never planted here to begin with.
     </p>
-    <a
-      href="/"
-      class="bg-primary text-background text-[0.8rem] font-semibold uppercase tracking-[0.18em] px-9 py-4 rounded-sm hover:bg-[#1f4128] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-    >
-      Back to Home
-    </a>
+    <Button href="/">Back to Home</Button>
   </div>
 </BaseLayout>

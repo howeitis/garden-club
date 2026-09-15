@@ -1,9 +1,15 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+// Self-hosted variable fonts (see tailwind.config.mjs → fontFamily). Bundled
+// by Astro and served from /_astro with a long cache, so there is no
+// render-blocking request to Google Fonts.
+import '@fontsource-variable/cormorant-garamond';
+import '@fontsource-variable/cormorant-garamond/wght-italic.css';
+import '@fontsource-variable/inter';
 import Analytics from '@vercel/analytics/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { clubInfo, contact, affiliations } from '../data/index';
+import { club, contact, affiliations, foundingDateISO } from '../data/index';
 
 export interface Props {
   title: string;
@@ -29,7 +35,7 @@ export interface Props {
 
 const {
   title,
-  description = clubInfo.missionStatement,
+  description = club.mission,
   noindex = false,
   canonical,
   ogType = 'website',
@@ -41,22 +47,11 @@ const canonicalURL = canonical ? new URL(canonical, Astro.site) : new URL(Astro.
 // Don't point this at a full-size photo; multi-MB images are silently dropped by most scrapers.
 const defaultOgImage = new URL('/og-share-v2.png', Astro.site).toString();
 const ogImage = Astro.props.ogImage ?? defaultOgImage;
-const ogImageAlt = Astro.props.ogImageAlt ?? `${clubInfo.name} — peach blossom garden club logo`;
+const ogImageAlt = Astro.props.ogImageAlt ?? `${club.name} — peach blossom garden club logo`;
 const hasCustomOgImage = ogImage !== defaultOgImage;
 
 // Build JSON-LD Organization schema dynamically from validated data
-const sameAs = contact.socialLinks ? Object.values(contact.socialLinks) : [];
-
-// Convert "September 1963" → "1963-09" for Schema.org compliance
-const foundingDateISO = (() => {
-  const months: Record<string, string> = {
-    January: '01', February: '02', March: '03', April: '04',
-    May: '05', June: '06', July: '07', August: '08',
-    September: '09', October: '10', November: '11', December: '12',
-  };
-  const [month, year] = clubInfo.foundingDates.club.split(' ');
-  return `${year}-${months[month] ?? '01'}`;
-})();
+const sameAs = Object.values(contact.social).filter((url): url is string => !!url);
 
 // Organization rather than LocalBusiness: a nonprofit club has no opening
 // hours or telephone, and Search Console flags LocalBusiness without them.
@@ -64,26 +59,26 @@ const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': new URL('/#organization', Astro.site).toString(),
-  name: clubInfo.name,
-  alternateName: 'GGGC',
+  name: club.name,
+  alternateName: club.shortName,
   url: Astro.site?.toString(),
   logo: new URL('/gggc-clean.png', Astro.site).toString(),
-  description: clubInfo.missionStatement,
+  description: club.mission,
   foundingDate: foundingDateISO,
   foundingLocation: { '@type': 'Place', name: 'Greenville, Delaware' },
   areaServed: { '@type': 'Place', name: 'Wilmington, Delaware' },
   nonprofitStatus: 'https://schema.org/Nonprofit501c3',
-  email: contact.primaryEmail,
+  email: contact.email,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: contact.mailingAddress.street,
-    addressLocality: contact.mailingAddress.city,
-    addressRegion: contact.mailingAddress.state,
-    postalCode: contact.mailingAddress.zip,
+    streetAddress: contact.address.street,
+    addressLocality: contact.address.city,
+    addressRegion: contact.address.state,
+    postalCode: contact.address.zip,
     addressCountry: 'US',
   },
   memberOf: [
-    { '@type': 'Organization', name: affiliations.ngc.name, url: `https://${affiliations.ngc.website}` },
+    { '@type': 'Organization', name: affiliations.national.name, url: `https://${affiliations.national.website}` },
     { '@type': 'Organization', name: affiliations.state.name },
     { '@type': 'Organization', name: affiliations.region.name },
   ],
@@ -115,7 +110,7 @@ const jsonLdBlocks = [
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url} />
-    <meta property="og:site_name" content={clubInfo.name} />
+    <meta property="og:site_name" content={club.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
@@ -154,14 +149,6 @@ const jsonLdBlocks = [
     <!-- Apple touch icon: iOS Safari home screen -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-
-    <!-- Google Fonts: Cormorant Garamond (headings/wordmark) + Inter (body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
 
     <!-- JSON-LD Structured Data: site-wide Organization + any page-specific blocks -->
     {jsonLdBlocks.map((block) => (

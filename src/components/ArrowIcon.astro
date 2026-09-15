@@ -1,0 +1,17 @@
+---
+// The thin arrow used after "Read the story", "Visit", and button labels.
+// Decorative (aria-hidden); the surrounding text carries the meaning.
+// Pass `class` to size it (default w-4 h-4) or to add a hover slide
+// (`transition-transform group-hover:translate-x-1`).
+interface Props {
+  direction?: 'right' | 'left';
+  class?: string;
+}
+
+const { direction = 'right', class: className = 'w-4 h-4' } = Astro.props;
+const d = direction === 'right' ? 'M17 8l4 4m0 0l-4 4m4-4H3' : 'M10 19l-7-7m0 0l7-7m-7 7h18';
+---
+
+<svg class={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d={d} />
+</svg>

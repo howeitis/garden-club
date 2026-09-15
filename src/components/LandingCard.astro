@@ -3,6 +3,7 @@
 // a 2x2 photo cluster on the other; `flip` alternates the composition down
 // the page. Set directly on the page ground — no card chrome.
 import SmartImage from './SmartImage.astro';
+import ArrowIcon from './ArrowIcon.astro';
 
 interface Image {
   /** Public path to the image */
@@ -38,9 +39,7 @@ const headingId = `cta-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace
       <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-7">{description}</p>
       <span class="inline-flex items-center gap-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-primary group-hover:text-gold transition-colors duration-200">
         {cta}
-        <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
+        <ArrowIcon class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
       </span>
     </div>
     <div class:list={['grid grid-cols-2 gap-3', flip && 'md:order-1']}>

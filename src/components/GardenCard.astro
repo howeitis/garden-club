@@ -2,20 +2,20 @@
 // Editorial garden row used on /resources/gardens for both Local and Regional
 // sections. A large photograph on one side, text on the other; `flip`
 // alternates the composition down the page.
+import { render } from 'astro:content';
+import type { Garden } from '../data/index';
 import SmartImage from './SmartImage.astro';
+import Prose from './Prose.astro';
 
 interface Props {
-  name: string;
-  location: string;
-  description: string;
-  /** Domain only, no protocol (e.g. "longwoodgardens.org") */
-  website: string;
-  image: string;
+  garden: Garden;
   /** Mirror the layout (image on the right) */
   flip?: boolean;
 }
 
-const { name, location, description, website, image, flip = false } = Astro.props;
+const { garden, flip = false } = Astro.props;
+const { name, location, website, image } = garden.data;
+const { Content } = await render(garden);
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
@@ -32,7 +32,7 @@ const { name, location, description, website, image, flip = false } = Astro.prop
   <div class:list={['md:col-span-7', flip && 'md:order-1']}>
     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-3">{location}</p>
     <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{name}</h3>
-    <p class="text-base sm:text-lg text-text/75 leading-relaxed mb-5">{description}</p>
+    <Prose class="text-base sm:text-lg text-text/75 mb-5"><Content /></Prose>
     <a
       href={`https://${website}`}
       target="_blank"
