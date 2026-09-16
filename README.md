@@ -55,6 +55,7 @@ Open [http://localhost:4321](http://localhost:4321).
 | `npm run check` | Type-check with `astro check` — **CI gates on this** |
 | `npm run check:images` | Lint editor-uploaded photos (size, filename) — runs automatically before `build` |
 | `npm run build:icons` | Regenerate every PNG icon from `public/favicon.svg` |
+| `npm run build:share-card` | Regenerate the social share card (`public/og-share-v3.png`) from `club.yml` and the crest |
 
 ---
 
@@ -217,7 +218,7 @@ public/                 # Static assets served at root (logos, icons, OG image o
 ├── gggc-clean.png          # Watercolor crest — header logo
 ├── gggcwhitelogo.png       # White logo — footer / dark grounds
 ├── ngc-logo.png            # National Garden Clubs logo
-├── og-share-v2.png         # Open Graph share card (1200×630)
+├── og-share-v3.png         # Open Graph share card (1200×630) — generated, see scripts/share-card
 ├── manifest.json           # PWA web manifest
 └── robots.txt              # Crawler directives + sitemap reference
 
@@ -317,7 +318,7 @@ Items on hold pending additional club details or future sprints. **These are now
 - [x] **Project images** — All 8 projects in `src/content/projects/` reference a photo
 
 ### Design
-- [x] **Club logo / SVG mark** — The watercolor crest anchors the header, footer, and design system; `public/favicon.svg` is the matching small-size mark, used for every favicon and app icon ([#16](https://github.com/howeitis/garden-club/issues/16)). Still to do under that issue: the share card
+- [x] **Club logo / SVG mark** — The watercolor crest anchors the header, footer, and design system; `public/favicon.svg` is the matching small-size mark, used for every favicon and app icon; the share card is generated from the crest and `club.yml` ([#16](https://github.com/howeitis/garden-club/issues/16))
 - [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, and `flower.jpg` in a gallery on the About or Home page
 - [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
 - [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)
