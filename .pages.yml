@@ -21,10 +21,11 @@ media:
   rename: safe
   categories: [image]
 
-# Reusable field definitions.
+# Reusable field definitions. A component carries everything except `name`;
+# the field that references it supplies the name (`- name: image` +
+# `component: photo`). A reference without a name crashes the editor.
 components:
   order:
-    name: order
     label: Order on the page
     type: number
     default: 100
@@ -32,18 +33,15 @@ components:
     options:
       min: 0
   photo:
-    name: image
     label: Photo
     type: image
     required: true
     description: Upload a JPG or PNG straight from your phone or camera — the site resizes it. Landscape photos work best in most spots.
   focus:
-    name: focus
     label: Photo focus point
     type: string
     description: Optional. If the photo is cropped badly, nudge the crop — e.g. "center 30%" keeps the top third in view, "center bottom" keeps the bottom.
   body:
-    name: body
     label: Description
     type: rich-text
     options:
@@ -121,7 +119,8 @@ content:
             label: Caption
             type: string
             description: Optional small caption under the photo.
-          - component: focus
+          - name: focus
+            component: focus
       - name: secondPhoto
         label: Second photo
         type: object
@@ -136,7 +135,8 @@ content:
           - name: caption
             label: Caption
             type: string
-          - component: focus
+          - name: focus
+            component: focus
       - name: body
         label: The story
         type: rich-text
@@ -151,6 +151,7 @@ content:
         type: object
         list:
           max: 4
+          collapsible: false
         description: Up to four big numbers, e.g. "40+" / "Years as a certified judge". Leave empty to skip this section.
         fields:
           - name: value
@@ -211,9 +212,12 @@ content:
         type: string
         required: true
         description: e.g. "Goodstay Gardens, Wilmington"
-      - component: photo
-      - component: body
-      - component: order
+      - name: image
+        component: photo
+      - name: body
+        component: body
+      - name: order
+        component: order
 
   - name: officers
     label: Board of Officers
@@ -247,7 +251,8 @@ content:
           format: markdown
           media: false
           switcher: false
-      - component: order
+      - name: order
+        component: order
 
   - name: member-gardens
     label: Member Gardens
@@ -278,10 +283,14 @@ content:
         label: Highlight badge
         type: string
         description: A few words shown as a small badge, e.g. "Certified wildlife habitat". Optional.
-      - component: photo
-      - component: focus
-      - component: body
-      - component: order
+      - name: image
+        component: photo
+      - name: focus
+        component: focus
+      - name: body
+        component: body
+      - name: order
+        component: order
 
   # ── Awards & judges ────────────────────────────────────────────────────────
 
@@ -308,7 +317,7 @@ content:
         label: Kind of award
         type: select
         required: true
-        description: "Received" = an award given to the club (by the Delaware Federation, for example). "Given" = an award the club presents to its own members.
+        description: 'Received = an award given to the club (by the Delaware Federation, for example). Given = an award the club presents to its own members.'
         options:
           values:
             - name: received
@@ -324,7 +333,8 @@ content:
         type: string
         required: true
         description: e.g. "2024-25", or "Ongoing" for an award the club gives every year.
-      - component: body
+      - name: body
+        component: body
       - name: criteria
         label: Criteria
         type: string
@@ -335,7 +345,8 @@ content:
         type: string
         list: true
         description: For awards the club gives. Optional.
-      - component: order
+      - name: order
+        component: order
 
   - name: judges
     label: Certified Judges
@@ -370,7 +381,8 @@ content:
               label: Active
             - name: emeritus
               label: Emeritus
-      - component: order
+      - name: order
+        component: order
 
   # ── Resources ──────────────────────────────────────────────────────────────
 
@@ -412,9 +424,12 @@ content:
         label: Bloom period
         type: string
         description: For natives, e.g. "May – June". Leave blank for invasives.
-      - component: photo
-      - component: body
-      - component: order
+      - name: image
+        component: photo
+      - name: body
+        component: body
+      - name: order
+        component: order
 
   - name: gardens
     label: Gardens to Visit
@@ -457,9 +472,12 @@ content:
         pattern:
           regex: "^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/.*)?$"
           message: Enter the address without "https://", e.g. longwoodgardens.org
-      - component: photo
-      - component: body
-      - component: order
+      - name: image
+        component: photo
+      - name: body
+        component: body
+      - name: order
+        component: order
 
   - name: gardening-tips
     label: Gardening Tips
@@ -493,9 +511,12 @@ content:
         label: How often
         type: string
         description: For Garden Rhythms only, e.g. "Weekly" or "Every 2–3 days in peak season".
-      - component: photo
-      - component: body
-      - component: order
+      - name: image
+        component: photo
+      - name: body
+        component: body
+      - name: order
+        component: order
 
   # ── Settings (one page each) ───────────────────────────────────────────────
 

@@ -245,7 +245,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 ## How to Add a New Collection (or a field to one)
 
 1. **`src/content.config.ts`** — add the `defineCollection` (or the field), with a plain-English `required_error` / `errorMap` message. Use `optionalString` / `optional()` for anything not required.
-2. **`.pages.yml`** — add the matching collection or field with a `label` and a one-line `description` an editor would understand. Enums become `type: select` with labelled values; Markdown bodies are `component: body`.
+2. **`.pages.yml`** — add the matching collection or field with a `label` and a one-line `description` an editor would understand. Enums become `type: select` with labelled values; Markdown bodies are `- name: body` + `component: body`. **A component reference must carry its own `name:`** — Pages CMS takes the name from the reference, not the component, and a nameless one crashes the editor ("Cannot read properties of undefined (reading 'substring')"). Don't start a `description` with a quote character (invalid YAML), and object-form `list:` needs `collapsible:`. Validate with Pages CMS's own schema when in doubt: clone `pages-cms/pages-cms`, run `lib/config-schema.ts` against the file.
 3. **`src/data/index.ts`** — export the sorted list (`byOrder(await getCollection('…'))`) and a type alias.
 4. Create the folder and at least one file under `src/content/`; run `npx astro sync` so the types exist, then `npm run check`.
 5. Use it from a page via `src/data/index` only. Render bodies with `render(entry)` + `<Prose><Content /></Prose>`.
