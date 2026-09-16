@@ -54,6 +54,7 @@ Open [http://localhost:4321](http://localhost:4321).
 | `npm run preview` | Preview the production build locally |
 | `npm run check` | Type-check with `astro check` — **CI gates on this** |
 | `npm run check:images` | Lint editor-uploaded photos (size, filename) — runs automatically before `build` |
+| `npm run build:icons` | Regenerate every PNG icon from `public/favicon.svg` |
 
 ---
 
@@ -211,7 +212,8 @@ src/
 scripts/check-images.mjs # Pre-build photo lint
 
 public/                 # Static assets served at root (logos, icons, OG image only)
-├── favicon.svg             # SVG favicon (+ 16/32/192/512 PNGs, apple-touch-icon)
+├── favicon.svg             # Small-size mark: the crest's gate + blossoms + holly, drawn for 16–512px
+├── favicon-*.png, apple-touch-icon.png, maskable-*.png   # generated from favicon.svg (npm run build:icons)
 ├── gggc-clean.png          # Watercolor crest — header logo
 ├── gggcwhitelogo.png       # White logo — footer / dark grounds
 ├── ngc-logo.png            # National Garden Clubs logo
@@ -315,7 +317,7 @@ Items on hold pending additional club details or future sprints. **These are now
 - [x] **Project images** — All 8 projects in `src/content/projects/` reference a photo
 
 ### Design
-- [ ] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system, but [#16](https://github.com/howeitis/garden-club/issues/16) asks specifically for an **SVG emblem** and the crest is still a PNG
+- [x] **Club logo / SVG mark** — The watercolor crest anchors the header, footer, and design system; `public/favicon.svg` is the matching small-size mark, used for every favicon and app icon ([#16](https://github.com/howeitis/garden-club/issues/16)). Still to do under that issue: the share card
 - [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, and `flower.jpg` in a gallery on the About or Home page
 - [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
 - [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)
