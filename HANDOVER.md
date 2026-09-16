@@ -12,7 +12,7 @@ This document has two parts. **Part 1 is a one-page summary** — if you read no
 
 ## What you have
 
-A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirteen pages covering the club's history, board, community service projects, membership, gardening resources, and a working contact form. It is a "static" site, which means it is fast, cheap (currently free to host), and has no database or login system to maintain.
+A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Fifteen pages covering the club's history, board, community service projects, a Member of the Month feature, membership, gardening resources, and a working contact form — plus an admin screen where the club edits all of it without touching code. It is a "static" site, which means it is fast, cheap (currently free to host), and has no database to maintain.
 
 ## Status
 
@@ -22,14 +22,17 @@ A website for the Garden Gate Garden Club at **gardengategardenclub.com**. Thirt
 | Contact form → club inbox | ✅ Live and tested |
 | Google Search Console | ✅ Verified, sitemap submitted |
 | Automatic publishing when content changes | ✅ Working |
-| **Board roster** | ⚠️ **Not filled in — shows "TBD" on the live site** |
+| Editing admin (app.pagescms.org) | ✅ Live — every section opens, saves publish in about a minute (tested September 2026) |
+| Visitor analytics | ✅ Vercel Web Analytics |
 | Social media links | ✅ Facebook and Instagram |
+| **Board roster** | ⚠️ **Not filled in** — the Board section is hidden on the About page until names are entered |
+| Meeting venue, guest policy | ⚠️ Not on the site yet — needs the board's answers (§9.5) |
 
 ## ▸ The first job: the board roster
 
-**The About page currently lists all four officers as "TBD."** The roster was never supplied, so the site went live with placeholders and they are visible to the public right now.
+**The About page has no Board of Officers section right now.** The four roles exist but their names are "TBD", and the site hides the section rather than publish placeholders. As soon as one real name is entered, the section appears.
 
-Replacing them is a five-minute job that requires no coding — see §3, or simply ask an AI assistant (§3.1). This is the single most visible unfinished item on the site.
+Filling it in is a five-minute job in the admin — **Board of Officers**, open each role, type the name, Save. See `CONTENT_GUIDE.md` §4.
 
 ## The six accounts that keep the site alive
 
@@ -54,7 +57,9 @@ Replacing them is a five-minute job that requires no coding — see §3, or simp
 
 | Action | Who |
 |---|---|
-| **Replace the four "TBD" officers** with the real board roster | Communications chair |
+| **Enter the four officers' names** in the admin (Board of Officers) | Communications chair |
+| **Decide and supply**: where meetings are held (or "shared on RSVP"), whether guests may visit a meeting, the next NGC convention date | Board → communications chair |
+| **Invite this year's editors** to the admin by email (§3.1) | Whoever holds the club GitHub login |
 | Note "keep the GitHub repo public" in board records | Board |
 | Note the domain renewal date (August 2027) on the club calendar | Board |
 
@@ -77,12 +82,13 @@ Replacing them is a five-minute job that requires no coding — see §3, or simp
 | Framework | Astro 5 (static site generation) |
 | Styling | Tailwind CSS 3 |
 | Language | TypeScript |
-| Content | JSON data files, validated at build time |
+| Content | One small Markdown or YAML file per item under `src/content/`, validated at build time |
+| Editing | Pages CMS — a free admin that edits those files through forms |
 | Hosting | Vercel |
 | Contact form | Web3Forms |
-| Fonts | Google Fonts — Cormorant Garamond, Inter |
+| Fonts | Cormorant Garamond and Inter, served from the site itself (no third-party font request) |
 
-**"Static site"** means every page is pre-built into plain HTML files. There is no database, no server-side code, no user accounts, and no admin login. This makes the site fast, secure, and free to host — but it also means **any content change requires the site to be rebuilt and republished**. That happens automatically (see §4).
+**"Static site"** means every page is pre-built into plain HTML files. There is no database and no server-side code; the admin is a separate service that edits the source files, not part of the site. This makes the site fast, secure, and free to host — but it also means **any content change requires the site to be rebuilt and republished**. That happens automatically (see §4).
 
 Further technical reference lives in `README.md` (setup, deployment, environment variables) and `CLAUDE.md` (architecture and design system).
 
@@ -207,10 +213,10 @@ src/assets/content/       photos (plain JPG/PNG is fine; the site resizes them)
 ## 4. How changes get published
 
 ```
-Edit a file  →  Push to GitHub (main branch)  →  Vercel rebuilds  →  Live in ~1 minute
+Save in the admin (or edit a file on GitHub)  →  a commit lands on `main`  →  checks run  →  Vercel rebuilds  →  Live in ~1 minute
 ```
 
-There is no separate "publish" button. Saving a change to the `main` branch is publishing.
+There is no separate "publish" button. Anything that lands on the `main` branch is published — the admin's **Save** is exactly that.
 
 Two automated checks run on every change:
 
@@ -244,7 +250,7 @@ There is no branch protection on `main`; the club account commits directly, whic
 
 **Two things that commonly confuse people:**
 
-1. **Changing `primaryEmail` in `contact.json` does not change where messages are delivered.** That setting only controls the address *displayed* on the Contact page. Delivery is set by the Web3Forms key in Vercel. If the club changes its email address, **both** must be updated.
+1. **Changing the club email in the admin (Club Settings → Contact details) does not change where messages are delivered.** That setting only controls the address *displayed* on the Contact page. Delivery is set by the Web3Forms key in Vercel. If the club changes its email address, **both** must be updated.
 
 2. **Check the spam folder early on** and mark notifications as "not spam" so Gmail learns to trust them.
 
@@ -295,7 +301,7 @@ The domain renewal is the only recurring cost, and it renews automatically. The 
 
 ### 9.1 How ownership is arranged today
 
-Hosting, the domain registration, environment variables, and rollback ability all sit in **Owen Howe's** Vercel account. The club publishes content changes independently through GitHub, but changes to settings, the domain, or the contact-form key go through Owen.
+Hosting, the domain registration, environment variables, and rollback ability all sit in **Owen Howe's** Vercel account, and the Pages CMS GitHub App is installed from his GitHub account. The club publishes content changes independently through the admin (which writes to GitHub), but changes to hosting settings, the domain, or the contact-form key go through Owen.
 
 This works, and there is nothing that needs fixing. It is documented here so the board knows who to contact, and so the options are on record if the club ever wants the site fully under its own accounts.
 
@@ -321,16 +327,21 @@ Making it private will cause the club's changes to stop publishing, with the err
 
 Removing the DNS TXT record unverifies the Search Console property.
 
-### 9.5 Open content items
+### 9.5 Open content items — these need the board, not a developer
 
-Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](https://github.com/howeitis/garden-club/issues/11)), events calendar ([#12](https://github.com/howeitis/garden-club/issues/12)), analytics ([#19](https://github.com/howeitis/garden-club/issues/19)), CMS evaluation ([#20](https://github.com/howeitis/garden-club/issues/20)).
+- **Officers' names** ([#11](https://github.com/howeitis/garden-club/issues/11)) — enter in the admin.
+- **Where meetings are held.** The Membership page gives the day, months, and timetable but no venue — the one fact a prospective visitor most needs. If the location varies or is private, "shared when you RSVP" is fine.
+- **Guests.** The club is at 29 of 30 active members, yet the home page's main button says "Become a Member." A "Visit as a guest" invitation (the order of business already includes *Introduction of Guests*) is more honest and a lower hurdle. The board should decide the policy; changing the wording is then a two-minute admin edit.
+- **The next NGC convention date** (Club Settings → Affiliations; currently May 2026, past).
+- **A line about the next meeting or program** on the home page, if someone will keep it current — the most-shared thing a club site can carry.
+
+Also open as GitHub issues: events calendar ([#12](https://github.com/howeitis/garden-club/issues/12)), newsletter signup ([#13](https://github.com/howeitis/garden-club/issues/13)), photo gallery ([#17](https://github.com/howeitis/garden-club/issues/17)), SVG logo ([#16](https://github.com/howeitis/garden-club/issues/16)).
 
 ### 9.6 Optional improvements
 
-- **Analytics** — Vercel Web Analytics, or a privacy-friendly option like Plausible or Fathom.
-- **Officer photos** — the data structure supports adding headshots.
-- **Real photography** — the page layouts are built to showcase photos of actual members, meetings, and member gardens.
-- **A content management system** — Decap CMS (free, Git-backed) would let board members edit content through a web interface instead of editing files.
+- **Real photography** — the page layouts are built to showcase photos of actual members, meetings, and member gardens; most current photos are stand-ins.
+- **Officer photos** — would need a `photo` field added to the officers collection (a small developer/AI-assistant job); the card layout has room for a headshot.
+- **Per-honoree social posts** — every Member of the Month has a permanent page with their portrait as the share image, ready to link from Facebook or Instagram.
 
 ---
 
@@ -361,6 +372,8 @@ Tracked as GitHub issues. Genuinely outstanding: **officers roster** ([#11](http
 | **DNS** | The system translating `gardengategardenclub.com` into the server that answers |
 | **Environment variable** | A setting stored in Vercel rather than in the code, typically a key or password |
 | **Static site** | A pre-built website with no database or login system |
+| **The admin / Pages CMS** | The editing screens at app.pagescms.org. A separate free service that edits the site's content files through forms and saves them to GitHub |
+| **Content file** | One small text file per item (a project, an honoree, a page's paragraphs) under `src/content/` in the repository. What the admin edits; what the site is built from |
 | **Sitemap** | A machine-readable list of pages, submitted to Google |
 | **Canonical URL** | The official address of a page, so search engines do not treat duplicates as separate |
 

@@ -6,7 +6,9 @@ The site's "heritage editorial" design system is built around the club's waterco
 
 **Live at [gardengategardenclub.com](https://gardengategardenclub.com)**
 
-> 📋 **Taking over this site?** Start with **[HANDOVER.md](HANDOVER.md)** — account ownership, risks, and who controls what. It opens with a one-page summary.
+> 📋 **Taking over this site?** Start with **[HANDOVER.md](HANDOVER.md)** — account ownership, who controls what, and what's open. It opens with a one-page summary.
+>
+> ✏️ **Updating content?** Club members use the Pages CMS admin — see **[CONTENT_GUIDE.md](CONTENT_GUIDE.md)**. Nothing here needs a developer.
 
 ---
 
@@ -290,8 +292,8 @@ Every page includes:
 - ✅ **Production domain is live.** `gardengategardenclub.com`, registered through Vercel. Set in `astro.config.mjs` and `public/robots.txt` (see [Production Domain](#production-domain)).
 - ✅ **Contact form is live.** Posts to Web3Forms, delivering to `gardengate.communications@gmail.com`. Requires `PUBLIC_WEB3FORMS_KEY` to be set in Vercel (see [Contact Form](#contact-form)).
 - ⚠️ **The Vercel project is on a personal Hobby account.** Club collaborators can deploy because the repo is public, but env vars, the domain, and rollbacks stay owner-only (see [Who can deploy](#who-can-deploy)).
-- 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. Originals were multi-MB (e.g. `home-hero` 5.9 MB → ~143 KB). See "Adding images" above for the workflow.
-
+- 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. `scripts/check-images.mjs` gates every build on photo size and filename. See "Adding images" above.
+- ✏️ **Content is editable without code.** Everything lives in `src/content/` as one Markdown/YAML file per item, validated by `src/content.config.ts`; `.pages.yml` exposes it in the Pages CMS admin (verified end-to-end September 2026). Any field change touches both files.
 - ⚠️ **The board roster is unpopulated.** The four files in `src/content/officers/` are `TBD`, so the section is hidden on `/about` until names are entered. See [#11](https://github.com/howeitis/garden-club/issues/11).
 
 ### Repo hygiene done in this handoff pass
@@ -314,7 +316,7 @@ Items on hold pending additional club details or future sprints. **These are now
 
 ### Design
 - [ ] **Club logo** — The watercolor crest (`gggc-clean.png` / `gggcwhitelogo.png`) now anchors the header, footer, and the whole design system, but [#16](https://github.com/howeitis/garden-club/issues/16) asks specifically for an **SVG emblem** and the crest is still a PNG
-- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, `flower.jpg`, and `joy-ericson.jpeg` in a gallery on the About or Home page
+- [ ] **Photo gallery** — Surface `club.jpg`, `club-2.jpg`, `longwood.jpg`, and `flower.jpg` in a gallery on the About or Home page
 - [x] **Award card icons** — Emoji removed site-wide as part of the heritage-editorial redesign
 - [ ] **Real photography** — Replace stock-style photos with photos of actual club members, meetings, and member gardens (the feature-row layouts are built to showcase them)
 - [ ] **Seasonal hero touches** — Subtly shift hero/flourish accents with the seasons (blossom in spring, holly in winter — both in the crest)
@@ -322,9 +324,9 @@ Items on hold pending additional club details or future sprints. **These are now
 ### SEO
 - [x] **Production domain** — `gardengategardenclub.com` set in `astro.config.mjs` and `robots.txt`
 - [x] **Search Console** — Domain property verified via DNS TXT record (**leave that record in place** — removing it unverifies the property) and `sitemap-index.xml` submitted
-- [ ] **Analytics** — Add Plausible or Fathom (privacy-friendly, lightweight), or enable Vercel Web Analytics
+- [x] **Analytics** — Vercel Web Analytics via `@vercel/analytics/astro` in `BaseLayout`
 
 ### Engineering
 - [x] **Astro `<Image />` component** — Photos are served as responsive WebP via `SmartImage` / `PageHero` / `getImage()`
-- [ ] **Officer photo field** — Add optional `photo` field to `OfficerSchema` and headshot slot to `OfficerCard.astro`
-- [ ] **CMS evaluation** — Evaluate [Decap CMS](https://decapcms.org) (Git-backed, free) so non-technical board members can update content without touching code
+- [ ] **Officer photo field** — Add an optional `photo` field to the `officers` collection (`content.config.ts` + `.pages.yml`) and a headshot slot to `OfficerCard.astro`
+- [x] **CMS** — Pages CMS, configured by `.pages.yml`; content lives in `src/content/` as Astro content collections

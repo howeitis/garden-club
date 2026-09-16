@@ -2,6 +2,8 @@
 
 **For club members. No coding required.**
 
+> A friendlier, illustrated version of this guide is published as a web page: **https://claude.ai/artifact/Whminjsb1VSzEGEEJUi3fm** (ask the communications chair if the link asks you to sign in). This file is the same guide, kept alongside the website's code so it never goes missing.
+
 Everything on the website that changes — officers, projects, the Member of the Month, plants, meeting times, photos, the paragraphs on each page — is edited through a simple admin screen. You fill in forms, click **Save**, and the website updates itself within about a minute.
 
 You cannot break the live site. Every change is checked before it goes live; if something is wrong, the site simply keeps showing the previous version and tells you what to fix.
