@@ -1,7 +1,6 @@
 ---
 name: Pollinator Paradise
 gardener: Rita Thompson
-highlight: " wildlife habitat"
 image: /pollinatorparadise.webp
 focus: center 35%
 order: 10
