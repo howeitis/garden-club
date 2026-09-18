@@ -1,6 +1,6 @@
 ---
 name: Fire pink
-scientificName: silene Virginica
+scientificName: Silene Virginia
 type: native
 bloom: July-August
 image: /1000019960.jpeg
