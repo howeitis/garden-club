@@ -71,6 +71,7 @@ That's it — saving *is* publishing. The website rebuilds itself and your chang
 | Gardening tips | **Gardening Tips** | Choose Evergreen or Garden Rhythms |
 | Club name, mission, theme, membership numbers | **Club Settings → Club details** | The mission is also what search engines show |
 | Email, mailing address, Facebook, Instagram | **Club Settings → Contact details** | |
+| A plant without a photo yet | **Plants → (the plant)** — leave **Photo** empty | The page shows a botanical name panel until you upload one |
 | Plant popups ("More about …": height, light, soil, wildlife; for invasives how to spot and remove it, what to plant instead) | **Plants → (the plant)**, fields starting "Popup —" | All optional |
 | Garden popups ("Plan a Visit": best time to visit, don't-miss highlights, visiting tips) | **Gardens to Visit → (the garden)**, fields starting "Popup —" | All optional. Leave out hours and prices; they change, and the popup links to the garden's site |
 | Meeting day, where we meet, note for guests, timetable, dues, order of business | **Club Settings → Meetings & dues** | |

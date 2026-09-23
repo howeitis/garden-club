@@ -425,7 +425,9 @@ content:
         type: string
         description: For natives, e.g. "May – June". Leave blank for invasives.
       - name: image
-        component: photo
+        label: Photo
+        type: image
+        description: Optional here — until a photo is added, the plant shows a botanical label panel instead. Landscape photos work best.
       - name: body
         component: body
       - name: order

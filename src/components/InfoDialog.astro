@@ -18,7 +18,8 @@ interface Props {
   title: string;
   /** Italic line under the title (a scientific name, a town). */
   subtitle?: string;
-  image: string;
+  /** Header photo; omitted → the hairline alone tops the dialog. */
+  image?: string;
   /** Text color class for the eyebrow (the `eyebrow` slot); gold by default. */
   eyebrowClass?: string;
 }
@@ -45,14 +46,18 @@ const { id, title, subtitle, image, eyebrowClass = 'text-gold' } = Astro.props;
       </svg>
     </button>
 
-    <SmartImage
-      src={image}
-      alt=""
-      widths={[640, 1000, 1400]}
-      sizes="(min-width: 768px) 44rem, 100vw"
-      class="w-full h-48 sm:h-60 object-cover"
-      loading="lazy"
-    />
+    {image ? (
+      <SmartImage
+        src={image}
+        alt=""
+        widths={[640, 1000, 1400]}
+        sizes="(min-width: 768px) 44rem, 100vw"
+        class="w-full h-48 sm:h-60 object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <div class="h-16" aria-hidden="true"></div>
+    )}
     <div class="h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
 
     <div class="px-6 sm:px-10 pt-7 pb-9">

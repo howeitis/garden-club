@@ -49,7 +49,7 @@ const copy = await getPageCopy('membership');
       </p>
 
       <!-- Where: meetings rotate among homes, so the address is shared on request -->
-      <div class="border-l-2 border-gold/50 pl-7 max-w-2xl mb-10">
+      <div id="where-we-meet" class="border-l-2 border-gold/50 pl-7 max-w-2xl mb-10">
         <p class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold mb-2">Where We Meet</p>
         <p class="text-text/80 leading-relaxed">
           {meetings.location}{meetings.guests && ` ${meetings.guests}`}{' '}

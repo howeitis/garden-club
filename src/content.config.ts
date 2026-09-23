@@ -174,7 +174,9 @@ const plants = defineCollection({
       errorMap: () => ({ message: '"type" must be "native" or "invasive"' }),
     }),
     bloom: optionalString.describe('Bloom period for natives, e.g. "May – June"'),
-    image: imagePath,
+    // Optional for plants only: until a photo is added, the card shows a
+    // designed "specimen label" panel instead.
+    image: optional(imagePath),
     order: orderField,
     // "More about this plant" popup. Every field is optional; the button only
     // appears when at least one is filled in.

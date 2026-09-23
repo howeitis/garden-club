@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SmartImage from '../components/SmartImage.astro';
 import Flourish from '../components/Flourish.astro';
 import { getImage } from 'astro:assets';
-import heroDesktopSrc from '../assets/heroes/home-hero.webp';
-import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
+import heroSrc from '../assets/heroes/home-hero.webp';
 import { club, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../data/index';
 import { honoreePath } from '../lib/memberOfTheMonth';
 import Button from '../components/Button.astro';
@@ -13,18 +12,13 @@ import ArrowIcon from '../components/ArrowIcon.astro';
 const copy = await getPageCopy('home');
 const featuredPeriod = honoreePeriod(featured);
 
-// Art-directed home hero: a portrait-ish crop on phones, the wide shot on
-// larger screens. Both are optimized to WebP with responsive srcsets.
-const heroDesktop = await getImage({
-  src: heroDesktopSrc,
+// Home hero: the watercolor of Delaware's state symbols (blue hen feather,
+// peach blossom, holly). This version omits the "Peach Blossom" label, which
+// otherwise sits directly behind the hero buttons at every screen width.
+const hero = await getImage({
+  src: heroSrc,
   format: 'webp',
-  widths: [1280, 1920, 2560],
-  sizes: '100vw',
-});
-const heroMobile = await getImage({
-  src: heroMobileSrc,
-  format: 'webp',
-  widths: [480, 768, 1080],
+  widths: [480, 768, 1080, 1440, 1920, 2560],
   sizes: '100vw',
 });
 
@@ -75,19 +69,17 @@ const siteIndex = [
   <!-- Hero -->
   <section class="relative text-background overflow-hidden">
     <div class="absolute inset-0">
-      <picture class="block w-full h-full">
-        <source media="(max-width: 639px)" srcset={heroMobile.srcSet.attribute} sizes="100vw" />
-        <source srcset={heroDesktop.srcSet.attribute} sizes="100vw" />
-        <img
-          src={heroDesktop.src}
-          width={heroDesktopSrc.width}
-          height={heroDesktopSrc.height}
-          alt=""
-          class="w-full h-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </picture>
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes="100vw"
+        width={heroSrc.width}
+        height={heroSrc.height}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/75 to-[#16281a]/85" aria-hidden="true"></div>
     </div>
 
@@ -108,7 +100,7 @@ const siteIndex = [
       </p>
       <div class="hero-rise hero-rise-4 flex flex-wrap gap-4 justify-center">
         <Button href="/membership/" variant="light">Become a Member</Button>
-        <Button href="/about/" variant="outline-light">Our Story</Button>
+        <Button href="/membership/#where-we-meet" variant="outline-light">Visit a Meeting</Button>
       </div>
     </div>
   </section>
