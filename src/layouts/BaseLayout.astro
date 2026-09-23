@@ -174,6 +174,8 @@ const jsonLdBlocks = [
       h1, h2, h3 { text-wrap: balance; }
       /* Fixed header is 5.5rem tall; keep in-page anchor targets clear of it. */
       [id] { scroll-margin-top: 7rem; }
+      /* Hold the page still while a modal <dialog> (plant popups) is open. */
+      html:has(dialog[open]) { overflow: hidden; }
 
       /* Hero entrance: content rises in as the page arrives. */
       @keyframes heroRise {
@@ -302,6 +304,14 @@ const jsonLdBlocks = [
         if (window.location.hash) return;
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
       }
+
+      // The view-transition swap replaces <html>'s attributes with the new
+      // page's, dropping the `.js` class the inline <head> script added on
+      // first load. Put it back before the new page renders, or everything
+      // scoped to `.js` (scroll fade-ins, plant-popup buttons) quietly turns off.
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.classList.add('js');
+      });
 
       // Initial load
       initFadeIn();

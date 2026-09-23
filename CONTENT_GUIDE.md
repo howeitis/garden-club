@@ -71,6 +71,7 @@ That's it — saving *is* publishing. The website rebuilds itself and your chang
 | Gardening tips | **Gardening Tips** | Choose Evergreen or Garden Rhythms |
 | Club name, mission, theme, membership numbers | **Club Settings → Club details** | The mission is also what search engines show |
 | Email, mailing address, Facebook, Instagram | **Club Settings → Contact details** | |
+| Plant popups ("More about …": height, light, soil, wildlife; for invasives how to spot and remove it, what to plant instead) | **Plants → (the plant)**, fields starting "Popup —" | All optional |
 | Meeting day, where we meet, note for guests, timetable, dues, order of business | **Club Settings → Meetings & dues** | |
 | NGC, region, and state federation details | **Club Settings → Affiliations** | Leave the convention blank to hide that line |
 | The paragraphs on a page | **Page Text → (that page)** | Headings and buttons stay as they are |

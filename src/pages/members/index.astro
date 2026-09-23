@@ -9,7 +9,6 @@ import { render } from 'astro:content';
 import { club, memberGardens, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../../data/index';
 import { honoreePath } from '../../lib/memberOfTheMonth';
 import Button from '../../components/Button.astro';
-import ArrowIcon from '../../components/ArrowIcon.astro';
 
 const copy = await getPageCopy('members');
 const featuredPeriod = honoreePeriod(featured);

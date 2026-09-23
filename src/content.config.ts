@@ -176,6 +176,16 @@ const plants = defineCollection({
     bloom: optionalString.describe('Bloom period for natives, e.g. "May – June"'),
     image: imagePath,
     order: orderField,
+    // "More about this plant" popup. Every field is optional; the button only
+    // appears when at least one is filled in.
+    height: optionalString.describe('e.g. "1–2 ft"'),
+    light: optionalString.describe('e.g. "Full sun to part shade"'),
+    soil: optionalString.describe('e.g. "Moist, acidic, well-drained"'),
+    wildlife: optionalString.describe('For natives: what it feeds or shelters'),
+    identify: optionalString.describe('For invasives: how to recognize it'),
+    remove: optionalString.describe('For invasives: how to get rid of it'),
+    alternatives: z.array(z.string()).default([]).describe('For invasives: native plants to grow instead'),
+    more: optionalString.describe('A few paragraphs for the popup (Markdown; blank line between paragraphs)'),
   }),
 });
 

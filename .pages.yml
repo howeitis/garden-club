@@ -430,6 +430,43 @@ content:
         component: body
       - name: order
         component: order
+      - name: height
+        label: Popup — Height
+        type: string
+        description: Shown in the "More about this plant" popup, e.g. "1–2 ft". All popup fields are optional; the button appears once any is filled in.
+      - name: light
+        label: Popup — Light
+        type: string
+        description: e.g. "Full sun to part shade"
+      - name: soil
+        label: Popup — Soil
+        type: string
+        description: e.g. "Moist, acidic, well-drained"
+      - name: wildlife
+        label: Popup — Wildlife value
+        type: string
+        description: For natives. What it feeds or shelters, e.g. "Monarch caterpillar host".
+      - name: identify
+        label: Popup — How to spot it
+        type: text
+        description: For invasives. The features that tell it apart.
+      - name: remove
+        label: Popup — How to remove it
+        type: text
+        description: For invasives. Practical removal steps for a home gardener.
+      - name: alternatives
+        label: Popup — Plant instead
+        type: string
+        list: true
+        description: For invasives. Native plants to grow in its place, one per line.
+      - name: more
+        label: Popup — More about this plant
+        type: rich-text
+        description: A few paragraphs of background and growing advice.
+        options:
+          format: markdown
+          media: false
+          switcher: false
 
   - name: gardens
     label: Gardens to Visit

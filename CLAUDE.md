@@ -88,7 +88,7 @@ src/
 │   ├── OfficerCard.astro          # Unboxed officer entry with rotating accent rule (officer entry, index)
 │   ├── ProjectCard.astro          # Editorial feature row for a project entry (flip prop)
 │   ├── GardenCard.astro           # Editorial feature row for a garden entry (flip prop)
-│   ├── PlantCard.astro            # Open gallery entry for a plant entry (badge from data.type)
+│   ├── PlantCard.astro            # Open gallery entry for a plant (badge from data.type) + "More about" <dialog> popup
 │   ├── AwardCard.astro            # Award the club *gives* (CEW): criteria/winners side by side
 │   ├── MemberProfile.astro        # Member of the Month feature article (chapters from the Markdown body) + "by the numbers" strip
 │   ├── HonoreeGrid.astro          # Grid of honorees linking to their permanent pages
@@ -286,7 +286,7 @@ One Markdown file per honoree in `src/content/members-of-the-month/`. **The newe
 `/resources` is a landing page of three `LandingCard` links (descriptions from `pages/resources.yml`). The three subpages read their lists from collections and split them by a field:
 
 1. **`resources/gardening-tips.astro`** — `gardeningTips` split by `section: fundamentals | rhythms`.
-2. **`resources/plants.astro`** — `plants` split by `type: native | invasive`.
+2. **`resources/plants.astro`** — `plants` split by `type: native | invasive`. Each plant can carry optional popup fields — `height`, `light`, `soil`, `wildlife` (natives), `identify`, `remove`, `alternatives[]` (invasives), and `more` (Markdown) — shown in a native `<dialog>` from `PlantCard`. The button appears only when one is filled in, and only under `.js`. The dialog text is in the page HTML (indexable). An `alternatives` entry whose name matches a native on the page becomes a button that opens that plant's popup. Keep claims sourced: the popups are the site's most factual copy.
 3. **`resources/gardens.astro`** — `gardens` split by `region: local | regional`.
 
 ## Key Files to Edit for Common Tasks
