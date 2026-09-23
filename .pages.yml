@@ -515,6 +515,27 @@ content:
         component: body
       - name: order
         component: order
+      - name: bestSeason
+        label: Popup — Best time to visit
+        type: string
+        description: Shown in the "More about" popup, e.g. "Late March for the March Bank; May for the azaleas". All popup fields are optional; the button appears once any is filled in. Leave hours and prices out — they change, and the popup links to the garden's website.
+      - name: highlights
+        label: Popup — Don't miss
+        type: string
+        list: true
+        description: One highlight per line.
+      - name: tips
+        label: Popup — Visiting tips
+        type: text
+        description: Practical advice — parking, tours, how long to allow.
+      - name: more
+        label: Popup — More about this garden
+        type: rich-text
+        description: A few paragraphs of background.
+        options:
+          format: markdown
+          media: false
+          switcher: false
 
   - name: gardening-tips
     label: Gardening Tips

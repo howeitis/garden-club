@@ -9,15 +9,16 @@
 //
 // Plants with any popup field filled in (height, light, soil, wildlife,
 // identify, remove, alternatives, more) get a "More about" button that opens
-// a <dialog> with the fuller write-up. The dialog's text is in the page HTML,
-// so search engines read it even though visitors see it on demand. The button
-// only shows once JavaScript is running (it can't open anything without it).
+// an InfoDialog with the fuller write-up (text in the page HTML, so search
+// engines read it; the button shows only once JavaScript is running).
 import { render } from 'astro:content';
 import { plants, type Plant } from '../data/index';
 import { block } from '../lib/markdown';
 import SmartImage from './SmartImage.astro';
 import Prose from './Prose.astro';
 import ArrowIcon from './ArrowIcon.astro';
+import InfoDialog from './InfoDialog.astro';
+import MoreAboutButton from './MoreAboutButton.astro';
 
 interface Props {
   plant: Plant;
@@ -78,150 +79,70 @@ const sectionLabel = 'text-[0.68rem] font-semibold uppercase tracking-[0.22em] t
 
   {hasPopup && (
     <>
-      <button
-        type="button"
-        data-open-dialog={dialogId}
-        aria-haspopup="dialog"
-        class="group hidden [.js_&]:inline-flex mt-5 items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 hover:text-primary transition-colors duration-200"
-      >
-        More about {name}
-        <ArrowIcon class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-      </button>
+      <MoreAboutButton dialog={dialogId} label={`More about ${name}`} />
 
-      <dialog
+      <InfoDialog
         id={dialogId}
-        aria-labelledby={`${dialogId}-title`}
-        class="plant-dialog m-auto p-0 w-[min(44rem,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] bg-background text-text rounded-sm border border-gold/30 shadow-[0_20px_60px_rgba(22,40,26,0.35)] backdrop:bg-[#16281a]/60 backdrop:backdrop-blur-[2px]"
+        title={name}
+        subtitle={scientificName}
+        image={image}
+        eyebrowClass={type === 'native' ? 'text-gold' : 'text-holly'}
       >
-        <!-- The inner wrapper fills the dialog, so a click that lands on the
-             dialog element itself can only be on the backdrop (closes it). -->
-        <div class="relative">
-          <button
-            type="button"
-            data-close-dialog
-            class="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-background/90 text-primary border border-gold/30 hover:bg-background transition-colors"
-            aria-label="Close"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        <Fragment slot="eyebrow">
+          {type === 'native' ? (
+            <>Delaware Native{bloom && <> · <span class="whitespace-nowrap">Blooms {bloom}</span></>}</>
+          ) : 'Invasive · Please Don’t Plant'}
+        </Fragment>
 
-          <SmartImage
-            src={image}
-            alt=""
-            widths={[640, 1000, 1400]}
-            sizes="(min-width: 768px) 44rem, 100vw"
-            class="w-full h-48 sm:h-60 object-cover"
-            loading="lazy"
-          />
-          <div class="h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
+        {facts.length > 0 && (
+          <dl class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 border-t border-gold/25">
+            {facts.map((fact) => (
+              <div class:list={['py-3 border-b border-primary/10', fact.label === 'Wildlife' && 'sm:col-span-2']}>
+                <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-text/70">{fact.label}</dt>
+                <dd class="mt-1 text-text/85 leading-snug">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
-          <div class="px-6 sm:px-10 pt-7 pb-9">
-            <p class:list={['text-[0.68rem] font-semibold uppercase tracking-[0.24em] mb-2', type === 'native' ? 'text-gold' : 'text-holly']}>
-              {type === 'native' ? (
-                <>Delaware Native{bloom && <> · <span class="whitespace-nowrap">Blooms {bloom}</span></>}</>
-              ) : 'Invasive · Please Don’t Plant'}
-            </p>
-            <h2 id={`${dialogId}-title`} class="font-heading text-4xl font-semibold tracking-[-0.01em] leading-tight">{name}</h2>
-            <p class="font-heading italic text-lg text-text/70 mt-1">{scientificName}</p>
+        {more && <Prose class="mt-6 text-text/80" html={block(more)} />}
 
-            {facts.length > 0 && (
-              <dl class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 border-t border-gold/25">
-                {facts.map((fact) => (
-                  <div class:list={['py-3 border-b border-primary/10', fact.label === 'Wildlife' && 'sm:col-span-2']}>
-                    <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-text/70">{fact.label}</dt>
-                    <dd class="mt-1 text-text/85 leading-snug">{fact.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-
-            {more && <Prose class="mt-6 text-text/80" html={block(more)} />}
-
-            {identify && (
-              <section class="mt-7">
-                <h3 class={sectionLabel}>How to Spot It</h3>
-                <Prose class="text-text/80" html={block(identify)} />
-              </section>
-            )}
-            {remove && (
-              <section class="mt-6">
-                <h3 class={sectionLabel}>How to Remove It</h3>
-                <Prose class="text-text/80" html={block(remove)} />
-              </section>
-            )}
-            {suggestions.length > 0 && (
-              <section class="mt-6 border-l-2 border-accent/60 pl-5">
-                <h3 class={sectionLabel}>Plant Instead</h3>
-                <ul class="flex flex-wrap gap-2.5">
-                  {suggestions.map((alt) => (
-                    <li>
-                      {alt.id ? (
-                        <button
-                          type="button"
-                          data-open-dialog={`plant-${alt.id}`}
-                          class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-sm border border-accent/60 text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold hover:bg-accent/10 transition-colors"
-                        >
-                          {alt.name}
-                          <ArrowIcon class="w-3 h-3" />
-                        </button>
-                      ) : (
-                        <span class="inline-block text-sm px-3 py-1.5 rounded-sm border border-accent/40 text-text/85">{alt.name}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-          </div>
-        </div>
-      </dialog>
+        {identify && (
+          <section class="mt-7">
+            <h3 class={sectionLabel}>How to Spot It</h3>
+            <Prose class="text-text/80" html={block(identify)} />
+          </section>
+        )}
+        {remove && (
+          <section class="mt-6">
+            <h3 class={sectionLabel}>How to Remove It</h3>
+            <Prose class="text-text/80" html={block(remove)} />
+          </section>
+        )}
+        {suggestions.length > 0 && (
+          <section class="mt-6 border-l-2 border-accent/60 pl-5">
+            <h3 class={sectionLabel}>Plant Instead</h3>
+            <ul class="flex flex-wrap gap-2.5">
+              {suggestions.map((alt) => (
+                <li>
+                  {alt.id ? (
+                    <button
+                      type="button"
+                      data-open-dialog={`plant-${alt.id}`}
+                      class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-sm border border-accent/60 text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold hover:bg-accent/10 transition-colors"
+                    >
+                      {alt.name}
+                      <ArrowIcon class="w-3 h-3" />
+                    </button>
+                  ) : (
+                    <span class="inline-block text-sm px-3 py-1.5 rounded-sm border border-accent/40 text-text/85">{alt.name}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </InfoDialog>
     </>
   )}
 </div>
-
-<script>
-  // Plant popups. Delegated on `document` so it survives view-transition
-  // DOM swaps (this script runs once). Native <dialog> handles the focus
-  // trap, Esc, and screen-reader semantics; we add open/close wiring,
-  // backdrop-click to close, hopping between plants from "Plant instead",
-  // and returning focus to the card button that started it all.
-  let returnFocusTo: HTMLElement | null = null;
-
-  document.addEventListener('click', (event) => {
-    const target = event.target as Element | null;
-    if (!target) return;
-
-    const opener = target.closest<HTMLElement>('[data-open-dialog]');
-    if (opener) {
-      const dialog = document.getElementById(opener.dataset.openDialog ?? '') as HTMLDialogElement | null;
-      if (!dialog) return;
-      const current = opener.closest('dialog');
-      if (current) current.close();
-      else returnFocusTo = opener;
-      dialog.showModal();
-      dialog.scrollTop = 0;
-      return;
-    }
-
-    if (target.closest('[data-close-dialog]')) {
-      target.closest('dialog')?.close();
-      return;
-    }
-
-    // A click on the <dialog> element itself (not its content) is the backdrop.
-    if (target instanceof HTMLDialogElement && target.classList.contains('plant-dialog')) {
-      target.close();
-    }
-  });
-
-  // `close` doesn't bubble; listen in the capture phase. Once no plant popup
-  // is open, put focus back on the card button the visitor started from.
-  document.addEventListener('close', (event) => {
-    if (!(event.target as Element).classList?.contains('plant-dialog')) return;
-    if (document.querySelector('dialog.plant-dialog[open]')) return;
-    returnFocusTo?.focus();
-    returnFocusTo = null;
-  }, true);
-</script>

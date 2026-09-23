@@ -200,6 +200,13 @@ const gardens = defineCollection({
     website: webAddress,
     image: imagePath,
     order: orderField,
+    // "More about this garden" popup. All optional; the button appears once
+    // any is filled in. Keep hours and prices out — they change; the popup
+    // points visitors to the website for those.
+    bestSeason: optionalString.describe('When to go, e.g. "Late March for the March Bank; May for the azaleas"'),
+    highlights: z.array(z.string()).default([]).describe("Don't-miss spots, one per line"),
+    tips: optionalString.describe('Practical visiting advice (Markdown)'),
+    more: optionalString.describe('A few paragraphs for the popup (Markdown; blank line between paragraphs)'),
   }),
 });
 

@@ -1,0 +1,30 @@
+---
+// The small-caps "More about …" (or "Plan a Visit") link-button that opens an InfoDialog. Hidden
+// until JavaScript is running (`.js` on <html>), since it can't open anything
+// without it; the dialog's text is in the page either way.
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  /** The InfoDialog's id. */
+  dialog: string;
+  label: string;
+  /** Fuller name for screen readers when `label` is short. It must begin
+   *  with the visible label (WCAG 2.5.3), e.g. "Plan a visit to Longwood". */
+  ariaLabel?: string;
+  /** Spacing/layout classes; defaults to sitting under a paragraph. */
+  class?: string;
+}
+
+const { dialog, label, ariaLabel, class: className = 'mt-5' } = Astro.props;
+---
+
+<button
+  type="button"
+  data-open-dialog={dialog}
+  aria-haspopup="dialog"
+  aria-label={ariaLabel}
+  class:list={['group hidden [.js_&]:inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 hover:text-primary transition-colors duration-200', className]}
+>
+  {label}
+  <ArrowIcon class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+</button>

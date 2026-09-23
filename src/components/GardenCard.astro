@@ -2,10 +2,18 @@
 // Editorial garden row used on /resources/gardens for both Local and Regional
 // sections. A large photograph on one side, text on the other; `flip`
 // alternates the composition down the page.
+//
+// Gardens with any popup field filled in (bestSeason, highlights, tips, more)
+// get a "Plan a Visit" button that opens an InfoDialog. Hours and prices are
+// deliberately not in the data — they change — so the popup ends by pointing
+// to the garden's own website.
 import { render } from 'astro:content';
 import type { Garden } from '../data/index';
+import { block } from '../lib/markdown';
 import SmartImage from './SmartImage.astro';
 import Prose from './Prose.astro';
+import InfoDialog from './InfoDialog.astro';
+import MoreAboutButton from './MoreAboutButton.astro';
 
 interface Props {
   garden: Garden;
@@ -14,11 +22,16 @@ interface Props {
 }
 
 const { garden, flip = false } = Astro.props;
-const { name, location, website, image } = garden.data;
+const { name, location, website, image, bestSeason, highlights, tips, more } = garden.data;
 const { Content } = await render(garden);
+
+const hasPopup = !!bestSeason || highlights.length > 0 || !!tips || !!more;
+const dialogId = `garden-${garden.id}`;
+const sectionLabel = 'text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-2.5';
+const linkClass = 'text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold';
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
+<div id={garden.id} class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center py-14 first:pt-0 last:pb-0">
   <div class:list={['md:col-span-5 overflow-hidden rounded-sm', flip && 'md:order-2']}>
     <SmartImage
       src={image}
@@ -33,16 +46,61 @@ const { Content } = await render(garden);
     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-3">{location}</p>
     <h3 class="font-heading text-3xl font-semibold text-text mb-4 leading-snug">{name}</h3>
     <Prose class="text-base sm:text-lg text-text/75 mb-5"><Content /></Prose>
-    <a
-      href={`https://${website}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 text-[0.95rem] font-medium text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold"
-    >
-      {website}
-      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-      </svg>
-    </a>
+    <div class="flex flex-wrap items-baseline gap-x-8 gap-y-1">
+      <a
+        href={`https://${website}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-[0.95rem] font-medium text-primary underline decoration-gold/50 underline-offset-4 hover:decoration-gold"
+      >
+        {website}
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        </svg>
+      </a>
+      {hasPopup && <MoreAboutButton dialog={dialogId} label="Plan a Visit" ariaLabel={`Plan a visit to ${name}`} class="mt-0" />}
+    </div>
+
+    {hasPopup && (
+      <InfoDialog id={dialogId} title={name} subtitle={location} image={image}>
+        <Fragment slot="eyebrow">{garden.data.region === 'local' ? 'Close to Home' : 'Worth the Drive'}</Fragment>
+
+        {bestSeason && (
+          <div class="mt-6 border-y border-gold/25 py-4">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-text/70">Best Time to Visit</p>
+            <p class="mt-1 text-text/85 leading-snug">{bestSeason}</p>
+          </div>
+        )}
+
+        {more && <Prose class="mt-6 text-text/80" html={block(more)} />}
+
+        {highlights.length > 0 && (
+          <section class="mt-7">
+            <h3 class={sectionLabel}>Don&rsquo;t Miss</h3>
+            <ul class="space-y-2">
+              {highlights.map((item) => (
+                <li class="flex items-start gap-3 text-text/80 leading-relaxed">
+                  <span class="mt-[0.7rem] w-1 h-1 rounded-full bg-gold flex-shrink-0" aria-hidden="true"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {tips && (
+          <section class="mt-6 border-l-2 border-gold/50 pl-5">
+            <h3 class={sectionLabel}>Visiting Tips</h3>
+            <Prose class="text-text/80" html={block(tips)} />
+          </section>
+        )}
+
+        <p class="mt-7 pt-5 border-t border-gold/20 text-sm text-text/70 leading-relaxed">
+          Hours, admission, and events change through the year &mdash; check
+          <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" class={linkClass}>{website}</a>
+          before you go.
+        </p>
+      </InfoDialog>
+    )}
   </div>
 </div>
