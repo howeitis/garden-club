@@ -331,7 +331,7 @@ Removing the DNS TXT record unverifies the Search Console property.
 
 - **Officers' names** ([#11](https://github.com/howeitis/garden-club/issues/11)) — enter in the admin.
 - **Where meetings are held.** The Membership page gives the day, months, and timetable but no venue — the one fact a prospective visitor most needs. If the location varies or is private, "shared when you RSVP" is fine.
-- **Guests.** The club is at 29 of 30 active members, yet the home page's main button says "Become a Member." A "Visit as a guest" invitation (the order of business already includes *Introduction of Guests*) is more honest and a lower hurdle. The board should decide the policy; changing the wording is then a two-minute admin edit.
+- **Guests.** Guests may attend meetings, which rotate among members' homes. The 30-member figure is a soft cap with no waiting list, so the site no longer shows it (the `maxActive` field was removed). A "Visit as a guest" invitation (the order of business already includes *Introduction of Guests*) is a lower hurdle than "Become a Member"; changing the wording is a two-minute admin edit.
 - **The next NGC convention date** (Club Settings → Affiliations; currently May 2026, past).
 - **A line about the next meeting or program** on the home page, if someone will keep it current — the most-shared thing a club site can carry.
 

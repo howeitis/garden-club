@@ -1,6 +1,7 @@
 ---
 import { club, affiliations, contact, foundingYear } from '../data/index';
 import SocialIcon from './SocialIcon.astro';
+import SmartImage from './SmartImage.astro';
 
 // Two link columns. Every page is listed — including the Resources and
 // Members subpages, which are the site's best search-engine content and
@@ -58,9 +59,11 @@ const socialLinks = Object.entries(contact.social)
           class="block group hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
           aria-label="Go to home page"
         >
-          <img
+          <SmartImage
             src="/gggcwhitelogo.png"
             alt=""
+            widths={[128, 256, 324, 486]}
+            sizes="(min-width: 768px) 162px, 126px"
             class="h-28 md:h-36 w-auto object-contain md:mb-5"
             aria-hidden="true"
             loading="lazy"

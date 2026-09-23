@@ -21,7 +21,7 @@ const here = (p) => fileURLToPath(new URL(p, import.meta.url));
 const OUT = here('../../public/og-share-v3.png');
 
 const club = yaml.load(await readFile(here('../../src/content/settings/club.yml'), 'utf8'));
-const crest = (await readFile(here('../../public/gggc-clean.png'))).toString('base64');
+const crest = (await readFile(here('../../src/assets/brand/gggc-clean.png'))).toString('base64');
 const site = 'gardengategardenclub.com';
 
 // Wrap the mission to ~50 characters per line for the 29px italic measure.

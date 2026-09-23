@@ -587,9 +587,6 @@ content:
               - name: honorary
                 label: Honorary members
                 type: number
-              - name: maxActive
-                label: Membership cap
-                type: number
               - name: note
                 label: Associate & honorary note
                 type: text

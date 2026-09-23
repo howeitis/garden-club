@@ -216,7 +216,6 @@ const settings = defineCollection({
         active: z.number(),
         associate: z.number(),
         honorary: z.number(),
-        maxActive: z.number(),
         note: z.string(),
       }),
     }),

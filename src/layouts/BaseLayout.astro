@@ -7,6 +7,7 @@ import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/inter';
 import Analytics from '@vercel/analytics/astro';
+import crestLogo from '../assets/brand/gggc-clean.png';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { club, contact, affiliations, foundingDateISO } from '../data/index';
@@ -62,7 +63,8 @@ const organizationJsonLd = {
   name: club.name,
   alternateName: club.shortName,
   url: Astro.site?.toString(),
-  logo: new URL('/gggc-clean.png', Astro.site).toString(),
+  // The full 500px crest, emitted to /_astro/ (its URL changes only if the file does).
+  logo: new URL(crestLogo.src, Astro.site).toString(),
   description: club.mission,
   foundingDate: foundingDateISO,
   foundingLocation: { '@type': 'Place', name: 'Greenville, Delaware' },
@@ -233,8 +235,16 @@ const jsonLdBlocks = [
     </style>
   </head>
   <body class="bg-background text-text font-body min-h-screen flex flex-col">
+    <!-- Skip link: the first Tab stop on every page, so keyboard and
+         screen-reader users can jump past the header's navigation. -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-primary focus:text-background focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:rounded-sm"
+    >
+      Skip to main content
+    </a>
     <Header />
-    <main class="flex-1">
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
     <Footer />

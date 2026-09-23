@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import OfficerCard from '../components/OfficerCard.astro';
 import Prose from '../components/Prose.astro';
+import SmartImage from '../components/SmartImage.astro';
 import { club, officers, affiliations, getPageCopy } from '../data/index';
 import { block } from '../lib/markdown';
 
@@ -17,7 +18,6 @@ const membershipStats = [
   { label: 'Active Members',    value: club.membership.active,    color: 'text-primary' },
   { label: 'Associate Members', value: club.membership.associate, color: 'text-blossom-deep' },
   { label: 'Honorary Members',  value: club.membership.honorary,  color: 'text-marigold' },
-  { label: 'Membership Cap',    value: club.membership.maxActive, color: 'text-holly' },
 ];
 ---
 
@@ -50,7 +50,7 @@ const membershipStats = [
         </div>
 
         <!-- Membership at a glance -->
-        <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 border-y border-gold/25 divide-x divide-gold/15">
+        <div class="mt-12 grid grid-cols-3 border-y border-gold/25 divide-x divide-gold/15">
           {membershipStats.map((stat) => (
             <div class="py-6 px-3 text-center">
               <p class:list={['font-heading text-4xl font-semibold', stat.color]}>{stat.value}</p>
@@ -93,7 +93,7 @@ const membershipStats = [
             <span class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">National</span>
             <h3 class="font-heading text-2xl font-semibold text-text mt-1.5">{affiliations.national.name}</h3>
           </div>
-          <img src="/ngc-logo.png" alt="NGC Logo" class="w-16 h-auto object-contain flex-shrink-0" loading="lazy" />
+          <SmartImage src="/ngc-logo.png" alt="NGC Logo" widths={[72, 144, 216]} sizes="72px" class="w-16 h-auto object-contain flex-shrink-0" loading="lazy" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 mb-6">

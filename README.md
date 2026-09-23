@@ -206,18 +206,16 @@ src/
 │   ├── markdown.ts          # Markdown → HTML for YAML text fields
 │   └── memberOfTheMonth.ts  # Honoree URLs and share images
 └── assets/
+    ├── brand/               # Club crest (color + white) and NGC logo, served as responsive WebP
     ├── content/             # Photos (editor uploads land here)
     └── heroes/              # Page hero photographs
 
 .pages.yml              # Pages CMS admin configuration (mirrors content.config.ts)
 scripts/check-images.mjs # Pre-build photo lint
 
-public/                 # Static assets served at root (logos, icons, OG image only)
+public/                 # Static assets served at root (icons, OG image only)
 ├── favicon.svg             # Small-size mark: the crest's gate + blossoms + holly, drawn for 16–512px
 ├── favicon-*.png, apple-touch-icon.png, maskable-*.png   # generated from favicon.svg (npm run build:icons)
-├── gggc-clean.png          # Watercolor crest — header logo
-├── gggcwhitelogo.png       # White logo — footer / dark grounds
-├── ngc-logo.png            # National Garden Clubs logo
 ├── og-share-v3.png         # Open Graph share card (1200×630) — generated, see scripts/share-card
 ├── manifest.json           # PWA web manifest
 └── robots.txt              # Crawler directives + sitemap reference
@@ -262,7 +260,7 @@ src/assets/content/project-pollinator-garden.jpg   ✓
 src/assets/content/project pollinator garden.jpg   ✗  (spaces break URLs)
 ```
 
-Reference them in content files by the same public-style string, e.g. `image: /project-pollinator-garden.jpg` — `SmartImage` and `PageHero` resolve it to the optimized asset (see the image-handling notes in `CLAUDE.md`). Only logos, favicons, and the OG image live in `public/`.
+Reference them in content files by the same public-style string, e.g. `image: /project-pollinator-garden.jpg` — `SmartImage` and `PageHero` resolve it to the optimized asset (see the image-handling notes in `CLAUDE.md`). Only favicons and the OG image live in `public/`; logos are in `src/assets/brand/`.
 
 ---
 
@@ -295,7 +293,7 @@ Every page includes:
 - ✅ **Production domain is live.** `gardengategardenclub.com`, registered through Vercel. Set in `astro.config.mjs` and `public/robots.txt` (see [Production Domain](#production-domain)).
 - ✅ **Contact form is live.** Posts to Web3Forms, delivering to `gardengate.communications@gmail.com`. Requires `PUBLIC_WEB3FORMS_KEY` to be set in Vercel (see [Contact Form](#contact-form)).
 - ⚠️ **The Vercel project is on a personal Hobby account.** Club collaborators can deploy because the repo is public, but env vars, the domain, and rollbacks stay owner-only (see [Who can deploy](#who-can-deploy)).
-- 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only logos, favicons, and the OG image remain in `public/`. `scripts/check-images.mjs` gates every build on photo size and filename. See "Adding images" above.
+- 🖼️ **Images are optimized.** All photos are served as responsive WebP via `astro:assets` (heroes through `PageHero`/`getImage`, content images through the `SmartImage` component). Sources live in `src/assets/`; only favicons and the OG image remain in `public/`. `scripts/check-images.mjs` gates every build on photo size and filename. See "Adding images" above.
 - ✏️ **Content is editable without code.** Everything lives in `src/content/` as one Markdown/YAML file per item, validated by `src/content.config.ts`; `.pages.yml` exposes it in the Pages CMS admin (verified end-to-end September 2026). Any field change touches both files.
 - ⚠️ **The board roster is unpopulated.** The four files in `src/content/officers/` are `TBD`, so the section is hidden on `/about` until names are entered. See [#11](https://github.com/howeitis/garden-club/issues/11).
 

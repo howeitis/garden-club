@@ -37,7 +37,7 @@ A `.claude/launch.json` is configured so `preview_start` can launch the dev serv
 
 ## Design System — "Heritage Editorial"
 
-The design is built around the club's watercolor crest logo (`public/gggc-clean.png`): a wrought-iron gate with peach blossoms, holly, and gold scrollwork. Every color comes from that artwork. The overall feel is a well-set gardening annual: large serif display type, letterspaced small-caps labels, fine gold hairlines, and content set directly on the warm-ivory page ground rather than in white boxes.
+The design is built around the club's watercolor crest logo (`src/assets/brand/gggc-clean.png`): a wrought-iron gate with peach blossoms, holly, and gold scrollwork. Every color comes from that artwork. The overall feel is a well-set gardening annual: large serif display type, letterspaced small-caps labels, fine gold hairlines, and content set directly on the warm-ivory page ground rather than in white boxes.
 
 **Core principles:**
 
@@ -112,7 +112,7 @@ src/
 scripts/check-images.mjs           # Pre-build lint of src/assets/content (size, filename); wired via "prebuild"
 scripts/build-icons.mjs            # Renders every PNG icon from public/favicon.svg (`npm run build:icons`)
 scripts/share-card/build.mjs       # Renders public/og-share-v3.png from club.yml + the crest (`npm run build:share-card`)
-public/                            # Logos, favicons, OG image only (photos live in src/assets/)
+public/                            # Favicons, OG image only (photos in src/assets/, logos in src/assets/brand/)
 ```
 
 ---
@@ -145,6 +145,8 @@ public/                            # Logos, favicons, OG image only (photos live
   - Mobile hamburger with collapsible sub-items and gold left-rule active state.
 - **Footer** (`src/components/Footer.astro`): deep green, white crest, serif wordmark, "Greenville, Delaware · Est. 1963" line, Explore links, theme quote. Topped by the tri-color signature hairline.
 - **Nav order**: About, Community Service, Resources (dropdown), Members (dropdown), Membership, Contact.
+- **Active state** matches whole path segments (`/members` is active on `/members/…`, never on `/membership`). Sections containing the current page get `aria-current="true"`; the page itself gets `"page"`.
+- **Skip link:** `BaseLayout` renders a "Skip to main content" link as the first Tab stop, targeting `<main id="main">`. Keep it first in `<body>`.
 - Nav links are defined as arrays at the top of **both** Header.astro (`navLinks`) and Footer.astro (`navColumns`, which lists every subpage too). **Update both** when adding/removing pages.
 
 ### Styling
@@ -256,8 +258,8 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 
 ## How to Add Images
 
-**Photos are optimized through `astro:assets`** — only logos, favicons, and the OG image stay in `public/`.
-- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, everything else in `src/assets/content/`).
+**Photos and logos are optimized through `astro:assets`** — only favicons and the OG image stay in `public/`. The crest and logos live in `src/assets/brand/` and render through `SmartImage` like any photo (the header crest is a 305 KB PNG that ships as a ~10 KB WebP); the JSON-LD `logo` points at the crest's emitted `/_astro/` URL.
+- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, logos in `src/assets/brand/`, everything else in `src/assets/content/`).
 - **Content images** (galleries, feature rows, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass a public-style string, e.g. `<SmartImage src="/metzlers.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
 - **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — same resolver.
 - The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
