@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Flourish from '../components/Flourish.astro';
+import SmartImage from '../components/SmartImage.astro';
 import { club } from '../data/index';
 import Button from '../components/Button.astro';
 ---
@@ -10,9 +11,11 @@ import Button from '../components/Button.astro';
   description="The page you're looking for doesn't exist."
 >
   <div class="flex flex-col items-center justify-center min-h-[60vh] px-4 pt-40 pb-24 text-center">
-    <img
+    <SmartImage
       src="/gggc-clean.png"
       alt={club.name}
+      widths={[126, 252, 378]}
+      sizes="126px"
       class="h-28 w-auto object-contain mb-8"
       loading="eager"
     />

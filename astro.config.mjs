@@ -14,9 +14,12 @@ const site = process.env.SITE_URL || 'https://gardengategardenclub.com';
 export default defineConfig({
   output: 'static',
   site,
-  redirects: {
-    '/awards-and-judges': '/members/awards-and-judges',
-  },
+  // Every URL ends in a slash — canonicals, the sitemap, and internal links
+  // all agree. vercel.json's `"trailingSlash": true` 308-redirects the
+  // slash-less form, and scripts/check-links.mjs fails the build on an
+  // internal link without one. Redirects for moved pages live in vercel.json
+  // (real HTTP 308s; Astro's static `redirects` only emit meta-refresh pages).
+  trailingSlash: 'always',
   integrations: [
     tailwind(),
     sitemap({

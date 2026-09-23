@@ -409,7 +409,7 @@ content:
         label: Scientific name
         type: string
         required: true
-        description: e.g. "Ilex opaca"
+        description: Genus capitalized, species lowercase, e.g. "Ilex opaca"
       - name: type
         label: Native or invasive?
         type: select
@@ -425,11 +425,50 @@ content:
         type: string
         description: For natives, e.g. "May – June". Leave blank for invasives.
       - name: image
-        component: photo
+        label: Photo
+        type: image
+        description: Optional here — until a photo is added, the plant shows a botanical label panel instead. Landscape photos work best.
       - name: body
         component: body
       - name: order
         component: order
+      - name: height
+        label: Popup — Height
+        type: string
+        description: Shown in the "More about this plant" popup, e.g. "1–2 ft". All popup fields are optional; the button appears once any is filled in.
+      - name: light
+        label: Popup — Light
+        type: string
+        description: e.g. "Full sun to part shade"
+      - name: soil
+        label: Popup — Soil
+        type: string
+        description: e.g. "Moist, acidic, well-drained"
+      - name: wildlife
+        label: Popup — Wildlife value
+        type: string
+        description: For natives. What it feeds or shelters, e.g. "Monarch caterpillar host".
+      - name: identify
+        label: Popup — How to spot it
+        type: text
+        description: For invasives. The features that tell it apart.
+      - name: remove
+        label: Popup — How to remove it
+        type: text
+        description: For invasives. Practical removal steps for a home gardener.
+      - name: alternatives
+        label: Popup — Plant instead
+        type: string
+        list: true
+        description: For invasives. Native plants to grow in its place, one per line.
+      - name: more
+        label: Popup — More about this plant
+        type: rich-text
+        description: A few paragraphs of background and growing advice.
+        options:
+          format: markdown
+          media: false
+          switcher: false
 
   - name: gardens
     label: Gardens to Visit
@@ -478,6 +517,27 @@ content:
         component: body
       - name: order
         component: order
+      - name: bestSeason
+        label: Popup — Best time to visit
+        type: string
+        description: Shown in the "More about" popup, e.g. "Late March for the March Bank; May for the azaleas". All popup fields are optional; the button appears once any is filled in. Leave hours and prices out — they change, and the popup links to the garden's website.
+      - name: highlights
+        label: Popup — Don't miss
+        type: string
+        list: true
+        description: One highlight per line.
+      - name: tips
+        label: Popup — Visiting tips
+        type: text
+        description: Practical advice — parking, tours, how long to allow.
+      - name: more
+        label: Popup — More about this garden
+        type: rich-text
+        description: A few paragraphs of background.
+        options:
+          format: markdown
+          media: false
+          switcher: false
 
   - name: gardening-tips
     label: Gardening Tips
@@ -587,9 +647,6 @@ content:
               - name: honorary
                 label: Honorary members
                 type: number
-              - name: maxActive
-                label: Membership cap
-                type: number
               - name: note
                 label: Associate & honorary note
                 type: text
@@ -652,6 +709,15 @@ content:
             type: string
             required: true
             description: e.g. "Second Wednesday of each month, September through June."
+          - name: location
+            label: Where we meet
+            type: string
+            required: true
+            description: Shown on the Membership page, e.g. "Meetings rotate among members' homes."
+          - name: guests
+            label: Note for guests
+            type: string
+            description: Optional line under the location, e.g. "Guests are always welcome." A link asking for this month's address follows it.
           - name: timeBlocks
             label: Meeting timetable
             type: object

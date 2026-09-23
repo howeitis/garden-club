@@ -1,5 +1,7 @@
 file: meetings
 schedule: Second Wednesday of each month, September through June.
+location: Meetings rotate among members' homes.
+guests: Guests are always welcome.
 timeBlocks:
   - label: Coffee
     time: 9:30 AM

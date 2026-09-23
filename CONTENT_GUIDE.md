@@ -71,7 +71,10 @@ That's it — saving *is* publishing. The website rebuilds itself and your chang
 | Gardening tips | **Gardening Tips** | Choose Evergreen or Garden Rhythms |
 | Club name, mission, theme, membership numbers | **Club Settings → Club details** | The mission is also what search engines show |
 | Email, mailing address, Facebook, Instagram | **Club Settings → Contact details** | |
-| Meeting day, timetable, dues, order of business | **Club Settings → Meetings & dues** | |
+| A plant without a photo yet | **Plants → (the plant)** — leave **Photo** empty | The page shows a botanical name panel until you upload one |
+| Plant popups ("More about …": height, light, soil, wildlife; for invasives how to spot and remove it, what to plant instead) | **Plants → (the plant)**, fields starting "Popup —" | All optional |
+| Garden popups ("Plan a Visit": best time to visit, don't-miss highlights, visiting tips) | **Gardens to Visit → (the garden)**, fields starting "Popup —" | All optional. Leave out hours and prices; they change, and the popup links to the garden's site |
+| Meeting day, where we meet, note for guests, timetable, dues, order of business | **Club Settings → Meetings & dues** | |
 | NGC, region, and state federation details | **Club Settings → Affiliations** | Leave the convention blank to hide that line |
 | The paragraphs on a page | **Page Text → (that page)** | Headings and buttons stay as they are |
 
@@ -113,7 +116,7 @@ To keep a role listed but hidden from the website (say, between elections), set 
 
 ### Meeting times, dues, order of business
 
-**Club Settings → Meetings & dues.** The timetable and the order of business are lists — use the **+** button to add a row, the arrows to reorder, and the **×** to remove one.
+**Club Settings → Meetings & dues.** *Where we meet* and *Note for guests* appear together on the Membership page; since meetings move between members' homes, the note tells visitors how to get the address rather than giving it publicly. The timetable and the order of business are lists — use the **+** button to add a row, the arrows to reorder, and the **×** to remove one.
 
 ### The theme, mission, or membership numbers
 
@@ -135,6 +138,7 @@ To keep a role listed but hidden from the website (say, between elections), set 
 - **Size:** under 3 MB is ideal. Anything over 8 MB is refused with a message asking you to resize it. (Most phones offer a "medium" or "large" export that's well under this.)
 - **Shape:** most spots on the site show photos in landscape. The Member of the Month main photo is the exception — it's tall.
 - **Filenames** are tidied automatically when you upload through the admin. If you ever add photos another way, use only letters, numbers, and dashes: `spring-planting.jpg`, not `Spring Planting (1).JPG`.
+- **Rename before uploading if you can.** Phones name photos `IMG_1875.jpeg` or `1000019960.jpeg`; a name that says what's in the picture (`fire-pink.jpeg`) helps it turn up in Google image search. The site notes these in its build log but still publishes them.
 - **Focus point:** if a photo is cropped badly on the page (someone's head cut off), open the item and fill in **Photo focus point** — `center 30%` keeps the top third in view; `center bottom` keeps the bottom. Leave it blank normally.
 - **Describe the photo** fields (sometimes labelled *alt*): one plain sentence saying what's in the picture. Visitors who can't see the photo hear this instead.
 
@@ -144,7 +148,7 @@ To keep a role listed but hidden from the website (say, between elections), set 
 
 - Most description fields accept simple formatting: **bold**, *italic*, and links. Use the toolbar, or type `**bold**`, `*italic*`, and `[link text](https://example.org)`.
 - For the Member of the Month story, each **Heading 2** starts a new chapter. Keep chapters short — two or three paragraphs.
-- Link to other pages on the site by their path: `/membership`, `/members/awards-and-judges`, `/resources/plants`.
+- Link to other pages on the site by their path, **ending with a slash**: `/membership/`, `/members/awards-and-judges/`, `/resources/plants/`. If a link is missing its slash or points at a page that doesn't exist, the site won't update and the error message names the link to fix — the live site stays as it was.
 - The site handles curly quotes and dashes for you — type straight quotes and they'll look right.
 - Keep the **One-sentence summary** fields to a sentence. They appear in small spaces.
 

@@ -14,7 +14,7 @@ import { club, contact } from '../data/index';
 import Button from './Button.astro';
 
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
-const redirectURL = new URL('/thank-you', Astro.site).toString();
+const redirectURL = new URL('/thank-you/', Astro.site).toString();
 
 const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 text-base text-text placeholder:text-text/50
   focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-shadow`;
@@ -121,7 +121,7 @@ const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 t
     </p>
     <a
       href={`mailto:${contact.email}`}
-      class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
+      class="[overflow-wrap:anywhere] text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold focus:outline-none focus:ring-2 focus:ring-gold rounded-sm"
     >
       {contact.email}
     </a>
@@ -131,3 +131,21 @@ const inputClasses = `rounded-sm border border-primary/20 bg-white px-4 py-3.5 t
     </p>
   </div>
 )}
+
+<script>
+  // Prefill the subject from links like /contact?topic=membership, so the
+  // club inbox can tell membership and guest inquiries apart at a glance.
+  // Runs on every page load (including view-transition navigations); does
+  // nothing where the form isn't rendered or the visitor already typed.
+  const TOPICS: Record<string, string> = {
+    membership: 'Membership inquiry',
+    visit: 'Visiting a meeting as a guest',
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    const field = document.getElementById('user_subject') as HTMLInputElement | null;
+    const topic = new URLSearchParams(window.location.search).get('topic');
+    if (!field || field.value || !topic || !(topic in TOPICS)) return;
+    field.value = TOPICS[topic];
+  });
+</script>

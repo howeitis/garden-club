@@ -6,7 +6,13 @@ import { ClientRouter } from 'astro:transitions';
 import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/inter';
+// The Latin files of the two upright faces, preloaded below so display titles
+// and body text don't flash in a fallback font. `?url` resolves to the same
+// hashed /_astro/ file the @font-face rules above point at.
+import headingFontURL from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
+import bodyFontURL from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import Analytics from '@vercel/analytics/astro';
+import crestLogo from '../assets/brand/gggc-clean.png';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { club, contact, affiliations, foundingDateISO } from '../data/index';
@@ -62,7 +68,8 @@ const organizationJsonLd = {
   name: club.name,
   alternateName: club.shortName,
   url: Astro.site?.toString(),
-  logo: new URL('/gggc-clean.png', Astro.site).toString(),
+  // The full 500px crest, emitted to /_astro/ (its URL changes only if the file does).
+  logo: new URL(crestLogo.src, Astro.site).toString(),
   description: club.mission,
   foundingDate: foundingDateISO,
   foundingLocation: { '@type': 'Place', name: 'Greenville, Delaware' },
@@ -98,6 +105,8 @@ const jsonLdBlocks = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#2A5434" />
+    <link rel="preload" href={headingFontURL} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFontURL} as="font" type="font/woff2" crossorigin />
 
     <!-- Marks the document as JS-capable before first paint. Scroll-reveal
          animations hide content until a script shows it, so they are scoped
@@ -109,7 +118,7 @@ const jsonLdBlocks = [
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={club.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -165,6 +174,8 @@ const jsonLdBlocks = [
       h1, h2, h3 { text-wrap: balance; }
       /* Fixed header is 5.5rem tall; keep in-page anchor targets clear of it. */
       [id] { scroll-margin-top: 7rem; }
+      /* Hold the page still while a modal <dialog> (plant popups) is open. */
+      html:has(dialog[open]) { overflow: hidden; }
 
       /* Hero entrance: content rises in as the page arrives. */
       @keyframes heroRise {
@@ -233,20 +244,29 @@ const jsonLdBlocks = [
     </style>
   </head>
   <body class="bg-background text-text font-body min-h-screen flex flex-col">
+    <!-- Skip link: the first Tab stop on every page, so keyboard and
+         screen-reader users can jump past the header's navigation. -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-primary focus:text-background focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:rounded-sm"
+    >
+      Skip to main content
+    </a>
     <Header />
-    <main class="flex-1">
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
     <Footer />
 
     <script>
       // ───────────────────────────────────────────────────────────────────────
-      // Per-page setup: scroll to top on navigation + scroll-triggered fade-in.
+      // Per-page setup: settle the scroll position + scroll-triggered fade-in.
       //
-      // Astro <ClientRouter /> swaps the DOM but does not always restore
-      // scroll position to the top of the new page. We force it here, and
-      // re-initialize the IntersectionObserver against the freshly rendered
-      // sections. The previous observer is GC'd along with the swapped-out DOM.
+      // After a link-click navigation, Astro <ClientRouter /> doesn't reliably
+      // land at the top of the new page or on its #anchor, so settleScroll()
+      // puts it there once the page is laid out. Back/Forward are left alone.
+      // The IntersectionObserver is re-initialized against the freshly
+      // rendered sections; the previous one is GC'd with the old DOM.
       // ───────────────────────────────────────────────────────────────────────
 
       let fadeInObserver: IntersectionObserver | null = null;
@@ -280,17 +300,42 @@ const jsonLdBlocks = [
         });
       }
 
-      function scrollToTop() {
-        // Honor in-page hash links; otherwise reset to the top of the new page.
-        if (window.location.hash) return;
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      // How the current navigation happened: 'push'/'replace' for a link
+      // click, 'traverse' for Back/Forward, null for the first page load.
+      let navigationType: string | null = null;
+      document.addEventListener('astro:before-preparation', (event) => {
+        navigationType = (event as Event & { navigationType: string }).navigationType;
+      });
+
+      function settleScroll() {
+        // First load and Back/Forward: leave it to the browser and the router,
+        // which restore the reader's previous position.
+        if (navigationType === null || navigationType === 'traverse') return;
+        const id = decodeURIComponent(window.location.hash.slice(1));
+        const target = id ? document.getElementById(id) : null;
+        if (target) {
+          // The router jumps to #anchors mid-swap, while the new page is still
+          // laying out (briefly several times its real height), and lands far
+          // off — often at the very bottom. Jump again now that it's settled.
+          target.scrollIntoView({ block: 'start', behavior: 'instant' as ScrollBehavior });
+        } else {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+        }
       }
+
+      // The view-transition swap replaces <html>'s attributes with the new
+      // page's, dropping the `.js` class the inline <head> script added on
+      // first load. Put it back before the new page renders, or everything
+      // scoped to `.js` (scroll fade-ins, plant-popup buttons) quietly turns off.
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.classList.add('js');
+      });
 
       // Initial load
       initFadeIn();
       // Every navigation (initial + view-transition swaps)
       document.addEventListener('astro:page-load', () => {
-        scrollToTop();
+        settleScroll();
         initFadeIn();
       });
     </script>

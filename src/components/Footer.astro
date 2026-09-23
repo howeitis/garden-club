@@ -1,6 +1,7 @@
 ---
 import { club, affiliations, contact, foundingYear } from '../data/index';
 import SocialIcon from './SocialIcon.astro';
+import SmartImage from './SmartImage.astro';
 
 // Two link columns. Every page is listed — including the Resources and
 // Members subpages, which are the site's best search-engine content and
@@ -10,22 +11,22 @@ const navColumns = [
   {
     heading: 'Explore',
     links: [
-      { label: 'About',               href: '/about' },
-      { label: 'Community Service',   href: '/community-service' },
-      { label: 'Membership',          href: '/membership' },
-      { label: 'Contact',             href: '/contact' },
-      { label: 'Member Gardens',      href: '/members' },
-      { label: 'Member of the Month', href: '/members/member-of-the-month' },
-      { label: 'Awards & Judges',     href: '/members/awards-and-judges' },
+      { label: 'About',               href: '/about/' },
+      { label: 'Community Service',   href: '/community-service/' },
+      { label: 'Membership',          href: '/membership/' },
+      { label: 'Contact',             href: '/contact/' },
+      { label: 'Member Gardens',      href: '/members/' },
+      { label: 'Member of the Month', href: '/members/member-of-the-month/' },
+      { label: 'Awards & Judges',     href: '/members/awards-and-judges/' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'All Resources',       href: '/resources' },
-      { label: 'Gardening Tips',      href: '/resources/gardening-tips' },
-      { label: 'Native & Invasive Plants', href: '/resources/plants' },
-      { label: 'Gardens to Visit',    href: '/resources/gardens' },
+      { label: 'All Resources',       href: '/resources/' },
+      { label: 'Gardening Tips',      href: '/resources/gardening-tips/' },
+      { label: 'Native & Invasive Plants', href: '/resources/plants/' },
+      { label: 'Gardens to Visit',    href: '/resources/gardens/' },
     ],
   },
 ];
@@ -58,9 +59,11 @@ const socialLinks = Object.entries(contact.social)
           class="block group hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
           aria-label="Go to home page"
         >
-          <img
+          <SmartImage
             src="/gggcwhitelogo.png"
             alt=""
+            widths={[128, 256, 324, 486]}
+            sizes="(min-width: 768px) 162px, 126px"
             class="h-28 md:h-36 w-auto object-contain md:mb-5"
             aria-hidden="true"
             loading="lazy"
@@ -82,7 +85,7 @@ const socialLinks = Object.entries(contact.social)
       <!-- Navigation Links -->
       {navColumns.map((column) => (
         <div>
-          <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">{column.heading}</h3>
+          <h2 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">{column.heading}</h2>
           <ul class="flex flex-col gap-2.5">
             {column.links.map((link) => (
               <li>
@@ -100,7 +103,7 @@ const socialLinks = Object.entries(contact.social)
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h3>
+        <h2 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h2>
         <p class="font-heading italic text-xl text-background/90 leading-relaxed">
           &ldquo;{club.theme}&rdquo;
         </p>

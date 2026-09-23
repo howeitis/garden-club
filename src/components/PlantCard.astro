@@ -6,17 +6,31 @@
 // The plant's `type` switches the badge:
 //   • "native" — bloom-period badge in blossom
 //   • "invasive" — "Invasive" badge in holly
+//
+// With no `image` yet, a "specimen label" panel stands in for the photo — a
+// framed botanical name with the Flourish sprig — so a new entry can go live
+// before its picture arrives without leaving a hole in the gallery.
+//
+// Plants with any popup field filled in (height, light, soil, wildlife,
+// identify, remove, alternatives, more) get a "More about" button that opens
+// an InfoDialog with the fuller write-up (text in the page HTML, so search
+// engines read it; the button shows only once JavaScript is running).
 import { render } from 'astro:content';
-import type { Plant } from '../data/index';
+import { plants, type Plant } from '../data/index';
+import { block } from '../lib/markdown';
 import SmartImage from './SmartImage.astro';
 import Prose from './Prose.astro';
+import ArrowIcon from './ArrowIcon.astro';
+import InfoDialog from './InfoDialog.astro';
+import MoreAboutButton from './MoreAboutButton.astro';
+import Flourish from './Flourish.astro';
 
 interface Props {
   plant: Plant;
 }
 
 const { plant } = Astro.props;
-const { name, scientificName, image, bloom, type } = plant.data;
+const { name, scientificName, image, bloom, type, height, light, soil, wildlife, identify, remove, alternatives, more } = plant.data;
 const { Content } = await render(plant);
 
 const BADGES: Record<Plant['data']['type'], string> = {
@@ -25,18 +39,47 @@ const BADGES: Record<Plant['data']['type'], string> = {
 };
 
 const badgeText = type === 'native' ? bloom : 'Invasive';
+
+const facts = [
+  { label: 'Height', value: height },
+  { label: 'Light', value: light },
+  { label: 'Soil', value: soil },
+  { label: 'Wildlife', value: wildlife },
+].filter((fact): fact is { label: string; value: string } => !!fact.value);
+
+const hasPopup = facts.length > 0 || !!identify || !!remove || alternatives.length > 0 || !!more;
+const dialogId = `plant-${plant.id}`;
+
+// "Plant instead" suggestions that are also natives on this page become
+// buttons that open that plant's popup.
+const nativeIdByName = new Map(
+  plants.filter((p) => p.data.type === 'native').map((p) => [p.data.name.toLowerCase(), p.id]),
+);
+const suggestions = alternatives.map((alt) => ({ name: alt, id: nativeIdByName.get(alt.toLowerCase()) }));
+
+const sectionLabel = 'text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold mb-2.5';
 ---
 
-<div>
+<div id={plant.id}>
   <div class="overflow-hidden rounded-sm mb-6">
-    <SmartImage
-      src={image}
-      alt={name}
-      widths={[400, 800, 1200]}
-      sizes="(min-width: 640px) 50vw, 100vw"
-      class="w-full h-72 sm:h-80 object-cover"
-      loading="lazy"
-    />
+    {image ? (
+      <SmartImage
+        src={image}
+        alt={name}
+        widths={[400, 800, 1200]}
+        sizes="(min-width: 640px) 50vw, 100vw"
+        class="w-full h-72 sm:h-80 object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <div class="h-72 sm:h-80 p-3 bg-gold/[0.06] border border-gold/30" aria-hidden="true">
+        <div class="h-full border border-gold/20 flex flex-col items-center justify-center gap-5 px-6 text-center">
+          <p class="text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-gold">{type === 'native' ? 'Native to Delaware' : 'Invasive in Delaware'}</p>
+          <p class="font-heading italic text-3xl sm:text-4xl text-primary/85 leading-tight">{scientificName}</p>
+          <Flourish />
+        </div>
+      </div>
+    )}
   </div>
   <div class="flex items-baseline justify-between gap-3 mb-1">
     <h3 class="font-heading text-2xl font-semibold text-text">{name}</h3>
@@ -48,4 +91,73 @@ const badgeText = type === 'native' ? bloom : 'Invasive';
   </div>
   <p class="text-[0.95rem] italic font-heading text-text/70 mb-3">{scientificName}</p>
   <Prose class="text-base text-text/75"><Content /></Prose>
+
+  {hasPopup && (
+    <>
+      <MoreAboutButton dialog={dialogId} label={`More about ${name}`} />
+
+      <InfoDialog
+        id={dialogId}
+        title={name}
+        subtitle={scientificName}
+        image={image}
+        eyebrowClass={type === 'native' ? 'text-gold' : 'text-holly'}
+      >
+        <Fragment slot="eyebrow">
+          {type === 'native' ? (
+            <>Delaware Native{bloom && <> · <span class="whitespace-nowrap">Blooms {bloom}</span></>}</>
+          ) : 'Invasive · Please Don’t Plant'}
+        </Fragment>
+
+        {facts.length > 0 && (
+          <dl class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 border-t border-gold/25">
+            {facts.map((fact) => (
+              <div class:list={['py-3 border-b border-primary/10', fact.label === 'Wildlife' && 'sm:col-span-2']}>
+                <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-text/70">{fact.label}</dt>
+                <dd class="mt-1 text-text/85 leading-snug">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {more && <Prose class="mt-6 text-text/80" html={block(more)} />}
+
+        {identify && (
+          <section class="mt-7">
+            <h3 class={sectionLabel}>How to Spot It</h3>
+            <Prose class="text-text/80" html={block(identify)} />
+          </section>
+        )}
+        {remove && (
+          <section class="mt-6">
+            <h3 class={sectionLabel}>How to Remove It</h3>
+            <Prose class="text-text/80" html={block(remove)} />
+          </section>
+        )}
+        {suggestions.length > 0 && (
+          <section class="mt-6 border-l-2 border-accent/60 pl-5">
+            <h3 class={sectionLabel}>Plant Instead</h3>
+            <ul class="flex flex-wrap gap-2.5">
+              {suggestions.map((alt) => (
+                <li>
+                  {alt.id ? (
+                    <button
+                      type="button"
+                      data-open-dialog={`plant-${alt.id}`}
+                      class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-sm border border-accent/60 text-primary underline decoration-gold/40 underline-offset-4 hover:decoration-gold hover:bg-accent/10 transition-colors"
+                    >
+                      {alt.name}
+                      <ArrowIcon class="w-3 h-3" />
+                    </button>
+                  ) : (
+                    <span class="inline-block text-sm px-3 py-1.5 rounded-sm border border-accent/40 text-text/85">{alt.name}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </InfoDialog>
+    </>
+  )}
 </div>

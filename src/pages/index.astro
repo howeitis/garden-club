@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SmartImage from '../components/SmartImage.astro';
 import Flourish from '../components/Flourish.astro';
 import { getImage } from 'astro:assets';
-import heroDesktopSrc from '../assets/heroes/home-hero.png';
-import heroMobileSrc from '../assets/heroes/home-hero-mobile.webp';
+import heroSrc from '../assets/heroes/home-hero.webp';
 import { club, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../data/index';
 import { honoreePath } from '../lib/memberOfTheMonth';
 import Button from '../components/Button.astro';
@@ -13,18 +12,13 @@ import ArrowIcon from '../components/ArrowIcon.astro';
 const copy = await getPageCopy('home');
 const featuredPeriod = honoreePeriod(featured);
 
-// Art-directed home hero: a portrait-ish crop on phones, the wide shot on
-// larger screens. Both are optimized to WebP with responsive srcsets.
-const heroDesktop = await getImage({
-  src: heroDesktopSrc,
+// Home hero: the watercolor of Delaware's state symbols (blue hen feather,
+// peach blossom, holly). This version omits the "Peach Blossom" label, which
+// otherwise sits directly behind the hero buttons at every screen width.
+const hero = await getImage({
+  src: heroSrc,
   format: 'webp',
-  widths: [1280, 1920, 2560],
-  sizes: '100vw',
-});
-const heroMobile = await getImage({
-  src: heroMobileSrc,
-  format: 'webp',
-  widths: [480, 768, 1080],
+  widths: [480, 768, 1080, 1440, 1920, 2560],
   sizes: '100vw',
 });
 
@@ -35,33 +29,33 @@ const siteIndex = [
   {
     number: '01',
     label: 'About Us',
-    href: '/about',
+    href: '/about/',
     line: 'Six decades of history, our board, and our national affiliations.',
-    numeral: 'text-blossom-deep/70',
+    numeral: 'text-blossom-deep',
     hover: 'group-hover:text-blossom-deep',
   },
   {
     number: '02',
     label: 'Resources',
-    href: '/resources',
+    href: '/resources/',
     line: 'Gardening wisdom, Delaware natives, and gardens worth the drive.',
-    numeral: 'text-accent/80',
+    numeral: 'text-accent',
     hover: 'group-hover:text-accent',
   },
   {
     number: '03',
     label: 'Member Gardens',
-    href: '/members',
+    href: '/members/',
     line: 'A look inside the gardens our members tend at home.',
-    numeral: 'text-marigold/70',
+    numeral: 'text-marigold',
     hover: 'group-hover:text-marigold',
   },
   {
     number: '04',
     label: 'Membership',
-    href: '/membership',
+    href: '/membership/',
     line: 'Meetings, dues, and how to join — all are welcome.',
-    numeral: 'text-holly/60',
+    numeral: 'text-holly',
     hover: 'group-hover:text-holly',
   },
 ];
@@ -75,19 +69,17 @@ const siteIndex = [
   <!-- Hero -->
   <section class="relative text-background overflow-hidden">
     <div class="absolute inset-0">
-      <picture class="block w-full h-full">
-        <source media="(max-width: 639px)" srcset={heroMobile.srcSet.attribute} sizes="100vw" />
-        <source srcset={heroDesktop.srcSet.attribute} sizes="100vw" />
-        <img
-          src={heroDesktop.src}
-          width={heroDesktopSrc.width}
-          height={heroDesktopSrc.height}
-          alt=""
-          class="w-full h-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </picture>
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes="100vw"
+        width={heroSrc.width}
+        height={heroSrc.height}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-[#16281a]/80 via-[#16281a]/75 to-[#16281a]/85" aria-hidden="true"></div>
     </div>
 
@@ -107,8 +99,8 @@ const siteIndex = [
         {club.mission}
       </p>
       <div class="hero-rise hero-rise-4 flex flex-wrap gap-4 justify-center">
-        <Button href="/membership" variant="light">Become a Member</Button>
-        <Button href="/about" variant="outline-light">Our Story</Button>
+        <Button href="/membership/" variant="light">Become a Member</Button>
+        <Button href="/membership/#where-we-meet" variant="outline-light">Visit a Meeting</Button>
       </div>
     </div>
   </section>
@@ -141,7 +133,7 @@ const siteIndex = [
           Cultivating <em class="italic text-primary">Beauty</em><br />Where We Live
         </h2>
         <p class="text-text/75 text-lg leading-relaxed mb-9">{copy.communityIntro}</p>
-        <Button href="/community-service" arrow>View Our Projects</Button>
+        <Button href="/community-service/" arrow>View Our Projects</Button>
       </div>
 
       <!-- Photo grid -->
@@ -211,7 +203,7 @@ const siteIndex = [
             href={item.href}
             class="group flex flex-col gap-3 p-8 hover:bg-white transition-colors duration-200"
           >
-            <span class:list={['font-heading italic text-4xl leading-none', item.numeral]}>{item.number}</span>
+            <span class:list={['font-heading italic text-4xl leading-none', item.numeral]} aria-hidden="true">{item.number}</span>
             <span class="font-heading text-2xl font-semibold text-text group-hover:text-primary transition-colors duration-200">{item.label}</span>
             <span class="text-[0.95rem] text-text/70 leading-relaxed">{item.line}</span>
             <span class:list={['mt-auto pt-2 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-primary/80 transition-colors duration-200', item.hover]}>
@@ -231,7 +223,7 @@ const siteIndex = [
         <p class="text-gold-soft text-xs font-semibold uppercase tracking-[0.28em] mb-5">Say Hello</p>
         <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6 leading-[1.05] tracking-[-0.01em]">Get in Touch</h2>
         <p class="text-background/80 text-lg leading-relaxed mb-10 max-w-md">{copy.contactIntro}</p>
-        <Button href="/contact" variant="light" arrow class="self-start">Contact the Club</Button>
+        <Button href="/contact/" variant="light" arrow class="self-start">Contact the Club</Button>
       </div>
 
       <div class="min-h-[22rem]">

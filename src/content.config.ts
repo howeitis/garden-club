@@ -56,6 +56,16 @@ const webAddress = z
   .string()
   .regex(/^[a-z0-9.-]+\.[a-z]{2,}(\/.*)?$/i, {
     message: 'Website should be the address without "https://", e.g. "longwoodgardens.org"',
+  })
+  // "longwoodgardens.org/" and "longwoodgardens.org" are the same site; show the tidy one.
+  .transform((address) => address.replace(/\/+$/, ''));
+
+/** A botanical name: capitalized genus, lowercase species ("Ilex opaca").
+ *  Anything may follow — a variety, a cultivar in quotes, a hybrid "×". */
+const scientificName = z
+  .string({ required_error: 'Every plant needs a "scientificName", e.g. "Ilex opaca"' })
+  .regex(/^[A-Z][a-z]+ (?:[a-z-]+|×\s?[a-z-]+)(?:\s.*)?$/, {
+    message: 'The scientific name should be the genus (capitalized) then the species (lowercase), e.g. "Ilex opaca" or "Silene virginica"',
   });
 
 // ── Lists (one Markdown file per item) ───────────────────────────────────────
@@ -159,13 +169,25 @@ const plants = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/plants' }),
   schema: z.object({
     name: z.string({ required_error: 'Every plant needs a "name"' }),
-    scientificName: z.string({ required_error: 'Every plant needs a "scientificName", e.g. "Ilex opaca"' }),
+    scientificName,
     type: z.enum(['native', 'invasive'], {
       errorMap: () => ({ message: '"type" must be "native" or "invasive"' }),
     }),
     bloom: optionalString.describe('Bloom period for natives, e.g. "May – June"'),
-    image: imagePath,
+    // Optional for plants only: until a photo is added, the card shows a
+    // designed "specimen label" panel instead.
+    image: optional(imagePath),
     order: orderField,
+    // "More about this plant" popup. Every field is optional; the button only
+    // appears when at least one is filled in.
+    height: optionalString.describe('e.g. "1–2 ft"'),
+    light: optionalString.describe('e.g. "Full sun to part shade"'),
+    soil: optionalString.describe('e.g. "Moist, acidic, well-drained"'),
+    wildlife: optionalString.describe('For natives: what it feeds or shelters'),
+    identify: optionalString.describe('For invasives: how to recognize it'),
+    remove: optionalString.describe('For invasives: how to get rid of it'),
+    alternatives: z.array(z.string()).default([]).describe('For invasives: native plants to grow instead'),
+    more: optionalString.describe('A few paragraphs for the popup (Markdown; blank line between paragraphs)'),
   }),
 });
 
@@ -180,6 +202,13 @@ const gardens = defineCollection({
     website: webAddress,
     image: imagePath,
     order: orderField,
+    // "More about this garden" popup. All optional; the button appears once
+    // any is filled in. Keep hours and prices out — they change; the popup
+    // points visitors to the website for those.
+    bestSeason: optionalString.describe('When to go, e.g. "Late March for the March Bank; May for the azaleas"'),
+    highlights: z.array(z.string()).default([]).describe("Don't-miss spots, one per line"),
+    tips: optionalString.describe('Practical visiting advice (Markdown)'),
+    more: optionalString.describe('A few paragraphs for the popup (Markdown; blank line between paragraphs)'),
   }),
 });
 
@@ -216,7 +245,6 @@ const settings = defineCollection({
         active: z.number(),
         associate: z.number(),
         honorary: z.number(),
-        maxActive: z.number(),
         note: z.string(),
       }),
     }),
@@ -237,6 +265,8 @@ const settings = defineCollection({
     z.object({
       file: z.literal('meetings'),
       schedule: z.string().describe('e.g. "Second Wednesday of each month, September through June."'),
+      location: z.string({ required_error: 'meetings.yml needs a "location" — where meetings are held, e.g. "Meetings rotate among members\' homes."' }),
+      guests: optionalString.describe('A line inviting visitors, shown under the meeting location and followed by an "Ask for this month\'s address" link'),
       timeBlocks: z.array(z.object({ label: z.string(), time: z.string() })),
       dues: z.object({
         active: z.string(),

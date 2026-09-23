@@ -9,7 +9,6 @@ import { render } from 'astro:content';
 import { club, memberGardens, currentMemberOfTheMonth as featured, honoreePeriod, getPageCopy } from '../../data/index';
 import { honoreePath } from '../../lib/memberOfTheMonth';
 import Button from '../../components/Button.astro';
-import ArrowIcon from '../../components/ArrowIcon.astro';
 
 const copy = await getPageCopy('members');
 const featuredPeriod = honoreePeriod(featured);
@@ -26,7 +25,7 @@ const gardens = await Promise.all(memberGardens.map(async (garden) => ({ ...gard
     eyebrow="Our Members"
     title="Members"
     subtitle={copy.heroSubtitle}
-    image="/home-hero.png"
+    image="/home-hero.webp"
     accent="lavender"
   />
 
@@ -107,7 +106,7 @@ const gardens = await Promise.all(memberGardens.map(async (garden) => ({ ...gard
         Learn about our club and Delaware Federation awards, judging criteria, and meet our
         certified judges.
       </p>
-      <Button href="/members/awards-and-judges">View Awards &amp; Judges <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5l7 7-7 7" /> </svg></Button>
+      <Button href="/members/awards-and-judges/" arrow>View Awards &amp; Judges</Button>
     </section>
 
   </div>

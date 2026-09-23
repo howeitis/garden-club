@@ -37,7 +37,7 @@ A `.claude/launch.json` is configured so `preview_start` can launch the dev serv
 
 ## Design System — "Heritage Editorial"
 
-The design is built around the club's watercolor crest logo (`public/gggc-clean.png`): a wrought-iron gate with peach blossoms, holly, and gold scrollwork. Every color comes from that artwork. The overall feel is a well-set gardening annual: large serif display type, letterspaced small-caps labels, fine gold hairlines, and content set directly on the warm-ivory page ground rather than in white boxes.
+The design is built around the club's watercolor crest logo (`src/assets/brand/gggc-clean.png`): a wrought-iron gate with peach blossoms, holly, and gold scrollwork. Every color comes from that artwork. The overall feel is a well-set gardening annual: large serif display type, letterspaced small-caps labels, fine gold hairlines, and content set directly on the warm-ivory page ground rather than in white boxes.
 
 **Core principles:**
 
@@ -87,8 +87,10 @@ src/
 │   ├── LandingCard.astro          # Unboxed section link: text + staggered 2x2 photo cluster (flip, eyebrowColor props)
 │   ├── OfficerCard.astro          # Unboxed officer entry with rotating accent rule (officer entry, index)
 │   ├── ProjectCard.astro          # Editorial feature row for a project entry (flip prop)
-│   ├── GardenCard.astro           # Editorial feature row for a garden entry (flip prop)
-│   ├── PlantCard.astro            # Open gallery entry for a plant entry (badge from data.type)
+│   ├── GardenCard.astro           # Editorial feature row for a garden entry (flip prop) + "Plan a Visit" popup
+│   ├── PlantCard.astro            # Open gallery entry for a plant (badge from data.type) + "More about" popup
+│   ├── InfoDialog.astro           # Shared "More about" popup: native modal <dialog>, photo header, eyebrow slot; one delegated script
+│   ├── MoreAboutButton.astro      # The small-caps button that opens an InfoDialog (visible only under .js)
 │   ├── AwardCard.astro            # Award the club *gives* (CEW): criteria/winners side by side
 │   ├── MemberProfile.astro        # Member of the Month feature article (chapters from the Markdown body) + "by the numbers" strip
 │   ├── HonoreeGrid.astro          # Grid of honorees linking to their permanent pages
@@ -109,10 +111,11 @@ src/
     ├── markdown.ts                # marked → HTML for Markdown inside YAML text fields (block / inline)
     └── memberOfTheMonth.ts        # honoreePath(), honoreeShareImage() for MOTM URLs and OG images
 .pages.yml                         # Pages CMS admin config — labels, descriptions, dropdowns; mirrors content.config.ts
-scripts/check-images.mjs           # Pre-build lint of src/assets/content (size, filename); wired via "prebuild"
+scripts/check-images.mjs           # Pre-build lint of src/assets/content + heroes (size, filename; warns on unused or camera-named photos); "prebuild"
+scripts/check-links.mjs            # Post-build check of every internal link, trailing slash, and #fragment in dist/; "postbuild"
 scripts/build-icons.mjs            # Renders every PNG icon from public/favicon.svg (`npm run build:icons`)
 scripts/share-card/build.mjs       # Renders public/og-share-v3.png from club.yml + the crest (`npm run build:share-card`)
-public/                            # Logos, favicons, OG image only (photos live in src/assets/)
+public/                            # Favicons, OG image only (photos in src/assets/, logos in src/assets/brand/)
 ```
 
 ---
@@ -129,12 +132,13 @@ public/                            # Logos, favicons, OG image only (photos live
 - **`src/data/index.ts` is the only import point for pages.** It awaits the collections once at module load and exports plain values: `club`, `contact`, `meetings`, `affiliations`, the sorted lists, `currentMemberOfTheMonth`, `honoreePeriod()`, `getPageCopy('about')`, `foundingYear`, `foundingDateISO`. Pages never call `getCollection` themselves.
 - **Markdown bodies render via `render(entry)` → `<Content />`**, wrapped in `<Prose>` for house typography. Markdown inside YAML strings (About history, intros with *italics*) goes through `block()` / `inline()` from `src/lib/markdown.ts` and `set:html`.
 - **`.pages.yml` is the admin's mirror of the schema.** Same field names, plus labels/descriptions/dropdown labels. **Any field you add or rename must be changed in both `content.config.ts` and `.pages.yml`.** The CMS commits straight to `main`; a bad save fails the build (site unchanged) with the message from the schema.
-- Photos live in `src/assets/content/` (any JPG/PNG/WebP; the CMS uploads there) and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build and fails on >8 MB or unsafe filenames, warns >3 MB.
+- Photos live in `src/assets/content/` (any JPG/PNG/WebP; the CMS uploads there) and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build (content photos and heroes) and fails on >8 MB or unsafe filenames; it warns on >3 MB, on photos nothing references, and on camera-style names like `IMG_1875.jpeg`.
 
 ### Routing
 - **File-based**: add a `.astro` file in `src/pages/` to create a route.
 - **Nested routes** use folders (e.g. `src/pages/members/awards-and-judges.astro` → `/members/awards-and-judges`).
-- **Redirects** configured in `astro.config.mjs` (e.g. `/awards-and-judges` → `/members/awards-and-judges`).
+- **Every URL ends in a slash** (`trailingSlash: 'always'` in `astro.config.mjs`, `"trailingSlash": true` in `vercel.json`). Write internal links as `/about/`, `/contact/?topic=visit`, `/members/awards-and-judges/#judges-heading` — in code *and* in Markdown content. `scripts/check-links.mjs` runs after every build (`postbuild`) and fails on a slash-less internal link, a link to a page that doesn't exist, or a `#fragment` with no matching `id`.
+- **Redirects** for moved pages live in `vercel.json` `redirects` (real 308s), one rule for each of the slash and slash-less forms. Astro's own `redirects` option only emits meta-refresh pages on a static build — don't use it.
 
 ### Navigation
 - **Header** (`src/components/Header.astro`):
@@ -145,6 +149,8 @@ public/                            # Logos, favicons, OG image only (photos live
   - Mobile hamburger with collapsible sub-items and gold left-rule active state.
 - **Footer** (`src/components/Footer.astro`): deep green, white crest, serif wordmark, "Greenville, Delaware · Est. 1963" line, Explore links, theme quote. Topped by the tri-color signature hairline.
 - **Nav order**: About, Community Service, Resources (dropdown), Members (dropdown), Membership, Contact.
+- **Active state** matches whole path segments (`/members` is active on `/members/…`, never on `/membership`). Sections containing the current page get `aria-current="true"`; the page itself gets `"page"`.
+- **Skip link:** `BaseLayout` renders a "Skip to main content" link as the first Tab stop, targeting `<main id="main">`. Keep it first in `<body>`.
 - Nav links are defined as arrays at the top of **both** Header.astro (`navLinks`) and Footer.astro (`navColumns`, which lists every subpage too). **Update both** when adding/removing pages.
 
 ### Styling
@@ -183,6 +189,8 @@ The one exception to utility-only styling is the scoped `<style>` in `MemberProf
 
 **Contrast floors (WCAG AA, measured against the ivory ground):** `gold`, `marigold`, and `gold-soft` were darkened/lightened to pass 4.5:1 for small text — don't lighten them. Muted text is `text-text/70` at minimum (4.84:1); `/65` and below fail for anything under 18px. On the green footer, `text-background/70` is the floor. `accent` (sage) fails at 3.2:1 and is only used for large display numerals and decorative strokes.
 
+**Ghosted numerals are the one exemption.** The faint folio numerals in `SectionHeader` (`text-gold/45`) and the award-year numerals on /members/awards-and-judges (`text-gold/50`) measure under 2:1 on purpose. They're allowed only because they're `aria-hidden` and repeat text right beside them (the section order, the year in the label) — pure decoration under WCAG 1.4.3. Any numeral that carries meaning of its own, or is read aloud, must meet 3:1 at display size (≥ 75% opacity for gold/marigold/blossom-deep; full strength for `accent`).
+
 **Common UI patterns** (copy these for consistency):
 
 ```
@@ -219,7 +227,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - Optional BaseLayout props: `canonical` (override, used by the MOTM index), `ogImage` / `ogImageAlt` (page-specific share image), `ogType` (`article` for profiles), `jsonLd` (array of extra schema blocks — `@context` is added for you).
 - Subpages render `<Breadcrumb items={[…]} />` under the hero; it emits the matching `BreadcrumbList` schema.
 - Sitemap auto-generated by `@astrojs/sitemap`.
-- Each page sets `title` and `description` props on BaseLayout. **Titles and descriptions carry place names** ("Greenville, Delaware", "Wilmington, DE", "Delaware (Zone 7a)") — that's the local-search signal; keep them when editing.
+- Each page sets `title` and `description` props on BaseLayout. **Titles and descriptions carry place names** ("Greenville, Delaware", "Wilmington, DE", "Northern Delaware (Zone 7b)") — that's the local-search signal; keep them when editing.
 - OG image: `public/og-share-v3.png` (1200×630, ~80 KB), **generated** by `npm run build:share-card` from `scripts/share-card/build.mjs` — an SVG in the site's system (crest, wordmark, founding line, mission from `settings/club.yml`) rendered with resvg using Latin subsets of the site fonts in `scripts/share-card/fonts/`. Rerun after changing the mission or theme. If the design changes, bump the filename (v4) and the reference in `BaseLayout.astro` — social networks cache the old URL. Honoree pages override it with the portrait.
 - **Icons:** `public/favicon.svg` is the small-size mark — a simplified drawing of the crest's gate with blossoms and holly, in the theme colors, drawn to read at 16px. Every PNG icon (16, 32, 180 apple-touch, 192, 512, and the `maskable-*` pair with an ivory bleed for Android's crop) is generated from it by `npm run build:icons`; edit the SVG, rerun, commit the PNGs. The watercolor crest remains the logo everywhere larger than an icon.
 - `BaseLayout` takes a `noindex` prop that emits `<meta name="robots" content="noindex, follow" />`. Used by `/thank-you`, which is also filtered out of the sitemap in `astro.config.mjs`. **Both are required** — excluding a page from the sitemap doesn't stop it being indexed if anything links to it.
@@ -232,7 +240,8 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - **If the key is unset, the component renders a `mailto:` fallback instead of the form.** Never let it emit a form that would silently drop messages. This is why local and CI builds pass without the key.
 - Reserved Web3Forms field names: `access_key`, `subject`, `from_name`, `redirect`, `botcheck`. The visitor's own subject input is named **`user_subject`** to avoid colliding with the reserved `subject` (which sets the notification email's subject line).
 - `botcheck` is a visually hidden checkbox honeypot; Web3Forms discards submissions where it's checked.
-- Success redirects to `/thank-you` via an absolute URL built from `Astro.site`.
+- Success redirects to `/thank-you/` via an absolute URL built from `Astro.site`.
+- **Subject prefill:** `/contact/?topic=membership` or `?topic=visit` fills the subject line ("Membership inquiry", "Visiting a meeting as a guest") so the inbox can sort them. Topics live in the `TOPICS` map in the component's `<script>`; add one there before linking to it.
 
 ---
 
@@ -256,11 +265,11 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 
 ## How to Add Images
 
-**Photos are optimized through `astro:assets`** — only logos, favicons, and the OG image stay in `public/`.
-- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, everything else in `src/assets/content/`).
+**Photos and logos are optimized through `astro:assets`** — only favicons and the OG image stay in `public/`. The crest and logos live in `src/assets/brand/` and render through `SmartImage` like any photo (the header crest is a 305 KB PNG that ships as a ~10 KB WebP); the JSON-LD `logo` points at the crest's emitted `/_astro/` URL.
+- Put the source file in `src/assets/` (heroes in `src/assets/heroes/`, logos in `src/assets/brand/`, everything else in `src/assets/content/`).
 - **Content images** (galleries, feature rows, inline): use the `SmartImage` component (`src/components/SmartImage.astro`) instead of `<img>`. Pass a public-style string, e.g. `<SmartImage src="/metzlers.webp" alt="…" />`. It resolves the filename to the imported asset via `src/lib/assetImages.ts` and emits a responsive WebP `<Image>`; anything it can't find (still in `public/`) falls back to a plain `<img>`. Optional `widths` / `sizes` props tune the srcset. Extra attributes (`class`, `class:list`, `style`, `loading`, `onerror`, …) pass straight through.
 - **Page heroes**: pass the string to `PageHero` as `image="/my-hero.jpg"` — same resolver.
-- The home hero (`src/pages/index.astro`) uses `getImage()` directly for its art-directed mobile/desktop `<picture>`.
+- The home hero (`src/pages/index.astro`) uses `getImage()` directly for a responsive `<img srcset>`. Its watercolor is the version *without* the "Peach Blossom" label — the labelled original put that label directly behind the hero buttons at every width. Keep it that way if the art is replaced.
 - Content files reference images by the same `/filename.ext` string (`image: /photo.jpg`) — just drop the source in `src/assets/content/`. Plain JPG/PNG is fine; conversion to WebP happens at build. `SmartImage` throws at build time if the file doesn't exist.
 - Use `loading="eager"` only for above-fold hero images; everything else `loading="lazy"`.
 
@@ -279,8 +288,8 @@ One Markdown file per honoree in `src/content/members-of-the-month/`. **The newe
 `/resources` is a landing page of three `LandingCard` links (descriptions from `pages/resources.yml`). The three subpages read their lists from collections and split them by a field:
 
 1. **`resources/gardening-tips.astro`** — `gardeningTips` split by `section: fundamentals | rhythms`.
-2. **`resources/plants.astro`** — `plants` split by `type: native | invasive`.
-3. **`resources/gardens.astro`** — `gardens` split by `region: local | regional`.
+2. **`resources/plants.astro`** — `plants` split by `type: native | invasive`. Each plant can carry optional popup fields — `height`, `light`, `soil`, `wildlife` (natives), `identify`, `remove`, `alternatives[]` (invasives), and `more` (Markdown) — shown in an `InfoDialog` from `PlantCard`. The button appears only when one is filled in, and only under `.js`. The dialog text is in the page HTML (indexable). An `alternatives` entry whose name matches a native on the page becomes a button that opens that plant's popup. Keep claims sourced: the popups are the site's most factual copy. **Plants are the one collection where `image` is optional:** without it the card shows a framed "specimen label" (scientific name + Flourish) and the popup drops its header photo, so a plant can go live before its picture arrives.
+3. **`resources/gardens.astro`** — `gardens` split by `region: local | regional`. Optional popup fields `bestSeason`, `highlights[]`, `tips`, `more` feed an `InfoDialog` from `GardenCard`. **No hours or prices** in garden data — they go stale; the popup ends by sending visitors to the garden's website.
 
 ## Key Files to Edit for Common Tasks
 
@@ -289,7 +298,7 @@ One Markdown file per honoree in `src/content/members-of-the-month/`. **The newe
 | Any content (text, lists, photos) | `src/content/**` — or the club does it in Pages CMS |
 | Club info / mission / theme | `src/content/settings/club.yml`              |
 | Officers / board            | `src/content/officers/*.md` (`name: TBD` hides a role) |
-| Meeting schedule / dues     | `src/content/settings/meetings.yml`          |
+| Meeting schedule / place / dues | `src/content/settings/meetings.yml` (`location`, `guests` show on /membership) |
 | Awards or judges            | `src/content/awards/*.md` (`type: received` → trophy list by `year`; `given` → `AwardCard`), `src/content/judges/*.md` |
 | Member of the Month         | `src/content/members-of-the-month/*.md` (+ photos in `src/assets/content/`) |
 | Page paragraphs / hero subtitles | `src/content/pages/<page>.yml`          |

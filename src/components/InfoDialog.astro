@@ -1,0 +1,114 @@
+---
+// The "More about …" popup shared by PlantCard and GardenCard: a native modal
+// <dialog> with a photo header, the signature hairline, a title, and whatever
+// the card slots in below (plus an optional `eyebrow` slot above the title).
+//
+// Open it from any button carrying `data-open-dialog="<id>"` (including one
+// inside another InfoDialog — the first closes as the second opens). The text
+// is in the page HTML, so search engines read it; the opener buttons should
+// use `hidden [.js_&]:inline-flex` since nothing opens without JavaScript.
+//
+// Native <dialog> brings the focus trap, Esc, and screen-reader semantics.
+// The script below adds open/close wiring, backdrop-click to close, and
+// returning focus to the card button the visitor started from.
+import SmartImage from './SmartImage.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  /** Italic line under the title (a scientific name, a town). */
+  subtitle?: string;
+  /** Header photo; omitted → the hairline alone tops the dialog. */
+  image?: string;
+  /** Text color class for the eyebrow (the `eyebrow` slot); gold by default. */
+  eyebrowClass?: string;
+}
+
+const { id, title, subtitle, image, eyebrowClass = 'text-gold' } = Astro.props;
+---
+
+<dialog
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class="info-dialog m-auto p-0 w-[min(44rem,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] bg-background text-text rounded-sm border border-gold/30 shadow-[0_20px_60px_rgba(22,40,26,0.35)] backdrop:bg-[#16281a]/60 backdrop:backdrop-blur-[2px]"
+>
+  <!-- The inner wrapper fills the dialog, so a click that lands on the
+       dialog element itself can only be on the backdrop (closes it). -->
+  <div class="relative">
+    <button
+      type="button"
+      data-close-dialog
+      class="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-background/90 text-primary border border-gold/30 hover:bg-background transition-colors"
+      aria-label="Close"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    {image ? (
+      <SmartImage
+        src={image}
+        alt=""
+        widths={[640, 1000, 1400]}
+        sizes="(min-width: 768px) 44rem, 100vw"
+        class="w-full h-48 sm:h-60 object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <div class="h-16" aria-hidden="true"></div>
+    )}
+    <div class="h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
+
+    <div class="px-6 sm:px-10 pt-7 pb-9">
+      {Astro.slots.has('eyebrow') && (
+        <p class:list={['text-[0.68rem] font-semibold uppercase tracking-[0.24em] mb-2', eyebrowClass]}><slot name="eyebrow" /></p>
+      )}
+      <h2 id={`${id}-title`} class="font-heading text-4xl font-semibold tracking-[-0.01em] leading-tight">{title}</h2>
+      {subtitle && <p class="font-heading italic text-lg text-text/70 mt-1">{subtitle}</p>}
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Delegated on `document` so it survives view-transition DOM swaps (this
+  // script runs once no matter how many dialogs are on the page).
+  let returnFocusTo: HTMLElement | null = null;
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    if (!target) return;
+
+    const opener = target.closest<HTMLElement>('[data-open-dialog]');
+    if (opener) {
+      const dialog = document.getElementById(opener.dataset.openDialog ?? '') as HTMLDialogElement | null;
+      if (!dialog) return;
+      const current = opener.closest('dialog');
+      if (current) current.close();
+      else returnFocusTo = opener;
+      dialog.showModal();
+      dialog.scrollTop = 0;
+      return;
+    }
+
+    if (target.closest('[data-close-dialog]')) {
+      target.closest('dialog')?.close();
+      return;
+    }
+
+    // A click on the <dialog> element itself (not its content) is the backdrop.
+    if (target instanceof HTMLDialogElement && target.classList.contains('info-dialog')) {
+      target.close();
+    }
+  });
+
+  // `close` doesn't bubble; listen in the capture phase. Once no popup is
+  // open, put focus back on the card button the visitor started from.
+  document.addEventListener('close', (event) => {
+    if (!(event.target as Element).classList?.contains('info-dialog')) return;
+    if (document.querySelector('dialog.info-dialog[open]')) return;
+    returnFocusTo?.focus();
+    returnFocusTo = null;
+  }, true);
+</script>
