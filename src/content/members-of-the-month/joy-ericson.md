@@ -26,7 +26,7 @@ stats:
 note:
   text: Joy’s name also lives on in the club’s CEW Training Award.
   linkText: Read about the award
-  link: /members/awards-and-judges#gggc-awards-heading
+  link: /members/awards-and-judges/#gggc-awards-heading
 ---
 
 ## The Beginning
@@ -35,7 +35,7 @@ In 1967, Joy was invited to join the Garden Gate Garden Club (GGGC) by a fellow 
 
 ## Becoming a Judge
 
-In the early 1980s, the Delaware Federation of Garden Clubs offered classes in Flower Show Judging. Joy enrolled and became a [certified flower show judge](/members/awards-and-judges#judges-heading), a role she has held for more than 40 years!
+In the early 1980s, the Delaware Federation of Garden Clubs offered classes in Flower Show Judging. Joy enrolled and became a [certified flower show judge](/members/awards-and-judges/#judges-heading), a role she has held for more than 40 years!
 
 ## On the World Stage
 

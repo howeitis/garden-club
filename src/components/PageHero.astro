@@ -88,7 +88,9 @@ const HERO_QUALITY = 65;
   <!-- Blossom-gold-sage signature line along the hero's bottom edge -->
   <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to-accent/70" aria-hidden="true"></div>
 
-  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-48 sm:pt-60 pb-14 sm:pb-16 md:pb-20">
+  <!-- Top padding clears the fixed 5.5rem header. Phones get less of it so
+       the first content shows above the fold under a one-word title. -->
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 sm:pt-60 pb-12 sm:pb-16 md:pb-20">
     <p class="hero-rise flex items-center gap-4 text-gold-soft text-xs font-semibold uppercase tracking-[0.3em] mb-6">
       <span class="h-px w-10 bg-gold-soft/60" aria-hidden="true"></span>
       {eyebrow}

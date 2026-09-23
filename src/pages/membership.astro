@@ -11,7 +11,7 @@ const copy = await getPageCopy('membership');
 
 <BaseLayout
   title={`Join ${club.name} | Membership in Greenville, Delaware`}
-  description={`When we meet (${meetings.schedule.replace(/\.$/, '')}), annual dues, and how to join ${club.name} in Greenville, Delaware.`}
+  description={`When we meet (${meetings.schedule.replace(/\.$/, '')}), annual dues, and how to join or visit ${club.name} in Greenville, Delaware. Guests are welcome.`}
 >
   <PageHero
     eyebrow="Join Us"
@@ -31,7 +31,10 @@ const copy = await getPageCopy('membership');
       <p class="text-text/70 text-lg leading-relaxed max-w-xl mx-auto mb-8">
         {copy.applyText}
       </p>
-      <Button href="/contact" arrow>Apply to Join</Button>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <Button href="/contact/?topic=membership" arrow>Apply to Join</Button>
+        <Button href="/contact/?topic=visit" variant="outline">Visit as a Guest</Button>
+      </div>
     </section>
 
     <!-- Meeting Schedule -->
@@ -41,9 +44,18 @@ const copy = await getPageCopy('membership');
         Meeting Schedule
       </h2>
 
-      <p class="text-text/75 text-lg mb-10 leading-relaxed max-w-2xl">
+      <p class="text-text/75 text-lg mb-6 leading-relaxed max-w-2xl">
         {meetings.schedule}
       </p>
+
+      <!-- Where: meetings rotate among homes, so the address is shared on request -->
+      <div class="border-l-2 border-gold/50 pl-7 max-w-2xl mb-10">
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold mb-2">Where We Meet</p>
+        <p class="text-text/80 leading-relaxed">
+          {meetings.location}{meetings.guests && ` ${meetings.guests}`}{' '}
+          <a href="/contact/?topic=visit" class="text-primary font-medium underline decoration-gold/40 underline-offset-4 hover:decoration-gold">Ask for this month&rsquo;s address</a>
+        </p>
+      </div>
 
       <table class="w-full max-w-2xl" role="table">
         <caption class="sr-only">Monthly meeting time blocks</caption>
@@ -130,7 +142,7 @@ const copy = await getPageCopy('membership');
         {copy.closingText}
       </p>
       <Flourish class="mb-8" />
-      <Button href="/contact">Contact Us</Button>
+      <Button href="/contact/?topic=visit">Visit a Meeting</Button>
     </section>
 
   </div>

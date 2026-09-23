@@ -38,7 +38,7 @@ const shareImage = await honoreeShareImage(member, Astro.site);
     accent="blossom"
   />
 
-  <Breadcrumb items={[{ label: 'Members', href: '/members' }, { label: 'Member of the Month' }]} />
+  <Breadcrumb items={[{ label: 'Members', href: '/members/' }, { label: 'Member of the Month' }]} />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
@@ -54,8 +54,8 @@ const shareImage = await honoreeShareImage(member, Astro.site);
         Wander through the gardens our members tend at home, or meet the club's certified judges.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4">
-        <Button href="/members">Member Gardens</Button>
-        <Button href="/members/awards-and-judges" variant="outline">Awards &amp; Judges</Button>
+        <Button href="/members/">Member Gardens</Button>
+        <Button href="/members/awards-and-judges/" variant="outline">Awards &amp; Judges</Button>
       </div>
     </section>
 

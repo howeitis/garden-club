@@ -56,6 +56,16 @@ const webAddress = z
   .string()
   .regex(/^[a-z0-9.-]+\.[a-z]{2,}(\/.*)?$/i, {
     message: 'Website should be the address without "https://", e.g. "longwoodgardens.org"',
+  })
+  // "longwoodgardens.org/" and "longwoodgardens.org" are the same site; show the tidy one.
+  .transform((address) => address.replace(/\/+$/, ''));
+
+/** A botanical name: capitalized genus, lowercase species ("Ilex opaca").
+ *  Anything may follow — a variety, a cultivar in quotes, a hybrid "×". */
+const scientificName = z
+  .string({ required_error: 'Every plant needs a "scientificName", e.g. "Ilex opaca"' })
+  .regex(/^[A-Z][a-z]+ (?:[a-z-]+|×\s?[a-z-]+)(?:\s.*)?$/, {
+    message: 'The scientific name should be the genus (capitalized) then the species (lowercase), e.g. "Ilex opaca" or "Silene virginica"',
   });
 
 // ── Lists (one Markdown file per item) ───────────────────────────────────────
@@ -159,7 +169,7 @@ const plants = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/plants' }),
   schema: z.object({
     name: z.string({ required_error: 'Every plant needs a "name"' }),
-    scientificName: z.string({ required_error: 'Every plant needs a "scientificName", e.g. "Ilex opaca"' }),
+    scientificName,
     type: z.enum(['native', 'invasive'], {
       errorMap: () => ({ message: '"type" must be "native" or "invasive"' }),
     }),
@@ -236,6 +246,8 @@ const settings = defineCollection({
     z.object({
       file: z.literal('meetings'),
       schedule: z.string().describe('e.g. "Second Wednesday of each month, September through June."'),
+      location: z.string({ required_error: 'meetings.yml needs a "location" — where meetings are held, e.g. "Meetings rotate among members\' homes."' }),
+      guests: optionalString.describe('A line inviting visitors, shown under the meeting location and followed by an "Ask for this month\'s address" link'),
       timeBlocks: z.array(z.object({ label: z.string(), time: z.string() })),
       dues: z.object({
         active: z.string(),

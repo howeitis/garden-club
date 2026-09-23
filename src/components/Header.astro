@@ -3,40 +3,41 @@ import { foundingYear } from '../data/index';
 import SmartImage from './SmartImage.astro';
 
 const navLinks = [
-  { label: 'About',             href: '/about' },
-  { label: 'Community Service', href: '/community-service' },
+  { label: 'About',             href: '/about/' },
+  { label: 'Community Service', href: '/community-service/' },
   {
     label: 'Resources',
-    href: '/resources',
+    href: '/resources/',
     children: [
-      { label: 'Gardening Tips',   href: '/resources/gardening-tips' },
-      { label: 'Plants',           href: '/resources/plants' },
-      { label: 'Gardens to Visit', href: '/resources/gardens' },
+      { label: 'Gardening Tips',   href: '/resources/gardening-tips/' },
+      { label: 'Plants',           href: '/resources/plants/' },
+      { label: 'Gardens to Visit', href: '/resources/gardens/' },
     ],
   },
   {
     label: 'Members',
-    href: '/members',
+    href: '/members/',
     children: [
-      { label: 'Member Gardens',      href: '/members' },
-      { label: 'Member of the Month', href: '/members/member-of-the-month' },
-      { label: 'Awards & Judges',     href: '/members/awards-and-judges' },
+      { label: 'Member Gardens',      href: '/members/' },
+      { label: 'Member of the Month', href: '/members/member-of-the-month/' },
+      { label: 'Awards & Judges',     href: '/members/awards-and-judges/' },
     ],
   },
-  { label: 'Membership',        href: '/membership' },
-  { label: 'Contact',           href: '/contact' },
+  { label: 'Membership',        href: '/membership/' },
+  { label: 'Contact',           href: '/contact/' },
 ];
 
 const currentPath = Astro.url.pathname;
 
-// Built pages have a trailing slash ("/about/"); nav hrefs don't.
-const isCurrentPage = (href: string) => currentPath.replace(/\/$/, '') === href;
+// Compare paths without their trailing slash ("/about/" ≡ "/about").
+const trim = (path: string) => path.replace(/\/$/, '');
+const isCurrentPage = (href: string) => trim(currentPath) === trim(href);
 
 // A link is active on its own page and on pages nested beneath it. Match on a
 // whole path segment: a plain prefix test would light up "Members" on
 // /membership, since "/membership" starts with "/members".
 const isActivePath = (href: string) =>
-  isCurrentPage(href) || currentPath.startsWith(`${href}/`);
+  isCurrentPage(href) || currentPath.startsWith(`${trim(href)}/`);
 
 // Dropdown children: the same rule, except a child that shares its parent's
 // URL (Members → Member Gardens) is active only on that exact page.

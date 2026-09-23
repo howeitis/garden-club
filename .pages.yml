@@ -409,7 +409,7 @@ content:
         label: Scientific name
         type: string
         required: true
-        description: e.g. "Ilex opaca"
+        description: Genus capitalized, species lowercase, e.g. "Ilex opaca"
       - name: type
         label: Native or invasive?
         type: select
@@ -649,6 +649,15 @@ content:
             type: string
             required: true
             description: e.g. "Second Wednesday of each month, September through June."
+          - name: location
+            label: Where we meet
+            type: string
+            required: true
+            description: Shown on the Membership page, e.g. "Meetings rotate among members' homes."
+          - name: guests
+            label: Note for guests
+            type: string
+            description: Optional line under the location, e.g. "Guests are always welcome." A link asking for this month's address follows it.
           - name: timeBlocks
             label: Meeting timetable
             type: object

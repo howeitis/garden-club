@@ -109,7 +109,8 @@ src/
     ├── markdown.ts                # marked → HTML for Markdown inside YAML text fields (block / inline)
     └── memberOfTheMonth.ts        # honoreePath(), honoreeShareImage() for MOTM URLs and OG images
 .pages.yml                         # Pages CMS admin config — labels, descriptions, dropdowns; mirrors content.config.ts
-scripts/check-images.mjs           # Pre-build lint of src/assets/content (size, filename); wired via "prebuild"
+scripts/check-images.mjs           # Pre-build lint of src/assets/content + heroes (size, filename; warns on unused or camera-named photos); "prebuild"
+scripts/check-links.mjs            # Post-build check of every internal link, trailing slash, and #fragment in dist/; "postbuild"
 scripts/build-icons.mjs            # Renders every PNG icon from public/favicon.svg (`npm run build:icons`)
 scripts/share-card/build.mjs       # Renders public/og-share-v3.png from club.yml + the crest (`npm run build:share-card`)
 public/                            # Favicons, OG image only (photos in src/assets/, logos in src/assets/brand/)
@@ -129,12 +130,13 @@ public/                            # Favicons, OG image only (photos in src/asse
 - **`src/data/index.ts` is the only import point for pages.** It awaits the collections once at module load and exports plain values: `club`, `contact`, `meetings`, `affiliations`, the sorted lists, `currentMemberOfTheMonth`, `honoreePeriod()`, `getPageCopy('about')`, `foundingYear`, `foundingDateISO`. Pages never call `getCollection` themselves.
 - **Markdown bodies render via `render(entry)` → `<Content />`**, wrapped in `<Prose>` for house typography. Markdown inside YAML strings (About history, intros with *italics*) goes through `block()` / `inline()` from `src/lib/markdown.ts` and `set:html`.
 - **`.pages.yml` is the admin's mirror of the schema.** Same field names, plus labels/descriptions/dropdown labels. **Any field you add or rename must be changed in both `content.config.ts` and `.pages.yml`.** The CMS commits straight to `main`; a bad save fails the build (site unchanged) with the message from the schema.
-- Photos live in `src/assets/content/` (any JPG/PNG/WebP; the CMS uploads there) and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build and fails on >8 MB or unsafe filenames, warns >3 MB.
+- Photos live in `src/assets/content/` (any JPG/PNG/WebP; the CMS uploads there) and are referenced as `/filename.jpg`. `scripts/check-images.mjs` runs before every build (content photos and heroes) and fails on >8 MB or unsafe filenames; it warns on >3 MB, on photos nothing references, and on camera-style names like `IMG_1875.jpeg`.
 
 ### Routing
 - **File-based**: add a `.astro` file in `src/pages/` to create a route.
 - **Nested routes** use folders (e.g. `src/pages/members/awards-and-judges.astro` → `/members/awards-and-judges`).
-- **Redirects** configured in `astro.config.mjs` (e.g. `/awards-and-judges` → `/members/awards-and-judges`).
+- **Every URL ends in a slash** (`trailingSlash: 'always'` in `astro.config.mjs`, `"trailingSlash": true` in `vercel.json`). Write internal links as `/about/`, `/contact/?topic=visit`, `/members/awards-and-judges/#judges-heading` — in code *and* in Markdown content. `scripts/check-links.mjs` runs after every build (`postbuild`) and fails on a slash-less internal link, a link to a page that doesn't exist, or a `#fragment` with no matching `id`.
+- **Redirects** for moved pages live in `vercel.json` `redirects` (real 308s), one rule for each of the slash and slash-less forms. Astro's own `redirects` option only emits meta-refresh pages on a static build — don't use it.
 
 ### Navigation
 - **Header** (`src/components/Header.astro`):
@@ -185,6 +187,8 @@ The one exception to utility-only styling is the scoped `<style>` in `MemberProf
 
 **Contrast floors (WCAG AA, measured against the ivory ground):** `gold`, `marigold`, and `gold-soft` were darkened/lightened to pass 4.5:1 for small text — don't lighten them. Muted text is `text-text/70` at minimum (4.84:1); `/65` and below fail for anything under 18px. On the green footer, `text-background/70` is the floor. `accent` (sage) fails at 3.2:1 and is only used for large display numerals and decorative strokes.
 
+**Ghosted numerals are the one exemption.** The faint folio numerals in `SectionHeader` (`text-gold/45`) and the award-year numerals on /members/awards-and-judges (`text-gold/50`) measure under 2:1 on purpose. They're allowed only because they're `aria-hidden` and repeat text right beside them (the section order, the year in the label) — pure decoration under WCAG 1.4.3. Any numeral that carries meaning of its own, or is read aloud, must meet 3:1 at display size (≥ 75% opacity for gold/marigold/blossom-deep; full strength for `accent`).
+
 **Common UI patterns** (copy these for consistency):
 
 ```
@@ -221,7 +225,7 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - Optional BaseLayout props: `canonical` (override, used by the MOTM index), `ogImage` / `ogImageAlt` (page-specific share image), `ogType` (`article` for profiles), `jsonLd` (array of extra schema blocks — `@context` is added for you).
 - Subpages render `<Breadcrumb items={[…]} />` under the hero; it emits the matching `BreadcrumbList` schema.
 - Sitemap auto-generated by `@astrojs/sitemap`.
-- Each page sets `title` and `description` props on BaseLayout. **Titles and descriptions carry place names** ("Greenville, Delaware", "Wilmington, DE", "Delaware (Zone 7a)") — that's the local-search signal; keep them when editing.
+- Each page sets `title` and `description` props on BaseLayout. **Titles and descriptions carry place names** ("Greenville, Delaware", "Wilmington, DE", "Northern Delaware (Zone 7b)") — that's the local-search signal; keep them when editing.
 - OG image: `public/og-share-v3.png` (1200×630, ~80 KB), **generated** by `npm run build:share-card` from `scripts/share-card/build.mjs` — an SVG in the site's system (crest, wordmark, founding line, mission from `settings/club.yml`) rendered with resvg using Latin subsets of the site fonts in `scripts/share-card/fonts/`. Rerun after changing the mission or theme. If the design changes, bump the filename (v4) and the reference in `BaseLayout.astro` — social networks cache the old URL. Honoree pages override it with the portrait.
 - **Icons:** `public/favicon.svg` is the small-size mark — a simplified drawing of the crest's gate with blossoms and holly, in the theme colors, drawn to read at 16px. Every PNG icon (16, 32, 180 apple-touch, 192, 512, and the `maskable-*` pair with an ivory bleed for Android's crop) is generated from it by `npm run build:icons`; edit the SVG, rerun, commit the PNGs. The watercolor crest remains the logo everywhere larger than an icon.
 - `BaseLayout` takes a `noindex` prop that emits `<meta name="robots" content="noindex, follow" />`. Used by `/thank-you`, which is also filtered out of the sitemap in `astro.config.mjs`. **Both are required** — excluding a page from the sitemap doesn't stop it being indexed if anything links to it.
@@ -234,7 +238,8 @@ Signature line:     h-[2px] bg-gradient-to-r from-blossom/70 via-gold-soft/70 to
 - **If the key is unset, the component renders a `mailto:` fallback instead of the form.** Never let it emit a form that would silently drop messages. This is why local and CI builds pass without the key.
 - Reserved Web3Forms field names: `access_key`, `subject`, `from_name`, `redirect`, `botcheck`. The visitor's own subject input is named **`user_subject`** to avoid colliding with the reserved `subject` (which sets the notification email's subject line).
 - `botcheck` is a visually hidden checkbox honeypot; Web3Forms discards submissions where it's checked.
-- Success redirects to `/thank-you` via an absolute URL built from `Astro.site`.
+- Success redirects to `/thank-you/` via an absolute URL built from `Astro.site`.
+- **Subject prefill:** `/contact/?topic=membership` or `?topic=visit` fills the subject line ("Membership inquiry", "Visiting a meeting as a guest") so the inbox can sort them. Topics live in the `TOPICS` map in the component's `<script>`; add one there before linking to it.
 
 ---
 
@@ -291,7 +296,7 @@ One Markdown file per honoree in `src/content/members-of-the-month/`. **The newe
 | Any content (text, lists, photos) | `src/content/**` — or the club does it in Pages CMS |
 | Club info / mission / theme | `src/content/settings/club.yml`              |
 | Officers / board            | `src/content/officers/*.md` (`name: TBD` hides a role) |
-| Meeting schedule / dues     | `src/content/settings/meetings.yml`          |
+| Meeting schedule / place / dues | `src/content/settings/meetings.yml` (`location`, `guests` show on /membership) |
 | Awards or judges            | `src/content/awards/*.md` (`type: received` → trophy list by `year`; `given` → `AwardCard`), `src/content/judges/*.md` |
 | Member of the Month         | `src/content/members-of-the-month/*.md` (+ photos in `src/assets/content/`) |
 | Page paragraphs / hero subtitles | `src/content/pages/<page>.yml`          |

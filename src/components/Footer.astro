@@ -11,22 +11,22 @@ const navColumns = [
   {
     heading: 'Explore',
     links: [
-      { label: 'About',               href: '/about' },
-      { label: 'Community Service',   href: '/community-service' },
-      { label: 'Membership',          href: '/membership' },
-      { label: 'Contact',             href: '/contact' },
-      { label: 'Member Gardens',      href: '/members' },
-      { label: 'Member of the Month', href: '/members/member-of-the-month' },
-      { label: 'Awards & Judges',     href: '/members/awards-and-judges' },
+      { label: 'About',               href: '/about/' },
+      { label: 'Community Service',   href: '/community-service/' },
+      { label: 'Membership',          href: '/membership/' },
+      { label: 'Contact',             href: '/contact/' },
+      { label: 'Member Gardens',      href: '/members/' },
+      { label: 'Member of the Month', href: '/members/member-of-the-month/' },
+      { label: 'Awards & Judges',     href: '/members/awards-and-judges/' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'All Resources',       href: '/resources' },
-      { label: 'Gardening Tips',      href: '/resources/gardening-tips' },
-      { label: 'Native & Invasive Plants', href: '/resources/plants' },
-      { label: 'Gardens to Visit',    href: '/resources/gardens' },
+      { label: 'All Resources',       href: '/resources/' },
+      { label: 'Gardening Tips',      href: '/resources/gardening-tips/' },
+      { label: 'Native & Invasive Plants', href: '/resources/plants/' },
+      { label: 'Gardens to Visit',    href: '/resources/gardens/' },
     ],
   },
 ];
@@ -85,7 +85,7 @@ const socialLinks = Object.entries(contact.social)
       <!-- Navigation Links -->
       {navColumns.map((column) => (
         <div>
-          <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">{column.heading}</h3>
+          <h2 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">{column.heading}</h2>
           <ul class="flex flex-col gap-2.5">
             {column.links.map((link) => (
               <li>
@@ -103,7 +103,7 @@ const socialLinks = Object.entries(contact.social)
 
       <!-- Theme / Tagline -->
       <div>
-        <h3 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h3>
+        <h2 class="text-[0.68rem] uppercase tracking-[0.28em] font-semibold text-gold-soft mb-5">This Year's Theme</h2>
         <p class="font-heading italic text-xl text-background/90 leading-relaxed">
           &ldquo;{club.theme}&rdquo;
         </p>

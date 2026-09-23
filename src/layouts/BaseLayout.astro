@@ -6,6 +6,11 @@ import { ClientRouter } from 'astro:transitions';
 import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/inter';
+// The Latin files of the two upright faces, preloaded below so display titles
+// and body text don't flash in a fallback font. `?url` resolves to the same
+// hashed /_astro/ file the @font-face rules above point at.
+import headingFontURL from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
+import bodyFontURL from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import Analytics from '@vercel/analytics/astro';
 import crestLogo from '../assets/brand/gggc-clean.png';
 import Header from '../components/Header.astro';
@@ -100,6 +105,8 @@ const jsonLdBlocks = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#2A5434" />
+    <link rel="preload" href={headingFontURL} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFontURL} as="font" type="font/woff2" crossorigin />
 
     <!-- Marks the document as JS-capable before first paint. Scroll-reveal
          animations hide content until a script shows it, so they are scoped
@@ -111,7 +118,7 @@ const jsonLdBlocks = [
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={club.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

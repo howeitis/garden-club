@@ -1,9 +1,9 @@
 ---
-name: Gardens of Greater Philadelphia — Passport Map
-location: Philadelphia, PA, and Wilmington, DE
+name: America's Garden Capital Passport
+location: Pennsylvania, Delaware & New Jersey
 region: regional
 website: americasgardencapital.org
-image: /img1875-1.jpeg
+image: /americas-garden-capital-passport.jpeg
 order: 100
 ---
-America's Garden Capital brings together more than thirty public gardens, arboreta, and historic landscapes around Philadelphia and Wilmington. Its map and garden passport are a handy way to plan a season of visits across the region.
+America's Garden Capital brings together more than thirty public gardens, arboreta, and historic landscapes across the Philadelphia region, from southeastern Pennsylvania to northern Delaware and South Jersey. Its map and garden passport are a handy way to plan a season of visits.
